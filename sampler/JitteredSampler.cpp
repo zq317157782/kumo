@@ -1,0 +1,20 @@
+//
+// Created by 诸谦 on 15/12/24.
+//
+
+#include <math.h>
+#include "JitteredSampler.h"
+
+JitteredSampler::JitteredSampler(const int& _num_sample,const int& _numSet):Sampler(_num_sample,_numSet){
+    generateSamples();
+}
+
+void JitteredSampler::generateSamples() {
+    int n =sqrt(mSampleNum);
+    for(int i=0;i<mSetNum;++i)
+        for(int j=0;j<n;++j)
+            for(int k=0;k<n;++k){
+                Vector2 v=Vector2((k+drand48())/n,(j+drand48())/n);
+                mSamples.push_back(v);
+            }
+}
