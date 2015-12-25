@@ -7,7 +7,7 @@
 #include "Sampler.h"
 const int Sampler::DEFAULT_SET_NUM=83;
 
-Sampler::Sampler(const int& _sampleNum,const int& _setNum):mSampleNum(_sampleNum),mSetNum(_setNum),mJump(0),mCount(0),mIsDiskMapped(false),mIsHemiMapped(false){
+Sampler::Sampler( int _sampleNum, int _setNum):mSampleNum(_sampleNum),mSetNum(_setNum),mJump(0),mCount(0),mIsDiskMapped(false),mIsHemiMapped(false){
     assert(mSampleNum>0);
     assert(mSetNum>0);
 }

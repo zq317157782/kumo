@@ -5,7 +5,7 @@
 #include <math.h>
 #include "RandomSampler.h"
 
-RandomSampler::RandomSampler(const int& _sampleNum, const int& _setNum) : Sampler(_sampleNum, _setNum) {
+RandomSampler::RandomSampler( int _sampleNum,  int _setNum) : Sampler(_sampleNum, _setNum) {
     generateSamples();
 }
 

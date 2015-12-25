@@ -5,7 +5,7 @@
 #include <math.h>
 #include "MultiJitteredSampler.h"
 
-MultiJitteredSampler::MultiJitteredSampler(const int& _sampleNum, const int& _setNum) : Sampler(_sampleNum, _setNum) {
+MultiJitteredSampler::MultiJitteredSampler(int _sampleNum,int _setNum) : Sampler(_sampleNum, _setNum) {
     generateSamples();
 }
 

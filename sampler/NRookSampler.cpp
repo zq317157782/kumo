@@ -6,7 +6,7 @@
 #include "NRookSampler.h"
 
 
-NRookSampler::NRookSampler(const int& _sampleNum, const int& _setNum) : Sampler(_sampleNum, _setNum) {
+NRookSampler::NRookSampler(int _sampleNum,int _setNum) : Sampler(_sampleNum, _setNum) {
     generateSamples();
 }
 

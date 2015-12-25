@@ -29,7 +29,7 @@ protected:
     bool mIsHemiMapped;
 
 public:
-    Sampler(const int& _sampleNum,const int& _setNum=DEFAULT_SET_NUM);
+    Sampler( int _sampleNum, int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples()=0;//生成采样点
     Vector2 sampleUnitSquare();//从单位平方中获得一个采样点
     Vector2 sampleUnitDisk();  //从disk获得一个采样点

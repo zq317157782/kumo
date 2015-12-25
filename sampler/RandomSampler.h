@@ -11,7 +11,7 @@
 class RandomSampler: public Sampler{
 
 public:
-    RandomSampler(const int& _sampleNum=1, const int& _setNum=DEFAULT_SET_NUM);
+    RandomSampler( int _sampleNum=1, int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples() override;
 };
 

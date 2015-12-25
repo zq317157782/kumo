@@ -5,7 +5,7 @@
 #include <math.h>
 #include "JitteredSampler.h"
 
-JitteredSampler::JitteredSampler(const int& _num_sample,const int& _numSet):Sampler(_num_sample,_numSet){
+JitteredSampler::JitteredSampler(int _num_sample,int _numSet):Sampler(_num_sample,_numSet){
     generateSamples();
 }
 

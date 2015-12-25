@@ -10,7 +10,7 @@
 
 class JitteredSampler: public Sampler{
 public:
-    JitteredSampler(const int& _num_sample=1,const int& _numSet=DEFAULT_SET_NUM);
+    JitteredSampler(int _num_sample=1,int _numSet=DEFAULT_SET_NUM);
     virtual void generateSamples() override;
 };
 

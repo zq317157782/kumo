@@ -10,7 +10,7 @@
 
 class NRookSampler : public Sampler{
 public:
-    NRookSampler(const int& _sampleNum=1, const int& _setNum=DEFAULT_SET_NUM);
+    NRookSampler(int _sampleNum=1,int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples() override;
 private:
     void _shuffleXCoordinates();
