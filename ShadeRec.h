@@ -6,8 +6,11 @@
 #define RAYTRACER_SHADEREC_H
 
 
-class ShadeRec {
+#include "base/Vector3.h"
 
+class ShadeRec {
+public:
+    Vector3 normal;//法线
 };
 
 
