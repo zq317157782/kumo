@@ -8,6 +8,8 @@
 #include "base/Vector2.h"
 #include "sampler/JitteredSampler.h"
 #include "common/Ray.h"
+#include "common/Picture.h"
+#include "Scene/Scene.h"
 
 TEST_CASE( "Vector3 are computed", "[Vector3]" ){
     Vector3 v1;
@@ -155,6 +157,27 @@ TEST_CASE( "Ray are computed", "[Ray]" ){
     REQUIRE(p.x==1);
 }
 
+
+TEST_CASE( "Picture are computed", "[Picture]" ){
+   Picture p(2,2);
+    int k=0;
+    for(int i=0;i<2;++i)
+        for(int j=0;j<2;++j){
+            p[i][j]=k;
+            ++k;
+        }
+    REQUIRE(p[0][0]==0);
+    REQUIRE(p[0][1]==1);
+    REQUIRE(p[1][0]==2);
+    REQUIRE(p[1][1]==3);
+
+}
+
+
+TEST_CASE( "Scene are computed", "[Scene]" ){
+    Scene scene;
+    REQUIRE(scene.ambient());
+}
 #else
 #include <iostream>
 
