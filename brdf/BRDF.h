@@ -7,8 +7,8 @@
 
 
 #include "../base/RGB.h"
-#include "../ShadeRec.h"
 #include "../base/Vector3.h"
+#include "../common/ShadeRec.h"
 
 class BRDF {
 public:

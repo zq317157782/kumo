@@ -8,7 +8,7 @@
 
 #include "../base/Vector3.h"
 #include "../base/RGB.h"
-#include "../ShadeRec.h"
+#include "../common/ShadeRec.h"
 
 /**
  * 光 基类

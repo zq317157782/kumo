@@ -7,6 +7,7 @@
 #include "base/RGB.h"
 #include "base/Vector2.h"
 #include "sampler/JitteredSampler.h"
+#include "common/Ray.h"
 
 TEST_CASE( "Vector3 are computed", "[Vector3]" ){
     Vector3 v1;
@@ -147,6 +148,13 @@ TEST_CASE( "JitteredSampler are computed", "[JitteredSampler]" ){
     REQUIRE(sampleHemi.x<=1);
     REQUIRE(sampleHemi.x>=-1);
 }
+
+TEST_CASE( "Ray are computed", "[Ray]" ){
+    Ray ray(Vector3(0,0,0),Vector3(1,0,0));
+    Vector3 p=ray.getPointByDistance(1);
+    REQUIRE(p.x==1);
+}
+
 #else
 #include <iostream>
 

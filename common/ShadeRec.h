@@ -6,7 +6,8 @@
 #define RAYTRACER_SHADEREC_H
 
 
-#include "base/Vector3.h"
+
+#include "../base/Vector3.h"
 
 class ShadeRec {
 public:
