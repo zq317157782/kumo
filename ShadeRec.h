@@ -11,6 +11,7 @@
 class ShadeRec {
 public:
     Vector3 normal;//法线
+    Vector3 hitPoint;//射线交点
 };
 
 
