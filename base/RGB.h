@@ -24,6 +24,8 @@ public:
     RGB& operator-=(const RGB& c);
     RGB& operator*=(const RGB& c);
 
+    RGB operator/(const double div) const;
+
     friend RGB operator+(const float& a,const RGB& b);
     friend RGB operator*(const float& a,const RGB& b);
 

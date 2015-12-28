@@ -66,3 +66,7 @@ bool RGB::operator==(const RGB &c) const {
 bool RGB::operator!=(const RGB &c) const {
     return !(*this==c);
 }
+
+RGB RGB::operator/(const double div) const {
+    return RGB(r/div,g/div,b/div);
+}

@@ -174,7 +174,7 @@ TEST_CASE( "Picture are computed", "[Picture]" ){
 }
 
 
-TEST_CASE( "Scene are computed", "[Scene]" ){
+TEST_CASE( "scene are computed", "[scene]" ){
     Scene scene;
     REQUIRE(scene.ambient());
 }

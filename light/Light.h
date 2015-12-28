@@ -19,6 +19,11 @@ private:
 public:
     virtual Vector3 getDirection(const ShadeRec& sr) const =0; //得到光线方向
     virtual RGB L(const ShadeRec& sr) const =0;  //得到hit点从这个光源得到的能量
+    bool castShadow() const;
+    virtual bool inShadow(const Ray& ray,const ShadeRec& sr)const;
+
+    virtual float G(const ShadeRec& sr) const;
+    virtual float pdf(ShadeRec& sr) const;
 };
 
 
