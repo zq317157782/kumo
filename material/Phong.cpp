@@ -7,26 +7,26 @@
 #include "../scene/Scene.h"
 
 void Phong::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf->scaleAlbedo(k);
+    mAmbientBrdf.scaleAlbedo(k);
 }
 
 void Phong::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf->scaleAlbedo(k);
+    mDiffuseBrdf.scaleAlbedo(k);
 }
 
 void Phong::scaleSpecularAlbedo(const float k) {
-    mSpecularBrdf->scaleAlbedo(k);
+    mSpecularBrdf.scaleAlbedo(k);
 }
 
 void Phong::setAlbedo(const RGB &color) {
-    mAmbientBrdf->setAlbedo(color);
-    mDiffuseBrdf->setAlbedo(color);
-    mSpecularBrdf->setAlbedo(color);
+    mAmbientBrdf.setAlbedo(color);
+    mDiffuseBrdf.setAlbedo(color);
+    mSpecularBrdf.setAlbedo(color);
 }
 
 RGB Phong::shade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
-    RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf->rho(sr,wo);
+    RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
     for(int i=0;i<lignt_num;++i){
         Vector3 wi=sr.scene.getLight(i)->getDirection(sr);
@@ -38,7 +38,7 @@ RGB Phong::shade(ShadeRec &sr) {
                 inShadow=sr.scene.getLight(i)->inShadow(shadowRay,sr);
             }
             if(!inShadow){
-                L=L+sr.scene.getLight(i)->L(sr)*(mDiffuseBrdf->f(sr,wi,wo)+mSpecularBrdf->f(sr,wi,wo))*ndotl;
+                L=L+sr.scene.getLight(i)->L(sr)*(mDiffuseBrdf.f(sr,wi,wo)+mSpecularBrdf.f(sr,wi,wo))*ndotl;
             }
         }
     }
@@ -47,7 +47,7 @@ RGB Phong::shade(ShadeRec &sr) {
 
 RGB Phong::areaLightShade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
-    RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf->rho(sr,wo);
+    RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();
     for(int i=0;i<lignt_num;++i){
         Vector3 wi=sr.scene.getLight(i)->getDirection(sr);
@@ -59,7 +59,7 @@ RGB Phong::areaLightShade(ShadeRec &sr) {
                 inShadow=sr.scene.getLight(i)->inShadow(shadowRay,sr);
             }
             if(!inShadow){
-                L=L+sr.scene.getLight(i)->L(sr)*(mDiffuseBrdf->f(sr,wi,wo)+mSpecularBrdf->f(sr,wi,wo))*sr.scene.getLight(i)->G(sr)*ndotl/sr.scene.getLight(i)->pdf(sr);
+                L=L+sr.scene.getLight(i)->L(sr)*(mDiffuseBrdf.f(sr,wi,wo)+mSpecularBrdf.f(sr,wi,wo))*sr.scene.getLight(i)->G(sr)*ndotl/sr.scene.getLight(i)->pdf(sr);
             }
         }
     }

@@ -3,6 +3,7 @@
 //
 
 #include "Directional.h"
+#include "../scene/Scene.h"
 
 Directional::Directional(const RGB &mIrradiance, const Vector3 &mDirection, float mScaleFactor) : mIrradiance(mIrradiance),
                                                                                      mScaleFactor(mScaleFactor),
@@ -14,4 +15,16 @@ Vector3 Directional::getDirection(const ShadeRec &sr) const {
 
 RGB Directional::L(const ShadeRec &sr) const {
     return mScaleFactor*mIrradiance;
+}
+
+bool Directional::inShadow(const Ray &ray, const ShadeRec &sr) const {
+    unsigned long num_obj=sr.scene.getPrimitiveNum();
+    double t;
+    for(int i=0;i<num_obj;++i){
+        if(sr.scene.getPrimitive(i)->castShadow()&&sr.scene.getPrimitive(i)->shadowHit(ray,t)){
+
+            return true;
+        }
+    }
+    return false;
 }

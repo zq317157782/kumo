@@ -14,9 +14,9 @@ using namespace std;
 
 class Phong : public Material{
 private:
-    shared_ptr<Lambertian> mAmbientBrdf;
-    shared_ptr<Lambertian> mDiffuseBrdf;
-    shared_ptr<GlossySpecular> mSpecularBrdf;
+    Lambertian mAmbientBrdf;
+    Lambertian mDiffuseBrdf;
+    GlossySpecular mSpecularBrdf;
 public:
     void scaleAmbientAlbedo(const float k);
     void scaleDiffuseAlbedo(const float k);

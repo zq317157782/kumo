@@ -7,6 +7,7 @@
 
 #include "../base/RGB.h"
 #include "../base/Vector2.h"
+#include <fstream>
 
 /**
  * 照片类  用来存放渲染信息
@@ -27,6 +28,8 @@ public:
     float size() const;
     Vector2 resolution() const;
     RGB * const operator[](int k);
+    void saveToLocal(const char* file);
+
 };
 
 

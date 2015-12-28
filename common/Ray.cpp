@@ -8,6 +8,6 @@ Ray::Ray(const Vector3 &position, const Vector3 &direction) : position(position)
     this->direction.normalize();
 }
 
-Vector3 Ray::getPointByDistance(const float dist) {
+Vector3 Ray::getPointByDistance(const float dist) const{
     return position+dist*direction;
 }

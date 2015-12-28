@@ -1,4 +1,4 @@
-#define UNIT_TEST
+//#define UNIT_TEST
 #ifdef UNIT_TEST
 
 #define CATCH_CONFIG_MAIN
@@ -180,10 +180,18 @@ TEST_CASE( "scene are computed", "[scene]" ){
 }
 #else
 #include <iostream>
+#include "primitive/Sphere.h"
+#include "camera/PinholeCamera.h"
 
 using namespace std;
 
 int main() {
-
+    Sphere* sphere=new Sphere(Vector3(0,0,-1000),100);
+    PinholeCamera camera;
+    Scene scene;
+    scene.addPrimitive(sphere);
+    Picture picture(800,600,1);
+    camera.renderScene(scene,picture);
+//    picture.saveToLocal("1.png");
 }
 #endif

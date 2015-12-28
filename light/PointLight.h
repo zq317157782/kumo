@@ -20,6 +20,8 @@ public:
     virtual Vector3 getDirection(const ShadeRec &sr) const override;
 
     virtual RGB L(const ShadeRec &sr) const override;
+
+    virtual bool inShadow(const Ray &ray, const ShadeRec &sr) const;
 };
 
 

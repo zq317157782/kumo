@@ -5,20 +5,36 @@
 #ifndef RAYTRACER_SCENE_H
 #define RAYTRACER_SCENE_H
 #include <memory>
-#include <bits/stl_bvector.h>
+#include <vector>
 #include "../light/Ambient.h"
+#include "../primitive/Primitive.h"
+#include "../tracer/Tracer.h"
 
 using namespace std;
 class Scene {
 private:
-    shared_ptr<Light> mAmbient;//环境光
-    vector< shared_ptr<Light>> mLights;
+    Light* mAmbient;//环境光
+    vector<Light*> mLights;
+    vector<Primitive*> mPrimitives;
+    Tracer* mTracer;
 public:
 
-    Scene(const shared_ptr<Light> &mAmbient=shared_ptr<Light>(new Ambient()));
+    Scene();
     unsigned long getLightNum() const;
-    const shared_ptr<Light> ambient() const;
-    const  shared_ptr<Light> getLight(const int index) const;
+    const Light * ambient() const;
+    const Light * getLight(const int index) const;
+
+    unsigned long getPrimitiveNum() const;
+    const  Primitive* getPrimitive(int index) const;
+
+    void addPrimitive(Primitive*);
+
+    virtual ShadeRec hit(const Ray& ray);
+
+    RGB background;
+
+    const Tracer * getTracer() const;
+    void setTracer(Tracer*);
 };
 
 

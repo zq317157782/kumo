@@ -32,3 +32,19 @@ RGB * const Picture::operator[](int k)
 }
 
 
+void Picture::saveToLocal(const char* file){
+    std::ofstream out(file);
+    out<<"P3\n"<<mWidth<<" "<<mHeight<<"\n255\n";
+    for(int j=mHeight-1;j>=0;--j){
+        for(int i=0;i<mWidth;++i){
+            out<<(int)(mData[j*mWidth+i].r*255)<<" "<<(int)(mData[j*mWidth+i].g*255)<<" "<<(int)(mData[j*mWidth+i].b*255)<<" ";
+        }
+    }
+
+
+    // for(int i=0;i<mWidth*mHeight;++i){
+    // 	out<<(int)(frameBuffer[i].r*255)<<" "<<(int)(frameBuffer[i].g*255)<<" "<<(int)(frameBuffer[i].b*255)<<" ";
+    // }
+    out.close();
+}
+
