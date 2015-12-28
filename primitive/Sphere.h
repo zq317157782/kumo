@@ -7,12 +7,14 @@
 
 
 #include "Primitive.h"
-
+#include <stdio.h>
 class Sphere : public Primitive{
 private:
     double mRad;//半径
 public:
     Sphere(const Vector3 &mPosition=Vector3(0,0,0),const double rad=1,Material* mMaterial=NULL, bool mShadow=true);
+
+    virtual ~Sphere() { printf("Sphere Destroy");}
 
     virtual Vector3 getNormal(const Vector3 &point) const;
 

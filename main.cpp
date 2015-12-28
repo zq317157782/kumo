@@ -182,16 +182,22 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include <iostream>
 #include "primitive/Sphere.h"
 #include "camera/PinholeCamera.h"
+#include "sampler/MultiJitteredSampler.h"
+#include "light/Directional.h"
 
 using namespace std;
 
 int main() {
-    Sphere* sphere=new Sphere(Vector3(0,0,-1000),100);
+    Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
+    sphere->setMaterial(new Matte);
+    Directional* directional=new Directional();
     PinholeCamera camera;
+    camera.setSampler(new MultiJitteredSampler(25));
     Scene scene;
-    scene.addPrimitive(sphere);
+    scene.addPrimitive( shared_ptr<Primitive>(sphere));
+    scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-//    picture.saveToLocal("1.png");
+    picture.saveToLocal("result.png");
 }
 #endif

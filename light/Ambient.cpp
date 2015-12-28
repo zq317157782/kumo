@@ -14,6 +14,6 @@ RGB Ambient::L(const ShadeRec &sr) const {
     return mScaleFactor*mIrradiance;
 }
 
-Ambient::Ambient(const RGB &mIrradiance, float mScaleFactor):Light(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor){
+Ambient::Ambient(const RGB &mIrradiance, const float mScaleFactor):Light(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor){
 
 }

@@ -15,7 +15,7 @@ private:
     float mScaleFactor;
 
 public:
-    PointLight(const Vector3 &mPosition=Vector3(0,0,0), const RGB &mIrradiance=RGB(1,1,1), float mScaleFactor=1.0);
+    PointLight(const Vector3 &mPosition=Vector3(0,0,0), const RGB &mIrradiance=RGB(1,1,1),const float mScaleFactor=1.0);
 
     virtual Vector3 getDirection(const ShadeRec &sr) const override;
 

@@ -5,7 +5,7 @@
 #include "Directional.h"
 #include "../scene/Scene.h"
 
-Directional::Directional(const RGB &mIrradiance, const Vector3 &mDirection, float mScaleFactor) : mIrradiance(mIrradiance),
+Directional::Directional(const RGB &mIrradiance, const Vector3 &mDirection,const float mScaleFactor) : mIrradiance(mIrradiance),
                                                                                      mScaleFactor(mScaleFactor),
                                                                                      mDirection(mDirection) { this->mDirection.normalize();}
 

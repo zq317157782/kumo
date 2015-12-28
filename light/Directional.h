@@ -15,7 +15,7 @@ private:
     Vector3 mDirection;
 
 public:
-    Directional(const RGB &mIrradiance, const Vector3 &mDirection,float mScaleFactor);
+    Directional(const RGB &mIrradiance=RGB(1,1,1), const Vector3 &mDirection=Vector3(1,0,0),const float mScaleFactor=1.0);
 
     virtual Vector3 getDirection(const ShadeRec &sr) const override;
 

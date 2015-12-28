@@ -6,7 +6,7 @@
 #include "../scene/Scene.h"
 #include "../common/Ray.h"
 
-PointLight::PointLight(const Vector3 &mPosition, const RGB &mIrradiance, float mScaleFactor) : mPosition(mPosition),
+PointLight::PointLight(const Vector3 &mPosition, const RGB &mIrradiance,const float mScaleFactor) : mPosition(mPosition),
                                                                                    mIrradiance(mIrradiance),
                                                                                    mScaleFactor(mScaleFactor) {
 
