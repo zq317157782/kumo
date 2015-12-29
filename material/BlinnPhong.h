@@ -11,6 +11,7 @@
 #include "../brdf/HalfVectorSpecular.h"
 
 class BlinnPhong : public Material{
+private:
     Lambertian mAmbientBrdf;
     Lambertian mDiffuseBrdf;
     HalfVectorSpecular mSpecularBrdf;

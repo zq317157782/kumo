@@ -13,15 +13,15 @@ void Phong::scaleDiffuseAlbedo(const float k) {
     mDiffuseBrdf.scaleAlbedo(k);
 }
 
-void Phong::scaleSpecularAlbedo(const float k,const float exp) {
+void Phong::scaleSpecularAlbedo(const float k) {
     mSpecularBrdf.scaleAlbedo(k);
-    mSpecularBrdf.setExponent(exp);
 }
 
-void Phong::setAlbedo(const RGB &color) {
+void Phong::setAlbedo(const RGB &color,const float exp) {
     mAmbientBrdf.setAlbedo(color);
     mDiffuseBrdf.setAlbedo(color);
     mSpecularBrdf.setAlbedo(color);
+    mSpecularBrdf.setShiness(exp);
 }
 
 RGB Phong::shade(ShadeRec &sr) {

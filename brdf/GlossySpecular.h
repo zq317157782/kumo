@@ -17,7 +17,7 @@ public:
     GlossySpecular(const RGB &_albedo=RGB(1,1,1),float _exp=1,float _scaleFactor=1.0);
     void scaleAlbedo(float _f);
     void setAlbedo(const RGB& _albedo);
-    void setExponent(float exp);
+    void setShiness(float exp);
 
 
     virtual RGB f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) override;

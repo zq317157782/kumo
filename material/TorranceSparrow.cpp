@@ -2,30 +2,30 @@
 // Created by 诸谦 on 15/12/29.
 //
 
-#include "BlinnPhong.h"
+#include "TorranceSparrow.h"
 #include "../scene/Scene.h"
 
-
-void BlinnPhong::scaleAmbientAlbedo(const float k) {
+void TorranceSparrow::scaleAmbientAlbedo(const float k) {
     mAmbientBrdf.scaleAlbedo(k);
 }
 
-void BlinnPhong::scaleDiffuseAlbedo(const float k) {
+void TorranceSparrow::scaleDiffuseAlbedo(const float k) {
     mDiffuseBrdf.scaleAlbedo(k);
 }
 
-void BlinnPhong::scaleSpecularAlbedo(const float k,const float exp) {
+void TorranceSparrow::scaleSpecularAlbedo(const float k) {
     mSpecularBrdf.scaleAlbedo(k);
-    mSpecularBrdf.setShiness(exp);
 }
 
-void BlinnPhong::setAlbedo(const RGB &color) {
+void TorranceSparrow::setAlbedo(const RGB& color,const double m,const double f0) {
     mAmbientBrdf.setAlbedo(color);
     mDiffuseBrdf.setAlbedo(color);
     mSpecularBrdf.setAlbedo(color);
+    mSpecularBrdf.setGlossy(m);
+    mSpecularBrdf.setFresnelZero(f0);
 }
 
-RGB BlinnPhong::shade(ShadeRec &sr) {
+RGB TorranceSparrow::shade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -46,7 +46,7 @@ RGB BlinnPhong::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB BlinnPhong::areaLightShade(ShadeRec &sr) {
+RGB TorranceSparrow::areaLightShade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

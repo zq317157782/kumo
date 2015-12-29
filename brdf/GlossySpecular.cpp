@@ -35,6 +35,6 @@ RGB GlossySpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
     return RGB(0,0,0);
 }
 
-void GlossySpecular::setExponent(float exp) {
+void GlossySpecular::setShiness(float exp) {
     mExp=exp;
 }

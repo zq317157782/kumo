@@ -186,15 +186,17 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "light/Directional.h"
 #include "material/Phong.h"
 #include "material/BlinnPhong.h"
+#include "material/TorranceSparrow.h"
 
 using namespace std;
 
 int main() {
     Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
-    BlinnPhong *phong=new BlinnPhong();
+    TorranceSparrow *phong=new TorranceSparrow();
     phong->scaleAmbientAlbedo(0.2);
     phong->scaleDiffuseAlbedo(0.5);
-    phong->scaleSpecularAlbedo(0.5,25);
+    phong->scaleSpecularAlbedo(0.5);
+    phong->setAlbedo(RGB(1,1,1),0.1,0.5);
     sphere->setMaterial(phong);
     Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
     PinholeCamera camera;
@@ -204,6 +206,6 @@ int main() {
     scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("blinn_phong.png");
+    picture.saveToLocal("torrance_sparrow.png");
 }
 #endif
