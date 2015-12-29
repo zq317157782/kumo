@@ -13,21 +13,22 @@
 using namespace std;
 class Scene {
 private:
-    Light* mAmbient;//环境光
-    vector<Light*> mLights;
-    vector<Primitive*> mPrimitives;
-    Tracer* mTracer;
+    shared_ptr<Light> mAmbient;//环境光
+    vector<shared_ptr<Light>> mLights;
+    vector<shared_ptr<Primitive>> mPrimitives;
+    shared_ptr<Tracer> mTracer;
 public:
 
     Scene();
     unsigned long getLightNum() const;
-    const Light * ambient() const;
-    const Light * getLight(const int index) const;
+    const shared_ptr<Light> ambient() const;
+    const shared_ptr<Light> getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
-    const  Primitive* getPrimitive(int index) const;
+    const   shared_ptr<Primitive> getPrimitive(int index) const;
 
-    void addPrimitive(Primitive*);
+    void addPrimitive( shared_ptr<Primitive>);
+    void addLight(shared_ptr<Light> light);
 
     virtual ShadeRec hit(const Ray& ray);
 

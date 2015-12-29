@@ -1,28 +1,25 @@
 //
-// Created by 诸谦 on 15/12/27.
+// Created by 诸谦 on 15/12/29.
 //
 
-#ifndef RAYTRACER_PHONG_H
-#define RAYTRACER_PHONG_H
+#ifndef RAYTRACER_BLINNPHONG_H
+#define RAYTRACER_BLINNPHONG_H
 
 
 #include "Material.h"
 #include "../brdf/Lambertian.h"
-#include "../brdf/GlossySpecular.h"
-#include <memory>
-using namespace std;
+#include "../brdf/HalfVectorSpecular.h"
 
-class Phong : public Material{
-private:
+class BlinnPhong : public Material{
     Lambertian mAmbientBrdf;
     Lambertian mDiffuseBrdf;
-    GlossySpecular mSpecularBrdf;
+    HalfVectorSpecular mSpecularBrdf;
 public:
+
     void scaleAmbientAlbedo(const float k);
     void scaleDiffuseAlbedo(const float k);
     void scaleSpecularAlbedo(const float k,const float exp);
     void setAlbedo(const RGB& color);
-
 
     virtual RGB shade(ShadeRec &sr);
 
@@ -30,4 +27,4 @@ public:
 };
 
 
-#endif //RAYTRACER_PHONG_H
+#endif //RAYTRACER_BLINNPHONG_H

@@ -22,9 +22,9 @@ void GlossySpecular::setAlbedo(const RGB &_albedo) {
 }
 
 RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
-    float ndotl=sr.normal.dot(wi);
+    double ndotl=sr.normal.dot(wi);
     Vector3 r=-wi+sr.normal*ndotl*2;//求得反射向量
-    float rdotv=r.dot(wo);
+    double rdotv=r.dot(wo);
     RGB L(0,0,0);
     if(rdotv>0)
         L=mAlbedo*mScaleFactor*pow(rdotv,mExp);//计算高光
@@ -33,4 +33,8 @@ RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) 
 
 RGB GlossySpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
     return RGB(0,0,0);
+}
+
+void GlossySpecular::setExponent(float exp) {
+    mExp=exp;
 }

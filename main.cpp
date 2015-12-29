@@ -184,13 +184,19 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "camera/PinholeCamera.h"
 #include "sampler/MultiJitteredSampler.h"
 #include "light/Directional.h"
+#include "material/Phong.h"
+#include "material/BlinnPhong.h"
 
 using namespace std;
 
 int main() {
     Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
-    sphere->setMaterial(new Matte);
-    Directional* directional=new Directional();
+    BlinnPhong *phong=new BlinnPhong();
+    phong->scaleAmbientAlbedo(0.2);
+    phong->scaleDiffuseAlbedo(0.5);
+    phong->scaleSpecularAlbedo(0.5,25);
+    sphere->setMaterial(phong);
+    Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
     PinholeCamera camera;
     camera.setSampler(new MultiJitteredSampler(25));
     Scene scene;
@@ -198,6 +204,6 @@ int main() {
     scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("result.png");
+    picture.saveToLocal("blinn_phong.png");
 }
 #endif
