@@ -32,7 +32,7 @@ RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) 
 }
 
 RGB GlossySpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
-    return RGB(0,0,0);
+    return mAlbedo*mScaleFactor;
 }
 
 void GlossySpecular::setShiness(float exp) {

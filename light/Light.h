@@ -23,7 +23,7 @@ public:
     virtual bool inShadow(const Ray& ray,const ShadeRec& sr)const;
 
     virtual float G(const ShadeRec& sr) const;
-    virtual float pdf(ShadeRec& sr) const;
+    virtual float pdf(ShadeRec& sr) const;//概率分布函数
 };
 
 

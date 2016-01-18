@@ -12,7 +12,7 @@ RGB TorranceSparrowSpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vect
 }
 
 RGB TorranceSparrowSpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
-    return  RGB(0,0,0);;
+    return mAlbedo*mScaleFactor;
 }
 
 double TorranceSparrowSpecular::_NDF(const Vector3 &N, const Vector3 &H) {
