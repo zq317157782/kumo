@@ -196,7 +196,7 @@ int main() {
     phong->scaleAmbientAlbedo(0.2);
     phong->scaleDiffuseAlbedo(0.5);
     phong->scaleSpecularAlbedo(0.5);
-    phong->setAlbedo(RGB(1,1,1),0.1,0.5);
+    phong->setAlbedo(RGB(0.5,1,0.5),0.1);
     sphere->setMaterial(phong);
     Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
     PinholeCamera camera;
@@ -206,6 +206,6 @@ int main() {
     scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("torrance_sparrow.png");
+    picture.saveToLocal("test.png");
 }
 #endif

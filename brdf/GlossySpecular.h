@@ -18,10 +18,7 @@ public:
     void scaleAlbedo(float _f);
     void setAlbedo(const RGB& _albedo);
     void setShiness(float exp);
-
-
     virtual RGB f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) override;
-
     virtual RGB rho(const ShadeRec &sr, const Vector3 &wo) override;
 
 };

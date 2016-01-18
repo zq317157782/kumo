@@ -8,7 +8,7 @@
 
 #include "GlossySpecular.h"
 
-class HalfVectorSpecular: public GlossySpecular{
+class GlossySpecularHalfVector: public GlossySpecular{
 
 public:
     virtual RGB f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo);

@@ -21,7 +21,7 @@ public:
     void scaleAmbientAlbedo(const float k);
     void scaleDiffuseAlbedo(const float k);
     void scaleSpecularAlbedo(const float k);
-    void setAlbedo(const RGB& color,const double m,const double f0);
+    void setAlbedo(const RGB& color,const double m);
 
     virtual RGB shade(ShadeRec &sr);
 

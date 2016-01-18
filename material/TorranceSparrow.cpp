@@ -17,12 +17,11 @@ void TorranceSparrow::scaleSpecularAlbedo(const float k) {
     mSpecularBrdf.scaleAlbedo(k);
 }
 
-void TorranceSparrow::setAlbedo(const RGB& color,const double m,const double f0) {
+void TorranceSparrow::setAlbedo(const RGB& color,const double m) {
     mAmbientBrdf.setAlbedo(color);
     mDiffuseBrdf.setAlbedo(color);
     mSpecularBrdf.setAlbedo(color);
     mSpecularBrdf.setGlossy(m);
-    mSpecularBrdf.setFresnelZero(f0);
 }
 
 RGB TorranceSparrow::shade(ShadeRec &sr) {

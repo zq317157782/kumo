@@ -8,13 +8,14 @@
 
 #include "Material.h"
 #include "../brdf/Lambertian.h"
-#include "../brdf/HalfVectorSpecular.h"
+#include "../brdf/GlossySpecularHalfVector.h"
+
 
 class BlinnPhong : public Material{
 private:
     Lambertian mAmbientBrdf;
     Lambertian mDiffuseBrdf;
-    HalfVectorSpecular mSpecularBrdf;
+    GlossySpecularHalfVector mSpecularBrdf;
 public:
 
     void scaleAmbientAlbedo(const float k);

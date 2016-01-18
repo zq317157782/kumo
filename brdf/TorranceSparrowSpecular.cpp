@@ -32,8 +32,10 @@ double TorranceSparrowSpecular::_G(const Vector3 &N, const Vector3 &H, const Vec
     return min(min(g1,g2),g3);
 }
 
-double TorranceSparrowSpecular::_Fresnel(const Vector3 &wo, const Vector3 &H) {
-    return mF0+(1-mF0)*pow(1-H.dot(wo),5);
+RGB TorranceSparrowSpecular::_Fresnel(const Vector3 &wo, const Vector3 &H) {
+    RGB one(1,1,1);
+    RGB f0=mAlbedo*mScaleFactor;
+    return f0+(one-f0)*pow(1-H.dot(wo),5);
 }
 
 
@@ -47,16 +49,11 @@ void TorranceSparrowSpecular::setAlbedo(const RGB &_albedo) {
     mAlbedo=_albedo;
 }
 
-void TorranceSparrowSpecular::setFresnelZero(const double f) {
-    assert(f>=0);
-    mF0=f;
-}
-
 void TorranceSparrowSpecular::setGlossy(const double m) {
     assert(m>=0);
     mM=m;
 }
 
-TorranceSparrowSpecular::TorranceSparrowSpecular(const RGB &mAlbedo, double mM, double mF0, float mScaleFactor):mAlbedo(mAlbedo),mM(mM),mF0(mF0),mScaleFactor(mScaleFactor){
+TorranceSparrowSpecular::TorranceSparrowSpecular(const RGB &mAlbedo, double mM, float mScaleFactor):mAlbedo(mAlbedo),mM(mM),mScaleFactor(mScaleFactor){
 
 }

@@ -3,9 +3,9 @@
 //
 
 #include <math.h>
-#include "HalfVectorSpecular.h"
+#include "GlossySpecularHalfVector.h"
 
-RGB HalfVectorSpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
+RGB GlossySpecularHalfVector::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
 
     Vector3 h=(wi+wo).normalize();//求得半向量
     double ndoth=sr.normal.dot(h);
