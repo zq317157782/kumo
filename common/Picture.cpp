@@ -37,7 +37,8 @@ void Picture::saveToLocal(const char* file){
     out<<"P3\n"<<mWidth<<" "<<mHeight<<"\n255\n";
     for(int j=mHeight-1;j>=0;--j){
         for(int i=0;i<mWidth;++i){
-            out<<(int)(mData[j*mWidth+i].r*255)<<" "<<(int)(mData[j*mWidth+i].g*255)<<" "<<(int)(mData[j*mWidth+i].b*255)<<" ";
+            RGB finalColor=mData[j*mWidth+i].clamp();
+            out<<(int)(finalColor.r*255)<<" "<<(int)(finalColor.g*255)<<" "<<(int)(finalColor.b*255)<<" ";
         }
     }
 

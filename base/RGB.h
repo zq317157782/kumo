@@ -32,6 +32,7 @@ public:
     bool operator==(const RGB& c) const;
     bool operator!=(const RGB& c) const;
 
+    RGB clamp();
 };
 
 

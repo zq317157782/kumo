@@ -37,18 +37,18 @@ void PinholeCamera::renderScene(const Scene &scene,Picture &picture) {
             }
             //std::cout<<"Color:"<<L.r<<" "<<L.g<<" "<<L.b<<std::endl;
             RGB color=(L/mSampler->getSampleNum());
-            if(color.r>1||color.g>1||color.b>1){
-                double max=0;
-                if(color.r>max)
-                    max=color.r;
-                if(color.g>max)
-                    max=color.g;
-                if(color.b>max)
-                    max=color.b;
-                picture[r][c]=color/max;
-             //   view.frameBuffer[r*view.width()+c]=color/max;
-            }
-            else
+//            if(color.r>1||color.g>1||color.b>1){
+//                double max=0;
+//                if(color.r>max)
+//                    max=color.r;
+//                if(color.g>max)
+//                    max=color.g;
+//                if(color.b>max)
+//                    max=color.b;
+//                picture[r][c]=color/max;
+//             //   view.frameBuffer[r*view.width()+c]=color/max;
+//            }
+//            else
                 picture[r][c]=color;
                // view.frameBuffer[r*view.width()+c]=color;
         }

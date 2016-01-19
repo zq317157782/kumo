@@ -17,7 +17,7 @@ private:
 
 public:
 
-    Ambient(const RGB &mIrradiance=RGB(0.1,0.1,0.1),const float mScaleFactor=1.0);
+    Ambient(const RGB &mIrradiance=RGB(0.2,0.2,0.2),const float mScaleFactor=1.0);
 
     virtual Vector3 getDirection(const ShadeRec &sr) const override;
 

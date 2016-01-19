@@ -3,8 +3,10 @@
 //
 
 #include "RGB.h"
-#include <exception>
 #include <assert.h>
+#include <algorithm>
+using namespace std;
+
 
 RGB::RGB(const float &_r, const float &_g, const float &_b):r(_r),g(_g),b(_b){
     assert(r>=0&&b>=0&&g>=0);
@@ -69,4 +71,8 @@ bool RGB::operator!=(const RGB &c) const {
 
 RGB RGB::operator/(const double div) const {
     return RGB(r/div,g/div,b/div);
+}
+
+RGB RGB::clamp(){
+    return RGB(min(1.0f,r),min(1.0f,g),min(1.0f,b));
 }

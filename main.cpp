@@ -187,16 +187,16 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "material/Phong.h"
 #include "material/BlinnPhong.h"
 #include "material/TorranceSparrow.h"
+#include "material/CookTorranceMaterial.h"
+
 
 using namespace std;
 
 int main() {
     Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
-    TorranceSparrow *phong=new TorranceSparrow();
-    phong->scaleAmbientAlbedo(0.2);
-    phong->scaleDiffuseAlbedo(0.5);
-    phong->scaleSpecularAlbedo(0.5);
-    phong->setAlbedo(RGB(0.5,1,0.5),0.1);
+    CookTorranceMaterial *phong=new CookTorranceMaterial();
+    phong->setSurfaceColor(RGB(0.09,0.09,0.09),0.25);
+    phong->setAmbientColor(RGB(1,1,1));
     sphere->setMaterial(phong);
     Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
     PinholeCamera camera;
@@ -206,6 +206,6 @@ int main() {
     scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("test.png");
+    picture.saveToLocal("CookTorranceMaterial.png");
 }
 #endif
