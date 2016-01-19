@@ -6,11 +6,11 @@
 #include "../scene/Scene.h"
 
 void TorranceSparrow::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scaleAlbedo(k);
+    mAmbientBrdf.scale(k);
 }
 
 void TorranceSparrow::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scaleAlbedo(k);
+    mDiffuseBrdf.scale(k);
 }
 
 void TorranceSparrow::scaleSpecularAlbedo(const float k) {
@@ -18,8 +18,8 @@ void TorranceSparrow::scaleSpecularAlbedo(const float k) {
 }
 
 void TorranceSparrow::setAlbedo(const RGB& color,const double m) {
-    mAmbientBrdf.setAlbedo(color);
-    mDiffuseBrdf.setAlbedo(color);
+    mAmbientBrdf.setKd(color);
+    mDiffuseBrdf.setKd(color);
     mSpecularBrdf.setAlbedo(color);
     mSpecularBrdf.setGlossy(m);
 }

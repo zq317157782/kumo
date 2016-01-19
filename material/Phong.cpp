@@ -6,21 +6,21 @@
 #include "../scene/Scene.h"
 
 void Phong::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scaleAlbedo(k);
+    mAmbientBrdf.scale(k);
 }
 
 void Phong::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scaleAlbedo(k);
+    mDiffuseBrdf.scale(k);
 }
 
 void Phong::scaleSpecularAlbedo(const float k) {
-    mSpecularBrdf.scaleAlbedo(k);
+    mSpecularBrdf.scale(k);
 }
 
 void Phong::setAlbedo(const RGB &color,const float exp) {
-    mAmbientBrdf.setAlbedo(color);
-    mDiffuseBrdf.setAlbedo(color);
-    mSpecularBrdf.setAlbedo(color);
+    mAmbientBrdf.setKd(color);
+    mDiffuseBrdf.setKd(color);
+    mSpecularBrdf.setKs(color);
     mSpecularBrdf.setShiness(exp);
 }
 

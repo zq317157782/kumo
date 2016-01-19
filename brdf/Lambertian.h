@@ -11,11 +11,11 @@
 class Lambertian: public BRDF{
 private:
     float mScaleFactor;
-    RGB mAlbedo;
+    RGB mKd;
 public:
     Lambertian(const RGB &_albedo=RGB(1,1,1), float _scaleFactor=1.0);
-    void scaleAlbedo(float _f);
-    void setAlbedo(const RGB& _albedo);
+    void scale(float _f);
+    void setKd(const RGB &_kd);
 
 
     virtual RGB f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) override;

@@ -13,16 +13,16 @@ Matte::Matte(const RGB& _albedo):
 }
 
 void Matte::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scaleAlbedo(k);
+    mAmbientBrdf.scale(k);
 }
 
 void Matte::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scaleAlbedo(k);
+    mDiffuseBrdf.scale(k);
 }
 
 void Matte::setAlbedo(const RGB &color) {
-    mAmbientBrdf.setAlbedo(color);
-    mDiffuseBrdf.setAlbedo(color);
+    mAmbientBrdf.setKd(color);
+    mDiffuseBrdf.setKd(color);
 }
 
 RGB Matte::shade(ShadeRec &sr) {

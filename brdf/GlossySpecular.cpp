@@ -7,18 +7,18 @@
 #include "GlossySpecular.h"
 
 GlossySpecular::GlossySpecular(const RGB &_albedo, float _exp, float _scaleFactor)
-        :mAlbedo(_albedo),mExp(_exp),mScaleFactor(_scaleFactor)
+        : mKs(_albedo), mShiness(_exp), mScaleFactor(_scaleFactor)
 {
 }
 
 
-void GlossySpecular::scaleAlbedo(float _f) {
+void GlossySpecular::scale(float _f) {
     assert(_f>=0);
     mScaleFactor=_f;
 }
 
-void GlossySpecular::setAlbedo(const RGB &_albedo) {
-    mAlbedo=_albedo;
+void GlossySpecular::setKs(const RGB &_ks) {
+    mKs = _ks;
 }
 
 RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
@@ -27,14 +27,14 @@ RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) 
     double rdotv=r.dot(wo);
     RGB L(0,0,0);
     if(rdotv>0)
-        L=mAlbedo*mScaleFactor*pow(rdotv,mExp);//计算高光
+        L= mKs * mScaleFactor * pow(rdotv, mShiness);//计算高光
     return L;
 }
 
 RGB GlossySpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
-    return mAlbedo*mScaleFactor;
+    return mKs * mScaleFactor*(2*M_PI/(mShiness+2));
 }
 
-void GlossySpecular::setShiness(float exp) {
-    mExp=exp;
+void GlossySpecular::setShiness(float _shiness) {
+    mShiness = _shiness;
 }

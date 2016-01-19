@@ -7,22 +7,22 @@
 
 
 void BlinnPhong::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scaleAlbedo(k);
+    mAmbientBrdf.scale(k);
 }
 
 void BlinnPhong::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scaleAlbedo(k);
+    mDiffuseBrdf.scale(k);
 }
 
 void BlinnPhong::scaleSpecularAlbedo(const float k,const float exp) {
-    mSpecularBrdf.scaleAlbedo(k);
+    mSpecularBrdf.scale(k);
     mSpecularBrdf.setShiness(exp);
 }
 
 void BlinnPhong::setAlbedo(const RGB &color) {
-    mAmbientBrdf.setAlbedo(color);
-    mDiffuseBrdf.setAlbedo(color);
-    mSpecularBrdf.setAlbedo(color);
+    mAmbientBrdf.setKd(color);
+    mDiffuseBrdf.setKd(color);
+    mSpecularBrdf.setKs(color);
 }
 
 RGB BlinnPhong::shade(ShadeRec &sr) {

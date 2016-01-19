@@ -11,6 +11,6 @@ RGB GlossySpecularHalfVector::f(const ShadeRec &sr, const Vector3 &wi, const Vec
     double ndoth=sr.normal.dot(h);
     RGB L(0,0,0);
     if(ndoth>0)
-        L=mAlbedo*mScaleFactor*pow(ndoth,mExp);//计算高光
+        L= mKs * mScaleFactor * pow(ndoth, mShiness);//计算高光
     return L;
 }
