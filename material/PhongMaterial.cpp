@@ -2,29 +2,29 @@
 // Created by 诸谦 on 15/12/27.
 //
 
-#include "Phong.h"
+#include "PhongMaterial.h"
 #include "../scene/Scene.h"
 
-void Phong::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scale(k);
-}
+//void Phong::scaleAmbientAlbedo(const float k) {
+//    mAmbientBrdf.scale(k);
+//}
+//
+//void Phong::scaleDiffuseAlbedo(const float k) {
+//    mDiffuseBrdf.scale(k);
+//}
+//
+//void Phong::scaleSpecularAlbedo(const float k) {
+//    mSpecularBrdf.scale(k);
+//}
+//
+//void Phong::setAlbedo(const RGB &color,const float exp) {
+//    mAmbientBrdf.setKd(color);
+//    mDiffuseBrdf.setKd(color);
+//    mSpecularBrdf.setKs(color);
+//    mSpecularBrdf.setShiness(exp);
+//}
 
-void Phong::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scale(k);
-}
-
-void Phong::scaleSpecularAlbedo(const float k) {
-    mSpecularBrdf.scale(k);
-}
-
-void Phong::setAlbedo(const RGB &color,const float exp) {
-    mAmbientBrdf.setKd(color);
-    mDiffuseBrdf.setKd(color);
-    mSpecularBrdf.setKs(color);
-    mSpecularBrdf.setShiness(exp);
-}
-
-RGB Phong::shade(ShadeRec &sr) {
+RGB PhongMaterial::shade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -45,7 +45,7 @@ RGB Phong::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB Phong::areaLightShade(ShadeRec &sr) {
+RGB PhongMaterial::areaLightShade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();
@@ -64,4 +64,17 @@ RGB Phong::areaLightShade(ShadeRec &sr) {
         }
     }
     return L;
+}
+
+void PhongMaterial::setSurfaceColor(const RGB &color, const float shiness) {
+    mSpecularBrdf.setKs(color);
+    mSpecularBrdf.setShiness(shiness);
+}
+
+void PhongMaterial::setAmbientColor(const RGB &color) {
+    mAmbientBrdf.setKd(color);
+}
+
+void PhongMaterial::setDiffuseColor(const RGB &color) {
+    mDiffuseBrdf.setKd(color);
 }

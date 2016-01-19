@@ -2,30 +2,30 @@
 // Created by 诸谦 on 15/12/29.
 //
 
-#include "BlinnPhong.h"
+#include "BlinnPhongMaterial.h"
 #include "../scene/Scene.h"
 
 
-void BlinnPhong::scaleAmbientAlbedo(const float k) {
-    mAmbientBrdf.scale(k);
-}
+//void BlinnPhongMaterial::scaleAmbientAlbedo(const float k) {
+//    mAmbientBrdf.scale(k);
+//}
+//
+//void BlinnPhongMaterial::scaleDiffuseAlbedo(const float k) {
+//    mDiffuseBrdf.scale(k);
+//}
+//
+//void BlinnPhongMaterial::scaleSpecularAlbedo(const float k,const float exp) {
+//    mSpecularBrdf.scale(k);
+//    mSpecularBrdf.setShiness(exp);
+//}
+//
+//void BlinnPhongMaterial::setAlbedo(const RGB &color) {
+//    mAmbientBrdf.setKd(color);
+//    mDiffuseBrdf.setKd(color);
+//    mSpecularBrdf.setKs(color);
+//}
 
-void BlinnPhong::scaleDiffuseAlbedo(const float k) {
-    mDiffuseBrdf.scale(k);
-}
-
-void BlinnPhong::scaleSpecularAlbedo(const float k,const float exp) {
-    mSpecularBrdf.scale(k);
-    mSpecularBrdf.setShiness(exp);
-}
-
-void BlinnPhong::setAlbedo(const RGB &color) {
-    mAmbientBrdf.setKd(color);
-    mDiffuseBrdf.setKd(color);
-    mSpecularBrdf.setKs(color);
-}
-
-RGB BlinnPhong::shade(ShadeRec &sr) {
+RGB BlinnPhongMaterial::shade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -46,7 +46,7 @@ RGB BlinnPhong::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB BlinnPhong::areaLightShade(ShadeRec &sr) {
+RGB BlinnPhongMaterial::areaLightShade(ShadeRec &sr) {
     Vector3 wo=-sr.ray.direction;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();
@@ -65,4 +65,18 @@ RGB BlinnPhong::areaLightShade(ShadeRec &sr) {
         }
     }
     return L;
+}
+
+void BlinnPhongMaterial::setSurfaceColor(const RGB &color, const float shiness) {
+    mSpecularBrdf.setKs(color);
+    mSpecularBrdf.setShiness(shiness);
+
+}
+
+void BlinnPhongMaterial::setAmbientColor(const RGB &color) {
+    mAmbientBrdf.setKd(color);
+}
+
+void BlinnPhongMaterial::setDiffuseColor(const RGB &color) {
+    mDiffuseBrdf.setKd(color);
 }

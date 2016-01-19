@@ -184,28 +184,29 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "camera/PinholeCamera.h"
 #include "sampler/MultiJitteredSampler.h"
 #include "light/Directional.h"
-#include "material/Phong.h"
-#include "material/BlinnPhong.h"
 #include "material/TorranceSparrow.h"
 #include "material/CookTorranceMaterial.h"
+#include "material/BlinnPhongMaterial.h"
+#include "material/PhongMaterial.h"
 
 
 using namespace std;
 
 int main() {
     Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
-    CookTorranceMaterial *phong=new CookTorranceMaterial();
-    phong->setSurfaceColor(RGB(0.09,0.09,0.09),0.25);
+    BlinnPhongMaterial *phong=new BlinnPhongMaterial();
+    phong->setSurfaceColor(RGB(0.2,0.9,0.9),0.5);
+    phong->setDiffuseColor(RGB(0.5,0.4,0.2));
     phong->setAmbientColor(RGB(1,1,1));
     sphere->setMaterial(phong);
     Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
     PinholeCamera camera;
     camera.setSampler(new MultiJitteredSampler(25));
     Scene scene;
-    scene.addPrimitive( shared_ptr<Primitive>(sphere));
+    scene.addPrimitive(shared_ptr<Primitive>(sphere));
     scene.addLight(shared_ptr<Light>(directional));
     Picture picture(800,600,1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("CookTorranceMaterial.png");
+    picture.saveToLocal("BlinnPhongMaterial.png");
 }
 #endif
