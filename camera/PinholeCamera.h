@@ -20,7 +20,7 @@ public:
     void setDistanceToView(const float d);
 
 
-    virtual void renderScene(const Scene &scene,Picture &picture);
+    virtual void renderScene(const Scene &scene, Film &picture);
 };
 
 

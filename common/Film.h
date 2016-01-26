@@ -12,16 +12,16 @@
 /**
  * 照片类  用来存放渲染信息
  */
-class Picture {
+class Film {
 private:
     int mWidth,mHeight;
     float mPixelSize;
     RGB* mData;
 public:
 
-    Picture(int mWidth, int mHeight, float mPixelSize=1.0);
+    Film(int mWidth, int mHeight, float mPixelSize=1.0);
 
-    virtual ~Picture();
+    virtual ~Film();
 
     int width() const;
     int height() const;

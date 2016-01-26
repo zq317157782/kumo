@@ -17,7 +17,7 @@ void PinholeCamera::setDistanceToView(const float d){
     mDistanceToView=d;
 }
 
-void PinholeCamera::renderScene(const Scene &scene,Picture &picture) {
+void PinholeCamera::renderScene(const Scene &scene, Film &picture) {
 
     float pSize=picture.size()/mZoomFactor;//计算缩放后的像素大小
     Ray ray;//射线;

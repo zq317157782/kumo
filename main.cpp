@@ -193,20 +193,36 @@ TEST_CASE( "scene are computed", "[scene]" ){
 using namespace std;
 
 int main() {
-    Sphere* sphere=new Sphere(Vector3(0,0,-1000),500);
-    BlinnPhongMaterial *phong=new BlinnPhongMaterial();
-    phong->setSurfaceColor(RGB(0.2,0.9,0.9),0.5);
-    phong->setDiffuseColor(RGB(0.5,0.4,0.2));
-    phong->setAmbientColor(RGB(1,1,1));
-    sphere->setMaterial(phong);
-    Directional* directional=new Directional(RGB(1,1,1),Vector3(1,0,-1));
+
+    //材质
+    CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
+    cookTorranceMaterial->setSurfaceColor(RGB(0.68,0.66,0.62),0.5);
+    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
+
+    //第一个sphere
+    Sphere* sphere=new Sphere(Vector3(-400,0,-1000),100);
+    sphere->setMaterial(cookTorranceMaterial);
+
+    //第二个sphere
+    Sphere* sphere2=new Sphere(Vector3(400,0,-1000),100);
+    sphere2->setMaterial(cookTorranceMaterial);
+
+
+
+    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector3(1,0,-1));
     PinholeCamera camera;
     camera.setSampler(new MultiJitteredSampler(25));
+    camera.setDistanceToView(500);
+
+    //场景初始化
     Scene scene;
     scene.addPrimitive(shared_ptr<Primitive>(sphere));
+    scene.addPrimitive(shared_ptr<Primitive>(sphere2));
     scene.addLight(shared_ptr<Light>(directional));
-    Picture picture(800,600,1);
+
+
+    Film picture(800, 600, 1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("BlinnPhongMaterial.png");
+    picture.saveToLocal("CookTorranceMaterial.png");
 }
 #endif
