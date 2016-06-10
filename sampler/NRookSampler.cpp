@@ -14,7 +14,7 @@ void NRookSampler::generateSamples() {
     int n =sqrt(mSampleNum);
     for(int i=0;i<mSetNum;++i)
         for(int j=0;j<mSampleNum;++j){
-            Vector2 v=Vector2((j+drand48())/mSampleNum,(j+drand48())/mSampleNum);
+            Point v=Point((j+drand48())/mSampleNum,(j+drand48())/mSampleNum,0);
             mSamples.push_back(v);
         }
     _shuffleXCoordinates();

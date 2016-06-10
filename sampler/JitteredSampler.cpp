@@ -14,7 +14,7 @@ void JitteredSampler::generateSamples() {
     for(int i=0;i<mSetNum;++i)
         for(int j=0;j<n;++j)
             for(int k=0;k<n;++k){
-                Vector2 v=Vector2((k+drand48())/n,(j+drand48())/n);
+                Point v=Point((k+drand48())/n,(j+drand48())/n,0);
                 mSamples.push_back(v);
             }
 }

@@ -6,9 +6,8 @@
 #define RAYTRACER_PICTURE_H
 
 #include "../base/RGB.h"
-#include "../base/Vector2.h"
 #include <fstream>
-
+#include "global.h"
 /**
  * 照片类  用来存放渲染信息
  */
@@ -26,7 +25,7 @@ public:
     int width() const;
     int height() const;
     float size() const;
-    Vector2 resolution() const;
+    Point resolution() const;
     RGB * const operator[](int k);
     void saveToLocal(const char* file);
 

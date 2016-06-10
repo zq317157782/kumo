@@ -13,7 +13,7 @@ void RandomSampler::generateSamples() {
     int n =sqrt(mSampleNum);
     for(int i=0;i<mSetNum;++i)
         for(int j=0;j<mSampleNum;++j){
-            Vector2 v=Vector2(drand48(),drand48());
+            Point v=Point(drand48(),drand48(),0);
             mSamples.push_back(v);
         }
 }

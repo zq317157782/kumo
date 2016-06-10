@@ -13,7 +13,7 @@ void MultiJitteredSampler::generateSamples() {
     int n=(int)sqrt((float)mSampleNum);
     float subcell_width=1.0/((float)mSampleNum);
 
-    Vector2 fill_point;
+    Point fill_point;
     for(int j=0;j<mSampleNum*mSetNum;++j)
         mSamples.push_back(fill_point);
 

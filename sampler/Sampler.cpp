@@ -12,14 +12,14 @@ Sampler::Sampler( int _sampleNum, int _setNum):mSampleNum(_sampleNum),mSetNum(_s
     assert(mSetNum>0);
 }
 
-Vector2 Sampler::sampleUnitSquare(){
+Point Sampler::sampleUnitSquare(){
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
     }
     return (mSamples[(mJump+mCount++)%(mSampleNum*mSetNum)]);
 }
 
-Vector2 Sampler::sampleUnitDisk(){
+Point Sampler::sampleUnitDisk(){
     assert(mIsDiskMapped==true);
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
@@ -41,7 +41,7 @@ void Sampler::mapSamples2UnitDisk(){
     mIsDiskMapped=true;
     int size=mSamples.size();
     float r,phi;//极坐标
-    Vector2 sp;//sample point
+    Point sp;//sample point
     mSamplesDisk.reserve(size);
 
     for(int j=0;j<size;++j){

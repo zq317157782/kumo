@@ -3,6 +3,8 @@
 //
 
 #include "Film.h"
+#include "global.h"
+#include "geometry.h"
 Film::Film(int mWidth, int mHeight, float mPixelSize) : mWidth(mWidth), mHeight(mHeight), mPixelSize(mPixelSize) {
     mData=new RGB[mWidth*mHeight];
 }
@@ -22,8 +24,8 @@ float Film::size() const{
     return mPixelSize;
 }
 
-Vector2 Film::resolution() const{
-    return Vector2(mWidth,mHeight);
+Point Film::resolution() const{
+    return Point(mWidth,mHeight,0);
 }
 
 RGB * const Film::operator[](int k)

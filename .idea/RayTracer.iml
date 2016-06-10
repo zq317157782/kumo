@@ -4,10 +4,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/base/RGB.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/base/RGB.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/base/Vector2.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/base/Vector2.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/BRDF.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/BRDF.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/CookTorrance.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/CookTorrance.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/GlossySpecular.cpp" isTestSource="false" />
@@ -18,8 +14,6 @@
       <sourceFolder url="file://$MODULE_DIR$/brdf/Lambertian.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/TorranceSparrowSpecular.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/TorranceSparrowSpecular.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Camera.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/camera/PinholeCamera.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/camera/PinholeCamera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
@@ -27,18 +21,24 @@
       <sourceFolder url="file://$MODULE_DIR$/common/Film.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/ShadeRec.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/ShadeRec.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/BRDF.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/BRDF.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Camera.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/global.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/global.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Light.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Light.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Shape.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Shape.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Ambient.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Ambient.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/AmbientOccluder.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/AmbientOccluder.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Directional.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Directional.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Light.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Light.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/PointLight.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/PointLight.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
@@ -54,8 +54,6 @@
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Shape.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Shape.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/primitive/Sphere.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/primitive/Sphere.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.cpp" isTestSource="false" />
@@ -809,9 +807,17 @@
           <root url="file:///System/Library/Frameworks/DrawSprocket.framework" />
           <root url="file:///System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework" />
           <root url="file:///System/Library/Frameworks/GameplayKit.framework" />
+          <root url="file://$MODULE_DIR$/core/BRDF.h" />
+          <root url="file://$MODULE_DIR$/core/Light.cpp" />
+          <root url="file://$MODULE_DIR$/core/Camera.h" />
+          <root url="file://$MODULE_DIR$/core/Shape.h" />
+          <root url="file://$MODULE_DIR$/core/Camera.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.h" />
+          <root url="file://$MODULE_DIR$/core/Light.h" />
+          <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.cpp" />
           <root url="file://$MODULE_DIR$/core/global.h" />
+          <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
         </excluded>
       </library>
