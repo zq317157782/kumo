@@ -7,17 +7,19 @@
 
 
 #include "Light.h"
+#include "global.h"
+#include "geometry.h"
 
 class PointLight: public Light{
 private:
-    Vector3 mPosition;
+    Point mPosition;
     RGB mIrradiance;
     float mScaleFactor;
 
 public:
-    PointLight(const Vector3 &mPosition=Vector3(0,0,0), const RGB &mIrradiance=RGB(1,1,1),const float mScaleFactor=1.0);
+    PointLight(const Point &mPosition=Point(0,0,0), const RGB &mIrradiance=RGB(1,1,1),const float mScaleFactor=1.0);
 
-    virtual Vector3 getDirection(const ShadeRec &sr) const override;
+    virtual Vector getDirection(const ShadeRec &sr) const override;
 
     virtual RGB L(const ShadeRec &sr)  override;
 

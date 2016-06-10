@@ -21,17 +21,17 @@ void GlossySpecular::setKs(const RGB &_ks) {
     mKs = _ks;
 }
 
-RGB GlossySpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
-    double ndotl=sr.normal.dot(wi);
-    Vector3 r=-wi+sr.normal*ndotl*2;//求得反射向量
-    double rdotv=r.dot(wo);
+RGB GlossySpecular::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+    double ndotl=Dot(sr.normal,wi);
+    Vector r= -wi + sr.normal * ndotl * 2;//求得反射向量
+    double rdotv=Dot(r,wo);
     RGB L(0,0,0);
     if(rdotv>0)
         L= mKs * mScaleFactor * pow(rdotv, mShiness);//计算高光
     return L;
 }
 
-RGB GlossySpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
+RGB GlossySpecular::rho(const ShadeRec &sr, const Vector &wo) {
     return mKs * mScaleFactor*(2*M_PI/(mShiness+2));
 }
 

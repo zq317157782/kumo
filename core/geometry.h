@@ -162,7 +162,7 @@ public:
     Point(const Point& p){
         x=p.x;
         y=p.y;
-        z=p.y;
+        z=p.z;
     }
 
     Point& operator=(const Point& p){
@@ -457,7 +457,7 @@ public:
     Ray(const Point& oo,const Vector& dd,float start,float end=INFINITY,int depth=0):o(oo),d(dd),minT(start),maxT(end),depth(0){}
     Ray(const Point &oo, const Vector &dd, const Ray &parent,
         float start, float end = INFINITY):o(oo),d(dd),minT(start),maxT(end),depth(parent.depth+1){}
-    Point operator()(float t){
+    Point operator()(float t) const{
         return o+d*t;
     }
 };

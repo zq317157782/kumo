@@ -3,14 +3,13 @@
 //
 
 #include "PinholeCamera.h"
-Vector3 PinholeCamera::_rayDirection(const Vector2& p) const{
-    Vector3 dir=u*p.x+v*p.y-w*mDistanceToView;//注意这里是-d*w 构成右手坐标系统
-    dir.normalize();
+Vector PinholeCamera::_rayDirection(const Vector2& p) const{
+    Vector dir=Normalize(u * p.x + v * p.y - w * mDistanceToView);//注意这里是-d*w 构成右手坐标系统
     //std::cout<<"dir:"<<dir.x<<" "<<dir.y<<" "<<dir.z<<std::endl;
     return dir;
 }
 
-PinholeCamera::PinholeCamera(const Vector3& eye,const Vector3& lookAt,const Vector3& up,const float distance,const float zoomFactor)
+PinholeCamera::PinholeCamera(const Point & eye, const Point & lookAt, const Vector & up, const float distance, const float zoomFactor)
         :Camera(eye,lookAt,up),mDistanceToView(distance),mZoomFactor(zoomFactor){}
 
 void PinholeCamera::setDistanceToView(const float d){
@@ -20,8 +19,7 @@ void PinholeCamera::setDistanceToView(const float d){
 void PinholeCamera::renderScene(const Scene &scene, Film &picture) {
 
     float pSize=picture.size()/mZoomFactor;//计算缩放后的像素大小
-    Ray ray;//射线;
-    ray.position=mEye;//射线的原点在eye
+    Ray ray(mEye,Vector(0,0,0),0);//射线;
     RGB L;
     Vector2 point;
     for(int r=0;r<picture.height();++r){
@@ -32,7 +30,7 @@ void PinholeCamera::renderScene(const Scene &scene, Film &picture) {
                 Vector2 v=mSampler->sampleUnitSquare();
                 point.x=pSize*(c-picture.width()*0.5+v.x);
                 point.y=pSize*(r-picture.height()*0.5+v.y);
-                ray.direction=_rayDirection(point);
+                ray.d=_rayDirection(point);
                 L+=scene.getTracer()->trace(ray);
             }
             //std::cout<<"Color:"<<L.r<<" "<<L.g<<" "<<L.b<<std::endl;

@@ -30,10 +30,10 @@ Primitive* Scene::getPrimitive(int index) const{
 }
 
 ShadeRec Scene::hit(const Ray &ray) {
-    ShadeRec sr(*this);
+    ShadeRec sr(*this,ray);
     double t=999999;
     double dist=0;
-    Vector3 normal;
+    Vector normal;
     Material* material;
 
     for( std::vector<Primitive*>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
@@ -41,7 +41,7 @@ ShadeRec Scene::hit(const Ray &ray) {
         if((*it)->hit(ray,dist,sr) && t>dist){
             t=dist;
             sr.hitAnObject=true;
-            sr.hitPoint=ray.position+ray.direction*t;
+            sr.hitPoint=ray.o+ray.d*t;
             normal=sr.normal;
             material=sr.material;
         }

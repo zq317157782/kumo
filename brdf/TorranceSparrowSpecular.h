@@ -18,17 +18,17 @@ private :
     double mM;//光滑因子
   //  double mF0;//入射光线在法线位置时候的光线反射强度
 
-    double _NDF(const Vector3& N, const Vector3& H);//法线分布函数
-    double _G(const Vector3& N, const Vector3& H,const Vector3& wi, const Vector3& wo);//几何衰减因子
-    RGB _Fresnel(const Vector3& wo, const Vector3& H);
+    double _NDF(const Vector & N, const Vector & H);//法线分布函数
+    double _G(const Vector & N, const Vector & H, const Vector & wi, const Vector & wo);//几何衰减因子
+    RGB _Fresnel(const Vector & wo, const Vector & H);
 public:
 
 
     TorranceSparrowSpecular( const RGB &mAlbedo=RGB(1,1,1),double mM=1.0,float mScaleFactor=1.0);
 
-    virtual RGB f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo);
+    virtual RGB f(const ShadeRec &sr, const Vector &wi, const Vector &wo);
 
-    virtual RGB rho(const ShadeRec &sr, const Vector3 &wo);
+    virtual RGB rho(const ShadeRec &sr, const Vector &wo);
 
     void scaleAlbedo(float _f);
     void setAlbedo(const RGB& _albedo);

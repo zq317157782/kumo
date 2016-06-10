@@ -200,11 +200,11 @@ int main() {
     cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
 
     //第一个sphere
-    Sphere* sphere=new Sphere(Vector3(-400,0,-1000),100);
+    Sphere* sphere=new Sphere(Point(-400, 0, -1000), 100);
     sphere->setMaterial(cookTorranceMaterial);
 
     //第二个sphere
-    Sphere* sphere2=new Sphere(Vector3(400,0,-1000),100);
+    Sphere* sphere2=new Sphere(Point(400, 0, -1000), 100);
     sphere2->setMaterial(cookTorranceMaterial);
 
 
@@ -220,8 +220,8 @@ int main() {
     scene.addPrimitive(sphere2);
 
 
-    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector3(0,0,-1));
-    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector3(1,0,-1));
+    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector(0,0,-1));
+    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector(1,0,-1));
 
     scene.addLight(directional);
     scene.addLight(directional2);
@@ -230,6 +230,6 @@ int main() {
 
     Film picture(800, 600, 1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("AmbientOccluder.png");
+    picture.saveToLocal("AAA.png");
 }
 #endif

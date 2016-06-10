@@ -6,36 +6,36 @@
 #include <assert.h>
 #include "TorranceSparrowSpecular.h"
 
-RGB TorranceSparrowSpecular::f(const ShadeRec &sr, const Vector3 &wi, const Vector3 &wo) {
-    Vector3 half=(wi+wo).normalize();
-    return mAlbedo/(4*M_PI*sr.normal.dot(wi))*_NDF(sr.normal,half)*_Fresnel(wo,half)*_G(sr.normal,half,wi,wo);
+RGB TorranceSparrowSpecular::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+    Vector half=Normalize(wi + wo);
+    return mAlbedo/(4*M_PI*Dot(sr.normal,wi))*_NDF(sr.normal,half)*_Fresnel(wo,half)*_G(sr.normal,half,wi,wo);
 }
 
-RGB TorranceSparrowSpecular::rho(const ShadeRec &sr, const Vector3 &wo) {
+RGB TorranceSparrowSpecular::rho(const ShadeRec &sr, const Vector &wo) {
     return RGB(1,1,1);
 }
 
-double TorranceSparrowSpecular::_NDF(const Vector3 &N, const Vector3 &H) {
-    double ndoth=N.dot(H);
+double TorranceSparrowSpecular::_NDF(const Vector &N, const Vector &H) {
+    double ndoth=Dot(N,H);
     double ndoth2=ndoth*ndoth;
     return exp(((ndoth2)-1)/(mM*mM*ndoth2))*(1/(M_PI*mM*mM*ndoth2*ndoth2));
 }
 
-double TorranceSparrowSpecular::_G(const Vector3 &N, const Vector3 &H, const Vector3 &wi, const Vector3 &wo) {
+double TorranceSparrowSpecular::_G(const Vector &N, const Vector &H, const Vector &wi, const Vector &wo) {
     double g1=1.0;
-    double ndoth=N.dot(H);
-    double ndotv=N.dot(wo);
-    double vdoth=wo.dot(H);
-    double ndotl=N.dot(wi);
+    double ndoth=Dot(N,H);
+    double ndotv=Dot(N,wo);
+    double vdoth=Dot(wo,H);
+    double ndotl=Dot(N,wi);
     double g2=2*ndoth*ndotv/vdoth;
     double g3=2*ndoth*ndotl/vdoth;
     return min(min(g1,g2),g3);
 }
 
-RGB TorranceSparrowSpecular::_Fresnel(const Vector3 &wo, const Vector3 &H) {
+RGB TorranceSparrowSpecular::_Fresnel(const Vector &wo, const Vector &H) {
     RGB one(1,1,1);
     RGB f0=mAlbedo*mScaleFactor;
-    return f0+(one-f0)*pow(1-H.dot(wo),5);
+    return f0+(one-f0)*pow(1-Dot(H,wo),5);
 }
 
 

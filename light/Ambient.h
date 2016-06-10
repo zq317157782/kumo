@@ -19,7 +19,7 @@ public:
 
     Ambient(const RGB &mIrradiance=RGB(0.2,0.2,0.2),const float mScaleFactor=1.0);
 
-    virtual Vector3 getDirection(const ShadeRec &sr) const override;
+    virtual Vector getDirection(const ShadeRec &sr) const override;
 
     virtual RGB L(const ShadeRec &sr)  override;
 };

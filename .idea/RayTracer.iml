@@ -6,8 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/base/RGB.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/base/Vector2.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/base/Vector2.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/base/Vector3.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/base/Vector3.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/BRDF.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/BRDF.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/CookTorrance.cpp" isTestSource="false" />
@@ -27,8 +25,6 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/Film.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/Film.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/common/Ray.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/common/Ray.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/ShadeRec.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/ShadeRec.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.cpp" isTestSource="false" />
@@ -87,6 +83,7 @@
         <CLASSES>
           <root url="file:///Library/Frameworks" />
           <root url="file:///System/Library/Frameworks" />
+          <root url="file://$MODULE_DIR$/core" />
           <root url="file:///usr/include" />
           <root url="file:///usr/local/Cellar/gcc/5.2.0/include" />
           <root url="file:///usr/local/Cellar/gcc/5.2.0/lib/gcc/5/gcc/x86_64-apple-darwin15.0.0/5.2.0/include" />
@@ -225,7 +222,6 @@
           <root url="file:///Library/Frameworks/Mono.framework/Headers/gtk-unix-print-2.0" />
           <root url="file:///System/Library/Frameworks/CoreData.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Carbon.framework/Frameworks/SecurityHI.framework/Headers" />
-          <root url="file:///System/Library/Frameworks/Quartz.framework/Frameworks/QuartzComposer.framework/Headers" />
           <root url="file:///System/Library/Frameworks/GLKit.framework/Headers" />
           <root url="file:///System/Library/Frameworks/PreferencePanes.framework/Headers" />
           <root url="file:///System/Library/Frameworks/ICADevices.framework/Headers" />
@@ -233,6 +229,7 @@
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers/LinearAlgebra" />
           <root url="file:///System/Library/Frameworks/ExceptionHandling.framework/Headers" />
           <root url="file:///System/Library/Frameworks/CoreServices.framework/Frameworks/SearchKit.framework/Headers" />
+          <root url="file:///System/Library/Frameworks/Quartz.framework/Frameworks/QuartzComposer.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Carbon.framework/Frameworks/Print.framework/Headers" />
           <root url="file:///System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers" />
           <root url="file:///System/Library/Frameworks/GLUT.framework/Headers" />
@@ -358,6 +355,7 @@
         <SOURCES>
           <root url="file:///Library/Frameworks" />
           <root url="file:///System/Library/Frameworks" />
+          <root url="file://$MODULE_DIR$/core" />
           <root url="file:///usr/include" />
           <root url="file:///usr/local/Cellar/gcc/5.2.0/include" />
           <root url="file:///usr/local/Cellar/gcc/5.2.0/lib/gcc/5/gcc/x86_64-apple-darwin15.0.0/5.2.0/include" />
@@ -496,7 +494,6 @@
           <root url="file:///Library/Frameworks/Mono.framework/Headers/gtk-unix-print-2.0" />
           <root url="file:///System/Library/Frameworks/CoreData.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Carbon.framework/Frameworks/SecurityHI.framework/Headers" />
-          <root url="file:///System/Library/Frameworks/Quartz.framework/Frameworks/QuartzComposer.framework/Headers" />
           <root url="file:///System/Library/Frameworks/GLKit.framework/Headers" />
           <root url="file:///System/Library/Frameworks/PreferencePanes.framework/Headers" />
           <root url="file:///System/Library/Frameworks/ICADevices.framework/Headers" />
@@ -504,6 +501,7 @@
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers/LinearAlgebra" />
           <root url="file:///System/Library/Frameworks/ExceptionHandling.framework/Headers" />
           <root url="file:///System/Library/Frameworks/CoreServices.framework/Frameworks/SearchKit.framework/Headers" />
+          <root url="file:///System/Library/Frameworks/Quartz.framework/Frameworks/QuartzComposer.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Carbon.framework/Frameworks/Print.framework/Headers" />
           <root url="file:///System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers" />
           <root url="file:///System/Library/Frameworks/GLUT.framework/Headers" />
@@ -811,6 +809,10 @@
           <root url="file:///System/Library/Frameworks/DrawSprocket.framework" />
           <root url="file:///System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework" />
           <root url="file:///System/Library/Frameworks/GameplayKit.framework" />
+          <root url="file://$MODULE_DIR$/core/geometry.h" />
+          <root url="file://$MODULE_DIR$/core/geometry.cpp" />
+          <root url="file://$MODULE_DIR$/core/global.h" />
+          <root url="file://$MODULE_DIR$/core/global.cpp" />
         </excluded>
       </library>
     </orderEntry>

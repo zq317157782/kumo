@@ -27,7 +27,7 @@ Vector2 Sampler::sampleUnitDisk(){
     return (mSamplesDisk[(mJump+mCount++)%(mSampleNum*mSetNum)]);
 }
 
-Vector3 Sampler::sampleHemi(){
+Vector Sampler::sampleHemi(){
     assert(mIsHemiMapped==true);
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
@@ -88,7 +88,7 @@ void Sampler::mapSamples2Hemisphere(const float& e){
         float pu=sin_theta*cos_phi;
         float pv=sin_theta*sin_phi;
         float pw=cos_theta;
-        mSamplesHemi.push_back(Vector3(pu,pv,pw));
+        mSamplesHemi.push_back(Vector(pu, pv, pw));
     }
 }
 

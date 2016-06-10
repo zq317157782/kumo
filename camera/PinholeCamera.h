@@ -13,9 +13,9 @@ protected:
     float mDistanceToView;
     float mZoomFactor;
 
-    Vector3 _rayDirection(const Vector2& p) const;
+    Vector _rayDirection(const Vector2& p) const;
 public:
-    PinholeCamera(const Vector3& eye=Vector3(0,0,0),const Vector3& lookAt=Vector3(0,0,-1),const Vector3& up=Vector3(0,1,0),const float distance=CAMERA_VIEWPANEL_DISTANCE,const float zoomFactor=1);
+    PinholeCamera(const Point & eye= Point(0, 0, 0), const Point & lookAt= Point(0, 0, -1), const Vector & up= Vector(0, 1, 0), const float distance=CAMERA_VIEWPANEL_DISTANCE, const float zoomFactor=1);
 
     void setDistanceToView(const float d);
 

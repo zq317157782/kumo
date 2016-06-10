@@ -7,9 +7,7 @@
 
 #include <memory>
 #include "../base/RGB.h"
-#include "../common/Ray.h"
-//#include "../scene/Scene.h"
-
+#include "global.h"
 using namespace std;
 class Scene;
 class Tracer {

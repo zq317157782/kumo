@@ -12,12 +12,9 @@ AmbientOccluder::AmbientOccluder(const RGB &mIrradiance, const float mScaleFacto
 
 RGB AmbientOccluder::L(const ShadeRec &sr){
     w=sr.normal;
-    v=w.cross(Vector3(0.0072,1.0,0.0034));
-    v.normalize();
-    u=v.cross(w);
-    Ray shadow_ray;
-    shadow_ray.position=sr.hitPoint;
-    shadow_ray.direction=getDirection(sr);
+    v=Normalize(Cross(w,Vector(0.0072, 1.0, 0.0034)));
+    u=Cross(v,w);
+    Ray shadow_ray(sr.hitPoint,getDirection(sr),0);
 
     //光线被遮挡的情况下
     if(inShadow(shadow_ray,sr)){
@@ -32,8 +29,8 @@ void AmbientOccluder::setSamper(Sampler*sampler) {
 }
 
 
-Vector3 AmbientOccluder::getDirection(const ShadeRec &sr) const {
-    Vector3 point=mSampler->sampleHemi();
+Vector AmbientOccluder::getDirection(const ShadeRec &sr) const {
+    Vector point=mSampler->sampleHemi();
     return u*point.x+v*point.y+w*point.z;
 }
 

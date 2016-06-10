@@ -4,16 +4,15 @@
 
 #include "PointLight.h"
 #include "../scene/Scene.h"
-#include "../common/Ray.h"
 
-PointLight::PointLight(const Vector3 &mPosition, const RGB &mIrradiance,const float mScaleFactor) : mPosition(mPosition),
+PointLight::PointLight(const Point &mPosition, const RGB &mIrradiance,const float mScaleFactor) : mPosition(mPosition),
                                                                                    mIrradiance(mIrradiance),
                                                                                    mScaleFactor(mScaleFactor) {
 
 }
 
-Vector3 PointLight::getDirection(const ShadeRec &sr) const {
-    return (mPosition-sr.hitPoint).normalize();
+Vector PointLight::getDirection(const ShadeRec &sr) const {
+    return Normalize(mPosition-sr.hitPoint);
 }
 
 RGB PointLight::L(const ShadeRec &sr){
@@ -23,7 +22,7 @@ RGB PointLight::L(const ShadeRec &sr){
 bool PointLight::inShadow(const Ray &ray, const ShadeRec &sr) const {
     unsigned long num_obj=sr.scene.getPrimitiveNum();
     double t=9999999;
-    double d =mPosition.distance2(ray.position);
+    double d = (mPosition-ray.o).Length();
     for(int i=0;i<num_obj;++i){
         if(sr.scene.getPrimitive(i)->castShadow()&&sr.scene.getPrimitive(i)->shadowHit(ray,t) && t<d){
             return true;

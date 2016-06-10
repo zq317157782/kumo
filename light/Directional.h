@@ -12,12 +12,12 @@ class Directional: public Light{
 private:
     RGB mIrradiance;
     float mScaleFactor;
-    Vector3 mDirection;
+    Vector mDirection;
 
 public:
-    Directional(const RGB &mIrradiance=RGB(1,1,1), const Vector3 &mDirection=Vector3(1,0,0),const float mScaleFactor=1.0);
+    Directional(const RGB &mIrradiance=RGB(1,1,1), const Vector &mDirection=Vector(1,0,0),const float mScaleFactor=1.0);
 
-    virtual Vector3 getDirection(const ShadeRec &sr) const override;
+    virtual Vector getDirection(const ShadeRec &sr) const override;
 
     virtual RGB L(const ShadeRec &sr)  override;
 

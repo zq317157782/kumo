@@ -3,11 +3,11 @@
 //
 
 #include "Ambient.h"
+#include "global.h"
 
 
-
-Vector3 Ambient::getDirection(const ShadeRec &sr) const {
-    return Vector3(0,0,0);
+Vector Ambient::getDirection(const ShadeRec &sr) const {
+    return Vector(0,0,0);
 }
 
 RGB Ambient::L(const ShadeRec &sr) {
