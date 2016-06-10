@@ -9,15 +9,15 @@ unsigned long Scene::getLightNum() const {
   return mLights.size();
 }
 
-const shared_ptr<Light> Scene::ambient() const {
+Light* Scene::ambient() const {
  return mAmbient;
 }
 
-const shared_ptr<Light> Scene::getLight(const int index)const {
+Light* Scene::getLight(const int index)const {
     return mLights[index];
 }
 
-Scene::Scene():mAmbient(shared_ptr<Light>(new Ambient())),background(RGB(0,0,0)),mTracer(shared_ptr<Tracer>(new CommonTracer(*this))),mPrimitives(){
+Scene::Scene():mAmbient(new Ambient()),background(RGB(0,0,0)),mTracer(new CommonTracer(*this)),mPrimitives(){
 
 }
 
@@ -25,7 +25,7 @@ unsigned long Scene::getPrimitiveNum() const {
     return mPrimitives.size();
 }
 
-const  shared_ptr<Primitive> Scene::getPrimitive(int index) const{
+Primitive* Scene::getPrimitive(int index) const{
     return mPrimitives[index];
 }
 
@@ -36,7 +36,7 @@ ShadeRec Scene::hit(const Ray &ray) {
     Vector3 normal;
     Material* material;
 
-    for( std::vector< shared_ptr<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
+    for( std::vector<Primitive*>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
         if((*it)->hit(ray,dist,sr) && t>dist){
             t=dist;
@@ -57,17 +57,17 @@ ShadeRec Scene::hit(const Ray &ray) {
 }
 
 const Tracer* Scene::getTracer() const {
-    return mTracer.get();
+    return mTracer;
 }
 
 void Scene::setTracer(Tracer* ptr) {
-    mTracer=shared_ptr<Tracer>(ptr);
+    mTracer=ptr;
 }
 
-void Scene::addPrimitive( shared_ptr<Primitive> primitive) {
+void Scene::addPrimitive(Primitive* primitive) {
     mPrimitives.push_back(primitive);
 }
 
-void Scene::addLight(shared_ptr<Light> light) {
+void Scene::addLight(Light* light) {
     mLights.push_back(light);
 }
