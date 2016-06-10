@@ -4,8 +4,7 @@
 
 
 #include "Sphere.h"
-#include "global.h"
-#include "geometry.h"
+
 
 Vector Sphere::getNormal(const Point &point) const {
     return Vector(point-this->mPosition);
@@ -67,6 +66,6 @@ bool Sphere::shadowHit(const Ray &ray, double &distance) const{
     }
 }
 
-Sphere::Sphere(const Point &position, const double rad, Material* mMaterial, bool mShadow): Primitive(position, mMaterial, mShadow), mRad(rad){
+Sphere::Sphere(const Point &position, const double rad, Material* mMaterial, bool mShadow): Shape(position, mMaterial, mShadow), mRad(rad){
 
 }

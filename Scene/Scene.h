@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 #include "../light/Ambient.h"
-#include "../primitive/Primitive.h"
+#include "Shape.h"
 #include "../tracer/Tracer.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ class Scene {
 private:
     Light* mAmbient;//环境光
     vector<Light*> mLights;
-    vector<Primitive*> mPrimitives;
+    vector<Shape *> mPrimitives;
     Tracer* mTracer;
 public:
 
@@ -25,9 +25,9 @@ public:
     Light* getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
-    Primitive* getPrimitive(int index) const;
+    Shape * getPrimitive(int index) const;
 
-    void addPrimitive(Primitive*);
+    void addPrimitive(Shape *);
     void addLight(Light* light);
 
     virtual ShadeRec hit(const Ray& ray);

@@ -6,9 +6,9 @@
 #define RAYTRACER_SPHERE_H
 
 
-#include "Primitive.h"
+#include "Shape.h"
 #include <stdio.h>
-class Sphere : public Primitive{
+class Sphere : public Shape {
 private:
     double mRad;//半径
 public:

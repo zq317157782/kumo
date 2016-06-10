@@ -39,7 +39,7 @@ bool AmbientOccluder::inShadow(const Ray &ray, const ShadeRec &sr) const {
     unsigned long num_obj= sr.scene.getPrimitiveNum();
     double t;
     for(int i=0;i<num_obj;++i){
-        Primitive* p=sr.scene.getPrimitive(i);
+        Shape * p=sr.scene.getPrimitive(i);
         if(p->castShadow()&&p->shadowHit(ray,t)){
             return true;
         }
