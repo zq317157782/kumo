@@ -6,8 +6,7 @@
 #define RAYTRACER_BRDF_H
 
 #include "global.h"
-
-#include "../base/RGB.h"
+#include "RGB.h"
 #include "../common/ShadeRec.h"
 
 class BRDF {

@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_PICTURE_H
 #define RAYTRACER_PICTURE_H
 
-#include "../base/RGB.h"
+#include "RGB.h"
 #include <fstream>
 #include "global.h"
 /**

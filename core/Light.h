@@ -7,7 +7,7 @@
 
 
 
-#include "../base/RGB.h"
+#include "RGB.h"
 #include "../common/ShadeRec.h"
 
 /**

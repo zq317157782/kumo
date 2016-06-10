@@ -6,7 +6,7 @@
 #define RAYTRACER_TRACER_H
 
 #include <memory>
-#include "../base/RGB.h"
+#include "RGB.h"
 #include "global.h"
 using namespace std;
 class Scene;

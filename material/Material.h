@@ -6,7 +6,7 @@
 #define RAYTRACER_MATERIAL_H
 
 
-#include "../base/RGB.h"
+#include "RGB.h"
 #include "../common/ShadeRec.h"
 
 class Material {
