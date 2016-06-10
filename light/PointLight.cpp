@@ -16,7 +16,7 @@ Vector3 PointLight::getDirection(const ShadeRec &sr) const {
     return (mPosition-sr.hitPoint).normalize();
 }
 
-RGB PointLight::L(const ShadeRec &sr) const {
+RGB PointLight::L(const ShadeRec &sr){
     return mScaleFactor*mIrradiance; //这里没有带距离衰减系数
 }
 

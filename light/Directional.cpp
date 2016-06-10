@@ -13,7 +13,7 @@ Vector3 Directional::getDirection(const ShadeRec &sr) const {
     return -mDirection;
 }
 
-RGB Directional::L(const ShadeRec &sr) const {
+RGB Directional::L(const ShadeRec &sr) {
     return mScaleFactor*mIrradiance;
 }
 

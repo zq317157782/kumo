@@ -10,7 +10,7 @@ Vector3 Ambient::getDirection(const ShadeRec &sr) const {
     return Vector3(0,0,0);
 }
 
-RGB Ambient::L(const ShadeRec &sr) const {
+RGB Ambient::L(const ShadeRec &sr) {
     return mScaleFactor*mIrradiance;
 }
 

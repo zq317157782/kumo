@@ -209,20 +209,27 @@ int main() {
 
 
 
-    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector3(1,0,-1));
+
     PinholeCamera camera;
     camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 
     //场景初始化
     Scene scene;
-    scene.addPrimitive(shared_ptr<Primitive>(sphere));
-    scene.addPrimitive(shared_ptr<Primitive>(sphere2));
-    scene.addLight(shared_ptr<Light>(directional));
+    scene.addPrimitive(sphere);
+    scene.addPrimitive(sphere2);
+
+
+    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector3(0,0,-1));
+    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector3(1,0,-1));
+
+    scene.addLight(directional);
+    scene.addLight(directional2);
+
 
 
     Film picture(800, 600, 1);
     camera.renderScene(scene,picture);
-    picture.saveToLocal("CookTorranceMaterial.png");
+    picture.saveToLocal("AmbientOccluder.png");
 }
 #endif
