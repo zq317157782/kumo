@@ -9,7 +9,7 @@
 #include "global.h"
 #include "geometry.h"
 
-#include "../material/Material.h"
+#include "Material.h"
 #include "../material/Matte.h"
 #include <memory>
 using namespace std;

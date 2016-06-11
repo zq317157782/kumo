@@ -2,8 +2,6 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/core/RGB.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/RGB.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/CookTorrance.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/CookTorrance.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/brdf/GlossySpecular.cpp" isTestSource="false" />
@@ -31,6 +29,10 @@
       <sourceFolder url="file://$MODULE_DIR$/core/global.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Light.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Light.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/primitive.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/primitive.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/RGB.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/RGB.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Shape.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Shape.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Ambient.cpp" isTestSource="false" />
@@ -46,16 +48,14 @@
       <sourceFolder url="file://$MODULE_DIR$/material/BlinnPhongMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/CookTorranceMaterial.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/CookTorranceMaterial.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/material/Material.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/material/Material.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Material.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Material.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/Matte.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/Matte.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/MultiJitteredSampler.cpp" isTestSource="false" />
@@ -68,6 +68,8 @@
       <sourceFolder url="file://$MODULE_DIR$/sampler/Sampler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scene/Scene.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scene/Scene.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/catch.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tracer/CommonTracer.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tracer/CommonTracer.h" isTestSource="false" />
@@ -817,9 +819,11 @@
           <root url="file://$MODULE_DIR$/core/Light.h" />
           <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.cpp" />
+          <root url="file://$MODULE_DIR$/core/primitive.h" />
           <root url="file://$MODULE_DIR$/core/RGB.h" />
           <root url="file://$MODULE_DIR$/core/global.h" />
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
+          <root url="file://$MODULE_DIR$/core/primitive.cpp" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
         </excluded>
       </library>
