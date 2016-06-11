@@ -29,6 +29,10 @@
       <sourceFolder url="file://$MODULE_DIR$/core/global.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Light.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Light.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Material.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/Material.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/memory.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/memory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/primitive.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/primitive.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/RGB.cpp" isTestSource="false" />
@@ -48,8 +52,6 @@
       <sourceFolder url="file://$MODULE_DIR$/material/BlinnPhongMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/CookTorranceMaterial.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/CookTorranceMaterial.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Material.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Material.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/Matte.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/Matte.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.cpp" isTestSource="false" />
@@ -811,12 +813,15 @@
           <root url="file:///System/Library/Frameworks/GameplayKit.framework" />
           <root url="file://$MODULE_DIR$/core/BRDF.h" />
           <root url="file://$MODULE_DIR$/core/Light.cpp" />
+          <root url="file://$MODULE_DIR$/core/memory.cpp" />
           <root url="file://$MODULE_DIR$/core/Camera.h" />
           <root url="file://$MODULE_DIR$/core/RGB.cpp" />
           <root url="file://$MODULE_DIR$/core/Shape.h" />
+          <root url="file://$MODULE_DIR$/core/Material.h" />
           <root url="file://$MODULE_DIR$/core/Camera.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.h" />
           <root url="file://$MODULE_DIR$/core/Light.h" />
+          <root url="file://$MODULE_DIR$/core/Material.cpp" />
           <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.cpp" />
           <root url="file://$MODULE_DIR$/core/primitive.h" />
@@ -824,6 +829,7 @@
           <root url="file://$MODULE_DIR$/core/global.h" />
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/primitive.cpp" />
+          <root url="file://$MODULE_DIR$/core/memory.h" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
         </excluded>
       </library>
