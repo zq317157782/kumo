@@ -4,31 +4,32 @@
 
 #ifndef RAYTRACER_SCENE_H
 #define RAYTRACER_SCENE_H
-#include <memory>
 #include <vector>
-#include "../light/Ambient.h"
+#include "light.h"
 #include "Shape.h"
+#include "memory.h"
 #include "../tracer/Tracer.h"
+
 
 using namespace std;
 class Scene {
 private:
-    Light* mAmbient;//环境光
-    vector<Light*> mLights;
+    Reference<Light> mAmbient;//环境光
+    vector< Reference<Light>> mLights;
     vector<Shape *> mPrimitives;
     Tracer* mTracer;
 public:
 
     Scene();
     unsigned long getLightNum() const;
-    Light* ambient() const;
-    Light* getLight(const int index) const;
+    Reference<Light>  ambient() const;
+    Reference<Light> getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
     Shape * getPrimitive(int index) const;
 
     void addPrimitive(Shape *);
-    void addLight(Light* light);
+    void addLight(const Reference<Light> light);
 
     virtual ShadeRec hit(const Ray& ray);
 

@@ -4,20 +4,21 @@
 
 #include "Scene.h"
 #include "../tracer/CommonTracer.h"
+#include "../light/ambient.h"
 
 unsigned long Scene::getLightNum() const {
   return mLights.size();
 }
 
-Light* Scene::ambient() const {
+Reference<Light> Scene::ambient() const {
  return mAmbient;
 }
 
-Light* Scene::getLight(const int index)const {
+Reference<Light> Scene::getLight(const int index)const {
     return mLights[index];
 }
 
-Scene::Scene():mAmbient(new Ambient()),background(RGB(0,0,0)),mTracer(new CommonTracer(*this)),mPrimitives(){
+Scene::Scene():mAmbient(Reference<Light>(new Ambient())),background(RGB(0,0,0)),mTracer(new CommonTracer(*this)),mPrimitives(){
 
 }
 
@@ -68,6 +69,6 @@ void Scene::addPrimitive(Shape * primitive) {
     mPrimitives.push_back(primitive);
 }
 
-void Scene::addLight(Light* light) {
+void Scene::addLight(const Reference<Light> light) {
     mLights.push_back(light);
 }

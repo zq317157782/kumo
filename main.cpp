@@ -196,8 +196,8 @@ int main() {
 
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
-    cookTorranceMaterial->setSurfaceColor(RGB(0.68,0.66,0.62),0.5);
-    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
+    cookTorranceMaterial->setSurfaceColor(RGB(1,0.66,0.62),0.5);
+    cookTorranceMaterial->setAmbientColor(RGB(0,1,1));
 
     //第一个sphere
     Sphere* sphere=new Sphere(Point(-400, 0, -1000), 100);

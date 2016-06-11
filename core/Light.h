@@ -9,11 +9,11 @@
 
 #include "RGB.h"
 #include "../common/ShadeRec.h"
-
+#include "memory.h"
 /**
  * 光 基类
  */
-class Light {
+class Light:public ReferenceCounted{
 private:
     bool mShadow;//是否投射阴影
 public:

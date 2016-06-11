@@ -5,6 +5,18 @@
 #ifndef RAYTRACER_MEMORY_H
 #define RAYTRACER_MEMORY_H
 
+
+// Memory Declarations
+class ReferenceCounted {
+public:
+    ReferenceCounted() { nReferences = 0; }
+    int nReferences;
+private:
+    ReferenceCounted(const ReferenceCounted &);
+    ReferenceCounted &operator=(const ReferenceCounted &);
+};
+
+
 template <typename T> class Reference {
 public:
     // Reference Public Methods
