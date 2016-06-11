@@ -180,7 +180,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 }
 #else
 #include <iostream>
-#include "primitive/Sphere.h"
+#include "shape/Sphere.h"
 #include "camera/PinholeCamera.h"
 #include "sampler/MultiJitteredSampler.h"
 #include "light/Directional.h"

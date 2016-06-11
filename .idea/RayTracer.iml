@@ -54,8 +54,8 @@
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/primitive/Sphere.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/primitive/Sphere.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/MultiJitteredSampler.cpp" isTestSource="false" />

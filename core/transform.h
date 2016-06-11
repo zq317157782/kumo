@@ -5,7 +5,6 @@
 #ifndef SRC_TRANSFORM_H
 #define SRC_TRANSFORM_H
 #include "global.h"
-
 struct Matrix4X4{
     float m[4][4];
 
