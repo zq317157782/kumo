@@ -26,7 +26,7 @@ unsigned long Scene::getPrimitiveNum() const {
     return mPrimitives.size();
 }
 
-Shape * Scene::getPrimitive(int index) const{
+Reference<Shape> Scene::getPrimitive(int index) const{
     return mPrimitives[index];
 }
 
@@ -37,7 +37,7 @@ ShadeRec Scene::hit(const Ray &ray) {
     Vector normal;
     Material* material;
 
-    for(std::vector<Shape *>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
+    for(std::vector<Reference<Shape>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
         if((*it)->hit(ray,dist,sr) && t>dist){
             t=dist;
@@ -65,7 +65,7 @@ void Scene::setTracer(Tracer* ptr) {
     mTracer=ptr;
 }
 
-void Scene::addPrimitive(Shape * primitive) {
+void Scene::addPrimitive(const Reference<Shape> primitive) {
     mPrimitives.push_back(primitive);
 }
 

@@ -16,7 +16,7 @@ class Scene {
 private:
     Reference<Light> mAmbient;//环境光
     vector< Reference<Light>> mLights;
-    vector<Shape *> mPrimitives;
+    vector<Reference<Shape>> mPrimitives;
     Tracer* mTracer;
 public:
 
@@ -26,9 +26,9 @@ public:
     Reference<Light> getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
-    Shape * getPrimitive(int index) const;
+    Reference<Shape> getPrimitive(int index) const;
 
-    void addPrimitive(Shape *);
+    void addPrimitive(const Reference<Shape> s);
     void addLight(const Reference<Light> light);
 
     virtual ShadeRec hit(const Ray& ray);

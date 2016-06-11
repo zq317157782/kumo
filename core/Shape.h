@@ -8,13 +8,13 @@
 
 #include "global.h"
 #include "geometry.h"
-
+#include "memory.h"
 #include "Material.h"
 #include "../material/Matte.h"
 #include <memory>
 using namespace std;
 
-class Shape {
+class Shape :public ReferenceCounted{
 protected:
     Point mPosition;//图元位置
     Material* mMaterial;//图元使用的材质
