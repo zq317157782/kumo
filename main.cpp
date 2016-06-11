@@ -200,14 +200,8 @@ int main() {
     cookTorranceMaterial->setAmbientColor(RGB(0,1,1));
 
     //第一个sphere
-    Sphere* sphere=new Sphere(Point(-400, 0, -1000), 100);
+    Sphere* sphere=new Sphere(Point(0, 0, -500), 100);
     sphere->setMaterial(cookTorranceMaterial);
-
-    //第二个sphere
-    Sphere* sphere2=new Sphere(Point(400, 0, -1000), 100);
-    sphere2->setMaterial(cookTorranceMaterial);
-
-
 
 
     PinholeCamera camera;
@@ -217,7 +211,6 @@ int main() {
     //场景初始化
     Scene scene;
     scene.addPrimitive(sphere);
-    scene.addPrimitive(sphere2);
 
 
     Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector(0,0,-1));
