@@ -810,12 +810,14 @@
           <root url="file://$MODULE_DIR$/core/BRDF.h" />
           <root url="file://$MODULE_DIR$/core/Light.cpp" />
           <root url="file://$MODULE_DIR$/core/Camera.h" />
+          <root url="file://$MODULE_DIR$/core/RGB.cpp" />
           <root url="file://$MODULE_DIR$/core/Shape.h" />
           <root url="file://$MODULE_DIR$/core/Camera.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.h" />
           <root url="file://$MODULE_DIR$/core/Light.h" />
           <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
           <root url="file://$MODULE_DIR$/core/geometry.cpp" />
+          <root url="file://$MODULE_DIR$/core/RGB.h" />
           <root url="file://$MODULE_DIR$/core/global.h" />
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
