@@ -150,3 +150,16 @@ bool Transform::SwapsHandedness() const {
                    m.m[1][1] * m.m[2][0])));
     return det < 0.f;
 }
+
+//位移转换 参考PBRT
+Transform Translate(const Vector &delta) {
+    Matrix4X4 m(1, 0, 0, delta.x,
+                0, 1, 0, delta.y,
+                0, 0, 1, delta.z,
+                0, 0, 0,       1);
+    Matrix4X4 minv(1, 0, 0, -delta.x,
+                   0, 1, 0, -delta.y,
+                   0, 0, 1, -delta.z,
+                   0, 0, 0,        1);
+    return Transform(m, minv);
+}

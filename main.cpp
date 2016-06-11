@@ -188,7 +188,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "material/CookTorranceMaterial.h"
 #include "material/BlinnPhongMaterial.h"
 #include "material/PhongMaterial.h"
-
+#include "transform.h"
 
 using namespace std;
 
@@ -199,8 +199,10 @@ int main() {
     cookTorranceMaterial->setSurfaceColor(RGB(1,0.66,0.62),0.5);
     cookTorranceMaterial->setAmbientColor(RGB(0,1,1));
 
+    Transform localToWorld=Translate(Vector(0,0,400));
+    Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
-    Sphere* sphere=new Sphere(Point(0, 0, -500), 100);
+    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100);
     sphere->setMaterial(cookTorranceMaterial);
 
 
@@ -213,8 +215,8 @@ int main() {
     scene.addPrimitive(sphere);
 
 
-    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector(0,0,-1));
-    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector(1,0,-1));
+    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector(1,0,0));
+    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector(1,0,1));
 
     scene.addLight(directional);
     scene.addLight(directional2);

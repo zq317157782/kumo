@@ -12,7 +12,7 @@ class Sphere : public Shape {
 private:
     double mRad;//半径
 public:
-    Sphere(const Point &mPosition= Point(0, 0, 0), const double rad=1, Material* mMaterial=NULL, bool mShadow=true);
+    Sphere(Transform *o2w,Transform *w2o, const double rad=1, Material* mMaterial=NULL, bool mShadow=true);
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 

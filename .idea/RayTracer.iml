@@ -39,6 +39,8 @@
       <sourceFolder url="file://$MODULE_DIR$/core/RGB.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Shape.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Shape.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/transform.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/transform.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Ambient.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/Ambient.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/light/AmbientOccluder.cpp" isTestSource="false" />
@@ -826,9 +828,11 @@
           <root url="file://$MODULE_DIR$/core/geometry.cpp" />
           <root url="file://$MODULE_DIR$/core/primitive.h" />
           <root url="file://$MODULE_DIR$/core/RGB.h" />
+          <root url="file://$MODULE_DIR$/core/transform.h" />
           <root url="file://$MODULE_DIR$/core/global.h" />
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/primitive.cpp" />
+          <root url="file://$MODULE_DIR$/core/transform.cpp" />
           <root url="file://$MODULE_DIR$/core/memory.h" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
         </excluded>

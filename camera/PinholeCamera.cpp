@@ -4,7 +4,7 @@
 
 #include "PinholeCamera.h"
 Vector PinholeCamera::_rayDirection(const Point& p) const{
-    Vector dir=Normalize(u * p.x + v * p.y - w * mDistanceToView);//注意这里是-d*w 构成右手坐标系统
+    Vector dir=Normalize(u * p.x + v * p.y + w * mDistanceToView);//注意这里是d*w 构成左手手坐标系统
     //std::cout<<"dir:"<<dir.x<<" "<<dir.y<<" "<<dir.z<<std::endl;
     return dir;
 }

@@ -457,6 +457,8 @@ public:
     Ray(const Point& oo,const Vector& dd,float start,float end=INFINITY,int depth=0):o(oo),d(dd),minT(start),maxT(end),depth(0){}
     Ray(const Point &oo, const Vector &dd, const Ray &parent,
         float start, float end = INFINITY):o(oo),d(dd),minT(start),maxT(end),depth(parent.depth+1){}
+    Ray(){
+    }
     Point operator()(float t) const{
         return o+d*t;
     }

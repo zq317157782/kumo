@@ -4,8 +4,8 @@
 
 #include "Shape.h"
 
-Shape::Shape(const Point &position, Material* mMaterial, bool mShadow)
-        : mPosition(position), mMaterial(mMaterial), mShadow(mShadow) { }
+Shape::Shape(Transform *o2w,Transform *w2o, Material* mMaterial, bool mShadow)
+        : localToWorld(o2w),worldToLocal(w2o), mMaterial(mMaterial), mShadow(mShadow) { }
 
 void Shape::setMaterial(Material* material) {
     this->mMaterial=material;

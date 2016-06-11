@@ -16,12 +16,13 @@ using namespace std;
 
 class Shape :public ReferenceCounted{
 protected:
-    Point mPosition;//图元位置
+    Transform * localToWorld;
+    Transform * worldToLocal;
     Material* mMaterial;//图元使用的材质
     bool mShadow;//是否投射阴影
 public:
 
-    Shape(const Point &mPosition=Point(0, 0, 0), Material *mMaterial=NULL, bool mShadow=true) ;
+    Shape(Transform *o2w,Transform *w2o, Material *mMaterial=NULL, bool mShadow=true) ;
 
     void setMaterial(Material* material);
     /*返回交点处的法线 要求标准化后*/

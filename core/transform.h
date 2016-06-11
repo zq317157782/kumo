@@ -93,4 +93,6 @@ public:
 };
 
 
+Transform Translate(const Vector &delta);
+
 #endif //SRC_TRANSFORM_H
