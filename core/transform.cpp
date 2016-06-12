@@ -176,3 +176,34 @@ Transform Scale(float x, float y, float z) {
                     0, 0, 0, 1);
     return Transform(m,minv);
 }
+
+//旋转矩阵的逆 等于旋转矩阵的转置  所以是正交矩阵
+Transform RotateX(float angle) {
+    float sinR = sinf(Radians(angle));
+    float cosR = cosf(Radians(angle));
+    Matrix4X4 m(1,     0,      0, 0,
+                0, cosR, -sinR, 0,
+                0, sinR,  cosR, 0,
+                0,     0,      0, 1);
+    return Transform(m, Transpose(m));
+}
+
+Transform RotateY(float angle) {
+    float sinR = sinf(Radians(angle));
+    float cosR = cosf(Radians(angle));
+    Matrix4X4 m(cosR, 0, sinR, 0,
+                0, 1, 0, 0,
+                -sinR, 0, cosR, 0,
+                0, 0, 0, 1);
+    return Transform(m, Transpose(m));
+}
+
+Transform RotateZ(float angle) {
+    float sinR = sinf(Radians(angle));
+    float cosR = cosf(Radians(angle));
+    Matrix4X4 m(cosR, -sinR, 0, 0,
+                sinR, cosR, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
+    return Transform(m, Transpose(m));
+}

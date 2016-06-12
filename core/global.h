@@ -43,4 +43,9 @@ inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
 }
 
 
+//角度到弧度的转换
+inline float Radians(float deg) {
+    return ((float)M_PI/180.f) * deg;
+}
+
 #endif //RAYTRACER_GLOBAL_H

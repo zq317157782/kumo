@@ -96,4 +96,11 @@ public:
 Transform Translate(const Vector &delta);
 Transform Scale(float x,float y,float z);
 
+
+Transform RotateX(float angle);
+Transform RotateY(float angle);
+Transform RotateZ(float angle);
+
+//todo Rotate
+
 #endif //SRC_TRANSFORM_H
