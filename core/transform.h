@@ -94,5 +94,6 @@ public:
 
 
 Transform Translate(const Vector &delta);
+Transform Scale(float x,float y,float z);
 
 #endif //SRC_TRANSFORM_H

@@ -161,5 +161,18 @@ Transform Translate(const Vector &delta) {
                    0, 1, 0, -delta.y,
                    0, 0, 1, -delta.z,
                    0, 0, 0,        1);
-    return Transform(m, minv);
+    return Transform(m,minv);
+}
+
+//缩放
+Transform Scale(float x, float y, float z) {
+    Matrix4X4 m(x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1);
+    Matrix4X4 minv(1.0f/x, 0, 0, 0,
+                    0, 1.0f/y, 0, 0,
+                    0, 0, 1.0f/z, 0,
+                    0, 0, 0, 1);
+    return Transform(m,minv);
 }

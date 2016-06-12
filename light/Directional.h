@@ -22,7 +22,7 @@ public:
     virtual RGB L(const ShadeRec &sr)  override;
 
 
-    virtual bool inShadow(const Ray &ray, const ShadeRec &sr) const;
+    virtual bool inShadow(const Ray &ray, const ShadeRec &sr) const override;
 };
 
 

@@ -24,6 +24,8 @@ public:
 
     virtual float G(const ShadeRec& sr) const;
     virtual float pdf(ShadeRec& sr) const;//概率分布函数
+
+    virtual ~Light(){};
 };
 
 

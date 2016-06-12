@@ -189,11 +189,13 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "material/BlinnPhongMaterial.h"
 #include "material/PhongMaterial.h"
 #include "transform.h"
-
+#include "global.h"
+#include "gtest/gtest.h"
 using namespace std;
 
-int main() {
-
+int main(int argc,char** argv) {
+    ::testing::InitGoogleTest(&argc,argv);
+    return  RUN_ALL_TESTS();
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
     cookTorranceMaterial->setSurfaceColor(RGB(1,0.66,0.62),0.5);
@@ -226,5 +228,8 @@ int main() {
     Film picture(800, 600, 1);
     camera.renderScene(scene,picture);
     picture.saveToLocal("AAA.png");
+
+
+
 }
 #endif

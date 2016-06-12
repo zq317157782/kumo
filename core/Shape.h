@@ -36,6 +36,8 @@ public:
     void setCastShadow(bool s);
 
     const static double EPSILON;
+
+    virtual ~Shape(){};
 };
 
 
