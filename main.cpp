@@ -194,12 +194,12 @@ TEST_CASE( "scene are computed", "[scene]" ){
 using namespace std;
 
 int main(int argc,char** argv) {
-    ::testing::InitGoogleTest(&argc,argv);
-    return  RUN_ALL_TESTS();
+//    ::testing::InitGoogleTest(&argc,argv);
+//    return  RUN_ALL_TESTS();
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
-    cookTorranceMaterial->setSurfaceColor(RGB(1,0.66,0.62),0.5);
-    cookTorranceMaterial->setAmbientColor(RGB(0,1,1));
+    cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
+    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
 
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
@@ -217,11 +217,10 @@ int main(int argc,char** argv) {
     scene.addPrimitive(sphere);
 
 
-    Directional* directional=new Directional(RGB(0.2,0.4,0.8),Vector(1,0,0));
-    Directional* directional2=new Directional(RGB(0.5,0.2,0.1),Vector(1,0,1));
+    Directional* directional=new Directional(RGB(1,1,1),Vector(0,0,1));
+
 
     scene.addLight(directional);
-    scene.addLight(directional2);
 
 
 

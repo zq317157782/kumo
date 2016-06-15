@@ -34,6 +34,13 @@ TEST(Transform,checkRotate){
     ASSERT_EQ(v2.x,0);
     ASSERT_EQ(v2.y,sinf(Radians(45)));
     ASSERT_EQ(v2.z,cosf(Radians(45)));
+
+    Vector v3(0,0,1);
+    Transform tranA=Rotate(90.0,Vector(0,1,0));
+    v3=tranA(v3);
+    ASSERT_EQ(v3.x,1);
+    ASSERT_EQ(v3.y,0);
+    ASSERT_TRUE( fabsf(v3.z)< 0.0001f);
 }
 
 
