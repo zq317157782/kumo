@@ -101,6 +101,8 @@ Transform RotateX(float angle);
 Transform RotateY(float angle);
 Transform RotateZ(float angle);
 
-//todo Rotate
+//todo 测试 Rotate
+Transform Rotate(float angle, const Vector &axis);
+
 
 #endif //SRC_TRANSFORM_H
