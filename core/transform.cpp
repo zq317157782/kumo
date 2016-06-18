@@ -4,7 +4,6 @@
 
 #include "global.h"
 #include "transform.h"
-#include "geometry.h"
 
 Matrix4X4::Matrix4X4(float mm[4][4]) {
     memcpy(m,mm,16* sizeof(float));
@@ -138,6 +137,22 @@ void Transform::operator()(const Ray &r, Ray *rr) const {
 }
 
 
+//对法线变换需要使用转置逆矩阵
+Normal Transform::operator()(const Normal& n) const{
+    float x = n.x, y = n.y, z = n.z;
+    return Normal(invM.m[0][0]*x + invM.m[1][0]*y + invM.m[2][0]*z,
+                  invM.m[0][1]*x + invM.m[1][1]*y + invM.m[2][1]*z,
+                  invM.m[0][2]*x + invM.m[1][2]*y + invM.m[2][2]*z);
+}
+
+
+void Transform::operator()(const Normal &n, Normal *normal) const {
+    float x = n.x, y = n.y, z = n.z;
+    normal->x=invM.m[0][0]*x + invM.m[1][0]*y + invM.m[2][0]*z;
+    normal->y=invM.m[0][1]*x + invM.m[1][1]*y + invM.m[2][1]*z;
+    normal->z=invM.m[0][2]*x + invM.m[1][2]*y + invM.m[2][2]*z;
+}
+
 bool Transform::SwapsHandedness() const {
     float det = ((m.m[0][0] *
                   (m.m[1][1] * m.m[2][2] -
@@ -238,6 +253,8 @@ Transform Rotate(float angle, const Vector &axis) {
     m[3][2] = 0;
     m[3][3] = 1;
 
-    Matrix4X4 mat(m);
+    Matrix4X4 mat=Matrix4X4(m);
     return Transform(mat, Transpose(mat));
 }
+
+

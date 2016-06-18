@@ -5,6 +5,8 @@
 #ifndef SRC_TRANSFORM_H
 #define SRC_TRANSFORM_H
 #include "global.h"
+#include "geometry.h"
+
 struct Matrix4X4{
     float m[4][4];
 
@@ -88,6 +90,8 @@ public:
     void operator()(const Point& p,Point* rp) const;
     Ray operator()(const Ray& r) const;
     void operator()(const Ray& r,Ray * rr) const;
+    Normal operator()(const Normal& n) const;
+    void operator()(const Normal& n,Normal* normal) const;
 
     bool SwapsHandedness() const;//判断变换有没有改变坐标系系统(左手=>右手 OR 右手=>左手)
 };
