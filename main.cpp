@@ -194,8 +194,8 @@ TEST_CASE( "scene are computed", "[scene]" ){
 using namespace std;
 
 int main(int argc,char** argv) {
-    ::testing::InitGoogleTest(&argc,argv);
-    return  RUN_ALL_TESTS();
+//    ::testing::InitGoogleTest(&argc,argv);
+//    return  RUN_ALL_TESTS();
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
     cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
@@ -204,8 +204,9 @@ int main(int argc,char** argv) {
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
-    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100);
+    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100,-100,100,90);
     sphere->setMaterial(cookTorranceMaterial);
+
 
 
     PinholeCamera camera;
@@ -214,6 +215,7 @@ int main(int argc,char** argv) {
 
     //场景初始化
     Scene scene;
+    scene.background=RGB(1,1,0);
     scene.addPrimitive(sphere);
 
 

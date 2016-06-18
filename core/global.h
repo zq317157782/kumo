@@ -48,4 +48,11 @@ inline float Radians(float deg) {
     return ((float)M_PI/180.f) * deg;
 }
 
+//裁剪函数
+inline float Clamp(float val, float low, float high) {
+    if (val < low) return low;
+    else if (val > high) return high;
+    else return val;
+}
+
 #endif //RAYTRACER_GLOBAL_H

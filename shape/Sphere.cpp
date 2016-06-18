@@ -31,9 +31,47 @@ bool Sphere::hit(const Ray &r, double &distance, ShadeRec &sr) {
         if (thit > ray.maxT) return false;
     }
 
+
+    //这里开始计算参数化变量
+
+
+    //计算phi
+    Point phit;
+    float phi;
+    phit = ray(thit);
+    if (phit.x == 0.f && phit.y == 0.f) phit.x = 1e-5f * mRad; //排除除零的情况
+    phi = atan2f(phit.y, phit.x);
+    if (phi < 0.) phi += 2.f*M_PI; //保证phi在2PI之中
+
+
+    //判断是否在Z坐标之间的裁剪空间中
+    if ((mZMin > -mRad && phit.z < mZMin) ||
+        (mZMax <  mRad && phit.z > mZMax) || phi > mPhiMax) {
+        if (thit == t1) return false;
+        if (t1 > ray.maxT) return false;
+        thit = t1;
+
+        phit = ray(thit);
+        if (phit.x == 0.f && phit.y == 0.f) phit.x = 1e-5f * mRad;
+        phi = atan2f(phit.y, phit.x);
+        if (phi < 0.) phi += 2.f*M_PI;
+        if ((mZMin > -mRad && phit.z < mZMin) ||
+            (mZMax <  mRad && phit.z > mZMax) || phi > mPhiMax)
+            return false;
+    }
+
+
+
+    // Find parametric representation of sphere hit
+    //寻找参数化的u和v
+    float u = phi / mPhiMax;
+    float theta = acosf(Clamp(phit.z / mRad, -1.f, 1.f));
+    float v = (theta - mThetaMin) / (mThetaMax - mThetaMin);
+
+
+
     sr.material=mMaterial;//设置材质
-    Point v=ray(thit);
-    sr.normal=Normalize(Vector(v));
+    sr.normal=Normalize(Vector(phit));
     sr.distance=thit;
     distance=thit;
     return true;
@@ -94,6 +132,11 @@ bool Sphere::shadowHit(const Ray &ray, double &distance) const{
 //    }
 }
 
-Sphere::Sphere(Transform *o2w,Transform *w2o, float rad, Material* mMaterial, bool mShadow): Shape(o2w,w2o,mMaterial, mShadow), mRad(rad){
+Sphere::Sphere(Transform *o2w,Transform *w2o, float rad, float z0, float z1, float phiMax,Material* mMaterial, bool mShadow): Shape(o2w,w2o,mMaterial, mShadow), mRad(rad){
 
+    mZMin = Clamp(min(z0, z1), -mRad, mRad);
+    mZMax = Clamp(max(z0, z1), -mRad, mRad);
+    mThetaMin = acosf(Clamp(mZMin/mRad, -1.f, 1.f));
+    mThetaMax = acosf(Clamp(mZMax/mRad, -1.f, 1.f));
+    mPhiMax = Radians(Clamp(phiMax, 0.0f, 360.0f));
 }

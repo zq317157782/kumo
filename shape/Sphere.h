@@ -11,8 +11,11 @@
 class Sphere : public Shape {
 private:
      float mRad;//半径
+    float mPhiMax; //最大phi值  Y轴和X轴之间的角度
+    float mZMin, mZMax;  //最大和最小的z值
+    float mThetaMin, mThetaMax; //最大和最小的theta值  绕y轴的角度
 public:
-    Sphere(Transform *o2w,Transform *w2o, float rad=1, Material* mMaterial=NULL, bool mShadow=true);
+    Sphere(Transform *o2w,Transform *w2o, float rad,float zmin, float zmax, float phiMax, Material* mMaterial=NULL, bool mShadow=true);
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 
