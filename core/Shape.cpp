@@ -19,4 +19,3 @@ bool Shape::castShadow() const{
 void Shape::setCastShadow(bool s) {
     mShadow=s;
 }
-const double Shape::EPSILON=0.00001;

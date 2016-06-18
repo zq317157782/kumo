@@ -19,8 +19,6 @@ public:
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 
-    virtual Vector getNormal(const Point &point) const;
-
     virtual bool hit(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg,ShadeRec &sr) override;
 
 

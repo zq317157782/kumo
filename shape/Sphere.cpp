@@ -6,9 +6,6 @@
 #include "Sphere.h"
 #include "transform.h"
 #include "diffgeom.h"
-Vector Sphere::getNormal(const Point &point) const {
-    return  Normalize(Vector((*worldToLocal)(point)));
-}
 
 bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec &sr) {
     Ray ray;
@@ -118,37 +115,6 @@ bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGe
     sr.distance=thit;
 
     return true;
-
-
-//    Vector v= ray.o - this->mPosition;//圆心到射线原点的向量
-//    double b=2*Dot(v,ray.d);
-//    double c=Dot(v,v)-mRad*mRad;
-//    double delta=b*b-4*c;
-//    if(delta<0.0){
-//        return false;
-//    } else{
-//        delta=sqrt(delta);
-//        double t1=(-b-delta)/2;
-//        if(t1>EPSILON){
-//            sr.material=mMaterial;//设置材质
-//            Point v=ray(t1);
-//            sr.normal=Normalize(v-mPosition);
-//            sr.distance=t1;
-//            distance=t1;
-//            return true;
-//        }
-//
-//        double t2=(-b+delta)/2;
-//        if(t2>EPSILON){
-//            sr.material=mMaterial;//设置材质
-//            Point v=ray(t2);
-//            sr.normal=Normalize(v-mPosition);
-//            sr.distance=t2;
-//            distance=t2;
-//            return true;
-//        }
-//        return false;
-//    }
 }
 
 bool Sphere::shadowHit(const Ray &ray, double &distance) const{

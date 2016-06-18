@@ -26,8 +26,8 @@ public:
     Shape(Transform *o2w,Transform *w2o,bool ro,Material *mMaterial=NULL, bool mShadow=true) ;
 
     void setMaterial(Material* material);
-    /*返回交点处的法线 要求标准化后*/
-    virtual Vector getNormal(const Point & point) const=0;
+//    /*返回交点处的法线 要求标准化后*/
+//    virtual Vector getNormal(const Point & point) const=0;
 
     /*判断与法线的碰撞*/
     virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec& sr)=0;
@@ -35,8 +35,6 @@ public:
 
     bool castShadow() const;
     void setCastShadow(bool s);
-
-    const static double EPSILON;
 
     virtual ~Shape(){};
 };
