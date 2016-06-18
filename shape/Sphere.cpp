@@ -80,7 +80,32 @@ bool Sphere::hit(const Ray &r, double &distance, ShadeRec &sr) {
                   Vector(phit.z * cosphi, phit.z * sinphi,
                          -mRad * sinf(theta));
 
-    
+
+
+    //计算法线的偏导
+    Vector d2Pduu = -mPhiMax * mPhiMax * Vector(phit.x, phit.y, 0);
+    Vector d2Pduv = (mThetaMax - mThetaMin) * phit.z * mPhiMax *
+                    Vector(-sinphi, cosphi, 0.);
+    Vector d2Pdvv = -(mThetaMax - mThetaMin) * (mThetaMax - mThetaMin) *
+                    Vector(phit.x, phit.y, phit.z);
+
+
+    float E = Dot(dpdu, dpdu);
+    float F = Dot(dpdu, dpdv);
+    float G = Dot(dpdv, dpdv);
+    Vector N = Normalize(Cross(dpdu, dpdv));
+    float e = Dot(N, d2Pduu);
+    float f = Dot(N, d2Pduv);
+    float g = Dot(N, d2Pdvv);
+
+
+    float invEGF2 = 1.f / (E*G - F*F);
+    Normal dndu = Normal((f*F - e*G) * invEGF2 * dpdu +
+                         (e*F - f*E) * invEGF2 * dpdv);
+    Normal dndv = Normal((g*F - f*G) * invEGF2 * dpdu +
+                         (f*F - g*E) * invEGF2 * dpdv);
+
+
 
     sr.material=mMaterial;//设置材质
     sr.normal=Normalize(Vector(phit));
