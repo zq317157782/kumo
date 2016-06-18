@@ -33,13 +33,13 @@ Reference<Shape> Scene::getPrimitive(int index) const{
 ShadeRec Scene::hit(const Ray &ray) {
     ShadeRec sr(*this,ray);
     double t=999999;
-    double dist=0;
+    float dist=0;
     Vector normal;
     Material* material;
 
     for(std::vector<Reference<Shape>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
-        if((*it)->hit(ray,dist,sr) && t>dist){
+        if((*it)->hit(ray,&dist,sr) && t>dist){
             t=dist;
             sr.hitAnObject=true;
             sr.hitPoint=ray.o+ray.d*t;

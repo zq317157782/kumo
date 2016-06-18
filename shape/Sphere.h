@@ -21,7 +21,7 @@ public:
 
     virtual Vector getNormal(const Point &point) const;
 
-    virtual bool hit(const Ray &ray, double &distance, ShadeRec &sr);
+    virtual bool hit(const Ray &ray, float *distance, ShadeRec &sr) override;
 
 
     virtual bool shadowHit(const Ray &ray, double &distance) const;

@@ -10,7 +10,7 @@ Vector Sphere::getNormal(const Point &point) const {
     return  Normalize(Vector((*worldToLocal)(point)));
 }
 
-bool Sphere::hit(const Ray &r, double &distance, ShadeRec &sr) {
+bool Sphere::hit(const Ray &r, float *distance, ShadeRec &sr) {
     Ray ray;
     (*worldToLocal)(r,&ray);
     // Compute quadratic sphere coefficients
@@ -110,7 +110,7 @@ bool Sphere::hit(const Ray &r, double &distance, ShadeRec &sr) {
     sr.material=mMaterial;//设置材质
     sr.normal=Normalize(Vector(phit));
     sr.distance=thit;
-    distance=thit;
+    *distance=thit;
     return true;
 
 

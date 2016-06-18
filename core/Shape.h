@@ -29,7 +29,7 @@ public:
     virtual Vector getNormal(const Point & point) const=0;
 
     /*判断与法线的碰撞*/
-    virtual bool hit(const Ray& ray,double& distance,ShadeRec& sr)=0;
+    virtual bool hit(const Ray& ray,float* distance,ShadeRec& sr)=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
 
     bool castShadow() const;
