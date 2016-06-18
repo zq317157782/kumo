@@ -14,7 +14,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aeb69fce-f7b9-4850-9713-4112b65c1226" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/transform.h" afterPath="$PROJECT_DIR$/core/transform.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shape/Sphere.cpp" afterPath="$PROJECT_DIR$/shape/Sphere.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shape/Sphere.h" afterPath="$PROJECT_DIR$/shape/Sphere.h" />
     </list>
     <ignored path="RayTracer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sphere.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sphere.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/shape/Sphere.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7407407">
+              <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
               <folding>
                 <element signature="e#38#57#0" expanded="true" />
               </folding>
@@ -91,10 +92,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="transform.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="transform.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/transform.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44444445">
+            <state vertical-scroll-proportion="0.0">
               <caret line="97" column="15" selection-start-line="97" selection-start-column="15" selection-end-line="97" selection-end-column="15" />
               <folding>
                 <element signature="e#83#102#0" expanded="true" />
@@ -103,14 +104,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shape.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/Shape.h">
+      <file leaf-file-name="Sphere.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shape/Sphere.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-              <folding>
-                <element signature="e#99#118#0" expanded="true" />
-              </folding>
+              <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -200,10 +199,8 @@
         <option value="$PROJECT_DIR$/scene/Scene.cpp" />
         <option value="$PROJECT_DIR$/light/AmbientOccluder.cpp" />
         <option value="$PROJECT_DIR$/core/primitive.h" />
-        <option value="$PROJECT_DIR$/shape/Sphere.h" />
         <option value="$PROJECT_DIR$/core/geometry.h" />
         <option value="$PROJECT_DIR$/core/Shape.cpp" />
-        <option value="$PROJECT_DIR$/shape/Sphere.cpp" />
         <option value="$PROJECT_DIR$/camera/PinholeCamera.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/light/Directional.h" />
@@ -215,6 +212,8 @@
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/core/transform.cpp" />
         <option value="$PROJECT_DIR$/core/transform.h" />
+        <option value="$PROJECT_DIR$/shape/Sphere.cpp" />
+        <option value="$PROJECT_DIR$/shape/Sphere.h" />
       </list>
     </option>
   </component>
@@ -283,6 +282,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RayTracer" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RayTracer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shape" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RayTracer" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RayTracer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -623,13 +650,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/brdf/TorranceSparrowSpecular.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/brdf/GlossySpecularHalfVector.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -869,13 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shape/Sphere.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/camera/PinholeCamera.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -988,22 +1001,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shape/Sphere.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding>
-            <element signature="e#38#57#0" expanded="true" />
-          </folding>
-        </state>
+    <entry file="file://$PROJECT_DIR$/sample/sample1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/transform.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44444445">
+        <state vertical-scroll-proportion="0.0">
           <caret line="97" column="15" selection-start-line="97" selection-start-column="15" selection-end-line="97" selection-end-column="15" />
           <folding>
             <element signature="e#83#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shape/Sphere.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shape/Sphere.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7407407">
+          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+          <folding>
+            <element signature="e#38#57#0" expanded="true" />
           </folding>
         </state>
       </provider>

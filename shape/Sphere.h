@@ -10,9 +10,9 @@
 #include <stdio.h>
 class Sphere : public Shape {
 private:
-    double mRad;//半径
+     float mRad;//半径
 public:
-    Sphere(Transform *o2w,Transform *w2o, const double rad=1, Material* mMaterial=NULL, bool mShadow=true);
+    Sphere(Transform *o2w,Transform *w2o, float rad=1, Material* mMaterial=NULL, bool mShadow=true);
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 

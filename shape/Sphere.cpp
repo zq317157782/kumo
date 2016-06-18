@@ -94,6 +94,6 @@ bool Sphere::shadowHit(const Ray &ray, double &distance) const{
 //    }
 }
 
-Sphere::Sphere(Transform *o2w,Transform *w2o, const double rad, Material* mMaterial, bool mShadow): Shape(o2w,w2o,mMaterial, mShadow), mRad(rad){
+Sphere::Sphere(Transform *o2w,Transform *w2o, float rad, Material* mMaterial, bool mShadow): Shape(o2w,w2o,mMaterial, mShadow), mRad(rad){
 
 }
