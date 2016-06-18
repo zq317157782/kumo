@@ -3,9 +3,10 @@
 //
 
 #include "Shape.h"
+#include "transform.h"
 
-Shape::Shape(Transform *o2w,Transform *w2o, Material* mMaterial, bool mShadow)
-        : localToWorld(o2w),worldToLocal(w2o), mMaterial(mMaterial), mShadow(mShadow) { }
+Shape::Shape(Transform *o2w,Transform *w2o,bool ro, Material* mMaterial, bool mShadow)
+        : localToWorld(o2w),worldToLocal(w2o),ReverseOrientation(ro),TransformSwapsHandedness(o2w->SwapsHandedness()),mMaterial(mMaterial), mShadow(mShadow) { }
 
 void Shape::setMaterial(Material* material) {
     this->mMaterial=material;

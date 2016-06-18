@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "../tracer/CommonTracer.h"
 #include "../light/ambient.h"
+#include "diffgeom.h"
 
 unsigned long Scene::getLightNum() const {
   return mLights.size();
@@ -34,16 +35,18 @@ ShadeRec Scene::hit(const Ray &ray) {
     ShadeRec sr(*this,ray);
     double t=999999;
     float dist=0;
+    float e;
     Vector normal;
     Material* material;
+    DifferentialGeometry dg;
 
     for(std::vector<Reference<Shape>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
-        if((*it)->hit(ray,&dist,sr) && t>dist){
+        if((*it)->hit(ray,&dist,&e,&dg,sr) && t>dist){
             t=dist;
             sr.hitAnObject=true;
             sr.hitPoint=ray.o+ray.d*t;
-            normal=sr.normal;
+            normal=Vector(dg.nn);
             material=sr.material;
         }
     }

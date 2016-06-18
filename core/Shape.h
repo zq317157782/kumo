@@ -15,21 +15,22 @@
 using namespace std;
 
 class Shape :public ReferenceCounted{
-protected:
-    Transform * localToWorld;
-    Transform * worldToLocal;
+public:
+    const Transform * localToWorld;
+    const Transform * worldToLocal;
     Material* mMaterial;//图元使用的材质
     bool mShadow;//是否投射阴影
-public:
 
-    Shape(Transform *o2w,Transform *w2o, Material *mMaterial=NULL, bool mShadow=true) ;
+    const bool ReverseOrientation, TransformSwapsHandedness;
+public:
+    Shape(Transform *o2w,Transform *w2o,bool ro,Material *mMaterial=NULL, bool mShadow=true) ;
 
     void setMaterial(Material* material);
     /*返回交点处的法线 要求标准化后*/
     virtual Vector getNormal(const Point & point) const=0;
 
     /*判断与法线的碰撞*/
-    virtual bool hit(const Ray& ray,float* distance,ShadeRec& sr)=0;
+    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec& sr)=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
 
     bool castShadow() const;

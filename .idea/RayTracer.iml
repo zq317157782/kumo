@@ -23,6 +23,8 @@
       <sourceFolder url="file://$MODULE_DIR$/core/BRDF.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Camera.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/Camera.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/diffgeom.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/diffgeom.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/global.cpp" isTestSource="false" />
@@ -456,6 +458,7 @@
           <root url="file://$MODULE_DIR$/core/Light.h" />
           <root url="file://$MODULE_DIR$/core/primitive.h" />
           <root url="file://$MODULE_DIR$/core/global.h" />
+          <root url="file://$MODULE_DIR$/core/diffgeom.cpp" />
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/RGB.cpp" />
           <root url="file://$MODULE_DIR$/core/Shape.h" />
@@ -466,6 +469,7 @@
           <root url="file://$MODULE_DIR$/core/transform.cpp" />
           <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
           <root url="file://$MODULE_DIR$/core/BRDF.h" />
+          <root url="file://$MODULE_DIR$/core/diffgeom.h" />
           <root url="file://$MODULE_DIR$/core/Light.cpp" />
           <root url="file://$MODULE_DIR$/core/transform.h" />
         </excluded>

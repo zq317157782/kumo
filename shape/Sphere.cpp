@@ -5,12 +5,12 @@
 
 #include "Sphere.h"
 #include "transform.h"
-
+#include "diffgeom.h"
 Vector Sphere::getNormal(const Point &point) const {
     return  Normalize(Vector((*worldToLocal)(point)));
 }
 
-bool Sphere::hit(const Ray &r, float *distance, ShadeRec &sr) {
+bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec &sr) {
     Ray ray;
     (*worldToLocal)(r,&ray);
     // Compute quadratic sphere coefficients
@@ -105,12 +105,18 @@ bool Sphere::hit(const Ray &r, float *distance, ShadeRec &sr) {
     Normal dndv = Normal((g*F - f*G) * invEGF2 * dpdu +
                          (f*F - g*E) * invEGF2 * dpdv);
 
+    const Transform &o2w = *localToWorld;
+
+    *dg = DifferentialGeometry(o2w(phit), o2w(dpdu), o2w(dpdv),
+                               o2w(dndu), o2w(dndv), u, v, this);
+    *distance=thit;
+    *rayEpsilon = 5e-4f * *distance; //交点处的float误差
 
 
     sr.material=mMaterial;//设置材质
     sr.normal=Normalize(Vector(phit));
     sr.distance=thit;
-    *distance=thit;
+
     return true;
 
 
@@ -169,7 +175,7 @@ bool Sphere::shadowHit(const Ray &ray, double &distance) const{
 //    }
 }
 
-Sphere::Sphere(Transform *o2w,Transform *w2o, float rad, float z0, float z1, float phiMax,Material* mMaterial, bool mShadow): Shape(o2w,w2o,mMaterial, mShadow), mRad(rad){
+Sphere::Sphere(Transform *o2w,Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax,Material* mMaterial, bool mShadow): Shape(o2w,w2o,ro,mMaterial, mShadow), mRad(rad){
 
     mZMin = Clamp(min(z0, z1), -mRad, mRad);
     mZMax = Clamp(max(z0, z1), -mRad, mRad);

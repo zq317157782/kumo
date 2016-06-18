@@ -9,7 +9,6 @@
 #include "Material.h"
 //图元
 class Primitive {
-
 };
 
 

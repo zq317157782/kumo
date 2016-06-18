@@ -204,7 +204,7 @@ int main(int argc,char** argv) {
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
-    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100,-80,100,360);
+    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
     sphere->setMaterial(cookTorranceMaterial);
 
 
@@ -219,7 +219,7 @@ int main(int argc,char** argv) {
     scene.addPrimitive(sphere);
 
 
-    Directional* directional=new Directional(RGB(1,1,1),Vector(0,0,1));
+    Directional* directional=new Directional(RGB(1,1,1),RotateY(60)(Vector(0,0,1)));
 
 
     scene.addLight(directional);
