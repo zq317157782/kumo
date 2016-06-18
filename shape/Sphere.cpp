@@ -70,6 +70,18 @@ bool Sphere::hit(const Ray &r, double &distance, ShadeRec &sr) {
 
 
 
+    // 计算偏导 偏导还不是很熟悉,所以这里照搬了PBRT的公式,详细公式可以查阅PBRT
+    float zradius = sqrtf(phit.x*phit.x + phit.y*phit.y);
+    float invzradius = 1.f / zradius;
+    float cosphi = phit.x * invzradius;
+    float sinphi = phit.y * invzradius;
+    Vector dpdu(-mPhiMax * phit.y, mPhiMax * phit.x, 0);
+    Vector dpdv = (mThetaMax-mThetaMin) *
+                  Vector(phit.z * cosphi, phit.z * sinphi,
+                         -mRad * sinf(theta));
+
+    
+
     sr.material=mMaterial;//设置材质
     sr.normal=Normalize(Vector(phit));
     sr.distance=thit;

@@ -204,7 +204,7 @@ int main(int argc,char** argv) {
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
-    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100,-100,100,90);
+    Sphere* sphere=new Sphere(&localToWorld,&worldToLocal, 100,-80,100,360);
     sphere->setMaterial(cookTorranceMaterial);
 
 

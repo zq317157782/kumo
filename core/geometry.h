@@ -146,6 +146,10 @@ inline Vector Normalize(const Vector& v){
 }
 
 
+inline Vector operator*(float f,const Vector& v){
+    return v*f;
+}
+
 class Point{
 
 public:
