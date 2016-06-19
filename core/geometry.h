@@ -475,4 +475,34 @@ public:
 };
 
 
+//带微分信息的射线,其实就是在X和Y方向上有相隔1像素的两条另外的射线
+class RayDifferential : public Ray {
+public:
+    bool hasDifferentials;
+    Point rxOrigin, ryOrigin;
+    Vector rxDirection, ryDirection;
+
+    RayDifferential(){
+        hasDifferentials=false;
+    }
+
+    RayDifferential(const Point& oo,const Vector& dd,float start,float end=INFINITY,int depth=0):Ray(oo,dd,start,end,depth){
+        hasDifferentials=false;
+    }
+
+    RayDifferential(const Ray& r):Ray(r){
+        hasDifferentials=false;
+    };
+
+    //缩放
+    void ScaleDifferentials(float s) {
+        rxOrigin = o + (rxOrigin - o) * s;
+        ryOrigin = o + (ryOrigin - o) * s;
+        rxDirection = d + (rxDirection - d) * s;
+        ryDirection = d + (ryDirection - d) * s;
+    }
+
+};
+
+
 #endif //RAYTRACER_GEOMETRY_H
