@@ -6,7 +6,7 @@
 #include "transform.h"
 
 Shape::Shape(Transform *o2w,Transform *w2o,bool ro, Material* mMaterial, bool mShadow)
-        : localToWorld(o2w),worldToLocal(w2o),ReverseOrientation(ro),TransformSwapsHandedness(o2w->SwapsHandedness()),mMaterial(mMaterial), mShadow(mShadow) { }
+        : localToWorld(o2w),worldToLocal(w2o),ReverseOrientation(ro),TransformSwapsHandedness(o2w->SwapsHandedness()),mMaterial(mMaterial), mShadow(mShadow),shapeID(nextShapeID++) { }
 
 void Shape::setMaterial(Material* material) {
     this->mMaterial=material;
@@ -19,3 +19,5 @@ bool Shape::castShadow() const{
 void Shape::setCastShadow(bool s) {
     mShadow=s;
 }
+
+int Shape::nextShapeID=0;
