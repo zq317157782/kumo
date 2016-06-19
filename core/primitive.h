@@ -9,9 +9,11 @@
 #include "shape.h"
 #include "Material.h"
 //图元
-class Primitive {
-    Reference<Shape> shape;
-    Reference<Material> materila;
+class Primitive:public ReferenceCounted{
+protected:
+    static unsigned int nextPrimitiveID;
+public:
+    const unsigned int primitiveID;
 };
 
 

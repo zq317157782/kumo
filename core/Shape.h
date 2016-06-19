@@ -16,14 +16,14 @@ using namespace std;
 
 class Shape :public ReferenceCounted{
 protected:
-    static int nextShapeID;
+    static unsigned int nextShapeID;
 public:
     const Transform * localToWorld;
     const Transform * worldToLocal;
     Material* mMaterial;//图元使用的材质
     bool mShadow;//是否投射阴影
 
-    const int shapeID;
+    const unsigned int shapeID;
 
     const bool ReverseOrientation, TransformSwapsHandedness;
 public:
