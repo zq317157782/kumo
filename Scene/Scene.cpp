@@ -3,7 +3,6 @@
 //
 
 #include "Scene.h"
-#include "../tracer/CommonTracer.h"
 #include "../light/ambient.h"
 #include "diffgeom.h"
 
@@ -19,7 +18,7 @@ Reference<Light> Scene::getLight(const int index)const {
     return mLights[index];
 }
 
-Scene::Scene():mAmbient(Reference<Light>(new Ambient())),background(RGB(0,0,0)),mTracer(new CommonTracer(*this)),mPrimitives(){
+Scene::Scene():mAmbient(Reference<Light>(new Ambient())),background(RGB(0,0,0)),mPrimitives(){
 
 }
 

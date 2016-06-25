@@ -8,7 +8,6 @@
 #include "light.h"
 #include "Shape.h"
 #include "memory.h"
-#include "../tracer/Tracer.h"
 
 
 using namespace std;
@@ -17,7 +16,6 @@ private:
     Reference<Light> mAmbient;//环境光
     vector< Reference<Light>> mLights;
     vector<Reference<Shape>> mPrimitives;
-    Tracer* mTracer;
 public:
 
     Scene();

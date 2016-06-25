@@ -82,10 +82,6 @@
       <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/test.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/test.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tracer/CommonTracer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tracer/CommonTracer.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tracer/Tracer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tracer/Tracer.h" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
