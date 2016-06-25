@@ -60,14 +60,6 @@ ShadeRec Scene::hit(const Ray &ray) {
     return (sr);
 }
 
-const Tracer* Scene::getTracer() const {
-    return mTracer;
-}
-
-void Scene::setTracer(Tracer* ptr) {
-    mTracer=ptr;
-}
-
 void Scene::addPrimitive(const Reference<Shape> primitive) {
     mPrimitives.push_back(primitive);
 }

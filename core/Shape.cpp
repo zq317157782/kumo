@@ -20,4 +20,4 @@ void Shape::setCastShadow(bool s) {
     mShadow=s;
 }
 
-int Shape::nextShapeID=0;
+unsigned int Shape::nextShapeID=0;

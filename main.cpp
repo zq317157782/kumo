@@ -191,6 +191,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "transform.h"
 #include "global.h"
 #include "gtest/gtest.h"
+#include "renderer/simpleRenderer.h"
 using namespace std;
 
 int main(int argc,char** argv) {
@@ -207,9 +208,8 @@ int main(int argc,char** argv) {
     Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
     sphere->setMaterial(cookTorranceMaterial);
 
-
-
-    PinholeCamera camera;
+    //Film picture(800, 600, 1);
+    PinholeCamera camera(new Film(800, 600, 1));
     camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 
@@ -226,9 +226,14 @@ int main(int argc,char** argv) {
 
 
 
-    Film picture(800, 600, 1);
-    camera.renderScene(scene,picture);
-    picture.saveToLocal("AAA.png");
+
+    //camera.film=&picture;
+
+    SimpleRenderer renderer(&camera,new MultiJitteredSampler(25));
+    renderer.render(&scene);
+    //camera.renderScene(scene,picture);
+    camera.film->saveToLocal("Renderer.png");
+   // picture.saveToLocal("AAA.png");
 
 
 

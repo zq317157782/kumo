@@ -25,6 +25,9 @@ class Transform; //变换
 class Primitive; //图元
 class Material; //材质
 struct DifferentialGeometry; //微分几何
+class Scene;//场景
+class Renderer;//渲染器
+class Camera;//相机
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

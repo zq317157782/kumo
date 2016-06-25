@@ -34,9 +34,6 @@ public:
     virtual ShadeRec hit(const Ray& ray);
 
     RGB background;
-
-    const Tracer* getTracer() const;
-    void setTracer(Tracer*);
 };
 
 

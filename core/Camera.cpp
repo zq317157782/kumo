@@ -5,12 +5,12 @@
 #include "Camera.h"
 
 void Camera::computeUVW(){
-    w=Normalize(mEye-mLookAt);
-    u=Normalize(Cross(mUp,w));
+    w=Normalize(eye - lookAt);
+    u=Normalize(Cross(up, w));
     v=Cross(w,u);
 }
 
-Camera::Camera(const Point & eye, const Point & lookAt, const Vector & up, const float exposureTime): mEye(eye), mLookAt(lookAt), mUp(up), mExposureTime(exposureTime), mSampler(NULL){
+Camera::Camera(Film* f,const Point & eye, const Point & lookAt, const Vector & up, const float exposureTime):film(f),eye(eye), lookAt(lookAt), up(up), exposureTime(exposureTime), mSampler(NULL){
     computeUVW();
 }
 
