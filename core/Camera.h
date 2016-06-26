@@ -11,29 +11,14 @@
 #include "../sampler/Sampler.h"
 #include "../common/Film.h"
 #include <memory>
+
+#include "global.h"
 class Camera {
 public:
-    Point eye;
-    Point lookAt;
-    Vector up;
-
-    Vector u,v,w;//本地坐标系
-    float exposureTime;
-
-    //计算本地坐标
-    void computeUVW();
-
-    Sampler* mSampler;
-
-
-public:
-    Camera(Film* f,const Point & eye= Point(0, 0, 0), const Point & lookAt= Point(0, 0, -1), const Vector & up= Vector(0, 1, 0), const float exposureTime=1);
-    /*渲染场景*/
-    // virtual void renderScene(const Scene&, Film &)=0;
-    void setSampler(Sampler* sampler);
-
     Film * film;
-
+    Transform *cameraToWorld;
+public:
+    Camera(Film * f,Transform* c2w);
     virtual Ray generateRay(const Point& p) const=0;
 };
 

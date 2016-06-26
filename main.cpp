@@ -202,6 +202,8 @@ int main(int argc,char** argv) {
     cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
     cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
 
+   // Matte * m=new Matte();
+
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
@@ -209,8 +211,10 @@ int main(int argc,char** argv) {
     sphere->setMaterial(cookTorranceMaterial);
 
     //Film picture(800, 600, 1);
-    PinholeCamera camera(new Film(800, 600, 1));
-    camera.setSampler(new MultiJitteredSampler(25));
+
+    Transform cameraTransform= RotateY(20);
+    PinholeCamera camera(new Film(800, 600, 1),&cameraTransform);
+    //camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 
     //场景初始化
@@ -219,7 +223,7 @@ int main(int argc,char** argv) {
     scene.addPrimitive(sphere);
 
 
-    Directional* directional=new Directional(RGB(1,1,1),RotateY(60)(Vector(0,0,1)));
+    Directional* directional=new Directional(RGB(1,1,1),RotateY(30)(Vector(0,0,1)));
 
 
     scene.addLight(directional);

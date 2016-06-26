@@ -56,5 +56,6 @@ RGB CookTorrance::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
     Vector half=Normalize(wi + wo);
     double ndotv=Dot(sr.normal,wo);
     double ndotl=Dot(sr.normal,wi);
+
     return (_Fresnel(wi,half)/M_PI)*(_NDF(sr.normal,half)*_G(sr.normal,half,wi,wo)/(ndotv*ndotl));
 }

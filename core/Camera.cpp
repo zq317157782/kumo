@@ -4,16 +4,7 @@
 
 #include "Camera.h"
 
-void Camera::computeUVW(){
-    w=Normalize(eye - lookAt);
-    u=Normalize(Cross(up, w));
-    v=Cross(w,u);
-}
 
-Camera::Camera(Film* f,const Point & eye, const Point & lookAt, const Vector & up, const float exposureTime):film(f),eye(eye), lookAt(lookAt), up(up), exposureTime(exposureTime), mSampler(NULL){
-    computeUVW();
-}
+Camera::Camera(Film * f,Transform *c2w):film(f),cameraToWorld(c2w){
 
-void Camera::setSampler(Sampler* sampler) {
-    mSampler=sampler;
 }
