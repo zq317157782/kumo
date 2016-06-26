@@ -4,3 +4,4 @@
 
 #include "primitive.h"
 
+unsigned int Primitive::nextPrimitiveID=0;

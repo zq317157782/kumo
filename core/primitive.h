@@ -14,6 +14,7 @@ protected:
     static unsigned int nextPrimitiveID;
 public:
     const unsigned int primitiveID;
+    Primitive():primitiveID(nextPrimitiveID++){}
 };
 
 
