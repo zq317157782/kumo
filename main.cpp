@@ -190,13 +190,18 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "material/PhongMaterial.h"
 #include "transform.h"
 #include "global.h"
-#include "gtest/gtest.h"
 #include "renderer/simpleRenderer.h"
 using namespace std;
 
+#ifdef UNIT_TEST
+#include "gtest/gtest.h"
+#endif
+
 int main(int argc,char** argv) {
-//    ::testing::InitGoogleTest(&argc,argv);
-//    return  RUN_ALL_TESTS();
+#ifdef UNIT_TEST
+    ::testing::InitGoogleTest(&argc,argv);
+    return  RUN_ALL_TESTS();
+#endif
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
     cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
@@ -236,7 +241,7 @@ int main(int argc,char** argv) {
     SimpleRenderer renderer(&camera,new MultiJitteredSampler(25));
     renderer.render(&scene);
     //camera.renderScene(scene,picture);
-    camera.film->saveToLocal("Renderer.png");
+    camera.film->saveToLocal("Renderer.ppm");
    // picture.saveToLocal("AAA.png");
 
 

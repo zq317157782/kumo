@@ -15,6 +15,25 @@
 #include <time.h>
 using namespace std;
 
+//如果平台没有定义M_PI的话  定义M_PI
+#ifndef  M_PI
+#define  M_PI        3.14159265358979323846
+
+//drand48函数  返回double型的随机数，如果平台已经有这个函数 需要把这里注解掉
+
+#define MNWZ 0x100000000
+#define ANWZ 0x5DEECE66D
+#define CNWZ 0xB16
+static unsigned long long seed = 1;
+inline double drand48(){
+    seed = (ANWZ * seed + CNWZ) & 0xFFFFFFFFFFFFLL;
+    unsigned int x = seed >> 16;
+    return ((double)x / (double)MNWZ);
+}
+
+#endif
+
+
 
 class Vector; //向量
 class Point;  //空间点
@@ -58,5 +77,7 @@ inline float Clamp(float val, float low, float high) {
     else if (val > high) return high;
     else return val;
 }
+
+
 
 #endif //RAYTRACER_GLOBAL_H

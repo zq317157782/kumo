@@ -5,6 +5,7 @@
 #ifndef RAYTRACER_TEST_H
 #define RAYTRACER_TEST_H
 
+#ifdef UNIT_TEST
 
 #include "gtest/gtest.h"
 #include "geometry.h"
@@ -42,6 +43,6 @@ TEST(Transform,checkRotate){
     ASSERT_EQ(v3.y,0);
     ASSERT_TRUE( fabsf(v3.z)< 0.0001f);
 }
-
+#endif
 
 #endif //RAYTRACER_TEST_H
