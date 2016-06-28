@@ -73,4 +73,13 @@ public:
     virtual float pdf(const Vector& wo,const Vector& wi) const; //通过入射光线和出射光线来计算概率分布
 };
 
+//BRDF->BTDF Adapter
+class BRDFToBTDF:public BxDF{
+private:
+    BxDF* mBrdf;
+public:
+    BRDFToBTDF(BxDF* brdf):BxDF(brdf->type^(BSDF_REFLECTION|BSDF_TRANSMISSION)),mBrdf(brdf){}
+    static Vector otherHemisphere(const Vector& w){return Vector(w.x,w.y,-w.z);}
+};
+
 #endif //RAYTRACER_REFLECTION_H
