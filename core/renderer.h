@@ -11,7 +11,7 @@
 class Renderer {
 
 public:
-    virtual void render(Scene* scene)=0;
+    virtual void render(Scene& scene)=0;
 };
 
 

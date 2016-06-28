@@ -5,7 +5,7 @@
 #include <Camera.h>
 #include "simpleRenderer.h"
 
-void SimpleRenderer::render(Scene *scene) {
+void SimpleRenderer::render(Scene& scene) {
    // float pSize=camera->film->size()/mZoomFactor;//计算缩放后的像素大小
     float pSize=camera->film->size();
     RGB L;
@@ -19,12 +19,12 @@ void SimpleRenderer::render(Scene *scene) {
                 point.x=pSize*(c-camera->film->width()*0.5+v.x);
                 point.y=pSize*(r-camera->film->height()*0.5+v.y);
                 Ray ray=camera->generateRay(point);
-                ShadeRec sr(scene->hit(ray));
+                ShadeRec sr(scene.hit(ray));
                 if(sr.hitAnObject){
                     sr.ray=ray;
                     L+= sr.material->shade(sr);
                 }else{
-                    L+=scene->background;
+                    L+=scene.background;
                 }
             }
             //std::cout<<"Color:"<<L.r<<" "<<L.g<<" "<<L.b<<std::endl;

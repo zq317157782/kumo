@@ -239,7 +239,7 @@ int main(int argc,char** argv) {
     //camera.film=&picture;
 
     SimpleRenderer renderer(&camera,new MultiJitteredSampler(25));
-    renderer.render(&scene);
+    renderer.render(scene);
     //camera.renderScene(scene,picture);
     camera.film->saveToLocal("Renderer.ppm");
    // picture.saveToLocal("AAA.png");
