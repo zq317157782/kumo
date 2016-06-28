@@ -55,7 +55,20 @@ enum BxDFType {
 
 //BxDF   BRDF 和BTDF的基类
 class BxDF{
+public:
+    const BxDFType type;
+    BxDF(BxDFType t):type(t){}
 
+    //判断标记是否符合
+    bool MatchesFlag(BxDFType flags){
+        return (type&flags)==type;
+    }
+
+    virtual RGB f(const Vector &wo,const Vector &wi) const=0;//给非狄克尔分布的版本
+    virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const;//给狄克尔分布和蒙特卡洛积分使用的版本
+
+    virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const;//hemispherical-directional reflectance
+    virtual RGB rho(int nSamples,const float*samples) const;//hemispherical-hemispherical reflectance
 };
 
 #endif //RAYTRACER_REFLECTION_H
