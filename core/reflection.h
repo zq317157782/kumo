@@ -69,6 +69,8 @@ public:
 
     virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const;//hemispherical-directional reflectance
     virtual RGB rho(int nSamples,const float*samples) const;//hemispherical-hemispherical reflectance
+
+    virtual float pdf(const Vector& wo,const Vector& wi) const; //通过入射光线和出射光线来计算概率分布
 };
 
 #endif //RAYTRACER_REFLECTION_H
