@@ -36,5 +36,26 @@ inline float SinPhi(const Vector& w){
     return Clamp(w.y/sint,-1f,1f);
 }
 
+enum BxDFType {
+    BSDF_REFLECTION   = 1<<0,  //反射
+    BSDF_TRANSMISSION = 1<<1,  //折射
+    BSDF_DIFFUSE      = 1<<2,  //漫反射
+    BSDF_GLOSSY       = 1<<3,  //混合
+    BSDF_SPECULAR     = 1<<4,  //镜面反射
+    BSDF_ALL_TYPES        = BSDF_DIFFUSE |
+                            BSDF_GLOSSY |
+                            BSDF_SPECULAR,
+    BSDF_ALL_REFLECTION   = BSDF_REFLECTION |
+                            BSDF_ALL_TYPES,
+    BSDF_ALL_TRANSMISSION = BSDF_TRANSMISSION |
+                            BSDF_ALL_TYPES,
+    BSDF_ALL              = BSDF_ALL_REFLECTION |
+                            BSDF_ALL_TRANSMISSION
+};
+
+//BxDF   BRDF 和BTDF的基类
+class BxDF{
+
+};
 
 #endif //RAYTRACER_REFLECTION_H
