@@ -191,6 +191,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "transform.h"
 #include "global.h"
 #include "renderer/simpleRenderer.h"
+#include "reflection.h"
 using namespace std;
 
 #ifdef UNIT_TEST

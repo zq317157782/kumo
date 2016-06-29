@@ -32,8 +32,8 @@ inline float CosPhi(const Vector& w){
 
 inline float SinPhi(const Vector& w){
     float sint=SinTheta(w);
-    if(sint==0f) return 0f;
-    return Clamp(w.y/sint,-1f,1f);
+    if(sint==0.f) return 0.f;
+    return Clamp(w.y/sint,-1.f,1.f);
 }
 
 enum BxDFType {
@@ -68,7 +68,7 @@ public:
     virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const;//给狄克尔分布和蒙特卡洛积分使用的版本
 
     virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const;//hemispherical-directional reflectance
-    virtual RGB rho(int nSamples,const float*samples) const;//hemispherical-hemispherical reflectance
+    virtual RGB rho(int nSamples, const float *samples1,const float *samples2) const;//hemispherical-hemispherical reflectance
 
     virtual float pdf(const Vector& wo,const Vector& wi) const; //通过入射光线和出射光线来计算概率分布
 };
@@ -78,8 +78,17 @@ class BRDFToBTDF:public BxDF{
 private:
     BxDF* mBrdf;
 public:
-    BRDFToBTDF(BxDF* brdf):BxDF(brdf->type^(BSDF_REFLECTION|BSDF_TRANSMISSION)),mBrdf(brdf){}
+    BRDFToBTDF(BxDF* brdf):BxDF((BxDFType)(brdf->type^(BSDF_REFLECTION|BSDF_TRANSMISSION))),mBrdf(brdf){}
+    RGB f(const Vector &wo,const Vector &wi) const override=0;//给非狄克尔分布的版本
+    RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//给狄克尔分布和蒙特卡洛积分使用的版本
+    RGB rho(const Vector &w, int nSamples, const float *samples) const override{  //hemispherical-directional reflectance
+        return mBrdf->rho(otherHemisphere(w), nSamples, samples);
+    }
+    RGB rho(int nSamples, const float *samples1, const float *samples2) const override{  //hemispherical-hemispherical reflectance
+        return mBrdf->rho(nSamples, samples1, samples2);
+    }
     static Vector otherHemisphere(const Vector& w){return Vector(w.x,w.y,-w.z);}
+
 };
 
 #endif //RAYTRACER_REFLECTION_H
