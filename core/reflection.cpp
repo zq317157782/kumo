@@ -13,3 +13,11 @@ RGB BRDFToBTDF::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pd
     *wi=otherHemisphere(*wi);//改变采样后的入射光的方向
     return ret;
 }
+
+RGB ScaledBxDF::f(const Vector &wo,const Vector &wi) const{
+    return mScale*mBxdf->f(wo,wi);
+}
+
+RGB ScaledBxDF::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const {
+   return mScale*mBxdf->sample_f(wo,wi,u1,u2,pdf);
+}

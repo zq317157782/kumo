@@ -91,4 +91,21 @@ public:
 
 };
 
+
+class ScaledBxDF:public BxDF{
+private:
+    BxDF* mBxdf;
+    RGB mScale;
+public:
+    ScaledBxDF(BxDF* bxdf, const RGB& s):BxDF(bxdf->type),mBxdf(bxdf),mScale(s){}
+    RGB f(const Vector &wo,const Vector &wi) const override=0;//给非狄克尔分布的版本
+    RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//给狄克尔分布和蒙特卡洛积分使用的版本
+    RGB rho(const Vector &w, int nSamples, const float *samples) const override{  //hemispherical-directional reflectance
+        return mScale*mBxdf->rho(w, nSamples, samples);
+    }
+    RGB rho(int nSamples, const float *samples1, const float *samples2) const override{  //hemispherical-hemispherical reflectance
+        return mScale*mBxdf->rho(nSamples, samples1, samples2);
+    }
+};
+
 #endif //RAYTRACER_REFLECTION_H
