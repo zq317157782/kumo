@@ -11,7 +11,7 @@ AmbientOccluder::AmbientOccluder(const RGB &mIrradiance, const float mScaleFacto
 }
 
 RGB AmbientOccluder::L(const ShadeRec &sr){
-    w=sr.normal;
+    w=Vector(sr.normal);
     v=Normalize(Cross(w,Vector(0.0072, 1.0, 0.0034)));
     u=Cross(v,w);
     Ray shadow_ray(sr.hitPoint,getDirection(sr),0);

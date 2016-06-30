@@ -39,9 +39,10 @@ class Vector; //向量
 class Point;  //空间点
 class Normal; //法线
 class Ray; //射线
-class Shape;  //几何体
-class Transform; //变换
 class Primitive; //图元
+class Shape;  //几何体
+class Light;
+class Transform; //变换
 class Material; //材质
 struct DifferentialGeometry; //微分几何
 class Scene;//场景

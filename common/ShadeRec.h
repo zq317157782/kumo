@@ -8,10 +8,9 @@
 
 #include "global.h"
 #include "geometry.h"
-#include <memory>
+#include "diffgeom.h"
 using namespace std;
-class Scene;
-class Material;
+
 
 class ShadeRec {
 public:
@@ -22,6 +21,7 @@ public:
     Material* material; //当前材质
     double distance;
     bool hitAnObject;
+    DifferentialGeometry dg; //微分几何
     ShadeRec(const Scene&,const Ray& ray);
     ShadeRec(const ShadeRec&);
 };

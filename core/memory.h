@@ -5,7 +5,6 @@
 #ifndef RAYTRACER_MEMORY_H
 #define RAYTRACER_MEMORY_H
 
-
 // Memory Declarations
 class ReferenceCounted {
 public:

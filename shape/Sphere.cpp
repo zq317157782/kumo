@@ -7,7 +7,7 @@
 #include "transform.h"
 #include "diffgeom.h"
 
-bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec &sr) {
+bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec &sr) const{
     Ray ray;
     (*worldToLocal)(r,&ray);
     // Compute quadratic sphere coefficients
@@ -111,8 +111,8 @@ bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGe
 
 
    // sr.material=mMaterial;//设置材质
-    sr.normal=Normalize(Vector(phit));
-    sr.distance=thit;
+  //  sr.normal=Normalize(Vector(phit));
+    //sr.distance=thit;
 
     return true;
 }

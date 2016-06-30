@@ -2,16 +2,14 @@
 // Created by 诸谦 on 15/12/28.
 //
 
-#ifndef RAYTRACER_PRIMITIVE_H
-#define RAYTRACER_PRIMITIVE_H
+#ifndef RAYTRACER_SHAPE_H
+#define RAYTRACER_SHAPE_H
 
 
 #include "global.h"
-#include "geometry.h"
 #include "memory.h"
-#include "Material.h"
-#include "../material/Matte.h"
-#include <memory>
+#include "geometry.h"
+#include "../common/ShadeRec.h"
 using namespace std;
 
 class Shape :public ReferenceCounted{
@@ -29,7 +27,7 @@ public:
     Shape(Transform *o2w,Transform *w2o,bool ro,bool mShadow=true) ;
 
     /*判断与法线的碰撞*/
-    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec& sr)=0;
+    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec& sr) const=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
 
     bool castShadow() const;
@@ -39,4 +37,4 @@ public:
 };
 
 
-#endif //RAYTRACER_PRIMITIVE_H
+#endif //RAYTRACER_SHAPE_H

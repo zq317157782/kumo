@@ -8,8 +8,9 @@
 
 #include "RGB.h"
 #include "../common/ShadeRec.h"
+#include "memory.h"
 
-class Material {
+class Material :public ReferenceCounted{
 public:
     virtual RGB shade(ShadeRec& sr)=0;
     virtual RGB areaLightShade(ShadeRec& sr)=0; //区域光shade

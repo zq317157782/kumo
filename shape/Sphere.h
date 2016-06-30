@@ -19,7 +19,7 @@ public:
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 
-    virtual bool hit(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg,ShadeRec &sr) override;
+    virtual bool hit(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg,ShadeRec &sr) const override;
 
 
     virtual bool shadowHit(const Ray &ray, double &distance) const;
