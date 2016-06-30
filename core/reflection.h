@@ -126,11 +126,22 @@ public:
 //代表导电体Fresnel系数
 class FresnelConductor:public Fresnel{
 private:
-	RGB eta; //入射材质折射系数
-	RGB k;   //出射材质吸收系数
+	RGB mEta; //入射材质折射系数
+	RGB mK;   //出射材质吸收系数
 public:
-	FresnelConductor(const RGB& e,const RGB& kk):eta(e),k(kk){}
+	FresnelConductor(const RGB& e,const RGB& kk):mEta(e),mK(kk){}
 	RGB Evaluate(float cosi) const override;
+};
+
+//todo 理解为什么PBRT这里eta_i和eta_t要用float ,而不是像FresnelConductor一样使用光谱来表示
+class FresnelDielectric:public Fresnel{
+private:
+	float mEtaI;//入射材质的折射系数
+	float mEtaT;//出射材质的折射系数
+public:
+	FresnelDielectric(float i,float t):mEtaI(i),mEtaT(t){}
+	RGB Evaluate(float cosi) const override;
+
 };
 
 #endif //RAYTRACER_REFLECTION_H

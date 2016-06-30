@@ -51,5 +51,22 @@ RGB EvaluateFresnelCond(float cosi, const RGB &eta, const RGB &k) {
 
 RGB FresnelConductor::Evaluate(float cosi) const{
 	//计算入射角度与法线之间的角度的余弦是cosi的导电体Fresnel反射系数
-		return EvaluateFresnelCond(cosi,eta,k);
+	return EvaluateFresnelCond(cosi,mEta,mK);
+}
+
+RGB FresnelDielectric::Evaluate(float cosi) const{
+	cosi=Clamp(cosi,-1.f,1.f);//保护cosi的值
+	bool entering=cosi>0.;//用来判断射线是入射的还是出射的
+	float ei=mEtaI,et=mEtaT;
+	if(!entering)
+		swap(ei,et);//如果是出射的话，交换折射系数的顺序
+	//Snell's law
+	float sint=ei/et*sqrtf(max(0.f,1.f-cosi*cosi));
+	if(sint>=1){
+		return 1;//完全反射，没有折射
+	}
+	else{
+		float cost=sqrtf(max(0.f,1.f-sint*sint));
+		return EvaluateFresnelDiel(fabsf(cosi),cost,ei,et);//返回反射系数
+	}
 }
