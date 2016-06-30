@@ -66,12 +66,12 @@ public:
     }
 
     virtual RGB f(const Vector &wo,const Vector &wi) const=0;//给非狄克尔分布的版本
-    virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const=0;//给狄克尔分布和蒙特卡洛积分使用的版本
+    virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{return RGB(0);}//给狄克尔分布和蒙特卡洛积分使用的版本
 
-    virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const=0;//hemispherical-directional reflectance
-    virtual RGB rho(int nSamples, const float *samples1,const float *samples2) const=0;//hemispherical-hemispherical reflectance
+    virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const {return RGB(0);};//hemispherical-directional reflectance
+    virtual RGB rho(int nSamples, const float *samples1,const float *samples2) const {return RGB(0);};//hemispherical-hemispherical reflectance
 
-    virtual float pdf(const Vector& wo,const Vector& wi) const=0; //通过入射光线和出射光线来计算概率分布
+    virtual float pdf(const Vector& wo,const Vector& wi) const{return 0;}; //通过入射光线和出射光线来计算概率分布
 };
 
 //BRDF->BTDF Adapter

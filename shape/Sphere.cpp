@@ -110,7 +110,7 @@ bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGe
     *rayEpsilon = 5e-4f * *distance; //交点处的float误差
 
 
-    sr.material=mMaterial;//设置材质
+   // sr.material=mMaterial;//设置材质
     sr.normal=Normalize(Vector(phit));
     sr.distance=thit;
 
@@ -141,7 +141,7 @@ bool Sphere::shadowHit(const Ray &ray, double &distance) const{
 //    }
 }
 
-Sphere::Sphere(Transform *o2w,Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax,Material* mMaterial, bool mShadow): Shape(o2w,w2o,ro,mMaterial, mShadow), mRad(rad){
+Sphere::Sphere(Transform *o2w,Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax,bool mShadow): Shape(o2w,w2o,ro, mShadow), mRad(rad){
 
     mZMin = Clamp(min(z0, z1), -mRad, mRad);
     mZMax = Clamp(max(z0, z1), -mRad, mRad);

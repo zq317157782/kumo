@@ -22,7 +22,8 @@ void SimpleRenderer::render(Scene& scene) {
                 ShadeRec sr(scene.hit(ray));
                 if(sr.hitAnObject){
                     sr.ray=ray;
-                    L+= sr.material->shade(sr);
+                   //todo 原来计算材质  L+= sr.material->shade(sr);
+                    L+=RGB(1);
                 }else{
                     L+=scene.background;
                 }

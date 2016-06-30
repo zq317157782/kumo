@@ -203,6 +203,13 @@ int main(int argc,char** argv) {
     ::testing::InitGoogleTest(&argc,argv);
     return  RUN_ALL_TESTS();
 #endif
+
+//    SpecularReflection* specular=new SpecularReflection(RGB(1.f),new FresnelConductor(RGB(2.2f),RGB(0.5f)));
+//    Vector wi;
+//    float pdf;
+//    RGB f=specular->sample_f(Vector(1,1,1),&wi,0,0,&pdf);
+//    cout<<"SpecularReflection: wi:"<<wi.x<<wi.y<<wi.z<<" pdf"<<pdf<<" f:"<<f.r<<f.g<<f.b<<endl;
+
     //材质
     CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
     cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
@@ -214,7 +221,7 @@ int main(int argc,char** argv) {
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
     Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
-    sphere->setMaterial(cookTorranceMaterial);
+   // sphere->setMaterial(cookTorranceMaterial);
 
     //Film picture(800, 600, 1);
 

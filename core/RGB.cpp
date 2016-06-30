@@ -9,11 +9,11 @@ using namespace std;
 
 
 RGB::RGB(float _r, float _g,  float _b):r(_r),g(_g),b(_b){
-    assert(r>=0&&b>=0&&g>=0);
+   // assert(r>=0&&b>=0&&g>=0);
 }
 
 RGB::RGB(float _all):r(_all),g(_all),b(_all){
-    assert(r>=0&&b>=0&&g>=0);
+   // assert(r>=0&&b>=0&&g>=0);
 }
 
 RGB RGB::operator+(const RGB &vec) const {

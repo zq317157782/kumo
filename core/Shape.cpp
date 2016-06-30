@@ -5,12 +5,9 @@
 #include "Shape.h"
 #include "transform.h"
 
-Shape::Shape(Transform *o2w,Transform *w2o,bool ro, Material* mMaterial, bool mShadow)
-        : localToWorld(o2w),worldToLocal(w2o),ReverseOrientation(ro),TransformSwapsHandedness(o2w->SwapsHandedness()),mMaterial(mMaterial), mShadow(mShadow),shapeID(nextShapeID++) { }
+Shape::Shape(Transform *o2w,Transform *w2o,bool ro, bool mShadow)
+        : localToWorld(o2w),worldToLocal(w2o),ReverseOrientation(ro),TransformSwapsHandedness(o2w->SwapsHandedness()), mShadow(mShadow),shapeID(nextShapeID++) { }
 
-void Shape::setMaterial(Material* material) {
-    this->mMaterial=material;
-}
 
 bool Shape::castShadow() const{
     return mShadow;
