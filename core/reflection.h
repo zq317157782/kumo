@@ -109,4 +109,17 @@ public:
     }
 };
 
+
+// 绝缘体Fresnel反射系数
+RGB EvaluateFresnelDiel(float cosi, float cost, const RGB &etai,
+                const RGB &etat);
+//导电体Fresnel反射系数
+RGB EvaluateFresnelCond(float cosi, const RGB &n, const RGB &k);
+
+//代表Fresnel系数的类型
+class Fresnel{
+	  virtual RGB Evaluate(float cosi) const = 0;//计算Fresnel反射系数
+	  virtual ~Fresnel();
+};
+
 #endif //RAYTRACER_REFLECTION_H

@@ -11,23 +11,24 @@
 class RGB {
 public:
     float r,g,b;
-    RGB(const float& _r,const float& _g,const float& _b);
-    RGB(const float& _all=0);
+    RGB(float _r,float _g,float _b);
+    RGB(float _all=0);
 
     RGB operator+(const RGB& c) const;
-    RGB operator+(const float& f) const;
+    RGB operator+(float f) const;
     RGB operator-(const RGB& c) const;
-    RGB operator-(const float& d) const;
+    RGB operator-(float d) const;
     RGB operator*(float v) const;
     RGB operator*(const RGB& c) const;
     RGB& operator+=(const RGB& c);
     RGB& operator-=(const RGB& c);
     RGB& operator*=(const RGB& c);
 
-    RGB operator/(const double div) const;
+    RGB operator/(float div) const;
+    RGB operator/(const RGB& rgb) const;
 
-    friend RGB operator+(const float& a,const RGB& b);
-    friend RGB operator*(const float& a,const RGB& b);
+    friend RGB operator+( float a,const RGB& b);
+    friend RGB operator*( float a,const RGB& b);
 
     bool operator==(const RGB& c) const;
     bool operator!=(const RGB& c) const;
