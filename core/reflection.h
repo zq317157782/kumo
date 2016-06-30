@@ -118,8 +118,19 @@ RGB EvaluateFresnelCond(float cosi, const RGB &n, const RGB &k);
 
 //代表Fresnel系数的类型
 class Fresnel{
+public:
 	  virtual RGB Evaluate(float cosi) const = 0;//计算Fresnel反射系数
-	  virtual ~Fresnel();
+	  virtual ~Fresnel(){};
+};
+
+//代表导电体Fresnel系数
+class FresnelConductor:public Fresnel{
+private:
+	RGB eta; //入射材质折射系数
+	RGB k;   //出射材质吸收系数
+public:
+	FresnelConductor(const RGB& e,const RGB& kk):eta(e),k(kk){}
+	RGB Evaluate(float cosi) const override;
 };
 
 #endif //RAYTRACER_REFLECTION_H

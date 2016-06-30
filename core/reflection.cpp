@@ -47,3 +47,9 @@ RGB EvaluateFresnelCond(float cosi, const RGB &eta, const RGB &k) {
         (tmp_f + (2.f * eta * cosi) + cosi*cosi);
     return (Rparl2 + Rperp2) / 2.f;
 }
+
+
+RGB FresnelConductor::Evaluate(float cosi) const{
+	//计算入射角度与法线之间的角度的余弦是cosi的导电体Fresnel反射系数
+		return EvaluateFresnelCond(cosi,eta,k);
+}
