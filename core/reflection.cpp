@@ -3,6 +3,8 @@
 //
 
 #include "reflection.h"
+#include "RGB.h"
+
 
 RGB BRDFToBTDF::f(const Vector &wo,const Vector &wi) const{
     return mBrdf->f(wo,otherHemisphere(wi));
