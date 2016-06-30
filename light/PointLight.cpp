@@ -24,7 +24,7 @@ bool PointLight::inShadow(const Ray &ray, const ShadeRec &sr) const {
     double t=9999999;
     double d = (mPosition-ray.o).Length();
     for(int i=0;i<num_obj;++i){
-        if(sr.scene.getPrimitive(i)->castShadow()&&sr.scene.getPrimitive(i)->shadowHit(ray,t) && t<d){
+        if(sr.scene.getPrimitive(i)->GetShape()->castShadow()&&sr.scene.getPrimitive(i)->GetShape()->shadowHit(ray,t) && t<d){
             return true;
         }
     }

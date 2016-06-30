@@ -21,6 +21,7 @@ public:
     virtual bool CanIntersect() const {return false;};
     virtual bool Intersect(const Ray &r, ShadeRec *in) const = 0;
     virtual Reference<Material> GetMaterial() const {assert(false);return nullptr;};
+    virtual Reference<Shape> GetShape() const{assert(false);return nullptr;}
 };
 
 
@@ -43,10 +44,13 @@ public:
 			//in->material=mMaterial;
 			in->distance=thit;
 			in->normal=Vector(in->dg.nn);
+			in->hitPoint=in->dg.p;
 		}
+		return ret;
 	}
 
-	Reference<Material> GetMaterial() const override {return mMaterial;};
+	Reference<Material> GetMaterial() const override {return mMaterial;}
+	Reference<Shape> GetShape() const override{return mShape;}
 };
 
 #endif //RAYTRACER_PRIMITIVE_H

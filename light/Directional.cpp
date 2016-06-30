@@ -21,7 +21,7 @@ bool Directional::inShadow(const Ray &ray, const ShadeRec &sr) const {
     unsigned long num_obj=sr.scene.getPrimitiveNum();
     double t;
     for(int i=0;i<num_obj;++i){
-        if(sr.scene.getPrimitive(i)->castShadow()&&sr.scene.getPrimitive(i)->shadowHit(ray,t)){
+        if(sr.scene.getPrimitive(i)->GetShape()->castShadow()&&sr.scene.getPrimitive(i)->GetShape()->shadowHit(ray,t)){
 
             return true;
         }

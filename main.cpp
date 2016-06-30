@@ -224,6 +224,8 @@ int main(int argc,char** argv) {
     Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
    // sphere->setMaterial(cookTorranceMaterial);
 
+    GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(cookTorranceMaterial));
+
     //Film picture(800, 600, 1);
 
     Transform cameraTransform= RotateY(20);
@@ -234,7 +236,7 @@ int main(int argc,char** argv) {
     //场景初始化
     Scene scene;
     scene.background=RGB(1,1,0);
-    scene.addPrimitive(sphere);
+    scene.addPrimitive(Reference<Primitive>(primit));
 
 
     Directional* directional=new Directional(RGB(1,1,1),RotateY(30)(Vector(0,0,1)));

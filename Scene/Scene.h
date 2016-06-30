@@ -6,7 +6,7 @@
 #define RAYTRACER_SCENE_H
 #include <vector>
 #include "light.h"
-#include "Shape.h"
+#include "primitive.h"
 #include "memory.h"
 
 
@@ -15,7 +15,7 @@ class Scene {
 private:
     Reference<Light> mAmbient;//环境光
     vector< Reference<Light>> mLights;
-    vector<Reference<Shape>> mPrimitives;
+    vector<Reference<Primitive>> mPrimitives;
 public:
 
     Scene();
@@ -24,9 +24,9 @@ public:
     Reference<Light> getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
-    Reference<Shape> getPrimitive(int index) const;
+    Reference<Primitive> getPrimitive(int index) const;
 
-    void addPrimitive(const Reference<Shape> s);
+    void addPrimitive(const Reference<Primitive> s);
     void addLight(const Reference<Light> light);
 
     virtual ShadeRec hit(const Ray& ray);
