@@ -44,7 +44,8 @@ public:
 			//in->material=mMaterial;
 			in->distance=thit;
 			in->normal=Vector(in->dg.nn);
-			in->hitPoint=in->dg.p;
+			in->hitPoint=in->dg.p;\
+			in->primitive=this;
 		}
 		return ret;
 	}

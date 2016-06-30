@@ -19,6 +19,7 @@ public:
     const Scene& scene; //当前场景
     Ray ray; //当前射线
     Material* material; //当前材质
+    const Primitive * primitive;
     double distance;
     bool hitAnObject;
     DifferentialGeometry dg; //微分几何
