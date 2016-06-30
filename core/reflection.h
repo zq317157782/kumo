@@ -66,10 +66,10 @@ public:
     }
 
     virtual RGB f(const Vector &wo,const Vector &wi) const=0;//给非狄克尔分布的版本
-    virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const;//给狄克尔分布和蒙特卡洛积分使用的版本
+    virtual RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const=0;//给狄克尔分布和蒙特卡洛积分使用的版本
 
-    virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const;//hemispherical-directional reflectance
-    virtual RGB rho(int nSamples, const float *samples1,const float *samples2) const;//hemispherical-hemispherical reflectance
+    virtual RGB rho(const Vector& wo,int nSamples,const float*samples) const=0;//hemispherical-directional reflectance
+    virtual RGB rho(int nSamples, const float *samples1,const float *samples2) const=0;//hemispherical-hemispherical reflectance
 
     virtual float pdf(const Vector& wo,const Vector& wi) const=0; //通过入射光线和出射光线来计算概率分布
 };
@@ -80,7 +80,7 @@ private:
     BxDF* mBrdf;
 public:
     BRDFToBTDF(BxDF* brdf):BxDF((BxDFType)(brdf->type^(BSDF_REFLECTION|BSDF_TRANSMISSION))),mBrdf(brdf){}
-    RGB f(const Vector &wo,const Vector &wi) const override=0;//给非狄克尔分布的版本
+    RGB f(const Vector &wo,const Vector &wi) const override;//给非狄克尔分布的版本
     RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//给狄克尔分布和蒙特卡洛积分使用的版本
     RGB rho(const Vector &w, int nSamples, const float *samples) const override{  //hemispherical-directional reflectance
         return mBrdf->rho(otherHemisphere(w), nSamples, samples);
@@ -99,7 +99,7 @@ private:
     RGB mScale;
 public:
     ScaledBxDF(BxDF* bxdf, const RGB& s):BxDF(bxdf->type),mBxdf(bxdf),mScale(s){}
-    RGB f(const Vector &wo,const Vector &wi) const override=0;//给非狄克尔分布的版本
+    RGB f(const Vector &wo,const Vector &wi) const override;//给非狄克尔分布的版本
     RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//给狄克尔分布和蒙特卡洛积分使用的版本
     RGB rho(const Vector &w, int nSamples, const float *samples) const override{  //hemispherical-directional reflectance
         return mScale*mBxdf->rho(w, nSamples, samples);
@@ -142,6 +142,20 @@ public:
 	FresnelDielectric(float i,float t):mEtaI(i),mEtaT(t){}
 	RGB Evaluate(float cosi) const override;
 
+};
+
+//完美镜面反射BRDF
+class SpecularReflection:public BxDF{
+private:
+	RGB mScale;  //缩放系数
+	const Fresnel*mFresnel;
+public:
+	SpecularReflection(const RGB& s,Fresnel* f):BxDF(BxDFType(BSDF_REFLECTION | BSDF_SPECULAR)),mScale(s),mFresnel(f){}
+
+	virtual RGB f(const Vector &wo,const Vector &wi) const override{ //给非狄克尔分布的版本
+		 return 0.f;//因为是完美镜面反射，所以直接返回0;
+	};
+	RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//这个是镜面反射需要实现的函数
 };
 
 #endif //RAYTRACER_REFLECTION_H

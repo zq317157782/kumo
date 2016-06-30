@@ -70,3 +70,9 @@ RGB FresnelDielectric::Evaluate(float cosi) const{
 		return EvaluateFresnelDiel(fabsf(cosi),cost,ei,et);//返回反射系数
 	}
 }
+
+RGB SpecularReflection::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
+	*wi=Vector(-wo.x,-wo.y,wo.z);//反射向量
+	*pdf=1.f;//概率分布为1
+	return mFresnel->Evaluate(CosTheta(wo))*mScale/AbsCosTheta(*wi); //镜面反射的brdf公式
+}
