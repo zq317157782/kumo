@@ -6,8 +6,8 @@
 #include "../scene/Scene.h"
 
 Matte::Matte(const RGB& _albedo):
-        mAmbientBrdf(Lambertian(_albedo)),
-        mDiffuseBrdf(Lambertian(_albedo)){
+        mAmbientBrdf(OldLambertian(_albedo)),
+        mDiffuseBrdf(OldLambertian(_albedo)){
 
 }
 

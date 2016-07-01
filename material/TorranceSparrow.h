@@ -13,8 +13,8 @@
 
 class TorranceSparrow: public Material{
 private:
-    Lambertian mAmbientBrdf;
-    Lambertian mDiffuseBrdf;
+    OldLambertian mAmbientBrdf;
+    OldLambertian mDiffuseBrdf;
     TorranceSparrowSpecular mSpecularBrdf;
 
 public:

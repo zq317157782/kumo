@@ -178,4 +178,23 @@ public:
 	RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//这个是镜面折射需要实现的函数
 };
 
+
+//漫反射brdf
+class Lambertian:public BxDF{
+private:
+	RGB mR;
+public:
+	Lambertian(const RGB& r):BxDF(BxDFType(BSDF_REFLECTION| BSDF_DIFFUSE)),mR(r){
+	}
+	RGB f(const Vector &wo,const Vector &wi) const override{ //给非狄克尔分布的版本
+			 return mR/M_INV_PI;
+	};
+	RGB rho(const Vector &w, int nSamples, const float *samples) const override{  //hemispherical-directional reflectance
+	        return mR;
+	}
+	RGB rho(int nSamples, const float *samples1, const float *samples2) const override{  //hemispherical-hemispherical reflectance
+	        return mR;
+	}
+};
+
 #endif //RAYTRACER_REFLECTION_H

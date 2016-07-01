@@ -13,8 +13,8 @@
 
 class BlinnPhongMaterial : public Material{
 private:
-    Lambertian mAmbientBrdf;
-    Lambertian mDiffuseBrdf;
+    OldLambertian mAmbientBrdf;
+    OldLambertian mDiffuseBrdf;
     GlossySpecularHalfVector mSpecularBrdf;
 public:
 

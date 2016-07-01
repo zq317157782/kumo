@@ -12,8 +12,8 @@
 using namespace std;
 class Matte : public Material{
 private:
-    Lambertian mAmbientBrdf;
-    Lambertian mDiffuseBrdf;
+    OldLambertian mAmbientBrdf;
+    OldLambertian mDiffuseBrdf;
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
     void scaleAmbientAlbedo(const float k);

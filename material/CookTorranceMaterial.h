@@ -13,7 +13,7 @@
 
 class CookTorranceMaterial : public Material{
 private:
-Lambertian mAmbientBrdf;
+OldLambertian mAmbientBrdf;
     CookTorrance mCookTorranceBrdf;
 
 public:

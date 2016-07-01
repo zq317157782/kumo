@@ -8,12 +8,12 @@
 
 #include "BRDF.h"
 
-class Lambertian: public BRDF{
+class OldLambertian: public BRDF{
 private:
     float mScaleFactor;
     RGB mKd;
 public:
-    Lambertian(const RGB &_albedo=RGB(1,1,1), float _scaleFactor=1.0);
+    OldLambertian(const RGB &_albedo=RGB(1,1,1), float _scaleFactor=1.0);
     void scale(float _f);
     void setKd(const RGB &_kd);
 
