@@ -14,7 +14,7 @@ RGB AmbientOccluder::L(const Intersection &sr){
     w=Vector(sr.normal);
     v=Normalize(Cross(w,Vector(0.0072, 1.0, 0.0034)));
     u=Cross(v,w);
-    Ray shadow_ray(sr.hitPoint,getDirection(sr),0);
+    Ray shadow_ray(sr.dg.p,getDirection(sr),0);
 
     //光线被遮挡的情况下
     if(inShadow(shadow_ray,sr)){

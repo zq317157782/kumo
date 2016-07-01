@@ -52,6 +52,8 @@ class Scene;//场景
 class Renderer;//渲染器
 class Camera;//相机
 class RGB;//颜色
+class Integrator;
+class SurfaceIntegrator;
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

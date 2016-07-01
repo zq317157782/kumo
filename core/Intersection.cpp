@@ -5,7 +5,7 @@
 #include <Intersection.h>
 #include "global.h"
 
-Intersection::Intersection(const Intersection& _sr):normal(_sr.normal),hitPoint(_sr.hitPoint),scene(_sr.scene),ray(_sr.ray),material(_sr.material),distance(_sr.distance){
+Intersection::Intersection(const Intersection& _sr):normal(_sr.normal),scene(_sr.scene),ray(_sr.ray),material(_sr.material),distance(_sr.distance){
 
 }
 
@@ -17,7 +17,7 @@ Intersection::Intersection(const Intersection& _sr):normal(_sr.normal),hitPoint(
     shared_ptr<Material> material; //当前材质
     double distance;
  */
-Intersection::Intersection(const Scene& scene,const Ray& r): ray(r), normal(Vector(0, 0, 0)), hitPoint(Point(0, 0, 0)), scene(scene), material(NULL), distance(0){
+Intersection::Intersection(const Scene& scene,const Ray& r): ray(r), normal(Vector(0, 0, 0)), scene(scene), material(NULL), distance(0){
 
 }
 

@@ -36,7 +36,6 @@ Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const{
 				return mPrimitives[i];
 		}
 	}
-
 	return nullptr;
 }
 
@@ -46,7 +45,7 @@ bool Scene::hit(const Ray &ray,Intersection* sr) {
     {
         if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
         	ray.maxT=sr->distance;
-            sr->hitPoint=sr->dg.p;
+            //sr->hitPoint=sr->dg.p;
             ret=true;
         }
     }

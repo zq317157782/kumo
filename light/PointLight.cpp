@@ -12,7 +12,7 @@ PointLight::PointLight(const Point &mPosition, const RGB &mIrradiance,const floa
 }
 
 Vector PointLight::getDirection(const Intersection &sr) const {
-    return Normalize(mPosition-sr.hitPoint);
+    return Normalize(mPosition-sr.dg.p);
 }
 
 RGB PointLight::L(const Intersection &sr){

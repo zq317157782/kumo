@@ -34,7 +34,7 @@ RGB TorranceSparrow::shade(Intersection &sr) {
         if(ndotl>0){
             bool inShadow=false;
             if(sr.scene.getLight(i)->castShadow()){
-                Ray shadowRay(sr.hitPoint,wi,0);
+                Ray shadowRay(sr.dg.p,wi,0);
                 inShadow=sr.scene.getLight(i)->inShadow(shadowRay,sr);
             }
             if(!inShadow){
@@ -55,7 +55,7 @@ RGB TorranceSparrow::areaLightShade(Intersection &sr) {
         if(ndotl>0){
             bool inShadow=false;
             if(sr.scene.getLight(i)->castShadow()){
-                Ray shadowRay(sr.hitPoint,wi,0);
+                Ray shadowRay(sr.dg.p,wi,0);
                 inShadow=sr.scene.getLight(i)->inShadow(shadowRay,sr);
             }
             if(!inShadow){
