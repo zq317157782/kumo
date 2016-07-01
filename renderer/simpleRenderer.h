@@ -11,9 +11,10 @@ class SimpleRenderer :public Renderer{
 private:
     Camera* camera;
     Sampler* sampler;
+    SurfaceIntegrator* mSurfaceIntegrator;
 public:
 
-    SimpleRenderer(Camera* c,Sampler* s):Renderer(),camera(c),sampler(s){
+    SimpleRenderer(Camera* c,Sampler* s,SurfaceIntegrator* si):Renderer(),camera(c),sampler(s),mSurfaceIntegrator(si){
         assert(camera!=nullptr);
         assert(sampler!=nullptr);
     }

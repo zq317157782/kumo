@@ -42,6 +42,7 @@ class Vector; //向量
 class Point;  //空间点
 class Normal; //法线
 class Ray; //射线
+class RayDifferential;
 class Primitive; //图元
 class Shape;  //几何体
 class Light;
@@ -54,6 +55,7 @@ class Camera;//相机
 class RGB;//颜色
 class Integrator;
 class SurfaceIntegrator;
+class Intersection;
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

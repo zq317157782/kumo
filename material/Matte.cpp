@@ -3,7 +3,8 @@
 //
 
 #include "Matte.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 Matte::Matte(const RGB& _albedo):
         mAmbientBrdf(_albedo),
@@ -13,7 +14,7 @@ Matte::Matte(const RGB& _albedo):
 
 
 
-RGB Matte::shade(Intersection &sr) {
+RGB Matte::shade(const Intersection &sr){
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(wo,0,nullptr);//(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

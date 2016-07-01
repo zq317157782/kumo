@@ -3,7 +3,8 @@
 //
 
 #include "BlinnPhongMaterial.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 
 //void BlinnPhongMaterial::scaleAmbientAlbedo(const float k) {

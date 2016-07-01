@@ -1,3 +1,4 @@
+
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 
@@ -9,7 +10,7 @@
 #include "sampler/JitteredSampler.h"
 #include "common/Ray.h"
 #include "common/Picture.h"
-#include "Scene/Scene.h"
+#include <Scene.h>
 
 TEST_CASE( "Vector3 are computed", "[Vector3]" ){
     Vector3 v1;
@@ -194,6 +195,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "reflection.h"
 #include "primitive.h"
 #include "material/Matte.h"
+#include "integrator/SimpleIntegrator.h"
 using namespace std;
 
 #ifdef UNIT_TEST
@@ -235,7 +237,7 @@ int main(int argc,char** argv) {
 
     //Film picture(800, 600, 1);
 
-    Transform cameraTransform= RotateY(20);
+    Transform cameraTransform= RotateY(0);
     PinholeCamera camera(new Film(800, 600, 1),&cameraTransform);
     //camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
@@ -247,7 +249,7 @@ int main(int argc,char** argv) {
     scene.addPrimitive(Reference<Primitive>(primit2));
 
 
-    Directional* directional=new Directional(RGB(1,1,1),RotateY(30)(Vector(0,0,1)));
+    Directional* directional=new Directional(RGB(1,1,1),RotateX(30)(Vector(0,0,1)));
 
 
     scene.addLight(directional);
@@ -257,7 +259,7 @@ int main(int argc,char** argv) {
 
     //camera.film=&picture;
 
-    SimpleRenderer renderer(&camera,new MultiJitteredSampler(256));
+    SimpleRenderer renderer(&camera,new MultiJitteredSampler(256),new SimpleIntegrator());
     renderer.render(scene);
     //camera.renderScene(scene,picture);
     camera.film->saveToLocal("Renderer.ppm");

@@ -8,8 +8,8 @@
 
 
 #include <Film.h>
+#include <Scene.h>
 
-#include "../scene/Scene.h"
 #include "../sampler/Sampler.h"
 #include <memory>
 

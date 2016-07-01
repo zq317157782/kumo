@@ -3,7 +3,8 @@
 //
 
 #include "Directional.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 Directional::Directional(const RGB &mIrradiance, const Vector &mDirection,const float mScaleFactor) : mIrradiance(mIrradiance),
                                                                                      mScaleFactor(mScaleFactor),

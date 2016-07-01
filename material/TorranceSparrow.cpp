@@ -3,7 +3,8 @@
 //
 
 #include "TorranceSparrow.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 void TorranceSparrow::scaleAmbientAlbedo(const float k) {
     mAmbientBrdf.scale(k);

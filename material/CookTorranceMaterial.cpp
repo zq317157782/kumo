@@ -3,7 +3,8 @@
 //
 
 #include "CookTorranceMaterial.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 void CookTorranceMaterial::setSurfaceColor(const RGB &color, const double m) {
     mCookTorranceBrdf.setSpecularColor(color);

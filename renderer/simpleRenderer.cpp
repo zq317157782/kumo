@@ -5,6 +5,7 @@
 #include <Camera.h>
 #include "simpleRenderer.h"
 #include "primitive.h"
+#include "integrator.h"
 
 void SimpleRenderer::render(Scene& scene) {
    // float pSize=camera->film->size()/mZoomFactor;//计算缩放后的像素大小
@@ -22,8 +23,7 @@ void SimpleRenderer::render(Scene& scene) {
                 Ray ray=camera->generateRay(point);
                 Intersection sr(scene,ray);
                 if(scene.hit(ray,&sr)){
-                	Reference<Primitive> primitive= scene.getPrimitiveByID(sr.primitiveID);
-                    L+=primitive->GetMaterial()->shade(sr);
+                	L+=mSurfaceIntegrator->Li(scene,*this,ray,sr);
                 }else{
                     L+=scene.background;
                 }

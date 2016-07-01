@@ -3,7 +3,8 @@
 //
 
 #include "PointLight.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 PointLight::PointLight(const Point &mPosition, const RGB &mIrradiance,const float mScaleFactor) : mPosition(mPosition),
                                                                                    mIrradiance(mIrradiance),

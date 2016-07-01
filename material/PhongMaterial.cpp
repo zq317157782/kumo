@@ -3,7 +3,8 @@
 //
 
 #include "PhongMaterial.h"
-#include "../scene/Scene.h"
+
+#include <Scene.h>
 
 //void Phong::scaleAmbientAlbedo(const float k) {
 //    mAmbientBrdf.scale(k);

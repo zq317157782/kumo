@@ -2,7 +2,8 @@
 // Created by 诸谦 on 15/12/27.
 //
 
-#include "Scene.h"
+#include <Scene.h>
+
 #include "../light/ambient.h"
 #include "diffgeom.h"
 
@@ -45,7 +46,6 @@ bool Scene::hit(const Ray &ray,Intersection* sr) {
     {
         if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
         	ray.maxT=sr->distance;
-            //sr->hitPoint=sr->dg.p;
             ret=true;
         }
     }

@@ -12,6 +12,8 @@ class Integrator{
 
 
 class SurfaceIntegrator:public Integrator{
-
+public:
+	    virtual RGB Li(const Scene &scene, const Renderer &renderer,
+	        const RayDifferential &ray, const Intersection &isect) const = 0;
 };
 #endif //RAYTRACER_INTEGRATOR_H
