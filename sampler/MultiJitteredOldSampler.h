@@ -6,9 +6,9 @@
 #define RAYTRACER_MULTIJITTEREDSAMPLER_H
 
 
-#include "Sampler.h"
+#include "OldSampler.h"
 
-class MultiJitteredSampler: public Sampler{
+class MultiJitteredSampler: public OldSampler{
 
 public:
     MultiJitteredSampler(int _sampleNum=1,int _setNum=DEFAULT_SET_NUM);

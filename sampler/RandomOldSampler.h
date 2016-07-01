@@ -6,9 +6,9 @@
 #define RAYTRACER_RANDOMSAMPLER_H
 
 
-#include "Sampler.h"
+#include "OldSampler.h"
 
-class RandomSampler: public Sampler{
+class RandomSampler: public OldSampler{
 
 public:
     RandomSampler( int _sampleNum=1, int _setNum=DEFAULT_SET_NUM);

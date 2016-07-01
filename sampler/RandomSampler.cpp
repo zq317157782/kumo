@@ -3,9 +3,10 @@
 //
 
 #include <math.h>
-#include "RandomSampler.h"
 
-RandomSampler::RandomSampler( int _sampleNum,  int _setNum) : Sampler(_sampleNum, _setNum) {
+#include "RandomOldSampler.h"
+
+RandomSampler::RandomSampler( int _sampleNum,  int _setNum) : OldSampler(_sampleNum, _setNum) {
     generateSamples();
 }
 

@@ -10,10 +10,11 @@
 #include <Film.h>
 #include <Scene.h>
 
-#include "../sampler/Sampler.h"
 #include <memory>
 
 #include "global.h"
+
+#include "../sampler/OldSampler.h"
 class Camera {
 public:
     Film * film;

@@ -6,9 +6,9 @@
 #define RAYTRACER_JITTEREDSAMPLER_H
 
 
-#include "Sampler.h"
+#include "OldSampler.h"
 
-class JitteredSampler: public Sampler{
+class JitteredSampler: public OldSampler{
 public:
     JitteredSampler(int _num_sample=1,int _numSet=DEFAULT_SET_NUM);
     virtual void generateSamples() override;

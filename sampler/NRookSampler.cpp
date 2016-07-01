@@ -3,10 +3,11 @@
 //
 
 #include <math.h>
-#include "NRookSampler.h"
+
+#include "NRookOldSampler.h"
 
 
-NRookSampler::NRookSampler(int _sampleNum,int _setNum) : Sampler(_sampleNum, _setNum) {
+NRookSampler::NRookSampler(int _sampleNum,int _setNum) : OldSampler(_sampleNum, _setNum) {
     generateSamples();
 }
 

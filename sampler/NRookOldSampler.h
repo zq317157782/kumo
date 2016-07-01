@@ -6,9 +6,9 @@
 #define RAYTRACER_NROOKSAMPLER_H
 
 
-#include "Sampler.h"
+#include "OldSampler.h"
 
-class NRookSampler : public Sampler{
+class NRookSampler : public OldSampler{
 public:
     NRookSampler(int _sampleNum=1,int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples() override;

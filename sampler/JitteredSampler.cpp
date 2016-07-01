@@ -3,9 +3,10 @@
 //
 
 #include <math.h>
-#include "JitteredSampler.h"
 
-JitteredSampler::JitteredSampler(int _num_sample,int _numSet):Sampler(_num_sample,_numSet){
+#include "JitteredOldSampler.h"
+
+JitteredSampler::JitteredSampler(int _num_sample,int _numSet):OldSampler(_num_sample,_numSet){
     generateSamples();
 }
 

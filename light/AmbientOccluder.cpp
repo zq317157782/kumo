@@ -6,7 +6,7 @@
 
 #include <Scene.h>
 
-#include "../sampler/MultiJitteredSampler.h"
+#include "../sampler/MultiJitteredOldSampler.h"
 
 AmbientOccluder::AmbientOccluder(const RGB &mIrradiance, const float mScaleFactor, const float occuluderFactor):Light(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor),mOcculuderFactor(occuluderFactor){
     setSamper(new MultiJitteredSampler());
@@ -26,7 +26,7 @@ RGB AmbientOccluder::L(const Intersection &sr){
         return mIrradiance*mScaleFactor;
 }
 
-void AmbientOccluder::setSamper(Sampler*sampler) {
+void AmbientOccluder::setSamper(OldSampler*sampler) {
     mSampler=sampler;
 }
 

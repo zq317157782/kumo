@@ -12,7 +12,7 @@ using namespace std;
 /**
  * 采样器基类
  */
-class Sampler {
+class OldSampler {
 public:
     static const int DEFAULT_SET_NUM;
 protected:
@@ -28,7 +28,7 @@ protected:
     bool mIsHemiMapped;
 
 public:
-    Sampler( int _sampleNum, int _setNum=DEFAULT_SET_NUM);
+    OldSampler( int _sampleNum, int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples()=0;//生成采样点
     Point sampleUnitSquare();//从单位平方中获得一个采样点
     Point sampleUnitDisk();  //从disk获得一个采样点

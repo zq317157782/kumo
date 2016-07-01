@@ -2,24 +2,25 @@
 // Created by 诸谦 on 15/12/24.
 //
 
+#include "OldSampler.h"
+
 #include <math.h>
 #include <assert.h>
-#include "Sampler.h"
-const int Sampler::DEFAULT_SET_NUM=83;
+const int OldSampler::DEFAULT_SET_NUM=83;
 
-Sampler::Sampler( int _sampleNum, int _setNum):mSampleNum(_sampleNum),mSetNum(_setNum),mJump(0),mCount(0),mIsDiskMapped(false),mIsHemiMapped(false){
+OldSampler::OldSampler( int _sampleNum, int _setNum):mSampleNum(_sampleNum),mSetNum(_setNum),mJump(0),mCount(0),mIsDiskMapped(false),mIsHemiMapped(false){
     assert(mSampleNum>0);
     assert(mSetNum>0);
 }
 
-Point Sampler::sampleUnitSquare(){
+Point OldSampler::sampleUnitSquare(){
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
     }
     return (mSamples[(mJump+mCount++)%(mSampleNum*mSetNum)]);
 }
 
-Point Sampler::sampleUnitDisk(){
+Point OldSampler::sampleUnitDisk(){
     assert(mIsDiskMapped==true);
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
@@ -27,7 +28,7 @@ Point Sampler::sampleUnitDisk(){
     return (mSamplesDisk[(mJump+mCount++)%(mSampleNum*mSetNum)]);
 }
 
-Vector Sampler::sampleHemi(){
+Vector OldSampler::sampleHemi(){
     assert(mIsHemiMapped==true);
     if(mCount%mSampleNum==0){
         mJump=(rand()%mSetNum)*mSampleNum;
@@ -37,7 +38,7 @@ Vector Sampler::sampleHemi(){
 }
 
 
-void Sampler::mapSamples2UnitDisk(){
+void OldSampler::mapSamples2UnitDisk(){
     mIsDiskMapped=true;
     int size=mSamples.size();
     float r,phi;//极坐标
@@ -76,7 +77,7 @@ void Sampler::mapSamples2UnitDisk(){
 }
 
 
-void Sampler::mapSamples2Hemisphere(const float& e){
+void OldSampler::mapSamples2Hemisphere(const float& e){
     mIsHemiMapped=true;
     int size=mSamples.size();
     mSamplesHemi.reserve(mSampleNum*mSetNum);
@@ -92,10 +93,10 @@ void Sampler::mapSamples2Hemisphere(const float& e){
     }
 }
 
-int Sampler::getSampleNum() const {
+int OldSampler::getSampleNum() const {
     return mSampleNum;
 }
 
-int Sampler::getSetNum() const {
+int OldSampler::getSetNum() const {
     return mSetNum;
 }
