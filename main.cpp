@@ -193,6 +193,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "renderer/simpleRenderer.h"
 #include "reflection.h"
 #include "primitive.h"
+#include "material/Matte.h"
 using namespace std;
 
 #ifdef UNIT_TEST
@@ -212,11 +213,11 @@ int main(int argc,char** argv) {
 //    cout<<"SpecularReflection: wi:"<<wi.x<<wi.y<<wi.z<<" pdf"<<pdf<<" f:"<<f.r<<f.g<<f.b<<endl;
 
     //材质
-    CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
-    cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
-    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
+//    CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
+//    cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
+//    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
 
-   // Matte * m=new Matte();
+    Matte * m=new Matte();
 
     Transform localToWorld=Translate(Vector(0,0,400));
     Transform worldToLocal=Translate(Vector(0,0,-400));
@@ -224,7 +225,7 @@ int main(int argc,char** argv) {
     Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
    // sphere->setMaterial(cookTorranceMaterial);
 
-    GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(cookTorranceMaterial));
+    GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(m));
 
     //Film picture(800, 600, 1);
 

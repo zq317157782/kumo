@@ -7,19 +7,15 @@
 
 
 #include "Material.h"
-#include "../brdf/Lambertian.h"
+#include "reflection.h"
 #include <memory>
 using namespace std;
 class Matte : public Material{
 private:
-    OldLambertian mAmbientBrdf;
-    OldLambertian mDiffuseBrdf;
+    Lambertian mAmbientBrdf;
+    Lambertian mDiffuseBrdf;
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
-    void scaleAmbientAlbedo(const float k);
-    void scaleDiffuseAlbedo(const float k);
-    void setAlbedo(const RGB& color);
-
     virtual RGB shade(ShadeRec& sr);
     virtual RGB areaLightShade(ShadeRec& sr);
 };
