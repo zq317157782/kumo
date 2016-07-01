@@ -2,8 +2,8 @@
 // Created by 诸谦 on 15/12/25.
 //
 
-#ifndef RAYTRACER_SHADEREC_H
-#define RAYTRACER_SHADEREC_H
+#ifndef RAYTRACER_INTERSECTION_H
+#define RAYTRACER_INTERSECTION_H
 
 
 #include "global.h"
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //RAYTRACER_SHADEREC_H
+#endif //RAYTRACER_INTERSECTION_H

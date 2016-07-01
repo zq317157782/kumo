@@ -46,7 +46,6 @@ bool Scene::hit(const Ray &ray,Intersection* sr) {
     {
         if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
         	ray.maxT=sr->distance;
-            //sr.hitAnObject=true;
             sr->hitPoint=sr->dg.p;
             ret=true;
         }

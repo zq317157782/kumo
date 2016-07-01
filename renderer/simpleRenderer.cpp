@@ -23,8 +23,6 @@ void SimpleRenderer::render(Scene& scene) {
                 Intersection sr(scene,ray);
                 if(scene.hit(ray,&sr)){
                 	Reference<Primitive> primitive= scene.getPrimitiveByID(sr.primitiveID);
-                  //  sr.ray=ray;
-                   //todo 原来计算材质  L+= sr.material->shade(sr);
                     L+=primitive->GetMaterial()->shade(sr);
                 }else{
                     L+=scene.background;
