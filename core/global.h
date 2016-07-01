@@ -19,6 +19,9 @@ using namespace std;
 #ifndef  M_PI
 #define  M_PI        3.14159265358979323846
 
+#ifndef M_INV_PI
+#define M_INV_PI  1/M_PI
+
 //drand48函数  返回double型的随机数，如果平台已经有这个函数 需要把这里注解掉
 
 #define MNWZ 0x100000000
