@@ -45,7 +45,7 @@ public:
 			in->distance=thit;
 			in->normal=Vector(in->dg.nn);
 			in->hitPoint=in->dg.p;\
-			in->primitive=this;
+			in->primitiveID=primitiveID;
 		}
 		return ret;
 	}

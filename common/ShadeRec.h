@@ -19,12 +19,12 @@ public:
     const Scene& scene; //当前场景
     Ray ray; //当前射线
     Material* material; //当前材质
-    const Primitive * primitive;
+    unsigned int  primitiveID;
     double distance;
-    bool hitAnObject;
     DifferentialGeometry dg; //微分几何
     ShadeRec(const Scene&,const Ray& ray);
     ShadeRec(const ShadeRec&);
+
 };
 
 

@@ -223,9 +223,15 @@ int main(int argc,char** argv) {
     Transform worldToLocal=Translate(Vector(0,0,-400));
     //第一个sphere
     Sphere* sphere=new Sphere(&localToWorld,&worldToLocal,false, 100,-100,100,360);
+
+
+    Transform localToWorld2=Translate(Vector(0,0,800));
+    Transform worldToLocal2=Translate(Vector(0,0,-800));
+    Sphere* sphere2=new Sphere(&localToWorld2,&worldToLocal2,false, 300,-300,300,360);
    // sphere->setMaterial(cookTorranceMaterial);
 
     GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(m));
+    GeomPrimitive * primit2=new GeomPrimitive(Reference<Shape>(sphere2),Reference<Material>(m));
 
     //Film picture(800, 600, 1);
 
@@ -238,6 +244,7 @@ int main(int argc,char** argv) {
     Scene scene;
     scene.background=RGB(1,1,0);
     scene.addPrimitive(Reference<Primitive>(primit));
+    scene.addPrimitive(Reference<Primitive>(primit2));
 
 
     Directional* directional=new Directional(RGB(1,1,1),RotateY(30)(Vector(0,0,1)));

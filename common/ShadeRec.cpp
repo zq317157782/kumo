@@ -5,7 +5,7 @@
 #include "ShadeRec.h"
 #include "global.h"
 
-ShadeRec::ShadeRec(const ShadeRec& _sr):normal(_sr.normal),hitPoint(_sr.hitPoint),scene(_sr.scene),ray(_sr.ray),material(_sr.material),distance(_sr.distance),hitAnObject(_sr.hitAnObject){
+ShadeRec::ShadeRec(const ShadeRec& _sr):normal(_sr.normal),hitPoint(_sr.hitPoint),scene(_sr.scene),ray(_sr.ray),material(_sr.material),distance(_sr.distance){
 
 }
 
@@ -17,6 +17,7 @@ ShadeRec::ShadeRec(const ShadeRec& _sr):normal(_sr.normal),hitPoint(_sr.hitPoint
     shared_ptr<Material> material; //当前材质
     double distance;
  */
-ShadeRec::ShadeRec(const Scene& scene,const Ray& r): ray(r), normal(Vector(0, 0, 0)), hitPoint(Point(0, 0, 0)), scene(scene), material(NULL), distance(0), hitAnObject(false){
+ShadeRec::ShadeRec(const Scene& scene,const Ray& r): ray(r), normal(Vector(0, 0, 0)), hitPoint(Point(0, 0, 0)), scene(scene), material(NULL), distance(0){
 
 }
+

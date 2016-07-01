@@ -25,11 +25,12 @@ public:
 
     unsigned long getPrimitiveNum() const;
     Reference<Primitive> getPrimitive(int index) const;
+    Reference<Primitive> getPrimitiveByID(unsigned int id) const;
 
     void addPrimitive(const Reference<Primitive> s);
     void addLight(const Reference<Light> light);
 
-    virtual ShadeRec hit(const Ray& ray);
+    virtual bool hit(const Ray& ray,ShadeRec* sr);
 
     RGB background;
 };

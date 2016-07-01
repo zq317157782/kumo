@@ -30,23 +30,28 @@ Reference<Primitive> Scene::getPrimitive(int index) const{
     return mPrimitives[index];
 }
 
-ShadeRec Scene::hit(const Ray &ray) {
-    ShadeRec sr(*this,ray);
-    for(std::vector<Reference<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
+Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const{
+	for(int i=0;i<mPrimitives.size();++i){
+		if(mPrimitives[i]->primitiveID==id){
+				return mPrimitives[i];
+		}
+	}
+
+	return nullptr;
+}
+
+bool Scene::hit(const Ray &ray,ShadeRec* sr) {
+	bool ret=false;
+	for(std::vector<Reference<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
-        if((*it)->CanIntersect()&&(*it)->Intersect(ray,&sr)){
-            sr.hitAnObject=true;
-            sr.hitPoint=sr.dg.p;
+        if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
+        	ray.maxT=sr->distance;
+            //sr.hitAnObject=true;
+            sr->hitPoint=sr->dg.p;
+            ret=true;
         }
     }
-
-//    if(sr.hitAnObject){
-//        sr.normal=normal;
-//        sr.distance=sr.dg.;
-//        sr.material=material;
-//    }
-
-    return (sr);
+    return ret;
 }
 
 void Scene::addPrimitive(const Reference<Primitive> primitive) {

@@ -4,6 +4,7 @@
 
 #include <Camera.h>
 #include "simpleRenderer.h"
+#include "primitive.h"
 
 void SimpleRenderer::render(Scene& scene) {
    // float pSize=camera->film->size()/mZoomFactor;//计算缩放后的像素大小
@@ -19,11 +20,12 @@ void SimpleRenderer::render(Scene& scene) {
                 point.x=pSize*(c-camera->film->width()*0.5+v.x);
                 point.y=pSize*(r-camera->film->height()*0.5+v.y);
                 Ray ray=camera->generateRay(point);
-                ShadeRec sr(scene.hit(ray));
-                if(sr.hitAnObject){
-                    sr.ray=ray;
+                ShadeRec sr(scene,ray);
+                if(scene.hit(ray,&sr)){
+                	Reference<Primitive> primitive= scene.getPrimitiveByID(sr.primitiveID);
+                  //  sr.ray=ray;
                    //todo 原来计算材质  L+= sr.material->shade(sr);
-                    L+=sr.primitive->GetMaterial()->shade(sr);
+                    L+=primitive->GetMaterial()->shade(sr);
                 }else{
                     L+=scene.background;
                 }
