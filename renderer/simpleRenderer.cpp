@@ -20,7 +20,7 @@ void SimpleRenderer::render(Scene& scene) {
                 point.x=pSize*(c-camera->film->width()*0.5+v.x);
                 point.y=pSize*(r-camera->film->height()*0.5+v.y);
                 Ray ray=camera->generateRay(point);
-                ShadeRec sr(scene,ray);
+                Intersection sr(scene,ray);
                 if(scene.hit(ray,&sr)){
                 	Reference<Primitive> primitive= scene.getPrimitiveByID(sr.primitiveID);
                   //  sr.ray=ray;

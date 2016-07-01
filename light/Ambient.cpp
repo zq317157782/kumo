@@ -6,11 +6,11 @@
 #include "global.h"
 
 
-Vector Ambient::getDirection(const ShadeRec &sr) const {
+Vector Ambient::getDirection(const Intersection &sr) const {
     return Vector(0,0,0);
 }
 
-RGB Ambient::L(const ShadeRec &sr) {
+RGB Ambient::L(const Intersection &sr) {
     return mScaleFactor*mIrradiance;
 }
 

@@ -6,10 +6,11 @@
 #define RAYTRACER_SHAPE_H
 
 
+#include <Intersection.h>
 #include "global.h"
 #include "memory.h"
 #include "geometry.h"
-#include "../common/ShadeRec.h"
+
 using namespace std;
 
 class Shape :public ReferenceCounted{
@@ -27,7 +28,7 @@ public:
     Shape(Transform *o2w,Transform *w2o,bool ro,bool mShadow=true) ;
 
     /*判断与法线的碰撞*/
-    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec& sr) const=0;
+    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,Intersection& sr) const=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
 
     bool castShadow() const;

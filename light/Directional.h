@@ -17,12 +17,12 @@ private:
 public:
     Directional(const RGB &mIrradiance=RGB(1,1,1), const Vector &mDirection=Vector(1,0,0),const float mScaleFactor=1.0);
 
-    virtual Vector getDirection(const ShadeRec &sr) const override;
+    virtual Vector getDirection(const Intersection &sr) const override;
 
-    virtual RGB L(const ShadeRec &sr)  override;
+    virtual RGB L(const Intersection &sr)  override;
 
 
-    virtual bool inShadow(const Ray &ray, const ShadeRec &sr) const override;
+    virtual bool inShadow(const Ray &ray, const Intersection &sr) const override;
 };
 
 

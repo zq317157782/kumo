@@ -4,9 +4,9 @@
 
 #ifndef RAYTRACER_PRIMITIVE_H
 #define RAYTRACER_PRIMITIVE_H
+#include <Intersection.h>
 #include "global.h"
 #include "memory.h"
-#include "../common/ShadeRec.h"
 #include "Material.h"
 #include "Shape.h"
 
@@ -19,7 +19,7 @@ public:
     Primitive():primitiveID(nextPrimitiveID++){}
 
     virtual bool CanIntersect() const {return false;};
-    virtual bool Intersect(const Ray &r, ShadeRec *in) const = 0;
+    virtual bool Intersect(const Ray &r, Intersection *in) const = 0;
     virtual Reference<Material> GetMaterial() const {assert(false);return nullptr;};
     virtual Reference<Shape> GetShape() const{assert(false);return nullptr;}
 };
@@ -37,7 +37,7 @@ public:
 
 	bool CanIntersect() const override {return true;};
 
-	bool Intersect(const Ray &r, ShadeRec *in) const{
+	bool Intersect(const Ray &r, Intersection *in) const{
 		float thit, rayEpsilon;
 		bool ret= mShape->hit(r,&thit,&rayEpsilon,&(in->dg),*in);
 		if(ret){

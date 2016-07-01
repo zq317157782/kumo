@@ -9,15 +9,15 @@ Directional::Directional(const RGB &mIrradiance, const Vector &mDirection,const 
                                                                                      mScaleFactor(mScaleFactor),
                                                                                      mDirection(Normalize(mDirection)) {}
 
-Vector Directional::getDirection(const ShadeRec &sr) const {
+Vector Directional::getDirection(const Intersection &sr) const {
     return -mDirection;
 }
 
-RGB Directional::L(const ShadeRec &sr) {
+RGB Directional::L(const Intersection &sr) {
     return mScaleFactor*mIrradiance;
 }
 
-bool Directional::inShadow(const Ray &ray, const ShadeRec &sr) const {
+bool Directional::inShadow(const Ray &ray, const Intersection &sr) const {
     unsigned long num_obj=sr.scene.getPrimitiveNum();
     double t;
     for(int i=0;i<num_obj;++i){

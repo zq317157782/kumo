@@ -10,7 +10,7 @@ AmbientOccluder::AmbientOccluder(const RGB &mIrradiance, const float mScaleFacto
     setSamper(new MultiJitteredSampler());
 }
 
-RGB AmbientOccluder::L(const ShadeRec &sr){
+RGB AmbientOccluder::L(const Intersection &sr){
     w=Vector(sr.normal);
     v=Normalize(Cross(w,Vector(0.0072, 1.0, 0.0034)));
     u=Cross(v,w);
@@ -29,12 +29,12 @@ void AmbientOccluder::setSamper(Sampler*sampler) {
 }
 
 
-Vector AmbientOccluder::getDirection(const ShadeRec &sr) const {
+Vector AmbientOccluder::getDirection(const Intersection &sr) const {
     Vector point=mSampler->sampleHemi();
     return u*point.x+v*point.y+w*point.z;
 }
 
-bool AmbientOccluder::inShadow(const Ray &ray, const ShadeRec &sr) const {
+bool AmbientOccluder::inShadow(const Ray &ray, const Intersection &sr) const {
 
 //    unsigned long num_obj= sr.scene.getPrimitiveNum();
 //    double t;

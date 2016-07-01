@@ -7,9 +7,10 @@
 
 
 
+#include <Intersection.h>
 #include "RGB.h"
-#include "../common/ShadeRec.h"
 #include "memory.h"
+
 /**
  * 光 基类
  */
@@ -17,13 +18,13 @@ class Light:public ReferenceCounted{
 private:
     bool mShadow;//是否投射阴影
 public:
-    virtual Vector getDirection(const ShadeRec& sr) const =0; //得到光线方向
-    virtual RGB L(const ShadeRec& sr)=0;  //得到hit点从这个光源得到的能量
+    virtual Vector getDirection(const Intersection& sr) const =0; //得到光线方向
+    virtual RGB L(const Intersection& sr)=0;  //得到hit点从这个光源得到的能量
     bool castShadow() const;
-    virtual bool inShadow(const Ray& ray,const ShadeRec& sr)const;
+    virtual bool inShadow(const Ray& ray,const Intersection& sr)const;
 
-    virtual float G(const ShadeRec& sr) const;
-    virtual float pdf(ShadeRec& sr) const;//概率分布函数
+    virtual float G(const Intersection& sr) const;
+    virtual float pdf(Intersection& sr) const;//概率分布函数
 
     virtual ~Light(){};
 };

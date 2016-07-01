@@ -8,14 +8,14 @@ bool Light::castShadow() const{
  return mShadow;
 }
 
-bool Light::inShadow(const Ray &ray, const ShadeRec &sr) const {
+bool Light::inShadow(const Ray &ray, const Intersection &sr) const {
  return false;
 }
 
-float Light::G(const ShadeRec &sr) const {
+float Light::G(const Intersection &sr) const {
  return 1.0;
 }
 
-float Light::pdf(ShadeRec &sr) const {
+float Light::pdf(Intersection &sr) const {
  return 1.0;
 }

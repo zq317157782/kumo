@@ -12,7 +12,7 @@
 using namespace std;
 
 
-class ShadeRec {
+class Intersection {
 public:
     Vector normal;//法线
     Point hitPoint;//射线交点
@@ -22,8 +22,8 @@ public:
     unsigned int  primitiveID;
     double distance;
     DifferentialGeometry dg; //微分几何
-    ShadeRec(const Scene&,const Ray& ray);
-    ShadeRec(const ShadeRec&);
+    Intersection(const Scene&,const Ray& ray);
+    Intersection(const Intersection&);
 
 };
 

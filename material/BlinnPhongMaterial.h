@@ -24,9 +24,9 @@ public:
     void setSurfaceColor(const RGB& color,const float shiness);
     void setDiffuseColor(const RGB& color);
     void setAmbientColor(const RGB& color);
-    virtual RGB shade(ShadeRec &sr);
+    virtual RGB shade(Intersection &sr);
 
-    virtual RGB areaLightShade(ShadeRec &sr);
+    virtual RGB areaLightShade(Intersection &sr);
 };
 
 

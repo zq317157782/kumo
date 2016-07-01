@@ -23,9 +23,9 @@ public:
     void scaleSpecularAlbedo(const float k);
     void setAlbedo(const RGB& color,const double m);
 
-    virtual RGB shade(ShadeRec &sr);
+    virtual RGB shade(Intersection &sr);
 
-    virtual RGB areaLightShade(ShadeRec &sr);
+    virtual RGB areaLightShade(Intersection &sr);
 };
 
 

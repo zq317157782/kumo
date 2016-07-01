@@ -24,7 +24,7 @@
 //    mSpecularBrdf.setShiness(exp);
 //}
 
-RGB PhongMaterial::shade(ShadeRec &sr) {
+RGB PhongMaterial::shade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -45,7 +45,7 @@ RGB PhongMaterial::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB PhongMaterial::areaLightShade(ShadeRec &sr) {
+RGB PhongMaterial::areaLightShade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

@@ -7,9 +7,10 @@
 
 
 
+#include <Film.h>
+
 #include "../scene/Scene.h"
 #include "../sampler/Sampler.h"
-#include "../common/Film.h"
 #include <memory>
 
 #include "global.h"

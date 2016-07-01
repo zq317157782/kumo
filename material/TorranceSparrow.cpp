@@ -24,7 +24,7 @@ void TorranceSparrow::setAlbedo(const RGB& color,const double m) {
     mSpecularBrdf.setGlossy(m);
 }
 
-RGB TorranceSparrow::shade(ShadeRec &sr) {
+RGB TorranceSparrow::shade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -45,7 +45,7 @@ RGB TorranceSparrow::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB TorranceSparrow::areaLightShade(ShadeRec &sr) {
+RGB TorranceSparrow::areaLightShade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

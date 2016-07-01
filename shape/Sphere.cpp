@@ -7,7 +7,7 @@
 #include "transform.h"
 #include "diffgeom.h"
 
-bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,ShadeRec &sr) const{
+bool Sphere::hit(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg,Intersection &sr) const{
     Ray ray;
     (*worldToLocal)(r,&ray);
     // Compute quadratic sphere coefficients

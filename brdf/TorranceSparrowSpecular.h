@@ -26,9 +26,9 @@ public:
 
     TorranceSparrowSpecular( const RGB &mAlbedo=RGB(1,1,1),double mM=1.0,float mScaleFactor=1.0);
 
-    virtual RGB f(const ShadeRec &sr, const Vector &wi, const Vector &wo);
+    virtual RGB f(const Intersection &sr, const Vector &wi, const Vector &wo);
 
-    virtual RGB rho(const ShadeRec &sr, const Vector &wo);
+    virtual RGB rho(const Intersection &sr, const Vector &wo);
 
     void scaleAlbedo(float _f);
     void setAlbedo(const RGB& _albedo);

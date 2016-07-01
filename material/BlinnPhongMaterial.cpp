@@ -25,7 +25,7 @@
 //    mSpecularBrdf.setKs(color);
 //}
 
-RGB BlinnPhongMaterial::shade(ShadeRec &sr) {
+RGB BlinnPhongMaterial::shade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -46,7 +46,7 @@ RGB BlinnPhongMaterial::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB BlinnPhongMaterial::areaLightShade(ShadeRec &sr) {
+RGB BlinnPhongMaterial::areaLightShade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

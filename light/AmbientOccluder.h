@@ -20,12 +20,12 @@ private:
     Sampler* mSampler;
 public:
     AmbientOccluder(const RGB &mIrradiance=RGB(0.2,0.2,0.2),const float mScaleFactor=1.0,const float occuluderFactor=0.0);
-    virtual RGB L(const ShadeRec &sr) override ;
+    virtual RGB L(const Intersection &sr) override ;
     void setSamper(Sampler* sampler);//环境遮罩所使用的采样点产生器
 
-    virtual Vector getDirection(const ShadeRec &sr) const;
+    virtual Vector getDirection(const Intersection &sr) const;
 
-    virtual bool inShadow(const Ray &ray, const ShadeRec &sr) const;
+    virtual bool inShadow(const Ray &ray, const Intersection &sr) const;
 };
 
 

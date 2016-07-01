@@ -21,9 +21,9 @@ public:
 void setSurfaceColor(const RGB& color,const double m);
 void setAmbientColor(const RGB& color);
 
-virtual RGB shade(ShadeRec &sr);
+virtual RGB shade(Intersection &sr);
 
-virtual RGB areaLightShade(ShadeRec &sr);
+virtual RGB areaLightShade(Intersection &sr);
 };
 
 

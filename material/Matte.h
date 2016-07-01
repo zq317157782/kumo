@@ -16,8 +16,8 @@ private:
     Lambertian mDiffuseBrdf;
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
-    virtual RGB shade(ShadeRec& sr);
-    virtual RGB areaLightShade(ShadeRec& sr);
+    virtual RGB shade(Intersection& sr);
+    virtual RGB areaLightShade(Intersection& sr);
 };
 
 

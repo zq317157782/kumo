@@ -11,15 +11,15 @@ PointLight::PointLight(const Point &mPosition, const RGB &mIrradiance,const floa
 
 }
 
-Vector PointLight::getDirection(const ShadeRec &sr) const {
+Vector PointLight::getDirection(const Intersection &sr) const {
     return Normalize(mPosition-sr.hitPoint);
 }
 
-RGB PointLight::L(const ShadeRec &sr){
+RGB PointLight::L(const Intersection &sr){
     return mScaleFactor*mIrradiance; //这里没有带距离衰减系数
 }
 
-bool PointLight::inShadow(const Ray &ray, const ShadeRec &sr) const {
+bool PointLight::inShadow(const Ray &ray, const Intersection &sr) const {
     unsigned long num_obj=sr.scene.getPrimitiveNum();
     double t=9999999;
     double d = (mPosition-ray.o).Length();

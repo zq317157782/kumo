@@ -6,12 +6,12 @@
 #include <assert.h>
 #include "TorranceSparrowSpecular.h"
 
-RGB TorranceSparrowSpecular::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+RGB TorranceSparrowSpecular::f(const Intersection &sr, const Vector &wi, const Vector &wo) {
     Vector half=Normalize(wi + wo);
     return mAlbedo/(4*M_PI*Dot(sr.normal,wi))*_NDF(sr.normal,half)*_Fresnel(wo,half)*_G(sr.normal,half,wi,wo);
 }
 
-RGB TorranceSparrowSpecular::rho(const ShadeRec &sr, const Vector &wo) {
+RGB TorranceSparrowSpecular::rho(const Intersection &sr, const Vector &wo) {
     return RGB(1,1,1);
 }
 

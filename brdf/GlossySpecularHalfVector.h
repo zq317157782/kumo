@@ -11,7 +11,7 @@
 class GlossySpecularHalfVector: public GlossySpecular{
 
 public:
-    virtual RGB f(const ShadeRec &sr, const Vector &wi, const Vector &wo);
+    virtual RGB f(const Intersection &sr, const Vector &wi, const Vector &wo);
 };
 
 

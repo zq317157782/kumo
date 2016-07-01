@@ -2,7 +2,7 @@
 // Created by 诸谦 on 15/12/27.
 //
 
-#include "Film.h"
+#include <Film.h>
 #include "global.h"
 #include "geometry.h"
 Film::Film(int mWidth, int mHeight, float mPixelSize) : mWidth(mWidth), mHeight(mHeight), mPixelSize(mPixelSize) {

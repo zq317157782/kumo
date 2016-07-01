@@ -48,11 +48,11 @@ CookTorrance::CookTorrance(const RGB &specularColor, double m, float scaleFactor
 
 }
 
-RGB CookTorrance::rho(const ShadeRec &sr, const Vector &wo) {
+RGB CookTorrance::rho(const Intersection &sr, const Vector &wo) {
     return RGB(1,1,1);
 }
 
-RGB CookTorrance::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+RGB CookTorrance::f(const Intersection &sr, const Vector &wi, const Vector &wo) {
     Vector half=Normalize(wi + wo);
     double ndotv=Dot(sr.normal,wo);
     double ndotl=Dot(sr.normal,wi);

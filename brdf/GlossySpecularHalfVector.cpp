@@ -5,7 +5,7 @@
 #include <math.h>
 #include "GlossySpecularHalfVector.h"
 
-RGB GlossySpecularHalfVector::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+RGB GlossySpecularHalfVector::f(const Intersection &sr, const Vector &wi, const Vector &wo) {
 
     Vector h=Normalize(wi + wo);//求得半向量
     double ndoth=Dot(sr.normal,h);

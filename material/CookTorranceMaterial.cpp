@@ -10,7 +10,7 @@ void CookTorranceMaterial::setSurfaceColor(const RGB &color, const double m) {
     mCookTorranceBrdf.setGlossy(m);
 }
 
-RGB CookTorranceMaterial::shade(ShadeRec &sr) {
+RGB CookTorranceMaterial::shade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long  lignt_num=sr.scene.getLightNum();
@@ -31,7 +31,7 @@ RGB CookTorranceMaterial::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB CookTorranceMaterial::areaLightShade(ShadeRec &sr) {
+RGB CookTorranceMaterial::areaLightShade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();

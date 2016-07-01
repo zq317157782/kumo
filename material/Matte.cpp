@@ -13,7 +13,7 @@ Matte::Matte(const RGB& _albedo):
 
 
 
-RGB Matte::shade(ShadeRec &sr) {
+RGB Matte::shade(Intersection &sr) {
     Vector wo=-sr.ray.d;
     RGB L=sr.scene.ambient()->L(sr)*mAmbientBrdf.rho(wo,0,nullptr);//(sr,wo);
     unsigned long lignt_num=sr.scene.getLightNum();
@@ -27,6 +27,6 @@ RGB Matte::shade(ShadeRec &sr) {
     return L;
 }
 
-RGB Matte::areaLightShade(ShadeRec &sr) {
+RGB Matte::areaLightShade(Intersection &sr) {
     return RGB(0,0,0);
 }

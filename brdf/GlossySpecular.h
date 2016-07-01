@@ -18,8 +18,8 @@ public:
     void scale(float _f);
     void setKs(const RGB &_ks);
     void setShiness(float _shiness);
-    virtual RGB f(const ShadeRec &sr, const Vector &wi, const Vector &wo) override;
-    virtual RGB rho(const ShadeRec &sr, const Vector &wo) override;
+    virtual RGB f(const Intersection &sr, const Vector &wi, const Vector &wo) override;
+    virtual RGB rho(const Intersection &sr, const Vector &wo) override;
 
 };
 

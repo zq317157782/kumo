@@ -21,7 +21,7 @@ void GlossySpecular::setKs(const RGB &_ks) {
     mKs = _ks;
 }
 
-RGB GlossySpecular::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
+RGB GlossySpecular::f(const Intersection &sr, const Vector &wi, const Vector &wo) {
     double ndotl=Dot(sr.normal,wi);
     Vector r= -wi + sr.normal * ndotl * 2;//求得反射向量
     double rdotv=Dot(r,wo);
@@ -31,7 +31,7 @@ RGB GlossySpecular::f(const ShadeRec &sr, const Vector &wi, const Vector &wo) {
     return L;
 }
 
-RGB GlossySpecular::rho(const ShadeRec &sr, const Vector &wo) {
+RGB GlossySpecular::rho(const Intersection &sr, const Vector &wo) {
     return mKs * mScaleFactor*(2*M_PI/(mShiness+2));
 }
 

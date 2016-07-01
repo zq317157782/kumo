@@ -40,7 +40,7 @@ Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const{
 	return nullptr;
 }
 
-bool Scene::hit(const Ray &ray,ShadeRec* sr) {
+bool Scene::hit(const Ray &ray,Intersection* sr) {
 	bool ret=false;
 	for(std::vector<Reference<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
