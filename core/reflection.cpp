@@ -76,3 +76,24 @@ RGB SpecularReflection::sample_f(const Vector& wo,Vector* wi,float u1,float u2,f
 	*pdf=1.f;//概率分布为1
 	return mFresnel->Evaluate(CosTheta(wo))*mScale/AbsCosTheta(*wi); //镜面反射的brdf公式
 }
+
+
+RGB SpecularTransmission::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
+	  bool entering = CosTheta(wo) > 0.;
+	  float ei = mEtaI, et = mEtaT;
+	  if (!entering)//判断wo是从外面射入还是从内部射出
+	     swap(ei, et);
+	  //根据Snell's law 计算折射方向
+	  float sini2 = SinTheta2(wo);
+	  float eta = ei / et;
+	  float sint2 = eta * eta * sini2;
+
+	  if (sint2 >= 1.) return 0.;//所有的光线全部反射，所以没有折射
+	  float cost = sqrtf(max(0.f, 1.f - sint2));
+	  if (entering) cost = -cost; //设置符号
+	  float sintOverSini = eta;
+	  *wi = Vector(sintOverSini * -wo.x, sintOverSini * -wo.y, cost);
+	  *pdf = 1.f;
+	  RGB F = mFresnel.Evaluate(CosTheta(wo));//计算反射系数
+	  return (ei*ei)/(et*et) * (RGB(1.0f)-F) *mScale/AbsCosTheta(*wi);
+}

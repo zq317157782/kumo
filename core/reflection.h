@@ -150,12 +150,32 @@ private:
 	RGB mScale;  //缩放系数
 	const Fresnel*mFresnel;
 public:
-	SpecularReflection(const RGB& s,Fresnel* f):BxDF(BxDFType(BSDF_REFLECTION | BSDF_SPECULAR)),mScale(s),mFresnel(f){}
+	SpecularReflection(const RGB& r,Fresnel* f):BxDF(BxDFType(BSDF_REFLECTION | BSDF_SPECULAR)),mScale(r),mFresnel(f){}
 
 	virtual RGB f(const Vector &wo,const Vector &wi) const override{ //给非狄克尔分布的版本
 		 return 0.f;//因为是完美镜面反射，所以直接返回0;
 	};
 	RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//这个是镜面反射需要实现的函数
+};
+
+
+//镜面折射BTDF
+class SpecularTransmission:public BxDF{
+private:
+	RGB mScale;
+	FresnelDielectric mFresnel;//因为是折射 所以只有绝缘体会发生
+	float mEtaI,mEtaT;
+public:
+	SpecularTransmission(const RGB& t,float ei,float et):BxDF(BxDFType(BSDF_TRANSMISSION| BSDF_SPECULAR)),mScale(t),mFresnel(ei,et){
+		mEtaI=ei;//入射折射系数
+		mEtaT=et;//出射折射系数
+	}
+
+	virtual RGB f(const Vector &wo,const Vector &wi) const override{ //给非狄克尔分布的版本
+			 return 0.f;//因为是完美镜面折射，所以直接返回0;
+	};
+
+	RGB sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const override;//这个是镜面折射需要实现的函数
 };
 
 #endif //RAYTRACER_REFLECTION_H
