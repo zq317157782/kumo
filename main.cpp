@@ -196,6 +196,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "primitive.h"
 #include "material/Matte.h"
 #include "integrator/SimpleIntegrator.h"
+#include "random.h"
 using namespace std;
 
 #ifdef UNIT_TEST
@@ -207,6 +208,10 @@ int main(int argc,char** argv) {
     ::testing::InitGoogleTest(&argc,argv);
     return  RUN_ALL_TESTS();
 #endif
+
+//    Random rand(0);
+//    for(int i=0;i<100;++i)
+//    	cout<<rand.RandomFloat()<<endl;
 
 //    SpecularReflection* specular=new SpecularReflection(RGB(1.f),new FresnelConductor(RGB(2.2f),RGB(0.5f)));
 //    Vector wi;

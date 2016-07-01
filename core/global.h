@@ -56,6 +56,8 @@ class RGB;//颜色
 class Integrator;
 class SurfaceIntegrator;
 class Intersection;
+class Random;//随机数
+struct Sample;//采样点
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
@@ -86,6 +88,8 @@ inline float Clamp(float val, float low, float high) {
     else if (val > high) return high;
     else return val;
 }
+
+
 
 
 

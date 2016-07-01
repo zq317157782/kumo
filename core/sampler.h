@@ -8,7 +8,27 @@
 #ifndef CORE_SAMPLER_H_
 #define CORE_SAMPLER_H_
 
+#include "global.h"
+
+class Sampler{
+public:
+	const int xPixelStart,xPixelEnd,yPixelStart,yPixelEnd;
+	const int samplesPerPixel; //每个像素包含的采样点个数
+
+	Sampler(int xs,int xe,int ys,int ye,int spp):xPixelStart(xs),xPixelEnd(xe),yPixelStart(ys),yPixelEnd(ye),samplesPerPixel(spp){}
+	virtual int GetMoreSamples(Sample* sample,Random& rand)=0; //返回残阳点个数  和  采样点数组
+};
 
 
+//相机采样点
+struct CameraSample {
+    float imageX, imageY;
+    float lensU, lensV;
+};
+
+//普通采样点
+struct Sample:public CameraSample{
+
+};
 
 #endif /* CORE_SAMPLER_H_ */
