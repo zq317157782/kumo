@@ -10,12 +10,12 @@
 #include "Intersection.h"
 #include "Scene.h"
 SimpleIntegrator::SimpleIntegrator() {
-	// TODO Auto-generated constructor stub
+
 
 }
 
 SimpleIntegrator::~SimpleIntegrator() {
-	// TODO Auto-generated destructor stub
+
 }
 
 RGB SimpleIntegrator::Li(const Scene &scene, const Renderer &renderer,
