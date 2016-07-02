@@ -28,3 +28,33 @@ void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
     *newYStart = Floor2Int(Lerp(ty0, yPixelStart, yPixelEnd));
     *newYEnd   = Floor2Int(Lerp(ty1, yPixelStart, yPixelEnd));
 }
+
+//这里要生成一个存放所有采样点的二维数组
+void Sample::AllocateSampleMemory() {
+	int nPtrs=n1D.size()+n2D.size();
+	if(!nPtrs){ //不用分配额外采样点的情况
+		oneD=twoD=nullptr;
+		return;
+	}
+
+	oneD=AllocAligned<float*>(nPtrs);
+	twoD = oneD+n1D.size();//存放二维样本点的二维数组的起始位置
+
+	int totalSamples=0;
+	for(unsigned int i=0;i<n1D.size();++i)
+		totalSamples+=n1D[i];
+	for(unsigned int i=0;i<n2D.size();++i)
+		totalSamples+=n2D[i]*2;
+
+	float* mem=AllocAligned<float>(totalSamples);//分配所有采样点的内存空间
+
+	for(unsigned int i=0;i<n1D.size();++i){
+		oneD[i]=mem;
+		mem+=n1D[i];
+	}
+	for(unsigned int i=0;i<n2D.size();++i){
+		twoD[i]=mem;
+		mem+=n2D[i]*2;
+	}
+
+}

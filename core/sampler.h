@@ -36,7 +36,25 @@ struct CameraSample {
 
 //普通采样点
 struct Sample:public CameraSample{
+public:
+	 vector<unsigned int> n1D, n2D;
+	 float **oneD, **twoD; //这里是存放真正的采样点的地方
 
+	 //额外的1维采样点
+	 unsigned int Add1D(unsigned int num) {
+	     n1D.push_back(num);
+	     return n1D.size()-1;
+	 }
+
+	 //额外的二维采样点
+	 unsigned int Add2D(unsigned int num) {
+	         n2D.push_back(num);
+	         return n2D.size()-1;
+	 }
+
+private:
+    void AllocateSampleMemory(); //分配存放采样点的内存
+    Sample() { oneD = twoD = nullptr; }
 };
 
 #endif /* CORE_SAMPLER_H_ */

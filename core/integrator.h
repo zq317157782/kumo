@@ -12,7 +12,7 @@ class Integrator{
 
 	 }
 public:
-	 virtual ~Integrator();
+	 virtual ~Integrator(){};
 };
 
 

@@ -4,7 +4,6 @@
 
 #ifndef RAYTRACER_SCENE_H
 #define RAYTRACER_SCENE_H
-#include <vector>
 #include "light.h"
 #include "primitive.h"
 #include "memory.h"
