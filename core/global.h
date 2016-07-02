@@ -58,6 +58,7 @@ class SurfaceIntegrator;
 class Intersection;
 class Random;//随机数
 struct Sample;//采样点
+class Sampler; //采样器
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

@@ -7,7 +7,12 @@
 #include "global.h"
 //积分器
 class Integrator{
+	 virtual void RequestSamples(Sampler *sampler, Sample *sample,
+	                                const Scene *scene) {
 
+	 }
+public:
+	 virtual ~Integrator();
 };
 
 
