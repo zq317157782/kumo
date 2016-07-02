@@ -51,4 +51,11 @@ private:
     T *ptr;
 };
 
+//分配内存的方法 现在只实现非对齐方式分配
+void *AllocAligned(unsigned int  size);
+template <typename T> T *AllocAligned(unsigned int count) {
+    return (T *)AllocAligned(count * sizeof(T));
+}
+void FreeAligned(void *);
+
 #endif //RAYTRACER_MEMORY_H
