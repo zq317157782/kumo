@@ -15,7 +15,6 @@ using namespace std;
 class Intersection {
 public:
     Vector normal;//法线
-//    Point hitPoint;//射线交点
     const Scene& scene; //当前场景
     Ray ray; //当前射线
     Material* material; //当前材质
@@ -24,7 +23,6 @@ public:
     DifferentialGeometry dg; //微分几何
     Intersection(const Scene&,const Ray& ray);
     Intersection(const Intersection&);
-
 };
 
 
