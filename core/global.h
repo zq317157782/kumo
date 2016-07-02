@@ -89,8 +89,15 @@ inline float Clamp(float val, float low, float high) {
     else return val;
 }
 
+//向下取整
+inline int Floor2Int(float val) {
+    return (int)floorf(val);
+}
 
-
+//插值
+inline float Lerp(float t, float v1, float v2) {
+    return (1.f - t) * v1 + t * v2;
+}
 
 
 #endif //RAYTRACER_GLOBAL_H
