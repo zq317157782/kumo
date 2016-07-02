@@ -18,8 +18,8 @@ SimpleIntegrator::~SimpleIntegrator() {
 
 }
 
-RGB SimpleIntegrator::Li(const Scene &scene, const Renderer &renderer,
+RGB SimpleIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		  const RayDifferential &ray, const Intersection &isect) const{
-	    	Reference<Primitive> primitive= scene.getPrimitiveByID(isect.primitiveID);
+	    	Reference<Primitive> primitive= scene->getPrimitiveByID(isect.primitiveID);
 	        return primitive->GetMaterial()->shade(isect);
 }

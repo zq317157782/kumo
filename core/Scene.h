@@ -30,9 +30,11 @@ public:
     void addPrimitive(const Reference<Primitive> s);
     void addLight(const Reference<Light> light);
 
-    virtual bool hit(const Ray& ray,Intersection* sr);
+    virtual bool hit(const Ray& ray,Intersection* sr) const;
 
     RGB background;
+
+    virtual ~Scene(){}
 };
 
 

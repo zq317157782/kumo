@@ -40,9 +40,9 @@ Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const{
 	return nullptr;
 }
 
-bool Scene::hit(const Ray &ray,Intersection* sr) {
+bool Scene::hit(const Ray &ray,Intersection* sr) const{
 	bool ret=false;
-	for(std::vector<Reference<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
+	for(std::vector<const Reference<Primitive>>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); it++)
     {
         if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
         	ray.maxT=sr->distance;

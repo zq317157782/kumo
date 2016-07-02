@@ -18,7 +18,7 @@ public:
         assert(camera!=nullptr);
         assert(sampler!=nullptr);
     }
-    virtual void render(Scene& scene) override;
+    virtual void render(const Scene* scene) override;
 
 
 };
