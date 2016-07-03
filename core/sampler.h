@@ -54,6 +54,12 @@ public:
 	         return n2D.size()-1;
 	 }
 
+	 //释放所有的动态申请的空间
+	 ~Sample();
+
+	 //复制采样点
+	 Sample *Duplicate(int count) const;
+
 private:
     void AllocateSampleMemory(); //分配存放采样点的内存
     Sample() { oneD = twoD = nullptr; }

@@ -37,6 +37,13 @@ Sample::Sample(Sampler* sampler,SurfaceIntegrator* si,const Scene* scene){
 	AllocateSampleMemory();//申请内存空间
 }
 
+Sample::~Sample() {
+	         if (oneD != nullptr) {
+	             FreeAligned(oneD[0]);
+	             FreeAligned(oneD);
+	         }
+	 }
+
 //这里要生成一个存放所有采样点的二维数组
 void Sample::AllocateSampleMemory() {
 	int nPtrs=n1D.size()+n2D.size();
@@ -65,4 +72,15 @@ void Sample::AllocateSampleMemory() {
 		mem+=n2D[i]*2;
 	}
 
+}
+
+
+Sample *Sample::Duplicate(int count) const{
+	Sample* ret=new Sample[count];
+	for(int i=0;i<count;++i){
+		ret[i].n1D=n1D;
+		ret[i].n2D=n2D;
+		ret[i].AllocateSampleMemory();
+	}
+	return ret;
 }
