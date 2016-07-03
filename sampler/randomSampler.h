@@ -15,8 +15,8 @@ public:
 	RandomSampler(int xStart,int xEnd,int yStart,int yEnd,int spp);
 	virtual ~RandomSampler();
 	virtual int MaximumSampleCount() override{ return 1; }
-	//virtual int GetMoreSamples(Sample *sample, Random &rng);
-
+	virtual int GetMoreSamples(Sample *sample, Random &rng) override;
+	virtual Sampler* GetSubSampler(int num,int count) override;
 private:
     int xPos, yPos, nSamples;
     float *imageSamples, *lensSamples;

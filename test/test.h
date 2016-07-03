@@ -12,6 +12,7 @@
 #include "transform.h"
 
 
+
 TEST(Transform,checkScale){
     Vector v(1,1,1);
     Transform tran=Scale(0.5f,0.3f,0.2f);
@@ -44,12 +45,23 @@ TEST(Transform,checkRotate){
     ASSERT_EQ(v3.y,0);
     ASSERT_TRUE( fabsf(v3.z)< 0.0001f);
 }
-#include "memory.h"
-
-//TEST(Memory,AllocAligned){
-//	void* buf=AllocAligned(100);
-//	ASSERT_EQ(sizeof(buf),100);
-//}
+#include "../sampler/randomSampler.h"
+#include "random.h"
+#include "sampler.h"
+TEST(RandomSampler,ctor){
+	RandomSampler rs(0,32,0,32,6);
+	Sample *s=new Sample(&rs,nullptr,nullptr);
+	Random ran;
+	rs.GetMoreSamples(s,ran);
+	rs.GetMoreSamples(s,ran);
+	rs.GetMoreSamples(s,ran);
+	rs.GetMoreSamples(s,ran);
+	rs.GetMoreSamples(s,ran);
+	rs.GetMoreSamples(s,ran);
+//	rs.GetMoreSamples(s,ran);
+//	rs.GetMoreSamples(s,ran);
+	ASSERT_EQ(s->imageX,0);
+}
 
 #endif
 
