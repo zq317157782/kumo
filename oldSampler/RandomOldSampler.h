@@ -6,7 +6,7 @@
 #define RAYTRACER_RANDOMSAMPLER_H
 
 
-#include "OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 
 class RandomSampler: public OldSampler{
 

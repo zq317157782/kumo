@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include "JitteredOldSampler.h"
+#include "../oldSampler/JitteredOldSampler.h"
 
 JitteredSampler::JitteredSampler(int _num_sample,int _numSet):OldSampler(_num_sample,_numSet){
     generateSamples();

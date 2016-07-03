@@ -7,7 +7,7 @@
 
 #include "Light.h"
 
-#include "../sampler/OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 
 /**
  * 带环境遮罩的光源

@@ -6,7 +6,7 @@
 #define RAYTRACER_NROOKSAMPLER_H
 
 
-#include "OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 
 class NRookSampler : public OldSampler{
 public:

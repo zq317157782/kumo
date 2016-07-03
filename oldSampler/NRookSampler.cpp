@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include "NRookOldSampler.h"
+#include "../oldSampler/NRookOldSampler.h"
 
 
 NRookSampler::NRookSampler(int _sampleNum,int _setNum) : OldSampler(_sampleNum, _setNum) {

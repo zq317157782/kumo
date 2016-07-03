@@ -2,7 +2,7 @@
 // Created by 诸谦 on 15/12/24.
 //
 
-#include "OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 
 #include <math.h>
 #include <assert.h>

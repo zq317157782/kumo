@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include "RandomOldSampler.h"
+#include "../oldSampler/RandomOldSampler.h"
 
 RandomSampler::RandomSampler( int _sampleNum,  int _setNum) : OldSampler(_sampleNum, _setNum) {
     generateSamples();

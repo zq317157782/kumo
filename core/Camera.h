@@ -14,7 +14,7 @@
 
 #include "global.h"
 
-#include "../sampler/OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 class Camera {
 public:
     Film * film;

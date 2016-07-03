@@ -6,7 +6,7 @@
 #define RAYTRACER_JITTEREDSAMPLER_H
 
 
-#include "OldSampler.h"
+#include "../oldSampler/OldSampler.h"
 
 class JitteredSampler: public OldSampler{
 public:

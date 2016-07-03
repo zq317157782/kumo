@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include "MultiJitteredOldSampler.h"
+#include "../oldSampler/MultiJitteredOldSampler.h"
 
 MultiJitteredSampler::MultiJitteredSampler(int _sampleNum,int _setNum) : OldSampler(_sampleNum, _setNum) {
     generateSamples();

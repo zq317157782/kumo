@@ -7,7 +7,7 @@
 #include "base/Vector3.h"
 #include "base/RGB.h"
 #include "base/Vector2.h"
-#include "sampler/JitteredOldSampler.h"
+#include "oldSampler/JitteredOldSampler.h"
 #include "common/Ray.h"
 #include "common/Picture.h"
 #include <Scene.h>
@@ -183,7 +183,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include <iostream>
 #include "shape/Sphere.h"
 #include "camera/PinholeCamera.h"
-#include "sampler/MultiJitteredOldSampler.h"
+#include "oldSampler/MultiJitteredOldSampler.h"
 #include "light/Directional.h"
 #include "material/TorranceSparrow.h"
 #include "material/CookTorranceMaterial.h"

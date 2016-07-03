@@ -6,7 +6,7 @@
 
 #include <Scene.h>
 
-#include "../sampler/MultiJitteredOldSampler.h"
+#include "../oldSampler/MultiJitteredOldSampler.h"
 
 AmbientOccluder::AmbientOccluder(const RGB &mIrradiance, const float mScaleFactor, const float occuluderFactor):Light(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor),mOcculuderFactor(occuluderFactor){
     setSamper(new MultiJitteredSampler());
