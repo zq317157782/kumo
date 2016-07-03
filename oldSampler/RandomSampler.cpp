@@ -6,11 +6,11 @@
 
 #include "../oldSampler/RandomOldSampler.h"
 
-RandomSampler::RandomSampler( int _sampleNum,  int _setNum) : OldSampler(_sampleNum, _setNum) {
+OldRandomSampler::OldRandomSampler( int _sampleNum,  int _setNum) : OldSampler(_sampleNum, _setNum) {
     generateSamples();
 }
 
-void RandomSampler::generateSamples() {
+void OldRandomSampler::generateSamples() {
     int n =sqrt(mSampleNum);
     for(int i=0;i<mSetNum;++i)
         for(int j=0;j<mSampleNum;++j){

@@ -8,10 +8,10 @@
 
 #include "../oldSampler/OldSampler.h"
 
-class RandomSampler: public OldSampler{
+class OldRandomSampler: public OldSampler{
 
 public:
-    RandomSampler( int _sampleNum=1, int _setNum=DEFAULT_SET_NUM);
+	OldRandomSampler( int _sampleNum=1, int _setNum=DEFAULT_SET_NUM);
     virtual void generateSamples() override;
 };
 

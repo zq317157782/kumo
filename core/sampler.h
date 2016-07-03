@@ -17,6 +17,8 @@ public:
 
 	Sampler(int xs,int xe,int ys,int ye,int spp):xPixelStart(xs),xPixelEnd(xe),yPixelStart(ys),yPixelEnd(ye),samplesPerPixel(spp){}
 	virtual int GetMoreSamples(Sample* sample,Random& rand)=0; //返回采样点个数  和  采样点数组
+	virtual int MaximumSampleCount() = 0;
+
 	virtual ~Sampler(){}
 
 	 virtual bool ReportResults(Sample *samples, const RayDifferential *rays,
