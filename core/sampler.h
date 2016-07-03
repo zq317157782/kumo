@@ -40,6 +40,8 @@ public:
 	 vector<unsigned int> n1D, n2D;
 	 float **oneD, **twoD; //这里是存放真正的采样点的地方
 
+	 Sample(Sampler* sampler,SurfaceIntegrator* si,const Scene* scene);
+
 	 //额外的1维采样点
 	 unsigned int Add1D(unsigned int num) {
 	     n1D.push_back(num);

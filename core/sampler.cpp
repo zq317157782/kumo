@@ -5,8 +5,10 @@
  *      Author: Administrator
  */
 
-#include <sampler.h>
+#include "sampler.h"
 #include "global.h"
+#include "memory.h"
+#include "integrator.h"
 
 void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
         int *newXEnd, int *newYStart, int *newYEnd) const {
@@ -27,6 +29,12 @@ void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
     *newXEnd   = Floor2Int(Lerp(tx1, xPixelStart, xPixelEnd));
     *newYStart = Floor2Int(Lerp(ty0, yPixelStart, yPixelEnd));
     *newYEnd   = Floor2Int(Lerp(ty1, yPixelStart, yPixelEnd));
+}
+
+//采样点构造器
+Sample::Sample(Sampler* sampler,SurfaceIntegrator* si,const Scene* scene){
+	if(si) si->RequestSamples(sampler,this,scene);
+	AllocateSampleMemory();//申请内存空间
 }
 
 //这里要生成一个存放所有采样点的二维数组

@@ -11,6 +11,7 @@
 #include "geometry.h"
 #include "transform.h"
 
+
 TEST(Transform,checkScale){
     Vector v(1,1,1);
     Transform tran=Scale(0.5f,0.3f,0.2f);
@@ -43,6 +44,13 @@ TEST(Transform,checkRotate){
     ASSERT_EQ(v3.y,0);
     ASSERT_TRUE( fabsf(v3.z)< 0.0001f);
 }
+#include "memory.h"
+
+//TEST(Memory,AllocAligned){
+//	void* buf=AllocAligned(100);
+//	ASSERT_EQ(sizeof(buf),100);
+//}
+
 #endif
 
 #endif //RAYTRACER_TEST_H
