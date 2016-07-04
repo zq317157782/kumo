@@ -198,7 +198,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "integrator/SimpleIntegrator.h"
 #include "random.h"
 using namespace std;
-#define UNIT_TEST
+//#define UNIT_TEST
 #ifdef UNIT_TEST
 #include "gtest/gtest.h"
 #include "test/test.h"
