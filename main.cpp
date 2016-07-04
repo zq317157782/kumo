@@ -197,6 +197,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "material/Matte.h"
 #include "integrator/SimpleIntegrator.h"
 #include "random.h"
+#include "sampler/randomSampler.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -265,7 +266,7 @@ int main(int argc,char** argv) {
 
     //camera.film=&picture;
 
-    SimpleRenderer renderer(&camera,new MultiJitteredSampler(256),new SimpleIntegrator());
+    SimpleRenderer renderer(&camera,new RandomSampler(0,800,0,600,32),new SimpleIntegrator());
     renderer.render(&scene);
     //camera.renderScene(scene,picture);
     camera.film->saveToLocal("Renderer.ppm");

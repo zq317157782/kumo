@@ -7,14 +7,15 @@
 #include "global.h"
 #include "renderer.h"
 
+
 class SimpleRenderer :public Renderer{
 private:
     Camera* camera;
-    OldSampler* sampler;
+    Sampler* sampler;
     SurfaceIntegrator* mSurfaceIntegrator;
 public:
 
-    SimpleRenderer(Camera* c,OldSampler* s,SurfaceIntegrator* si):Renderer(),camera(c),sampler(s),mSurfaceIntegrator(si){
+    SimpleRenderer(Camera* c,Sampler* s,SurfaceIntegrator* si):Renderer(),camera(c),sampler(s),mSurfaceIntegrator(si){
         assert(camera!=nullptr);
         assert(sampler!=nullptr);
     }
