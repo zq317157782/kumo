@@ -5,36 +5,36 @@
 #include <OldFilm.h>
 #include "global.h"
 #include "geometry.h"
-Film::Film(int mWidth, int mHeight, float mPixelSize) : mWidth(mWidth), mHeight(mHeight), mPixelSize(mPixelSize) {
+OldFilm::OldFilm(int mWidth, int mHeight, float mPixelSize) : mWidth(mWidth), mHeight(mHeight), mPixelSize(mPixelSize) {
     mData=new RGB[mWidth*mHeight];
 }
-Film::~Film() {
+OldFilm::~OldFilm() {
     delete[] mData;
 }
 
-int Film::width() const{
+int OldFilm::width() const{
     return mWidth;
 }
 
-int Film::height() const{
+int OldFilm::height() const{
     return mHeight;
 }
 
-float Film::size() const{
+float OldFilm::size() const{
     return mPixelSize;
 }
 
-Point Film::resolution() const{
+Point OldFilm::resolution() const{
     return Point(mWidth,mHeight,0);
 }
 
-RGB * const Film::operator[](int k)
+RGB * const OldFilm::operator[](int k)
 {
     return mData+(k * mWidth);
 }
 
 
-void Film::saveToLocal(const char* file){
+void OldFilm::saveToLocal(const char* file){
     std::ofstream out(file);
     out<<"P3\n"<<mWidth<<" "<<mHeight<<"\n255\n";
     for(int j=mHeight-1;j>=0;--j){

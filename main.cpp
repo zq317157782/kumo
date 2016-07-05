@@ -198,6 +198,8 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "integrator/SimpleIntegrator.h"
 #include "random.h"
 #include "sampler/randomSampler.h"
+#include "film/ppm.h"
+#include "filter/box.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -245,7 +247,7 @@ int main(int argc,char** argv) {
     //Film picture(800, 600, 1);
 
     Transform cameraTransform= RotateY(0);
-    PinholeCamera camera(new Film(800, 600, 1),&cameraTransform);
+    PinholeCamera camera(new PPMFilm(800,600,new BoxFilter(0.5,0.5),"Renderer.ppm"),&cameraTransform);//int xres,int yres,Filter* f,const char* file
     //camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 

@@ -59,8 +59,10 @@ class SurfaceIntegrator;
 class Intersection;
 class Random;//随机数
 struct Sample;//采样点
+struct CameraSample;//相机采样点
 class Sampler; //采样器
 class Filter; //过滤器
+class Film;
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
@@ -96,6 +98,12 @@ inline float Clamp(float val, float low, float high) {
 inline int Floor2Int(float val) {
     return (int)floorf(val);
 }
+
+//向上取整
+inline int Ceil2Int(float val) {
+    return (int)ceilf(val);
+}
+
 
 //插值
 inline float Lerp(float t, float v1, float v2) {
