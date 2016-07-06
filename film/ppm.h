@@ -23,7 +23,7 @@ private:
 	Pixel * mPixels;
 public:
 	PPMFilm(int xres,int yres,Filter* f,const char* file);
-	virtual void AddSample(const CameraSample& sample,const RGB& L) override=0;
+	virtual void AddSample(const CameraSample& sample,const RGB& L) override;
 	virtual void WriteImage(float splatScale = 1.f) override;
 };
 

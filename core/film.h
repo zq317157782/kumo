@@ -13,7 +13,7 @@ class Film{
 public:
 	const int xResolution,yResolution;
 	Film(int xres,int yres):xResolution(xres),yResolution(yres){}
-	virtual ~Film();
+	virtual ~Film(){};
 	virtual void AddSample(const CameraSample& sample,const RGB& L)=0;
 	virtual void WriteImage(float splatScale = 1.f);
 };
