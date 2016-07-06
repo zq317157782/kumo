@@ -247,7 +247,7 @@ int main(int argc,char** argv) {
     //Film picture(800, 600, 1);
 
     Transform cameraTransform= RotateY(0);
-    PinholeCamera camera(new PPMFilm(800,600,new BoxFilter(10,10),"Renderer.ppm"),&cameraTransform);//int xres,int yres,Filter* f,const char* file
+    PinholeCamera camera(new PPMFilm(800,600,new BoxFilter(50,50),"Renderer.ppm"),&cameraTransform);//int xres,int yres,Filter* f,const char* file
     //camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 
@@ -258,7 +258,7 @@ int main(int argc,char** argv) {
     scene.addPrimitive(Reference<Primitive>(primit2));
 
 
-    Directional* directional=new Directional(RGB(1,1,1),RotateX(30)(Vector(0,0,1)));
+    Directional* directional=new Directional(RGB(1,0,0),RotateX(30)(Vector(0,0,1)));
 
 
     scene.addLight(directional);
