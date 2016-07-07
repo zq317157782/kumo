@@ -27,6 +27,8 @@ public:
 public:
     Shape(Transform *o2w,Transform *w2o,bool ro,bool mShadow=true) ;
 
+
+    //todo 从这个接口中去除Intersection参数
     /*判断与法线的碰撞*/
     virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,Intersection& sr) const=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
