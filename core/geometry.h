@@ -456,6 +456,19 @@ inline Vector Faceforward(const Vector &v, const Normal &n2) {
     return (Dot(v, n2) < 0.f) ? -v : v;
 }
 
+//根据一个向量生成一个坐标系
+inline void CoordinateSystem(const Vector &v1, Vector *v2, Vector *v3) {
+    if (fabsf(v1.x) > fabsf(v1.y)) {
+        float invLen = 1.f / sqrtf(v1.x*v1.x + v1.z*v1.z);
+        *v2 = Vector(-v1.z * invLen, 0.f, v1.x * invLen);
+    }
+    else {
+        float invLen = 1.f / sqrtf(v1.y*v1.y + v1.z*v1.z);
+        *v2 = Vector(0.f, v1.z * invLen, -v1.y * invLen);
+    }
+    *v3 = Cross(v1, *v2);
+}
+
 class Ray{
 public:
     Point o;

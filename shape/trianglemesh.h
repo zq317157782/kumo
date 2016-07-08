@@ -38,21 +38,8 @@ public:
 	Triangle(const Transform *o2w, const Transform *w2o, bool ro, TriangleMesh *m, int n);
 
 	//获取三个顶点的纹理坐标
-	 void GetUVs(float uv[3][2]) const {
-	        if (mMesh->uvs) {
-	            uv[0][0] = mMesh->uvs[2*mIndex[0]];
-	            uv[0][1] = mMesh->uvs[2*mIndex[0]+1];
-	            uv[1][0] = mMesh->uvs[2*mIndex[1]];
-	            uv[1][1] = mMesh->uvs[2*mIndex[1]+1];
-	            uv[2][0] = mMesh->uvs[2*mIndex[2]];
-	            uv[2][1] = mMesh->uvs[2*mIndex[2]+1];
-	        }
-	        else {
-	            uv[0][0] = 0.; uv[0][1] = 0.;
-	            uv[1][0] = 1.; uv[1][1] = 0.;
-	            uv[2][0] = 1.; uv[2][1] = 1.;
-	        }
-	    }
+	 void GetUVs(float uv[3][2]) const ;
+	 virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
 };
 
 #endif /* SHAPE_TRIANGLEMESH_H_ */

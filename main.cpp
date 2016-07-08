@@ -215,6 +215,8 @@ int main(int argc,char** argv) {
 #endif
 
 
+
+
     Matte * m=new Matte();
 
     Transform localToWorld=Translate(Vector(0,0,400));
@@ -226,7 +228,16 @@ int main(int argc,char** argv) {
     Transform localToWorld2=Translate(Vector(0,0,800));
     Transform worldToLocal2=Translate(Vector(0,0,-800));
     Sphere* sphere2=new Sphere(&localToWorld2,&worldToLocal2,false, 300,-300,300,360);
-   // TriangleMesh* mesh=new TriangleMesh(&localToWorld2,&worldToLocal2,false);
+
+
+    //测试三角面片
+       int triCount=2;
+       int vertexCount=4;
+       Point* points=new Point[4];
+       int * indexs=new int[6];
+       TriangleMesh* mesh=new TriangleMesh(&localToWorld2,&worldToLocal2,false,triCount,vertexCount,indexs,points,nullptr,nullptr,nullptr);
+
+
 
    // sphere->setMaterial(cookTorranceMaterial);
 
