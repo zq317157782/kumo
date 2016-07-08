@@ -236,7 +236,9 @@ int main(int argc,char** argv) {
        Point* points=new Point[4];
        int * indexs=new int[6];
        TriangleMesh* mesh=new TriangleMesh(&localToWorld2,&worldToLocal2,false,triCount,vertexCount,indexs,points,nullptr,nullptr,nullptr);
-
+       vector<Reference<Shape>> vec;
+       mesh->Refine(vec);
+       cout<<vec.size()<<endl;
 
 
    // sphere->setMaterial(cookTorranceMaterial);

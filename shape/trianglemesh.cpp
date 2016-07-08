@@ -44,6 +44,13 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 
 }
 
+void TriangleMesh::Refine(vector<Reference<Shape> > &refined) const {
+	for (int i = 0; i < ntris; ++i)
+		refined.push_back(
+				new Triangle(localToWorld, worldToLocal, ReverseOrientation,
+						(TriangleMesh *) this, i));
+}
+
 Triangle::Triangle(const Transform *o2w, const Transform *w2o, bool ro,
 		TriangleMesh *m, int n) :
 		Shape(o2w, w2o, ro) {

@@ -24,7 +24,7 @@ public:
 			const int *vptr/*索引数据*/,const Point *P/*顶点位置数组*/,const Normal *N/*法线数组*/, const Vector *S/*切向量数组*/,
             const float *uv/*纹理坐标数组*/);
 	virtual ~TriangleMesh(){};
-
+	virtual void Refine(vector<Reference<Shape> > &refined) const override;
 	friend class Triangle;
 };
 
