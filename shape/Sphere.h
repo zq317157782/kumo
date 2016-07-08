@@ -15,14 +15,14 @@ private:
     float mZMin, mZMax;  //最大和最小的z值
     float mThetaMin, mThetaMax; //最大和最小的theta值  绕y轴的角度
 public:
-    Sphere(Transform *o2w,Transform *w2o,bool ro, float rad,float zmin, float zmax, float phiMax, bool mShadow=true);
+    Sphere(const Transform *o2w,const Transform *w2o,bool ro, float rad,float zmin, float zmax, float phiMax, bool mShadow=true);
 
     virtual ~Sphere() { printf("Sphere Destroy");}
 
-    virtual bool hit(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
+    virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
 
-
-    virtual bool shadowHit(const Ray &ray, double &distance) const;
+//
+//    virtual bool shadowHit(const Ray &ray, double &distance) const;
 };
 
 

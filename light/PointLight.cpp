@@ -21,14 +21,14 @@ RGB PointLight::L(const Intersection &sr){
 }
 
 bool PointLight::inShadow(const Ray &ray, const Intersection &sr) const {
-    unsigned long num_obj=sr.scene.getPrimitiveNum();
-    double t=9999999;
-    double d = (mPosition-ray.o).Length();
-    for(int i=0;i<num_obj;++i){
-        if(sr.scene.getPrimitive(i)->GetShape()->castShadow()&&sr.scene.getPrimitive(i)->GetShape()->shadowHit(ray,t) && t<d){
-            return true;
-        }
-    }
+//    unsigned long num_obj=sr.scene.getPrimitiveNum();
+//    double t=9999999;
+//    double d = (mPosition-ray.o).Length();
+//    for(int i=0;i<num_obj;++i){
+//        if(sr.scene.getPrimitive(i)->GetShape()->castShadow()&&sr.scene.getPrimitive(i)->GetShape()->shadowHit(ray,t) && t<d){
+//            return true;
+//        }
+//    }
     return false;
 
 }

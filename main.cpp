@@ -200,6 +200,7 @@ TEST_CASE( "scene are computed", "[scene]" ){
 #include "sampler/randomSampler.h"
 #include "film/ppm.h"
 #include "filter/box.h"
+#include "shape/trianglemesh.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -213,20 +214,6 @@ int main(int argc,char** argv) {
     return  RUN_ALL_TESTS();
 #endif
 
-//    Random rand(0);
-//    for(int i=0;i<100;++i)
-//    	cout<<rand.RandomFloat()<<endl;
-
-//    SpecularReflection* specular=new SpecularReflection(RGB(1.f),new FresnelConductor(RGB(2.2f),RGB(0.5f)));
-//    Vector wi;
-//    float pdf;
-//    RGB f=specular->sample_f(Vector(1,1,1),&wi,0,0,&pdf);
-//    cout<<"SpecularReflection: wi:"<<wi.x<<wi.y<<wi.z<<" pdf"<<pdf<<" f:"<<f.r<<f.g<<f.b<<endl;
-
-    //材质
-//    CookTorranceMaterial *cookTorranceMaterial=new CookTorranceMaterial();
-//    cookTorranceMaterial->setSurfaceColor(RGB(1,1,1),0.5);
-//    cookTorranceMaterial->setAmbientColor(RGB(1,1,1));
 
     Matte * m=new Matte();
 
@@ -239,6 +226,8 @@ int main(int argc,char** argv) {
     Transform localToWorld2=Translate(Vector(0,0,800));
     Transform worldToLocal2=Translate(Vector(0,0,-800));
     Sphere* sphere2=new Sphere(&localToWorld2,&worldToLocal2,false, 300,-300,300,360);
+   // TriangleMesh* mesh=new TriangleMesh(&localToWorld2,&worldToLocal2,false);
+
    // sphere->setMaterial(cookTorranceMaterial);
 
     GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(m));
