@@ -111,30 +111,10 @@ bool Sphere::Intersect(const Ray &r, float *distance,float *rayEpsilon, Differen
 
     return true;
 }
-//
-//bool Sphere::shadowHit(const Ray &ray, double &distance) const{
-////    Vector v= ray.o - this->mPosition;//圆心到射线原点的向量
-////    double b=2*Dot(v,ray.d);
-////    double c=Dot(v,v)-mRad*mRad;
-////    double delta=b*b-4*c;
-////    if(delta<0.0){
-////        return false;
-////    } else{
-////        delta=sqrt(delta);
-////        double t1=(-b-delta)/2;
-////        if(t1>EPSILON){
-////            distance=t1;
-////            return true;
-////        }
-////
-////        double t2=(-b+delta)/2;
-////        if(t2>EPSILON){
-////            distance=t2;
-////            return true;
-////        }
-////        return false;
-////    }
-//}
+
+bool Sphere::CanIntersect() const{
+	return true;
+}
 
 Sphere::Sphere(const Transform *o2w,const Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax,bool mShadow): Shape(o2w,w2o,ro, mShadow), mRad(rad){
 

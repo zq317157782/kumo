@@ -21,8 +21,7 @@ public:
 
     virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
 
-//
-//    virtual bool shadowHit(const Ray &ray, double &distance) const;
+    virtual bool CanIntersect() const;
 };
 
 

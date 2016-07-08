@@ -35,16 +35,14 @@ public:
 
 	}
 
-	bool CanIntersect() const override {return true;};
+	bool CanIntersect() const override {return mShape->CanIntersect();}
 
 	bool Intersect(const Ray &r, Intersection *in) const{
 		float thit, rayEpsilon;
 		bool ret= mShape->Intersect(r,&thit,&rayEpsilon,&(in->dg));
 		if(ret){
-			//in->material=mMaterial;
 			in->distance=thit;
 			in->normal=Vector(in->dg.nn);
-			//in->hitPoint=in->dg.p;
 			in->primitiveID=primitiveID;
 		}
 		return ret;
