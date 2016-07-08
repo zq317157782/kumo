@@ -39,7 +39,7 @@ public:
 
 	bool Intersect(const Ray &r, Intersection *in) const{
 		float thit, rayEpsilon;
-		bool ret= mShape->hit(r,&thit,&rayEpsilon,&(in->dg),*in);
+		bool ret= mShape->hit(r,&thit,&rayEpsilon,&(in->dg));
 		if(ret){
 			//in->material=mMaterial;
 			in->distance=thit;

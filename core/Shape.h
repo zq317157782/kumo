@@ -30,7 +30,7 @@ public:
 
     //todo 从这个接口中去除Intersection参数
     /*判断与法线的碰撞*/
-    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg,Intersection& sr) const=0;
+    virtual bool hit(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg) const=0;
     virtual bool shadowHit(const Ray& ray,double& distance) const=0;
 
     bool castShadow() const;

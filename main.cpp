@@ -247,7 +247,7 @@ int main(int argc,char** argv) {
     //Film picture(800, 600, 1);
 
     Transform cameraTransform= RotateY(0);
-    PinholeCamera camera(new PPMFilm(800,600,new BoxFilter(50,50),"Renderer.ppm"),&cameraTransform);//int xres,int yres,Filter* f,const char* file
+    PinholeCamera camera(new PPMFilm(800,600,new BoxFilter(0.5,0.5),"Renderer.ppm"),&cameraTransform);//int xres,int yres,Filter* f,const char* file
     //camera.setSampler(new MultiJitteredSampler(25));
     camera.setDistanceToView(500);
 
