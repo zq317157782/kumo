@@ -52,10 +52,10 @@ bool Scene::hit(const Ray &ray,Intersection* sr) const{
     return ret;
 }
 
-void Scene::addPrimitive(const Reference<Primitive> primitive) {
+void Scene::addPrimitive(Primitive* primitive) {
     mPrimitives.push_back(primitive);
 }
 
-void Scene::addLight(const Reference<Light> light) {
+void Scene::addLight(Light* light) {
     mLights.push_back(light);
 }

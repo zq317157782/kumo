@@ -26,8 +26,8 @@ public:
     Reference<Primitive> getPrimitive(int index) const;
     Reference<Primitive> getPrimitiveByID(unsigned int id) const;
 
-    void addPrimitive(const Reference<Primitive> s);
-    void addLight(const Reference<Light> light);
+    void addPrimitive(Primitive* s);
+    void addLight(Light* light);
 
     virtual bool hit(const Ray& ray,Intersection* sr) const;
 

@@ -243,8 +243,8 @@ int main(int argc,char** argv) {
     //场景初始化
     Scene scene;
     scene.background=RGB(1,1,0);
-    scene.addPrimitive(Reference<Primitive>(primit));
-    scene.addPrimitive(Reference<Primitive>(primit2));
+    scene.addPrimitive(primit);
+    scene.addPrimitive(primit2);
 
 
     Directional* directional=new Directional(RGB(1,0,0),RotateX(30)(Vector(0,0,1)));
