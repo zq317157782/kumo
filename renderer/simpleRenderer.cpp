@@ -12,12 +12,8 @@
 #include "Scene.h"
 
 void SimpleRenderer::render(const Scene* scene) {
-   // float pSize=camera->film->size()/mZoomFactor;//计算缩放后的像素大小
-  //  float pSize=camera->film->size();
-
     Sample sample( sampler ,mSurfaceIntegrator,scene);
     Random ran(0);
-
     while(sampler->GetMoreSamples(&sample,ran)>0){
     	RGB L;
     	Point point;

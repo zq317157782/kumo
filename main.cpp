@@ -197,6 +197,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "filter/box.h"
 #include "shape/trianglemesh.h"
 #include "Scene.h"
+#include "thrid/obj/Model.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -224,21 +225,25 @@ int main(int argc, char** argv) {
 			-300, 300, 360);
 
 	//测试三角面片
-	int triCount = 2;
-	int vertexCount = 4;
-	Point* points = new Point[4];
-	points[0]=Point(100,0,1);
-	points[1]=Point(100,100,38);
-	points[2]=Point(0,100,9);
-	points[3]=Point(0,0,2);
+	Model model;
+	model.load("WALL_E.obj");
 
-	int * indexs = new int[6];
-	indexs[5]=0;
-	indexs[4]=1;
-	indexs[3]=2;
-	indexs[2]=0;
-	indexs[1]=2;
-	indexs[0]=3;
+
+	int triCount = model.numberOfTriangles();
+	int vertexCount = model.numberOfVertices();
+	Point* points = new Point[vertexCount];
+	for (int i = 0; i < vertexCount; ++i) {
+		_POINT p = model.getVertex(i);
+		points[i] = Point(p.x, p.y, p.z);
+	}
+
+	int * indexs = new int[3 * triCount];
+	for (int i = 0, j = 0; i < triCount; ++i) {
+		_TRIANGLE t = model.getTriangle(i);
+		indexs[j++] = t.index[0];
+		indexs[j++] = t.index[1];
+		indexs[j++] = t.index[2];
+	}
 
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld2, &worldToLocal2, false,
 			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
@@ -246,21 +251,23 @@ int main(int argc, char** argv) {
 //	mesh->Refine(vec);
 //	cout << vec.size() << endl;
 
-	// sphere->setMaterial(cookTorranceMaterial);
+// sphere->setMaterial(cookTorranceMaterial);
 
-	GeomPrimitive * primit=new GeomPrimitive(Reference<Shape>(sphere),Reference<Material>(m));
-	GeomPrimitive * primit2=new GeomPrimitive(Reference<Shape>(sphere2),Reference<Material>(m));
-	GeomPrimitive * primit3=new GeomPrimitive(mesh,Reference<Material>(m));
+	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
+			Reference<Material>(m));
+	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
+			Reference<Material>(m));
+	GeomPrimitive * primit3 = new GeomPrimitive(mesh, Reference<Material>(m));
 //	GeomPrimitive * primit = new GeomPrimitive(vec[0],
 //			Reference<Material>(m));
 //	GeomPrimitive * primit2 = new GeomPrimitive(vec[1],
 //			Reference<Material>(m));
 
-	//Film picture(800, 600, 1);
+//Film picture(800, 600, 1);
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new BoxFilter(1, 1), "Renderer.ppm"),
+			new PPMFilm(256, 256, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	//camera.setSampler(new MultiJitteredSampler(25));
 	camera.setDistanceToView(500);
@@ -279,9 +286,11 @@ int main(int argc, char** argv) {
 
 	//camera.film=&picture;
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 8),
 			new SimpleIntegrator());
+
 	renderer.render(&scene);
+	cout << "----"<< endl;
 	//camera.renderScene(scene,picture);
 	// camera.film->saveToLocal("Renderer.ppm");
 	// picture.saveToLocal("AAA.png");
