@@ -7,13 +7,9 @@
 
 
 
-#include <Scene.h>
-
-#include <memory>
 
 #include "global.h"
 
-#include "../oldSampler/OldSampler.h"
 class Camera {
 public:
     Film * film;

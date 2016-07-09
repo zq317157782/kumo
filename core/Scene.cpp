@@ -8,54 +8,63 @@
 #include "diffgeom.h"
 
 unsigned long Scene::getLightNum() const {
-  return mLights.size();
+	return mLights.size();
 }
 
 Reference<Light> Scene::ambient() const {
- return mAmbient;
+	return mAmbient;
 }
 
-Reference<Light> Scene::getLight(const int index)const {
-    return mLights[index];
+Reference<Light> Scene::getLight(const int index) const {
+	return mLights[index];
 }
 
-Scene::Scene():mAmbient(Reference<Light>(new Ambient())),background(RGB(0,0,0)),mPrimitives(){
+Scene::Scene() :
+		mAmbient(Reference<Light>(new Ambient())), background(RGB(0, 0, 0)), mPrimitives() {
 
 }
 
 unsigned long Scene::getPrimitiveNum() const {
-    return mPrimitives.size();
+	return mPrimitives.size();
 }
 
-Reference<Primitive> Scene::getPrimitive(int index) const{
-    return mPrimitives[index];
+Reference<Primitive> Scene::getPrimitive(int index) const {
+	return mPrimitives[index];
 }
 
-Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const{
-	for(int i=0;i<mPrimitives.size();++i){
-		if(mPrimitives[i]->primitiveID==id){
-				return mPrimitives[i];
+Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const {
+	for (int i = 0; i < mPrimitives.size(); ++i) {
+		if (mPrimitives[i]->primitiveID == id) {
+			return mPrimitives[i];
 		}
 	}
 	return nullptr;
 }
 
-bool Scene::hit(const Ray &ray,Intersection* sr) const{
-	bool ret=false;
-	for(auto it = mPrimitives.begin(); it != mPrimitives.end(); it++)
-    {
-        if((*it)->CanIntersect()&&(*it)->Intersect(ray,sr)){
-        	ray.maxT=sr->distance;
-            ret=true;
-        }
-    }
-    return ret;
+bool Scene::hit(const Ray &ray, Intersection* sr) const {
+	bool ret = false;
+	for (auto it = mPrimitives.begin(); it != mPrimitives.end(); it++) {
+		if ((*it)->CanIntersect()) {
+			if ((*it)->Intersect(ray, sr)) {
+				ray.maxT = sr->distance;
+				ret = true;
+			}
+		}
+	}
+	return ret;
 }
 
 void Scene::addPrimitive(Primitive* primitive) {
-    mPrimitives.push_back(primitive);
+	if (!primitive->CanIntersect()) {
+		vector<Reference<Primitive>> refine;
+		primitive->Refine(refine);
+		for (int i = 0; i < refine.size(); ++i) {
+			mPrimitives.push_back(refine[i]);
+		}
+	}
+	mPrimitives.push_back(primitive);
 }
 
 void Scene::addLight(Light* light) {
-    mLights.push_back(light);
+	mLights.push_back(light);
 }

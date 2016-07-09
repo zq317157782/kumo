@@ -3,7 +3,7 @@
 //
 
 #include "Camera.h"
-
+#include "film.h"
 
 Camera::Camera(Film * f,Transform *c2w):film(f),cameraToWorld(c2w){
 

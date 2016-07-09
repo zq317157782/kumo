@@ -116,7 +116,7 @@ bool Sphere::CanIntersect() const{
 	return true;
 }
 
-Sphere::Sphere(const Transform *o2w,const Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax,bool mShadow): Shape(o2w,w2o,ro, mShadow), mRad(rad){
+Sphere::Sphere(const Transform *o2w,const Transform *w2o, bool ro,float rad, float z0, float z1, float phiMax): Shape(o2w,w2o,ro), mRad(rad){
 
     mZMin = Clamp(min(z0, z1), -mRad, mRad);
     mZMax = Clamp(max(z0, z1), -mRad, mRad);

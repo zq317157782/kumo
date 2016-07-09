@@ -39,7 +39,7 @@
       <sourceFolder url="file://$MODULE_DIR$/sampler/JitteredSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/MultiJitteredSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/NRookSampler.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/sampler/RandomSampler.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sampler/randomSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/Sampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Scene/Scene.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.cpp" isTestSource="false" />

@@ -19,13 +19,12 @@ protected:
 public:
     const Transform * localToWorld;
     const Transform * worldToLocal;
-    bool mShadow;//是否投射阴影
 
     const unsigned int shapeID;
 
     const bool ReverseOrientation, TransformSwapsHandedness;
 public:
-    Shape(const Transform *o2w,const Transform *w2o,bool ro,bool mShadow=true);
+    Shape(const Transform *o2w,const Transform *w2o,bool ro);
     //todo 从这个接口中去除Intersection参数
     /*判断与法线的碰撞*/
     virtual bool Intersect(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg) const;

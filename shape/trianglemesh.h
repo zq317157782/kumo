@@ -25,6 +25,7 @@ public:
             const float *uv/*纹理坐标数组*/);
 	virtual ~TriangleMesh(){};
 	virtual void Refine(vector<Reference<Shape> > &refined) const override;
+	virtual bool CanIntersect() const override {return false;}
 	friend class Triangle;
 };
 
@@ -40,6 +41,7 @@ public:
 	//获取三个顶点的纹理坐标
 	 void GetUVs(float uv[3][2]) const ;
 	 virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
+	 virtual bool CanIntersect() const override {return true;}
 };
 
 #endif /* SHAPE_TRIANGLEMESH_H_ */

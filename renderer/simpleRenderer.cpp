@@ -2,13 +2,14 @@
 // Created by 诸谦 on 16/6/25.
 //
 
-#include <Camera.h>
+#include "Camera.h"
 #include "simpleRenderer.h"
 #include "primitive.h"
 #include "integrator.h"
 #include "sampler.h"
 #include "random.h"
 #include "film.h"
+#include "Scene.h"
 
 void SimpleRenderer::render(const Scene* scene) {
    // float pSize=camera->film->size()/mZoomFactor;//计算缩放后的像素大小
