@@ -18,8 +18,10 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 
 	//为顶点分配空间
 	p = new Point[nverts];
-	for (int i = 0; i < nverts; ++i)
+	for (int i = 0; i < nverts; ++i){
 		p[i] = (*localToWorld)(P[i]);
+		cout<<"Point=>x "<<p[i].x<<" y "<<p[i].y<<" z "<<p[i].z<<endl;
+	}
 
 	//为法线分配空间
 	if (N) {

@@ -213,20 +213,23 @@ int main(int argc, char** argv) {
 
 	Matte * m = new Matte();
 
-	Transform localToWorld = Translate(Vector(0, 0, 400));
-	Transform worldToLocal = Translate(Vector(0, 0, -400));
+	Transform localToWorld = Translate(Vector(0, 0, 1));
+	Transform worldToLocal = Translate(Vector(0, 0, -1));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 100, -100,
 			100, 360);
 
-	Transform localToWorld2 = Translate(Vector(0, 0, 800));
-	Transform worldToLocal2 = Translate(Vector(0, 0, -800));
+	Transform localToWorld2 = Translate(Vector(0, 0, 4));
+	Transform worldToLocal2 = Translate(Vector(0, 0, -4));
+
+
+
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 300,
 			-300, 300, 360);
 
 	//测试三角面片
 	Model model;
-	model.load("WALL_E.obj");
+	model.load("../t2.obj");
 
 
 	int triCount = model.numberOfTriangles();
@@ -245,55 +248,46 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
+
+	Transform localToWorld3 = Scale(100,100,100);
+	Transform worldToLocal3 = Scale(-100,-100,-100);
+
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld2, &worldToLocal2, false,
 			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-//	vector<Reference<Shape>> vec;
-//	mesh->Refine(vec);
-//	cout << vec.size() << endl;
-
-// sphere->setMaterial(cookTorranceMaterial);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m));
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(m));
 	GeomPrimitive * primit3 = new GeomPrimitive(mesh, Reference<Material>(m));
-//	GeomPrimitive * primit = new GeomPrimitive(vec[0],
-//			Reference<Material>(m));
-//	GeomPrimitive * primit2 = new GeomPrimitive(vec[1],
-//			Reference<Material>(m));
 
-//Film picture(800, 600, 1);
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(256, 256, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
+			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
-	//camera.setSampler(new MultiJitteredSampler(25));
 	camera.setDistanceToView(500);
 
 	//场景初始化
 	Scene scene;
-	scene.background = RGB(1, 1, 0);
+	scene.background = RGB(121.0/255, 121.0/255, 121.0/255);
 //	scene.addPrimitive(primit);
 //	scene.addPrimitive(primit2);
 	scene.addPrimitive(primit3);
 
-	Directional* directional = new Directional(RGB(1, 0, 0),
+	Directional* directional = new Directional(RGB(1, 1, 1),
 			RotateX(30)(Vector(0, 0, 1)));
 
 	scene.addLight(directional);
 
-	//camera.film=&picture;
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 8),
+
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 8),
 			new SimpleIntegrator());
 
 	renderer.render(&scene);
 	cout << "----"<< endl;
-	//camera.renderScene(scene,picture);
-	// camera.film->saveToLocal("Renderer.ppm");
-	// picture.saveToLocal("AAA.png");
+
 
 }
 #endif
