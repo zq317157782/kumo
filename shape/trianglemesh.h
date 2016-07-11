@@ -41,6 +41,7 @@ public:
 	//获取三个顶点的纹理坐标
 	 void GetUVs(float uv[3][2]) const ;
 	 virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
+	 virtual bool IntersectP(const Ray& ray) const override;
 	 virtual bool CanIntersect() const override {return true;}
 };
 

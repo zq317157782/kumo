@@ -28,6 +28,7 @@ public:
     //todo 从这个接口中去除Intersection参数
     /*判断与法线的碰撞*/
     virtual bool Intersect(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg) const;
+    virtual bool IntersectP(const Ray& ray) const;
     virtual bool CanIntersect() const;
     virtual void Refine(vector<Reference<Shape> > &refined) const;//提炼函数  为一些几何体提炼更加合适的几何结构
 

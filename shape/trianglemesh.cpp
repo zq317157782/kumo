@@ -140,3 +140,35 @@ bool Triangle::Intersect(const Ray &ray, float *distance, float *rayEpsilon,
 	*rayEpsilon = 1e-3f * *distance;
 	return true;
 }
+
+bool Triangle::IntersectP(const Ray& ray) const{
+	Point p1 = mMesh->p[mIndex[0]];
+	Point p2 = mMesh->p[mIndex[1]];
+	Point p3 = mMesh->p[mIndex[2]];
+	//这里使用质心坐标来计算 详见PBRT公式
+	Vector e1 = p2 - p1; //e1=p2-p1
+	Vector e2 = p3 - p1; //e2=p3-p1
+	Vector s1 = Cross(ray.d, e2); //s1=d x e2
+	float divisor = Dot(s1, e1);
+	if (divisor == 0.0f)
+		return false;
+	float invDivisor = 1.f / divisor; //1/(s1.e1)
+
+	// 计算第一个质心坐标
+	Vector s = ray.o - p1; //s = o - p1
+	float b1 = Dot(s, s1) * invDivisor; //b1 = (s.s1)/(s1.e1)
+	if (b1 < 0. || b1 > 1.)
+		return false;
+
+	// 计算第二个质心坐标
+	Vector s2 = Cross(s, e1); //s2 = s x e1
+	float b2 = Dot(ray.d, s2) * invDivisor; // b2 = (d.s2)/(s1.e1)
+	if (b2 < 0. || b1 + b2 > 1.)
+		return false;
+
+	// 计算参数t
+	float t = Dot(e2, s2) * invDivisor;
+	if (t < ray.minT || t > ray.maxT)
+		return false;
+	return true;
+}
