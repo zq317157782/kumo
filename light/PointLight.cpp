@@ -2,9 +2,8 @@
 // Created by 诸谦 on 15/12/27.
 //
 
-#include "PointLight.h"
-
 #include <Scene.h>
+#include "PointOldLight.h"
 
 PointLight::PointLight(const Point &mPosition, const RGB &mIrradiance,const float mScaleFactor) : mPosition(mPosition),
                                                                                    mIrradiance(mIrradiance),

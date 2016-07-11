@@ -5,12 +5,12 @@
 #ifndef RAYTRACER_AMBIENT_H
 #define RAYTRACER_AMBIENT_H
 
-#include "Light.h"
+#include <OldLight.h>
 
 /**
  * 环境光
  */
-class Ambient:public Light{
+class Ambient:public OldLight{
 private:
     RGB mIrradiance;//光 能量 入射光辐射度
     float mScaleFactor; //缩放因子

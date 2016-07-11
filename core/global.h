@@ -46,7 +46,7 @@ class Ray; //射线
 class RayDifferential;
 class Primitive; //图元
 class Shape;  //几何体
-class Light;
+class OldLight;
 class Transform; //变换
 class Material; //材质
 struct DifferentialGeometry; //微分几何

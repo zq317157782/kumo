@@ -5,14 +5,14 @@
 #ifndef RAYTRACER_AMBIENTOCCLUDER_H
 #define RAYTRACER_AMBIENTOCCLUDER_H
 
-#include "Light.h"
+#include <OldLight.h>
 
 #include "../oldSampler/OldSampler.h"
 
 /**
  * 带环境遮罩的光源
  */
-class AmbientOccluder:public Light{
+class AmbientOccluder:public OldLight{
 private:
     RGB mIrradiance;//光 能量 入射光辐射度
     RGB mOcculuderFactor;//在光线被遮挡的情况下 光源射出的能量的缩减比率

@@ -6,11 +6,11 @@
 #define RAYTRACER_POINTLIGHT_H
 
 
-#include "Light.h"
+#include <OldLight.h>
 #include "global.h"
 #include "geometry.h"
 
-class PointLight: public Light{
+class PointLight: public OldLight{
 private:
     Point mPosition;
     RGB mIrradiance;

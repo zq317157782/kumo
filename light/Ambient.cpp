@@ -14,6 +14,6 @@ RGB Ambient::L(const Intersection &sr) {
     return mScaleFactor*mIrradiance;
 }
 
-Ambient::Ambient(const RGB &mIrradiance, const float mScaleFactor):Light(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor){
+Ambient::Ambient(const RGB &mIrradiance, const float mScaleFactor):OldLight(),mIrradiance(mIrradiance),mScaleFactor(mScaleFactor){
 
 }

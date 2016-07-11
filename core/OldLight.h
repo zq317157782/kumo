@@ -14,7 +14,7 @@
 /**
  * 光 基类
  */
-class Light:public ReferenceCounted{
+class OldLight:public ReferenceCounted{
 private:
     bool mShadow;//是否投射阴影
 public:
@@ -26,7 +26,7 @@ public:
     virtual float G(const Intersection& sr) const;
     virtual float pdf(Intersection& sr) const;//概率分布函数
 
-    virtual ~Light(){};
+    virtual ~OldLight(){};
 };
 
 

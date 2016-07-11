@@ -6,9 +6,9 @@
 #define RAYTRACER_DIRECTIONAL_H
 
 
-#include "Light.h"
+#include <OldLight.h>
 
-class Directional: public Light{
+class Directional: public OldLight{
 private:
     RGB mIrradiance;
     float mScaleFactor;
