@@ -21,7 +21,7 @@ void SimpleRenderer::render(const Scene* scene) {
     	point.y= sample.imageY-camera->film->yResolution*0.5f;
     	Ray ray=camera->generateRay(point);
     	Intersection sr(*scene,ray);
-    	if(scene->hit(ray,&sr)){
+    	if(scene->Intersect(ray,&sr)){
     	   L=mSurfaceIntegrator->Li(scene,this,ray,sr);
     	}else{
     	   L=scene->background;

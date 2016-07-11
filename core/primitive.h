@@ -26,6 +26,7 @@ public:
 	}
 	;
 	virtual bool Intersect(const Ray &r, Intersection *in) const = 0;
+	virtual bool IntersectP(const Ray& ray) const=0;
 	virtual Reference<Material> GetMaterial() const {
 		assert(false);
 		return nullptr;
@@ -65,6 +66,10 @@ public:
 			in->primitiveID = primitiveID;
 		}
 		return ret;
+	}
+
+	bool IntersectP(const Ray &r) const {
+		return mShape->IntersectP(r);
 	}
 
 	Reference<Material> GetMaterial() const override {

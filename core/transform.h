@@ -106,8 +106,13 @@ public:
                 m.m[3][0] == 0.f && m.m[3][1] == 0.f &&
                 m.m[3][2] == 0.f && m.m[3][3] == 1.f);
     }
+
+    friend Transform Inverse(const Transform& t);
 };
 
+inline Transform Inverse(const Transform& t){
+	return Transform(t.invM,t.m);
+}
 
 Transform Translate(const Vector &delta);
 Transform Scale(float x,float y,float z);

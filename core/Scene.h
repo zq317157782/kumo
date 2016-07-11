@@ -29,7 +29,8 @@ public:
     void addPrimitive(Primitive* s);
     void addLight(OldLight* light);
 
-    virtual bool hit(const Ray& ray,Intersection* sr) const;
+    virtual bool Intersect(const Ray& ray,Intersection* sr) const;
+    virtual bool IntersectP(const Ray& ray) const;
 
     RGB background;
 

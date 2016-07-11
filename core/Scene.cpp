@@ -41,7 +41,7 @@ Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const {
 	return nullptr;
 }
 
-bool Scene::hit(const Ray &ray, Intersection* sr) const {
+bool Scene::Intersect(const Ray &ray, Intersection* sr) const {
 	bool ret = false;
 	for (auto it = mPrimitives.begin(); it != mPrimitives.end(); it++) {
 		if ((*it)->CanIntersect()) {
@@ -52,6 +52,17 @@ bool Scene::hit(const Ray &ray, Intersection* sr) const {
 		}
 	}
 	return ret;
+}
+
+bool Scene::IntersectP(const Ray& ray) const {
+	for (auto it = mPrimitives.begin(); it != mPrimitives.end(); it++) {
+		if ((*it)->CanIntersect()) {
+			if ((*it)->IntersectP(ray)) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void Scene::addPrimitive(Primitive* primitive) {

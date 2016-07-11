@@ -46,7 +46,6 @@ class Ray; //射线
 class RayDifferential;
 class Primitive; //图元
 class Shape;  //几何体
-class OldLight;
 class Transform; //变换
 class Material; //材质
 struct DifferentialGeometry; //微分几何
@@ -63,6 +62,9 @@ struct CameraSample;//相机采样点
 class Sampler; //采样器
 class Filter; //过滤器
 class Film;
+class Light;//光源
+struct LightSample;//光源采样点
+struct VisibilityTester;
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
