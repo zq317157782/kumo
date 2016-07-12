@@ -196,6 +196,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "thrid/obj/Model.h"
 #include "light/point.h"
 #include "light/spot.h"
+#include "light/distant.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -277,9 +278,15 @@ int main(int argc, char** argv) {
 //	scene.addLight(p);
 
 
-	Transform localToWorld3 = Translate(Vector(0, 0, 4));
-	Transform worldToLocal3 = Translate(Vector(0, 0, -4));
-	SpotLight* p2=new SpotLight(localToWorld3,RGB(1,1,1),10,5);
+//	Transform localToWorld3 = Translate(Vector(0, 0, 4));
+//	Transform worldToLocal3 = Translate(Vector(0, 0, -4));
+//	SpotLight* p2=new SpotLight(localToWorld3,RGB(1,1,1),10,5);
+//	scene.addLight(p2);
+
+
+	Transform localToWorld3 = Translate(Vector(0, 0, 0));
+	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
+	DistantLight* p2=new DistantLight(localToWorld3,RGB(1,1,1),Vector(-1,0,0));
 	scene.addLight(p2);
 
 

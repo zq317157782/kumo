@@ -9,7 +9,6 @@
 #define CORE_SAMPLER_H_
 
 #include "global.h"
-//todo 新的采样器编写
 class Sampler{
 public:
 	const int xPixelStart,xPixelEnd,yPixelStart,yPixelEnd;
