@@ -4,7 +4,6 @@
 
 #include <Scene.h>
 
-#include "../light/ambient.h"
 #include "diffgeom.h"
 
 unsigned long Scene::getLightNum() const {

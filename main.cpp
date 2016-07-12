@@ -179,7 +179,6 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "shape/Sphere.h"
 #include "camera/PinholeCamera.h"
 #include "oldSampler/MultiJitteredOldSampler.h"
-#include "light/Directional.h"
 #include "transform.h"
 #include "global.h"
 #include "renderer/simpleRenderer.h"
