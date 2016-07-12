@@ -210,8 +210,8 @@ int main(int argc, char** argv) {
 
 	Matte * m = new Matte();
 
-	Transform localToWorld = Translate(Vector(0, 0, 7));
-	Transform worldToLocal = Translate(Vector(0, 0, -7));
+	Transform localToWorld = Translate(Vector(0, 0, 6));
+	Transform worldToLocal = Translate(Vector(0, 0, -6));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 100, -100,
 			100, 360);
@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
 
 	//测试三角面片
 	Model model;
-	model.load("../t3.obj");
+	model.load("../t1.obj");
 
 
 	int triCount = model.numberOfTriangles();
@@ -259,7 +259,8 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit3 = new GeomPrimitive(mesh, Reference<Material>(m));
 
 
-	PointLight* p=new PointLight(localToWorld,RGB(1,1,1));
+	PointLight* p=new PointLight(localToWorld,RGB(0,1,1));
+	PointLight* p2=new PointLight(localToWorld2,RGB(1,1,0));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
@@ -274,16 +275,15 @@ int main(int argc, char** argv) {
 //	scene.addPrimitive(primit2);
 	scene.addPrimitive(primit3);
 
-	Directional* directional = new Directional(RGB(1, 1, 1),
-			RotateX(30)(Vector(0, 0, 1)));
 
 
 
 	scene.addLight(p);
+	scene.addLight(p2);
 
 
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 8),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 32),
 			new SimpleIntegrator());
 
 	renderer.render(&scene);
