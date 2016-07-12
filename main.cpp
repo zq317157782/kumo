@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
 
 	//测试三角面片
 	Model model;
-	model.load("../t2.obj");
+	model.load("../t3.obj");
 
 
 	int triCount = model.numberOfTriangles();
@@ -283,7 +283,7 @@ int main(int argc, char** argv) {
 
 
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 1),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 8),
 			new SimpleIntegrator());
 
 	renderer.render(&scene);
