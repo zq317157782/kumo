@@ -6,11 +6,11 @@
  */
 #include "point.h"
 
-//todo 还没有实现
-RGB PointLight::Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
-				float time, Vector *wi, float *pdf,
+RGB PointLight::Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
 				VisibilityTester *vis) const{
-
+		*wi= Normalize(mPos-p);//标准化的点到光源的向量
+		*pdf=1.0f;
+		return mIntensity/DistanceSqr(mPos,p);
 }
 
 

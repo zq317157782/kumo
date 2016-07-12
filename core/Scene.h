@@ -4,7 +4,7 @@
 
 #ifndef RAYTRACER_SCENE_H
 #define RAYTRACER_SCENE_H
-#include "OldLight.h"
+#include "light.h"
 #include "primitive.h"
 #include "memory.h"
 
@@ -12,22 +12,20 @@
 using namespace std;
 class Scene {
 private:
-    Reference<OldLight> mAmbient;//环境光
-    vector< Reference<OldLight>> mLights;
+    vector< Reference<Light>> mLights;
     vector<Reference<Primitive>> mPrimitives;
 public:
 
     Scene();
     unsigned long getLightNum() const;
-    Reference<OldLight>  ambient() const;
-    Reference<OldLight> getLight(const int index) const;
+    Reference<Light> getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
     Reference<Primitive> getPrimitive(int index) const;
     Reference<Primitive> getPrimitiveByID(unsigned int id) const;
 
     void addPrimitive(Primitive* s);
-    void addLight(OldLight* light);
+    void addLight(Light* light);
 
     virtual bool Intersect(const Ray& ray,Intersection* sr) const;
     virtual bool IntersectP(const Ray& ray) const;

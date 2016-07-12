@@ -382,9 +382,13 @@ public:
     explicit Normal(const Vector& v):x(v.x),y(v.y),z(v.z){};
 };
 
+
+
 inline Vector::Vector(const Normal &n):x(n.x),y(n.y),z(n.z){
 
 }
+
+
 
 inline Normal operator*(float f,const Normal& n){
     return n*f;

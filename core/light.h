@@ -10,17 +10,17 @@
 
 #include "global.h"
 #include "transform.h"
+#include "memory.h"
 
 //光源类
-class Light {
+class Light :public ReferenceCounted {
 protected:
 	const Transform lightToWorld;
 	const Transform worldToLight;
 public:
 	const int numSamples;
 	Light(const Transform& l2w, int nsample = 1);
-	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
-			float time, Vector *wi, float *pdf,
+	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,Vector *wi, float *pdf,
 			VisibilityTester *vis) const = 0;
 };
 
@@ -37,4 +37,8 @@ struct VisibilityTester {
 	Ray r;
 };
 
+
+struct LightSample{
+
+};
 #endif /* CORE_LIGHT_H_ */

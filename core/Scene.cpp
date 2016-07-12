@@ -11,16 +11,13 @@ unsigned long Scene::getLightNum() const {
 	return mLights.size();
 }
 
-Reference<OldLight> Scene::ambient() const {
-	return mAmbient;
-}
 
-Reference<OldLight> Scene::getLight(const int index) const {
+
+Reference<Light> Scene::getLight(const int index) const {
 	return mLights[index];
 }
 
-Scene::Scene() :
-		mAmbient(Reference<OldLight>(new Ambient())), background(RGB(0, 0, 0)), mPrimitives() {
+Scene::Scene() :background(RGB(0, 0, 0)), mPrimitives() {
 
 }
 
@@ -76,6 +73,6 @@ void Scene::addPrimitive(Primitive* primitive) {
 	mPrimitives.push_back(primitive);
 }
 
-void Scene::addLight(OldLight* light) {
+void Scene::addLight(Light* light) {
 	mLights.push_back(light);
 }

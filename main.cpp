@@ -180,10 +180,6 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "camera/PinholeCamera.h"
 #include "oldSampler/MultiJitteredOldSampler.h"
 #include "light/Directional.h"
-#include "material/TorranceSparrow.h"
-#include "material/CookTorranceMaterial.h"
-#include "material/BlinnPhongMaterial.h"
-#include "material/PhongMaterial.h"
 #include "transform.h"
 #include "global.h"
 #include "renderer/simpleRenderer.h"
@@ -198,6 +194,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "shape/trianglemesh.h"
 #include "Scene.h"
 #include "thrid/obj/Model.h"
+#include "light/point.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -213,14 +210,14 @@ int main(int argc, char** argv) {
 
 	Matte * m = new Matte();
 
-	Transform localToWorld = Translate(Vector(0, 0, 1));
-	Transform worldToLocal = Translate(Vector(0, 0, -1));
+	Transform localToWorld = Translate(Vector(0, 0, 7));
+	Transform worldToLocal = Translate(Vector(0, 0, -7));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 100, -100,
 			100, 360);
 
-	Transform localToWorld2 = Translate(Vector(0, 0, 4));
-	Transform worldToLocal2 = Translate(Vector(0, 0, -4));
+	Transform localToWorld2 = Translate(Vector(0, 0, 8));
+	Transform worldToLocal2 = Translate(Vector(0, 0, -8));
 
 
 
@@ -262,9 +259,11 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit3 = new GeomPrimitive(mesh, Reference<Material>(m));
 
 
+	PointLight* p=new PointLight(localToWorld,RGB(1,1,1));
+
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
+			new PPMFilm(256, 256, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(500);
 
@@ -278,11 +277,13 @@ int main(int argc, char** argv) {
 	Directional* directional = new Directional(RGB(1, 1, 1),
 			RotateX(30)(Vector(0, 0, 1)));
 
-	scene.addLight(directional);
+
+
+	scene.addLight(p);
 
 
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 8),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 1),
 			new SimpleIntegrator());
 
 	renderer.render(&scene);

@@ -18,8 +18,7 @@ public:
 		mIntensity=intensity;
 	};
 
-	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
-				float time, Vector *wi, float *pdf,
+	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
 				VisibilityTester *vis) const override;
 private:
 	RGB mIntensity;//光源强度
