@@ -21,7 +21,9 @@ public:
 	const int numSamples;
 	Light(const Transform& l2w, int nsample = 1);
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,Vector *wi, float *pdf,
-			VisibilityTester *vis) const = 0;
+			VisibilityTester *vis) const = 0;//返回辐射照度
+	virtual bool IsDeltaLight() const = 0;
+	virtual RGB Power(Scene* scene) const=0; //返回光源产生的辐射通量
 };
 
 //用来判断两个点之间是否有遮挡，或者射线是否与中间图元相交

@@ -20,6 +20,8 @@ public:
 
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
 				VisibilityTester *vis) const override;
+	bool IsDeltaLight() const override;
+	RGB Power(Scene* scene) const override;
 private:
 	RGB mIntensity;//光源强度
 	Point mPos;
