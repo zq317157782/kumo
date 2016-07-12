@@ -285,7 +285,7 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
-	DistantLight* p2=new DistantLight(localToWorld3,RGB(1,1,1),Vector(-1,0,0));
+	DistantLight* p2=new DistantLight(localToWorld3,RGB(0,1,1),Vector(-1,0,0));
 	scene.addLight(p2);
 
 

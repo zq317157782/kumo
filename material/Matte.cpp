@@ -13,8 +13,8 @@ Matte::Matte(const RGB& _albedo):
 }
 
 
-
 RGB Matte::shade(const Intersection &sr){
+	Vector wo=-sr.ray.d;
     Point hitPoint=sr.ray(sr.distance);
     Vector wi;
     float pdf;
@@ -27,7 +27,7 @@ RGB Matte::shade(const Intersection &sr){
         if(!vt.Unoccluded(&sr.scene)) continue;
         double ndotl=Dot(sr.normal,wi);
         if(ndotl>0){
-            L=L+l*ndotl;   //mDiffuseBrdf.f(sr,wi,wo)
+            L=L+l*mDiffuseBrdf.f(wi,wo)*ndotl;  //mDiffuseBrdf.f(sr,wi,wo)
         }
     }
     return L;
