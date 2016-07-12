@@ -213,77 +213,71 @@ int main(int argc, char** argv) {
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 100, -100,
-			100, 360);
-
-	Transform localToWorld2 = Translate(Vector(0, 0, 8));
-	Transform worldToLocal2 = Translate(Vector(0, 0, -8));
-
-
-
-	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 300,
-			-300, 300, 360);
-
-	//测试三角面片
-	Model model;
-	model.load("../t1.obj");
-
-
-	int triCount = model.numberOfTriangles();
-	int vertexCount = model.numberOfVertices();
-	Point* points = new Point[vertexCount];
-	for (int i = 0; i < vertexCount; ++i) {
-		_POINT p = model.getVertex(i);
-		points[i] = Point(p.x, p.y, p.z);
-	}
-
-	int * indexs = new int[3 * triCount];
-	for (int i = 0, j = 0; i < triCount; ++i) {
-		_TRIANGLE t = model.getTriangle(i);
-		indexs[j++] = t.index[0];
-		indexs[j++] = t.index[1];
-		indexs[j++] = t.index[2];
-	}
-
-
-	Transform localToWorld3 = Scale(100,100,100);
-	Transform worldToLocal3 = Scale(-100,-100,-100);
-
-	TriangleMesh* mesh = new TriangleMesh(&localToWorld2, &worldToLocal2, false,
-			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1,
+			1, 360);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m));
-	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
-			Reference<Material>(m));
-	GeomPrimitive * primit3 = new GeomPrimitive(mesh, Reference<Material>(m));
 
 
-	PointLight* p=new PointLight(localToWorld,RGB(0,1,1));
-	PointLight* p2=new PointLight(localToWorld2,RGB(1,1,0));
+//	//测试三角面片
+//	Model model;
+//	model.load("../t2.obj");
+//
+
+//	int triCount = model.numberOfTriangles();
+//	int vertexCount = model.numberOfVertices();
+//	Point* points = new Point[vertexCount];
+//	for (int i = 0; i < vertexCount; ++i) {
+//		_POINT p = model.getVertex(i);
+//		points[i] = Point(p.x, p.y, p.z);
+//	}
+//
+//	int * indexs = new int[3 * triCount];
+//	for (int i = 0, j = 0; i < triCount; ++i) {
+//		_TRIANGLE t = model.getTriangle(i);
+//		indexs[j++] = t.index[0];
+//		indexs[j++] = t.index[1];
+//		indexs[j++] = t.index[2];
+//	}
+//
+//
+//	Transform localToWorld3 = Scale(100,100,100);
+//	Transform worldToLocal3 = Scale(-100,-100,-100);
+//
+//	TriangleMesh* mesh = new TriangleMesh(&localToWorld2, &worldToLocal2, false,
+//			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
+
+
+
+	//GeomPrimitive * primit2 = new GeomPrimitive(mesh, Reference<Material>(m));
+
+
+
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(256, 256, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
+			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(500);
 
 	//场景初始化
 	Scene scene;
 	scene.background = RGB(121.0/255, 121.0/255, 121.0/255);
-//	scene.addPrimitive(primit);
-//	scene.addPrimitive(primit2);
-	scene.addPrimitive(primit3);
+	scene.addPrimitive(primit);
+	//scene.addPrimitive(primit2);
+	//scene.addPrimitive(primit3);
 
 
 
-
+	Transform localToWorld2 = Translate(Vector(0, 0, 4));
+	Transform worldToLocal2 = Translate(Vector(0, 0, -4));
+	PointLight* p=new PointLight(localToWorld2,RGB(1,1,1));
 	scene.addLight(p);
-	scene.addLight(p2);
 
 
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 256, 0, 256, 32),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
 			new SimpleIntegrator());
 
 	renderer.render(&scene);

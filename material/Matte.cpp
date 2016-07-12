@@ -24,7 +24,7 @@ RGB Matte::shade(const Intersection &sr){
     unsigned long lignt_num=sr.scene.getLightNum();
     for(unsigned long i=0;i<lignt_num;++i){
         RGB l=sr.scene.getLight(i)->Sample_L(hitPoint,0,ls,&wi,&pdf,&vt);
-        if(vt.Unoccluded(&sr.scene)) continue;
+        if(!vt.Unoccluded(&sr.scene)) continue;
         double ndotl=Dot(sr.normal,wi);
         if(ndotl>0){
             L=L+l*ndotl;   //mDiffuseBrdf.f(sr,wi,wo)
