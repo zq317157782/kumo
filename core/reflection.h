@@ -283,5 +283,25 @@ public:
 	}
 };
 
+
+//微平面分布
+class MicrofacetDistribution{
+public:
+	virtual ~MicrofacetDistribution(){}
+	virtual float D(const Vector &wh) const=0;//传入半角向量 返回与该半角向量垂直的位平面的分布概率
+};
+
+//基于Torrance-Sparrow Modle的微平面结构
+class Microfacet:public BxDF{
+private:
+	RGB mR;//调节反射总比例
+	Fresnel * mFresnel;//菲涅尔系数
+	MicrofacetDistribution * mDistribution;//微平面的法线分布函数
+public:
+	Microfacet(const RGB& reflectance,Fresnel* fresnel,MicrofacetDistribution* distribution);
+	float G(const Vector &wo, const Vector &wi, const Vector &wh) const;//几何衰减实数  公式:PBRT P455
+	RGB f(const Vector &wo, const Vector &wi) const override ;
+};
+
 //todo 优先编写BSDF
 #endif //RAYTRACER_REFLECTION_H

@@ -97,3 +97,32 @@ RGB SpecularTransmission::sample_f(const Vector& wo,Vector* wi,float u1,float u2
 	  RGB F = mFresnel.Evaluate(CosTheta(wo));//计算反射系数
 	  return (ei*ei)/(et*et) * (RGB(1.0f)-F) *mScale/AbsCosTheta(*wi);
 }
+
+
+Microfacet::Microfacet(const RGB& reflectance,Fresnel* fresnel,MicrofacetDistribution* distribution):BxDF(BxDFType(BSDF_REFLECTION | BSDF_GLOSSY)),mR(reflectance),mFresnel(fresnel),mDistribution(distribution){
+
+}
+
+float Microfacet::G(const Vector &wo, const Vector &wi, const Vector &wh) const{
+	float NdotWh=AbsCosTheta(wh);//半角和法线之间的cos值  相当于是点乘
+	float NdotWo=AbsCosTheta(wo);//出射方向与法线
+	float NdotWi=AbsCosTheta(wi);//入射方向与法线
+	float WodotWh=AbsDot(wh,wo);//出射和半角向量之间的点乘
+	return min(1.0f,min((2.f * NdotWh * NdotWo / WodotWh),
+            (2.f * NdotWh * NdotWi / WodotWh)));
+}
+
+RGB Microfacet::f(const Vector &wo, const Vector &wi) const{
+	float cosO=AbsCosTheta(wo);
+	if(cosO==0) return RGB(0);
+	float cosI=AbsCosTheta(wi);
+	if(cosI==0) return RGB(0);
+
+	Vector wh=wi+wo;
+	if(wh.x==0&&wh.y==0&&wh.z==0) return RGB(0);
+	wh=Normalize(wh);
+	float cosH=Dot(wi,wh);
+	RGB F= mFresnel->Evaluate(cosH);
+	return mR*F*mDistribution->D(wh)*G(wo,wi,wh)/(4.0f*cosO*cosI);
+
+}
