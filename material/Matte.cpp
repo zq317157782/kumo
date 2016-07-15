@@ -7,7 +7,6 @@
 #include <Scene.h>
 
 Matte::Matte(const RGB& _albedo):
-        mAmbientBrdf(_albedo),
         mDiffuseBrdf(_albedo){
 
 }

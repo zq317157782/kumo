@@ -196,6 +196,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "light/point.h"
 #include "light/spot.h"
 #include "light/distant.h"
+#include "material/metal.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -209,7 +210,9 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-	Matte * m = new Matte();
+
+	//Matte * m = new Matte();
+	Metal * metal=new Metal(RGB(M_INV_PI,M_INV_PI,M_INV_PI),RGB(1,1,1),RGB(4.2,4.2,4.2),new Blinn(500));
 
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
@@ -218,7 +221,7 @@ int main(int argc, char** argv) {
 			1, 360);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(m));
+			Reference<Material>(metal));
 
 
 //	//测试三角面片

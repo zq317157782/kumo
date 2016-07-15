@@ -38,6 +38,8 @@ inline double drand48(){
 #ifndef M_INV_PI
 #define M_INV_PI  1/M_PI
 #endif
+#define  M_TWO_PI    2*M_PI
+#define M_INV_TWO_PI  1/M_TWO_PI
 
 class Vector; //向量
 class Point;  //空间点
@@ -65,6 +67,10 @@ class Film;
 class Light;//光源
 struct LightSample;//光源采样点
 struct VisibilityTester;
+class Microfacet; //微平面
+class MicrofacetDistribution;//微平面法线分布函数
+class Fresnel;//菲涅尔系数
+class FresnelConductor;//导电体Fresnel
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

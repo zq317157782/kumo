@@ -303,5 +303,18 @@ public:
 	RGB f(const Vector &wo, const Vector &wi) const override ;
 };
 
+
+//第一个微平面分布 公式在p455
+class Blinn:public MicrofacetDistribution{
+private:
+	float mE;//指数
+public:
+	Blinn(float e):mE(e){};
+	virtual float D(const Vector &wh) const override{
+		float cosh=CosTheta(wh);
+		return (mE+2.0f)*M_INV_TWO_PI*powf(cosh,mE);
+	}
+};
+
 //todo 优先编写BSDF
 #endif //RAYTRACER_REFLECTION_H
