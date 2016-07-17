@@ -19,6 +19,7 @@ public:
    Metal(const RGB& reflectance,const RGB& e, const RGB& kk,MicrofacetDistribution* dis);
     virtual RGB shade(const Intersection& sr);
     virtual RGB areaLightShade(Intersection& sr);
+    virtual ~Metal(){}
 };
 
 #endif /* MATERIAL_METAL_H_ */

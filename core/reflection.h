@@ -8,6 +8,7 @@
 #include "global.h"
 #include "geometry.h"
 #include "RGB.h"
+#include "diffgeom.h"
 //反射坐标系 三个标准正交基是两切线和法线
 
 //cos(t)=(N.DOT.w)==(0,0,1).dot.w=w.z
@@ -85,6 +86,8 @@ public:
 	}
 	;
 	//通过入射光线和出射光线来计算概率分布
+
+	virtual ~BxDF(){}
 };
 
 //BRDF->BTDF Adapter
@@ -317,4 +320,26 @@ public:
 };
 
 //todo 优先编写BSDF
+
+//BSDF 双向散射分布函数
+//The BSDF class represents a collection of BRDFs and BTDFs
+class BSDF{
+private:
+	Normal mNN,mNG;//着色法线，几何法线
+	Vector mSN,mTN;//次切向量，切向量
+	int mNumBxdf;//BxDF的个数
+#define MAX_BxDFS 8
+    BxDF *mBxdfs[MAX_BxDFS];
+public:
+	const float eta;//材质的折射系数
+	const DifferentialGeometry dgShading;//着色微分几何
+	BSDF(const DifferentialGeometry& dg,const Normal& ng,float e);
+
+	void Add(BxDF *bxdf);//加入BxDF
+	Vector WorldToLocal(const Vector& w) const;
+	Vector LocalToWorld(const Vector& w) const;
+
+	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags = BSDF_ALL) const;
+};
+
 #endif //RAYTRACER_REFLECTION_H

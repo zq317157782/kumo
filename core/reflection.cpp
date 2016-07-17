@@ -131,3 +131,46 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const{
 //	cout<<"G(wo,wi,wh): "<<G(wo,wi,wh)<<endl;
 	return mR*F*mDistribution->D(wh)*G(wo,wi,wh)/(4.0f*cosO*cosI);
 }
+
+
+BSDF::BSDF(const DifferentialGeometry& dg,const Normal& ng,float e):dgShading(dg),mNG(ng),eta(e){
+	mNN=dgShading.nn;
+	mSN=Normalize(dgShading.dpdu);
+	mTN=Cross(mNN,mSN);//法向量和切向量叉乘
+	mNumBxdf=0;
+}
+
+void BSDF::Add(BxDF *bxdf){
+	assert(mNumBxdf<MAX_BxDFS);
+	mBxdfs[mNumBxdf++]=bxdf;
+}
+
+Vector BSDF::WorldToLocal(const Vector& w) const{
+	return Vector(Dot(mSN,w),Dot(mTN,w),Dot(mNN,w));
+}
+
+Vector BSDF::LocalToWorld(const Vector& w) const{
+	return Vector(
+			mSN.x*w.x+mTN.x*w.y+mNN.x*w.z,
+			mSN.y*w.x+mTN.y*w.y+mNN.y*w.z,
+			mSN.z*w.x+mTN.z*w.y+mNN.z*w.z
+			);
+}
+
+RGB BSDF::f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags) const{
+	Vector wo=WorldToLocal(woWorld);
+	Vector wi=WorldToLocal(wiWorld);
+	if(Dot(wo,mNG)*Dot(wi,mNG)>0){//相乘大于零说明在同一半球
+		flags=BxDFType(flags&~BSDF_TRANSMISSION);//去除折射
+	}
+	else{
+		flags=BxDFType(flags&~BSDF_REFLECTION);//去除反射
+	}
+	RGB f=0;
+	for(int i=0;i<mNumBxdf;++i){
+		if(mBxdfs[i]->MatchesFlag(flags)){
+			f+=mBxdfs[i]->f(wo,wi);
+		}
+	}
+	return f;
+}
