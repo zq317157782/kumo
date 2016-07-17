@@ -174,3 +174,17 @@ RGB BSDF::f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags) const{
 	}
 	return f;
 }
+
+int BSDF::NumComponents() const{
+	return mNumBxdf;
+}
+
+int BSDF::NumComponents(BxDFType flags) const{
+	int num=0;
+	for(int i=0;i<mNumBxdf;++i){
+		if(mBxdfs[i]->MatchesFlag(flags)){
+			num++;
+		}
+	}
+	return num;
+}

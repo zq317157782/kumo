@@ -339,6 +339,9 @@ public:
 	Vector WorldToLocal(const Vector& w) const;
 	Vector LocalToWorld(const Vector& w) const;
 
+	int NumComponents() const;
+	int NumComponents(BxDFType flags) const;
+
 	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags = BSDF_ALL) const;
 };
 
