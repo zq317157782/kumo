@@ -5,6 +5,7 @@
 #ifndef RAYTRACER_MEMORY_H
 #define RAYTRACER_MEMORY_H
 
+#include "global.h"
 // Memory Declarations
 class ReferenceCounted {
 public:
@@ -57,5 +58,63 @@ template <typename T> T *AllocAligned(unsigned int count) {
     return (T *)AllocAligned(count * sizeof(T));
 }
 void FreeAligned(void *);
+
+
+class MemoryArena {
+public:
+    // MemoryArena Public Methods
+    MemoryArena(unsigned int bs = 32768) {
+        blockSize = bs;
+        curBlockPos = 0;
+        currentBlock = AllocAligned<char>(blockSize);
+    }
+    ~MemoryArena() {
+        FreeAligned(currentBlock);
+        for (unsigned int i = 0; i < usedBlocks.size(); ++i)
+            FreeAligned(usedBlocks[i]);
+        for (unsigned int i = 0; i < availableBlocks.size(); ++i)
+            FreeAligned(availableBlocks[i]);
+    }
+    void *Alloc(unsigned int sz) {
+        // Round up _sz_ to minimum machine alignment
+        sz = ((sz + 15) & (~15));
+        if (curBlockPos + sz > blockSize) {
+            // Get new block of memory for _MemoryArena_
+            usedBlocks.push_back(currentBlock);
+            if (availableBlocks.size() && sz <= blockSize) {
+                currentBlock = availableBlocks.back();
+                availableBlocks.pop_back();
+            }
+            else
+                currentBlock = AllocAligned<char>(max(sz, blockSize));
+            curBlockPos = 0;
+        }
+        void *ret = currentBlock + curBlockPos;
+        curBlockPos += sz;
+        return ret;
+    }
+    template<typename T> T *Alloc(unsigned int count = 1) {
+        T *ret = (T *)Alloc(count * sizeof(T));
+        for (unsigned int i = 0; i < count; ++i)
+            new (&ret[i]) T();
+        return ret;
+    }
+    void FreeAll() {
+        curBlockPos = 0;
+        while (usedBlocks.size()) {
+    #ifndef NDEBUG
+            memset(usedBlocks.back(), 0xfa, blockSize);
+    #endif
+            availableBlocks.push_back(usedBlocks.back());
+            usedBlocks.pop_back();
+        }
+    }
+private:
+    // MemoryArena Private Data
+    unsigned int curBlockPos, blockSize;
+    char *currentBlock;
+    vector<char *> usedBlocks, availableBlocks;
+};
+
 
 #endif //RAYTRACER_MEMORY_H
