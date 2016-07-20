@@ -4,6 +4,7 @@
 
 #include "diffgeom.h"
 #include "shape.h"
+#include "transform.h"
 
 DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector &DPDU,
 		const Vector &DPDV, const Normal &DNDU, const Normal &DNDV, float uu,
@@ -21,6 +22,7 @@ DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector &DPDU,
 		nn *= -1.f;
 }
 
+//本函数直接复制自PBRT
 void DifferentialGeometry::ComputeDifferentials(
 		const RayDifferential &r) const {
 	if (r.hasDifferentials) { //判断射线是否有微分射线存在否
@@ -40,10 +42,42 @@ void DifferentialGeometry::ComputeDifferentials(
 		Point py = r.ryOrigin + ty * r.ryDirection;
 		dpdx = px - p; //x方向上的偏导
 		dpdy = py - p; //y方向上的偏导
-		//todo 这个函数  还没有全部完成
+
+
+		//开始求解dudx,dudy,dvdx,dvdy  公式 P.508
+		float A[2][2], Bx[2], By[2];
+		int axes[2];
+
+		//这里的代码是用来确定哪一行是退化的，退化意味着线性相关，参与运算的话 行列式为0，不可逆，无法求解
+		if (fabsf(nn.x) > fabsf(nn.y) && fabsf(nn.x) > fabsf(nn.z)) {
+			axes[0] = 1;
+			axes[1] = 2;
+		} else if (fabsf(nn.y) > fabsf(nn.z)) {
+			axes[0] = 0;
+			axes[1] = 2;
+		} else {
+			axes[0] = 0;
+			axes[1] = 1;
+		}
+
+		A[0][0] = dpdu[axes[0]];
+		A[0][1] = dpdv[axes[0]];
+		A[1][0] = dpdu[axes[1]];
+		A[1][1] = dpdv[axes[1]];
+		Bx[0] = px[axes[0]] - p[axes[0]];
+		Bx[1] = px[axes[1]] - p[axes[1]];
+		By[0] = py[axes[0]] - p[axes[0]];
+		By[1] = py[axes[1]] - p[axes[1]];
+		if (!SolveLinearSystem2x2(A, Bx, &dudx, &dvdx)) {
+			dudx = 0.;
+			dvdx = 0.;
+		}
+		if (!SolveLinearSystem2x2(A, By, &dudy, &dvdy)) {
+			dudy = 0.;
+			dvdy = 0.;
+		}
 	} else {
-fail:
-		dpdx = Vector(0, 0, 0);
+		fail: dpdx = Vector(0, 0, 0);
 		dpdy = Vector(0, 0, 0);
 		dudx = 0;
 		dudy = 0;
