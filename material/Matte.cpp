@@ -32,6 +32,3 @@ RGB Matte::shade(const Intersection &sr){
     return L;
 }
 
-RGB Matte::areaLightShade(Intersection &sr) {
-    return RGB(0,0,0);
-}

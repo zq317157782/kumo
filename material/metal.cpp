@@ -45,6 +45,4 @@ RGB Metal::shade(const Intersection &sr) {
 	return L;
 }
 
-RGB Metal::areaLightShade(Intersection &sr) {
-	return RGB(0, 0, 0);
-}
+

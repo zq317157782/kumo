@@ -59,7 +59,7 @@ template <typename T> T *AllocAligned(unsigned int count) {
 }
 void FreeAligned(void *);
 
-
+//内存分配管理结构  释放内存只能使用FreeAll释放所有的内存
 class MemoryArena {
 public:
     // MemoryArena Public Methods

@@ -16,7 +16,6 @@ private:
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
     virtual RGB shade(const Intersection& sr);
-    virtual RGB areaLightShade(Intersection& sr);
 };
 
 

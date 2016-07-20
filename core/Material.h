@@ -13,7 +13,6 @@
 class Material :public ReferenceCounted{
 public:
     virtual RGB shade(const Intersection& sr)=0;
-    virtual RGB areaLightShade(Intersection& sr)=0; //区域光shade
 };
 
 
