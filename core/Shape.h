@@ -31,6 +31,13 @@ public:
     virtual bool CanIntersect() const;
     virtual void Refine(vector<Reference<Shape> > &refined) const;//提炼函数  为一些几何体提炼更加合适的几何结构
 
+    //获取着色用的微分几何结构的函数 默认直接返回原微分几何结构
+    virtual void GetShadingGeometry(const Transform &obj2world,
+               const DifferentialGeometry &dg,
+               DifferentialGeometry *dgShading) const {
+           *dgShading = dg;
+       }
+
     virtual ~Shape(){};
 };
 
