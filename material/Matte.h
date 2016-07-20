@@ -6,7 +6,7 @@
 #define RAYTRACER_MATTE_H
 
 
-#include "Material.h"
+#include <material.h>
 #include "reflection.h"
 #include <memory>
 using namespace std;
@@ -16,6 +16,9 @@ private:
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
     virtual RGB shade(const Intersection& sr);
+    virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
+                             const DifferentialGeometry &dgShading,
+                             MemoryArena &arena) const override{ return nullptr;};
 };
 
 

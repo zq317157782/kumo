@@ -13,6 +13,10 @@
 class Material :public ReferenceCounted{
 public:
     virtual RGB shade(const Intersection& sr)=0;
+
+    virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
+                             const DifferentialGeometry &dgShading,
+                             MemoryArena &arena) const = 0;
 };
 
 

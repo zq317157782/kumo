@@ -71,7 +71,7 @@ class Microfacet; //微平面
 class MicrofacetDistribution;//微平面法线分布函数
 class Fresnel;//菲涅尔系数
 class FresnelConductor;//导电体Fresnel
-
+class BSDF;	//整合BxDF的结构
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     // 计算判别式
