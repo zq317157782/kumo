@@ -20,7 +20,7 @@ public:
 			MicrofacetDistribution* dis);
 	virtual RGB shade(const Intersection& sr) override;
 	virtual ~Metal(){}
-//todo 还没有实现Metal::GetBSDF
+//TODO 还没有实现Metal::GetBSDF
 	virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
 			const DifferentialGeometry &dgShading, MemoryArena &arena) const
 					override;
