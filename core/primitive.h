@@ -5,9 +5,9 @@
 #ifndef RAYTRACER_PRIMITIVE_H
 #define RAYTRACER_PRIMITIVE_H
 #include <Intersection.h>
+#include <material.h>
 #include "global.h"
 #include "memory.h"
-#include "Material.h"
 #include "Shape.h"
 
 //图元

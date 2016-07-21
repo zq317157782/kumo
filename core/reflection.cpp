@@ -119,16 +119,11 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const{
 	if(cosO==0) return RGB(0);
 	float cosI=AbsCosTheta(wi);
 	if(cosI==0) return RGB(0);
-	cout<<"wi: "<<wi.x<<" "<<wi.y<<" "<<wi.z<<" "<<endl;
-	cout<<"wo: "<<wo.x<<" "<<wo.y<<" "<<wo.z<<" "<<endl;
 	Vector wh=wi+wo;
 	if(wh.x==0&&wh.y==0&&wh.z==0) return RGB(0);
 	wh=Normalize(wh);
 	float cosH=Dot(wi,wh);
 	RGB F= mFresnel->Evaluate(cosH);
-//	cout<<"fresnel: "<<F.r<<" "<<F.g<<" "<<F.b<<" "<<endl;
-//	cout<<"mDistribution: "<<mDistribution->D(wh)<<endl;
-//	cout<<"G(wo,wi,wh): "<<G(wo,wi,wh)<<endl;
 	return mR*F*mDistribution->D(wh)*G(wo,wi,wh)/(4.0f*cosO*cosI);
 }
 

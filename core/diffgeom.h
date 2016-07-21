@@ -18,7 +18,8 @@ struct DifferentialGeometry{
                          const Vector &DPDV, const Normal &DNDU,
                          const Normal &DNDV, float uu, float vv,
                          const Shape *sh);
-   // void ComputeDifferentials(const RayDifferential &r) const;
+
+    void ComputeDifferentials(const RayDifferential &r) const; //通过微分射线  计算  几何微分
 
     // DifferentialGeometry Public Data
     Point p;

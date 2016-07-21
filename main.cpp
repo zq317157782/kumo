@@ -212,7 +212,7 @@ int main(int argc, char** argv) {
 
 
 	//Matte * m = new Matte();
-	Metal * metal=new Metal(RGB(M_INV_PI,M_INV_PI,M_INV_PI),RGB(1,1,1),RGB(4.2,4.2,4.2),new Blinn(500));
+	Metal * metal=new Metal(RGB(1,1,0.8),RGB(1,1,1),RGB(4.2,4.2,4.2),new Blinn(10));
 
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
@@ -288,7 +288,7 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
-	DistantLight* p2=new DistantLight(localToWorld3,RGB(2,2,2),Vector(0,0,-1));
+	DistantLight* p2=new DistantLight(localToWorld3,RGB(2,2,2),Vector(0,-1,-1));
 	scene.addLight(p2);
 
 

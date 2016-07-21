@@ -12,24 +12,24 @@
 #include "Scene.h"
 
 void SimpleRenderer::render(const Scene* scene) {
-    Sample sample( sampler ,mSurfaceIntegrator,scene);
-    Random ran(0);
-    while(sampler->GetMoreSamples(&sample,ran)>0){
-    	RGB L;
-    	Point point;
-    	point.x= sample.imageX-camera->film->xResolution*0.5f;
-    	point.y= sample.imageY-camera->film->yResolution*0.5f;
-    	Ray ray=camera->generateRay(point);
-    	Intersection sr(*scene,ray);
-    	if(scene->Intersect(ray,&sr)){
-    	   L=mSurfaceIntegrator->Li(scene,this,ray,sr);
-    	}else{
-    	   L=scene->background;
-    	}
-    	camera->film->AddSample(sample,L);
-    }
+	Sample sample(sampler, mSurfaceIntegrator, scene);
+	Random ran(0);
+	while (sampler->GetMoreSamples(&sample, ran) > 0) {
+		RGB L;
+		Point point;
+		point.x = sample.imageX - camera->film->xResolution * 0.5f;
+		point.y = sample.imageY - camera->film->yResolution * 0.5f;
+		Ray ray = camera->generateRay(point);
+		Intersection sr(*scene, ray);
+		if (scene->Intersect(ray, &sr)) {
+			L = mSurfaceIntegrator->Li(scene, this, ray, sr);
+		} else {
+			L = scene->background;
+		}
+		camera->film->AddSample(sample, L);
+	}
 
-    camera->film->WriteImage(1.0f);
+	camera->film->WriteImage(1.0f);
 
 //    for(int r=0;r<camera->film->height();++r){
 //        for(int c=0;c<camera->film->width();++c){

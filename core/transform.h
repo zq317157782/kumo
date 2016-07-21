@@ -7,6 +7,10 @@
 #include "global.h"
 #include "geometry.h"
 
+//求解2x2线性方程组 AX=b
+bool SolveLinearSystem2x2(const float A[2][2],
+        const float B[2], float *x0, float *x1);
+
 struct Matrix4X4{
     float m[4][4];
 
