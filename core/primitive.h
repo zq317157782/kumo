@@ -40,7 +40,8 @@ public:
 	virtual void Refine(vector<Reference<Primitive> > &refined) const {
 		assert(false);
 	}
-	;
+	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
+	        const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
 };
 
 class GeomPrimitive: public Primitive {
@@ -87,6 +88,9 @@ public:
 			refined.push_back(gp);
 		}
 	}
+
+	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
+	        const Transform &ObjectToWorld, MemoryArena &arena) const override;
 };
 
 #endif //RAYTRACER_PRIMITIVE_H

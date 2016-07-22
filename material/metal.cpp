@@ -46,3 +46,11 @@ RGB Metal::shade(const Intersection &sr) {
 }
 
 
+BSDF* Metal::GetBSDF(const DifferentialGeometry &dgGeom,
+			const DifferentialGeometry &dgShading, MemoryArena &arena) const{
+//TODO 还没有实现
+	BSDF *bsdf=BSDF_ALLOC(arena,BSDF)(dgShading,dgGeom.nn);
+}
+
+
+

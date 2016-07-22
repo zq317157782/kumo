@@ -333,7 +333,7 @@ private:
 public:
 	const float eta;//材质的折射系数
 	const DifferentialGeometry dgShading;//着色微分几何
-	BSDF(const DifferentialGeometry& dg,const Normal& ng,float e);
+	BSDF(const DifferentialGeometry& dg,const Normal& ng,float e= 1.f);//e是材质的折射率
 
 	void Add(BxDF *bxdf);//加入BxDF
 	Vector WorldToLocal(const Vector& w) const;
@@ -344,5 +344,8 @@ public:
 
 	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags = BSDF_ALL) const;
 };
+
+//为BSDF分配空间的宏定义
+#define BSDF_ALLOC(arena, Type) new (arena.Alloc(sizeof(Type))) Type
 
 #endif //RAYTRACER_REFLECTION_H

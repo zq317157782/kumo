@@ -13,6 +13,7 @@ using namespace std;
 class Matte : public Material{
 private:
     Lambertian mDiffuseBrdf;
+    RGB mR;
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
     virtual RGB shade(const Intersection& sr);
@@ -20,7 +21,7 @@ public:
 
     virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
                              const DifferentialGeometry &dgShading,
-                             MemoryArena &arena) const override{ return nullptr;};
+                             MemoryArena &arena) const override;
 };
 
 

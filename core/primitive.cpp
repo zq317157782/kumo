@@ -5,3 +5,11 @@
 #include "primitive.h"
 
 unsigned int Primitive::nextPrimitiveID=0;
+
+
+BSDF *GeomPrimitive::GetBSDF(const DifferentialGeometry &dg,
+	        const Transform &ObjectToWorld, MemoryArena &arena) const{
+	DifferentialGeometry shadingG;
+	mShape->GetShadingGeometry(ObjectToWorld,dg,&shadingG);
+	return mMaterial->GetBSDF(dg,shadingG,arena);
+}

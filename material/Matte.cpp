@@ -7,7 +7,7 @@
 #include <Scene.h>
 
 Matte::Matte(const RGB& _albedo):
-        mDiffuseBrdf(_albedo){
+        mDiffuseBrdf(_albedo),mR(_albedo){
 
 }
 
@@ -32,3 +32,11 @@ RGB Matte::shade(const Intersection &sr){
     return L;
 }
 
+
+BSDF *Matte::GetBSDF(const DifferentialGeometry &dgGeom,
+                             const DifferentialGeometry &dgShading,
+                             MemoryArena &arena) const{
+	BSDF *bsdf=BSDF_ALLOC(arena,BSDF)(dgShading,dgGeom.nn);
+	bsdf->Add(BSDF_ALLOC(arena,Lambertian)(mR));
+	return bsdf;
+}
