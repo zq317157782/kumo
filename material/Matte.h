@@ -16,7 +16,7 @@ private:
     RGB mR;
 public:
     Matte(const RGB& _albedo=RGB(1,1,1));
-    virtual RGB shade(const Intersection& sr);
+//    virtual RGB shade(const Intersection& sr);
     virtual ~Matte(){}
 
     virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,

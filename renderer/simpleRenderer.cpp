@@ -20,7 +20,7 @@ void SimpleRenderer::render(const Scene* scene) {
 		point.x = sample.imageX - camera->film->xResolution * 0.5f;
 		point.y = sample.imageY - camera->film->yResolution * 0.5f;
 		Ray ray = camera->generateRay(point);
-		Intersection sr(*scene, ray);
+		Intersection sr;
 		if (scene->Intersect(ray, &sr)) {
 			L = mSurfaceIntegrator->Li(scene, this, ray, sr,mRand,mArena);
 		} else {
