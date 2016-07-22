@@ -4,7 +4,7 @@
 
 #include <Intersection.h>
 #include "global.h"
-
+#include "primitive.h"
 Intersection::Intersection(const Intersection& _sr):normal(_sr.normal),scene(_sr.scene),ray(_sr.ray),material(_sr.material),distance(_sr.distance){
 
 }

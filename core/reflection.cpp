@@ -155,7 +155,7 @@ Vector BSDF::LocalToWorld(const Vector& w) const{
 RGB BSDF::f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags) const{
 	Vector wo=WorldToLocal(woWorld);
 	Vector wi=WorldToLocal(wiWorld);
-	if(Dot(wo,mNG)*Dot(wi,mNG)>0){//相乘大于零说明在同一半球
+	if(Dot(woWorld,mNG)*Dot(wiWorld,mNG)>0){//相乘大于零说明在同一半球
 		flags=BxDFType(flags&~BSDF_TRANSMISSION);//去除折射
 	}
 	else{

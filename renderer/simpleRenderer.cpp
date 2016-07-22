@@ -28,7 +28,7 @@ void SimpleRenderer::render(const Scene* scene) {
 		}
 		camera->film->AddSample(sample, L);
 	}
-
+	mArena.FreeAll();
 	camera->film->WriteImage(1.0f);
 
 //    for(int r=0;r<camera->film->height();++r){
