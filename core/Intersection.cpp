@@ -21,3 +21,9 @@ Intersection::Intersection(const Scene& scene,const Ray& r): ray(r), normal(Vect
 
 }
 
+
+BSDF *Intersection::GetBSDF(const RayDifferential &ray, MemoryArena &arena) const{
+	dg.ComputeDifferentials(ray);
+	BSDF* bsdf=primitive->GetBSDF(dg,ObjectToWorld,arena);
+	return bsdf;
+}

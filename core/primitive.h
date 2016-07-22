@@ -62,9 +62,13 @@ public:
 		float thit, rayEpsilon;
 		bool ret = mShape->Intersect(r, &thit, &rayEpsilon, &(in->dg));
 		if (ret) {
+			in->primitive=this;
 			in->distance = thit;
 			in->normal = Vector(in->dg.nn);
 			in->primitiveID = primitiveID;
+			in->ObjectToWorld=*mShape->localToWorld;
+			in->WorldToObject=*mShape->worldToLocal;
+			in->rayEpsilon=rayEpsilon;
 		}
 		return ret;
 	}
