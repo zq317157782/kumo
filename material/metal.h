@@ -15,6 +15,8 @@ class Metal: public Material {
 private:
 	Microfacet* mBrdf;
 	FresnelConductor* mFresnel;
+	MicrofacetDistribution* mDistribution;
+	RGB mReflectance;
 public:
 	Metal(const RGB& reflectance, const RGB& e, const RGB& kk,
 			MicrofacetDistribution* dis);

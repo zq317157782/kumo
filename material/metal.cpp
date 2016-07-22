@@ -11,7 +11,9 @@
 
 Metal::Metal(const RGB& reflectance, const RGB& e, const RGB& kk,
 		MicrofacetDistribution* dis) {
+	mReflectance=reflectance;
 	mFresnel = new FresnelConductor(e, kk);
+	mDistribution=dis;
 	mBrdf = new Microfacet(reflectance, mFresnel, dis);
 }
 
@@ -50,6 +52,8 @@ BSDF* Metal::GetBSDF(const DifferentialGeometry &dgGeom,
 			const DifferentialGeometry &dgShading, MemoryArena &arena) const{
 //TODO 还没有实现
 	BSDF *bsdf=BSDF_ALLOC(arena,BSDF)(dgShading,dgGeom.nn);
+	bsdf->Add(BSDF_ALLOC(arena,Microfacet)(mReflectance,mFresnel,mDistribution));
+	return bsdf;
 }
 
 

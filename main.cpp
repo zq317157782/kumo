@@ -211,8 +211,8 @@ int main(int argc, char** argv) {
 #endif
 
 
-	Matte * m = new Matte();
-	//Metal * metal=new Metal(RGB(1,1,0.8),RGB(1,1,1),RGB(4.2,4.2,4.2),new Blinn(10));
+	//Matte * m = new Matte();
+	Metal * metal=new Metal(RGB(1,1,0.8),RGB(1,1,1),RGB(4.2,4.2,4.2),new Blinn(10));
 
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
 			1, 360);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(m));
+			Reference<Material>(metal));
 
 
 //	//测试三角面片
