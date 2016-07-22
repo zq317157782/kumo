@@ -21,7 +21,7 @@ class SurfaceIntegrator:public Integrator{
 public:
 	//todo PBRT在这里还有关于采样点和内存分配的参数
 	   virtual RGB Li(const Scene *scene, const Renderer *renderer,
-	        const RayDifferential &ray, const Intersection &isect) const = 0;
+	        const RayDifferential &ray, const Intersection &isect,Random &rnd,MemoryArena& arena) const = 0;
 	   virtual ~SurfaceIntegrator(){}
 };
 #endif //RAYTRACER_INTEGRATOR_H
