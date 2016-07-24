@@ -1,4 +1,3 @@
-
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 
@@ -212,22 +211,55 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-	ConstantTexture<RGB> *r=new ConstantTexture<RGB>(RGB(1,1,0.8));
-	ConstantTexture<RGB> *eta=new ConstantTexture<RGB>(RGB(1.1,1.2,1.2));
-	ConstantTexture<RGB> *kk=new ConstantTexture<RGB>(RGB(2.1,1.2,2));
+	ConstantTexture<RGB> *r = new ConstantTexture<RGB>(RGB(1, 1, 1));
+	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
+	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 
 	//Matte * m = new Matte(tex);
-	Metal * metal=new Metal(r,eta,kk,new Blinn(10));
+	Metal * metal = new Metal(r, eta, kk, new Blinn(10));
 
-	Transform localToWorld = Translate(Vector(0, 0, 6));
-	Transform worldToLocal = Translate(Vector(0, 0, -6));
+	Transform localToWorld = Translate(Vector(-2, 0, 6));
+	Transform worldToLocal = Translate(Vector(2, 0, -6));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1,
-			1, 360);
-
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
+			360);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(metal));
 
+	Transform localToWorld2 = Translate(Vector(2, 0, 6));
+	Transform worldToLocal2 = Translate(Vector(-2, 0, -6));
+	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
+			360);
+	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
+			Reference<Material>(metal));
+
+	Transform cameraTransform = RotateY(0);
+	PinholeCamera camera(
+			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
+			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
+	camera.setDistanceToView(500);
+	//场景初始化
+	Scene scene;
+	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
+	scene.addPrimitive(primit);
+	scene.addPrimitive(primit2);
+
+	Transform localToWorld3 = Translate(Vector(0, 0, 0));
+	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
+	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
+			Vector(0, 0, -1));
+	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 0.7),
+			Vector(-1, 0, 0));
+	scene.addLight(p);
+	scene.addLight(p2);
+
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
+			new SimpleIntegrator());
+
+	renderer.render(&scene);
+	cout << "----" << endl;
+
+}
 
 //	//测试三角面片
 //	Model model;
@@ -257,53 +289,5 @@ int main(int argc, char** argv) {
 //	TriangleMesh* mesh = new TriangleMesh(&localToWorld2, &worldToLocal2, false,
 //			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
 
-
-
-	//GeomPrimitive * primit2 = new GeomPrimitive(mesh, Reference<Material>(m));
-
-
-
-
-	Transform cameraTransform = RotateY(0);
-	PinholeCamera camera(
-			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
-			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
-	camera.setDistanceToView(500);
-
-	//场景初始化
-	Scene scene;
-	scene.background = RGB(121.0/255, 121.0/255, 121.0/255);
-	scene.addPrimitive(primit);
-	//scene.addPrimitive(primit2);
-	//scene.addPrimitive(primit3);
-
-
-
-//	Transform localToWorld2 = Translate(Vector(0, 0, 4));
-//	Transform worldToLocal2 = Translate(Vector(0, 0, -4));
-//	PointLight* p=new PointLight(localToWorld2,RGB(1,1,1));
-//	scene.addLight(p);
-
-
-//	Transform localToWorld3 = Translate(Vector(0, 0, 4));
-//	Transform worldToLocal3 = Translate(Vector(0, 0, -4));
-//	SpotLight* p2=new SpotLight(localToWorld3,RGB(1,1,1),10,5);
-//	scene.addLight(p2);
-
-	Transform localToWorld3 = Translate(Vector(0, 0, 0));
-	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
-	DistantLight* p2=new DistantLight(localToWorld3,RGB(2,2,2),Vector(0,0,-1));
-	DistantLight* p=new DistantLight(localToWorld3,RGB(2,2,2),Vector(0,-1,0));
-	scene.addLight(p);
-	scene.addLight(p2);
-
-
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
-			new SimpleIntegrator());
-
-	renderer.render(&scene);
-	cout << "----"<< endl;
-
-
-}
+//GeomPrimitive * primit2 = new GeomPrimitive(mesh, Reference<Material>(m));
 #endif
