@@ -18,16 +18,4 @@ virtual ~Texture(){};
 };
 
 
-template <typename T>
-class ConstantTexture:public Texture{
-private :
- T	mValue;
-public:
- virtual T Evaluate(const DifferentialGeometry&) const override{
-	 return mValue;
- }
- virtual ~ConstantTexture(){};
-
-};
-
 #endif /* CORE_TEXTURE_H_ */

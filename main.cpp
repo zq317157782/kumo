@@ -197,6 +197,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "light/spot.h"
 #include "light/distant.h"
 #include "material/metal.h"
+#include "texture/constant.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -210,9 +211,9 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-
-	//Matte * m = new Matte();
-	Metal * metal=new Metal(RGB(1,1,0.5),RGB(2,2,2),RGB(0.6,0.6,0.6),new Blinn(10));
+	ConstantTexture<RGB> *tex=new ConstantTexture<RGB>(RGB(1,1,1));
+	Matte * m = new Matte(tex);
+	//Metal * metal=new Metal(RGB(1,1,0.5),RGB(2,2,2),RGB(0.6,0.6,0.6),new Blinn(10));
 
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
@@ -221,7 +222,7 @@ int main(int argc, char** argv) {
 			1, 360);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(metal));
+			Reference<Material>(m));
 
 
 //	//测试三角面片

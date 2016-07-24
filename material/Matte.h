@@ -8,14 +8,14 @@
 
 #include <material.h>
 #include "reflection.h"
-#include <memory>
+#include "memory.h"
+#include "texture.h"
 using namespace std;
 class Matte : public Material{
 private:
-    Lambertian mDiffuseBrdf;
-    RGB mR;
+    Reference<Texture<RGB>> mR;
 public:
-    Matte(const RGB& _albedo=RGB(1,1,1));
+    Matte(const Reference<Texture<RGB>>& _albedo);
 //    virtual RGB shade(const Intersection& sr);
     virtual ~Matte(){}
 
