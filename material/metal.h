@@ -13,12 +13,12 @@
 
 class Metal: public Material {
 private:
-	Microfacet* mBrdf;
-	FresnelConductor* mFresnel;
+	Reference<Texture<RGB>> mReflectance;
+	Reference<Texture<RGB>> mEta;
+	Reference<Texture<RGB>> mAbsorb;
 	MicrofacetDistribution* mDistribution;
-	RGB mReflectance;
 public:
-	Metal(const RGB& reflectance, const RGB& e, const RGB& kk,
+	Metal(const Reference<Texture<RGB>>& reflectance, const Reference<Texture<RGB>>& e, const Reference<Texture<RGB>>& kk,
 			MicrofacetDistribution* dis);
 //	virtual RGB shade(const Intersection& sr) override;
 	virtual ~Metal(){}

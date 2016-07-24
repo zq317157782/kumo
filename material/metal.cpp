@@ -8,13 +8,13 @@
 #include "metal.h"
 #include <Scene.h>
 #include "reflection.h"
-
-Metal::Metal(const RGB& reflectance, const RGB& e, const RGB& kk,
+#include "texture.h"
+Metal::Metal(const Reference<Texture<RGB>>& reflectance, const Reference<Texture<RGB>>& e, const Reference<Texture<RGB>>& kk,
 		MicrofacetDistribution* dis) {
 	mReflectance=reflectance;
-	mFresnel = new FresnelConductor(e, kk);
+	mEta=e;
+	mAbsorb=kk;
 	mDistribution=dis;
-	mBrdf = new Microfacet(reflectance, mFresnel, dis);
 }
 
 //RGB Metal::shade(const Intersection &sr) {
@@ -52,9 +52,11 @@ BSDF* Metal::GetBSDF(const DifferentialGeometry &dgGeom,
 			const DifferentialGeometry &dgShading, MemoryArena &arena) const{
 //TODO 还没有实现
 	BSDF *bsdf=BSDF_ALLOC(arena,BSDF)(dgShading,dgGeom.nn);
-	bsdf->Add(BSDF_ALLOC(arena,Microfacet)(mReflectance,mFresnel,mDistribution));
+	FresnelConductor*fresnel=BSDF_ALLOC(arena,FresnelConductor)(mEta->Evaluate(dgShading),mAbsorb->Evaluate(dgShading));
+	bsdf->Add(BSDF_ALLOC(arena,Microfacet)(mReflectance->Evaluate(dgShading),fresnel,mDistribution));
 	return bsdf;
 }
+//FresnelConductor
 
 
 

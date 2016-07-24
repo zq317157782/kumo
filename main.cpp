@@ -1,3 +1,4 @@
+
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 
@@ -184,7 +185,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "renderer/simpleRenderer.h"
 #include "reflection.h"
 #include "primitive.h"
-#include "material/Matte.h"
+#include "material/matte.h"
 #include "integrator/SimpleIntegrator.h"
 #include "random.h"
 #include "sampler/randomSampler.h"
@@ -211,9 +212,12 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-	ConstantTexture<RGB> *tex=new ConstantTexture<RGB>(RGB(1,1,1));
-	Matte * m = new Matte(tex);
-	//Metal * metal=new Metal(RGB(1,1,0.5),RGB(2,2,2),RGB(0.6,0.6,0.6),new Blinn(10));
+	ConstantTexture<RGB> *r=new ConstantTexture<RGB>(RGB(1,1,0.8));
+	ConstantTexture<RGB> *eta=new ConstantTexture<RGB>(RGB(1.1,1.2,1.2));
+	ConstantTexture<RGB> *kk=new ConstantTexture<RGB>(RGB(2.1,1.2,2));
+
+	//Matte * m = new Matte(tex);
+	Metal * metal=new Metal(r,eta,kk,new Blinn(10));
 
 	Transform localToWorld = Translate(Vector(0, 0, 6));
 	Transform worldToLocal = Translate(Vector(0, 0, -6));
@@ -222,7 +226,7 @@ int main(int argc, char** argv) {
 			1, 360);
 
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(m));
+			Reference<Material>(metal));
 
 
 //	//测试三角面片
