@@ -198,6 +198,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "light/distant.h"
 #include "material/metal.h"
 #include "texture/constant.h"
+#include "texture/scale.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
