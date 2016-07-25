@@ -74,6 +74,7 @@ class FresnelConductor;//导电体Fresnel
 class BSDF;	//整合BxDF的结构
 class MemoryArena;//内存分配区域
 template<typename T> class Texture; //纹理
+class TextureMapping2D;//纹理映射
 
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){

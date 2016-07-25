@@ -199,6 +199,8 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "material/metal.h"
 #include "texture/constant.h"
 #include "texture/scale.h"
+#include "texture/checkerboard.h"
+#include "texture.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -212,12 +214,13 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-	ConstantTexture<RGB> *r = new ConstantTexture<RGB>(RGB(1, 1, 1));
+	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
+	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
-
-	//Matte * m = new Matte(tex);
-	Metal * metal = new Metal(r, eta, kk, new Blinn(10));
+	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(10,10),white,black);
+	Matte * m = new Matte(checker);
+	//Metal * metal = new Metal(checker, eta, kk, new Blinn(10));
 
 	Transform localToWorld = Translate(Vector(-2, 0, 6));
 	Transform worldToLocal = Translate(Vector(2, 0, -6));
@@ -225,14 +228,14 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
 			360);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(metal));
+			Reference<Material>(m));
 
 	Transform localToWorld2 = Translate(Vector(2, 0, 6));
 	Transform worldToLocal2 = Translate(Vector(-2, 0, -6));
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
 			360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
-			Reference<Material>(metal));
+			Reference<Material>(m));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
