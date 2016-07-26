@@ -18,9 +18,10 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 
 	//为顶点分配空间
 	p = new Point[nverts];
-	for (int i = 0; i < nverts; ++i){
+	for (int i = 0; i < nverts; ++i) {
 		p[i] = (*localToWorld)(P[i]);
-		cout<<"Point=>x "<<p[i].x<<" y "<<p[i].y<<" z "<<p[i].z<<endl;
+		cout << "Point=>x " << p[i].x << " y " << p[i].y << " z " << p[i].z
+				<< endl;
 	}
 
 	//为法线分配空间
@@ -141,7 +142,7 @@ bool Triangle::Intersect(const Ray &ray, float *distance, float *rayEpsilon,
 	return true;
 }
 
-bool Triangle::IntersectP(const Ray& ray) const{
+bool Triangle::IntersectP(const Ray& ray) const {
 	Point p1 = mMesh->p[mIndex[0]];
 	Point p2 = mMesh->p[mIndex[1]];
 	Point p3 = mMesh->p[mIndex[2]];
@@ -171,4 +172,12 @@ bool Triangle::IntersectP(const Ray& ray) const{
 	if (t < ray.minT || t > ray.maxT)
 		return false;
 	return true;
+}
+
+//通过两个向量的×乘的长度的一般来计算 面积
+float Triangle::Area() const {
+	const Point &p1 = mMesh->p[mIndex[0]];
+	const Point &p2 = mMesh->p[mIndex[1]];
+	const Point &p3 = mMesh->p[mIndex[2]];
+	return  Cross(p2 - p1, p3 - p1).Length()*0.5f;
 }

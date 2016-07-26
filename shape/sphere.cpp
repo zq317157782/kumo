@@ -3,9 +3,9 @@
 //
 
 
-#include "Sphere.h"
 #include "transform.h"
 #include "diffgeom.h"
+#include "sphere.h"
 
 bool Sphere::Intersect(const Ray &r, float *distance,float *rayEpsilon, DifferentialGeometry *dg) const{
     Ray ray;

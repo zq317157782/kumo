@@ -43,6 +43,7 @@ public:
 	 virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
 	 virtual bool IntersectP(const Ray& ray) const override;
 	 virtual bool CanIntersect() const override {return true;}
+	 virtual float Area() const override;
 };
 
 #endif /* SHAPE_TRIANGLEMESH_H_ */

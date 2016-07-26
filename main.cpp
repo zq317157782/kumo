@@ -1,3 +1,4 @@
+
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 
@@ -176,7 +177,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 }
 #else
 #include <iostream>
-#include "shape/Sphere.h"
+#include "shape/sphere.h"
 #include "camera/PinholeCamera.h"
 #include "oldSampler/MultiJitteredOldSampler.h"
 #include "transform.h"
@@ -234,8 +235,6 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld2 = Translate(Vector(2, 0, 6));
 	Transform worldToLocal2 = Translate(Vector(-2, 0, -6));
-
-
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
 			360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
