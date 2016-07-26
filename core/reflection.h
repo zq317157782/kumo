@@ -319,7 +319,6 @@ public:
 	}
 };
 
-//todo 优先编写BSDF
 
 //BSDF 双向散射分布函数
 //The BSDF class represents a collection of BRDFs and BTDFs

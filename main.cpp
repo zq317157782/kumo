@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
-	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(100,100),white,black);
+	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(50,50),white,black);
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(15));
 

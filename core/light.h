@@ -54,8 +54,6 @@ public:
 	 */
 	virtual RGB L(const Point &p, const Normal &n, const Vector &w) const = 0;
 
-	virtual bool IsDeltaLight() const override{
-		return false;
-	}
+
 };
 #endif /* CORE_LIGHT_H_ */
