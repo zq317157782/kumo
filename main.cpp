@@ -201,6 +201,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "texture/scale.h"
 #include "texture/checkerboard.h"
 #include "texture.h"
+#include "light/diffuse.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -227,11 +228,14 @@ int main(int argc, char** argv) {
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
 			360);
+	DiffuseAreaLight *diffuse=new DiffuseAreaLight(localToWorld,RGB(0.2,0.1,0.3),1,sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(m));
+			Reference<Material>(m),diffuse);
 
 	Transform localToWorld2 = Translate(Vector(2, 0, 6));
 	Transform worldToLocal2 = Translate(Vector(-2, 0, -6));
+
+
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
 			360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),

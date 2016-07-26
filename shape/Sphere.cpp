@@ -124,3 +124,8 @@ Sphere::Sphere(const Transform *o2w,const Transform *w2o, bool ro,float rad, flo
     mThetaMax = acosf(Clamp(mZMax/mRad, -1.f, 1.f));
     mPhiMax = Radians(Clamp(phiMax, 0.0f, 360.0f));
 }
+
+//TODO 带参球体面积怎么算
+float Sphere::Area() const{
+	return mPhiMax*mRad*(mZMax-mZMin);
+}

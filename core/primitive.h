@@ -52,8 +52,8 @@ private:
 	Reference<Material> mMaterial;
 	AreaLight* mAreaLight;
 public:
-	GeomPrimitive(const Reference<Shape>& s, const Reference<Material>& m) :
-			Primitive(), mShape(s), mMaterial(m) {
+	GeomPrimitive(const Reference<Shape>& s, const Reference<Material>& m,AreaLight * area=nullptr) :
+			Primitive(), mShape(s), mMaterial(m),mAreaLight(area){
 
 	}
 

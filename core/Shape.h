@@ -37,7 +37,7 @@ public:
                DifferentialGeometry *dgShading) const {
            *dgShading = dg;
        }
-
+    virtual float Area() const;
     virtual ~Shape(){};
 };
 

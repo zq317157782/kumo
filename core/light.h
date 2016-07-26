@@ -53,5 +53,9 @@ public:
 	 *p 光源表面的一个点   n光源表面上的法线  w光线射向的方向
 	 */
 	virtual RGB L(const Point &p, const Normal &n, const Vector &w) const = 0;
+
+	virtual bool IsDeltaLight() const override{
+		return false;
+	}
 };
 #endif /* CORE_LIGHT_H_ */

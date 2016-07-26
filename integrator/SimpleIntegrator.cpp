@@ -32,6 +32,7 @@ RGB SimpleIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	float pdf;
 	VisibilityTester vt;
 	RGB L(0, 0, 0);
+	L=isect.Le(wo);
 	LightSample ls;
 	unsigned long lignt_num = scene->getLightNum();
 	for (unsigned long i = 0; i < lignt_num; ++i) {

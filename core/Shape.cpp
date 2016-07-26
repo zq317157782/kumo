@@ -15,4 +15,8 @@ void  Shape::Refine(vector<Reference<Shape> > &refined) const{
 	assert(false);
 }
 
+float Shape::Area() const{
+	assert(false);
+}
+
 unsigned int Shape::nextShapeID=0;
