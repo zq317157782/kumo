@@ -42,12 +42,15 @@ public:
 	}
 	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
 	        const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
+
+	virtual const AreaLight* GetAreaLight() const=0;
 };
 
 class GeomPrimitive: public Primitive {
 private:
 	Reference<Shape> mShape;
 	Reference<Material> mMaterial;
+	AreaLight* mAreaLight;
 public:
 	GeomPrimitive(const Reference<Shape>& s, const Reference<Material>& m) :
 			Primitive(), mShape(s), mMaterial(m) {
@@ -95,6 +98,8 @@ public:
 
 	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
 	        const Transform &ObjectToWorld, MemoryArena &arena) const override;
+
+	 virtual const  AreaLight* GetAreaLight() const override;
 };
 
 #endif //RAYTRACER_PRIMITIVE_H

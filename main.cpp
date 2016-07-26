@@ -218,9 +218,9 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
-	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(10,10),white,black);
+	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(100,100),white,black);
 	Matte * m = new Matte(checker);
-	//Metal * metal = new Metal(checker, eta, kk, new Blinn(10));
+	Metal * metal = new Metal(checker, eta, kk, new Blinn(15));
 
 	Transform localToWorld = Translate(Vector(-2, 0, 6));
 	Transform worldToLocal = Translate(Vector(2, 0, -6));
@@ -235,7 +235,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
 			360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
-			Reference<Material>(m));
+			Reference<Material>(metal));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(

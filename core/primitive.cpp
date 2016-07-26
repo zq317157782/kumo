@@ -13,3 +13,9 @@ BSDF *GeomPrimitive::GetBSDF(const DifferentialGeometry &dg,
 	mShape->GetShadingGeometry(ObjectToWorld,dg,&shadingG);
 	return mMaterial->GetBSDF(dg,shadingG,arena);
 }
+
+
+
+const AreaLight* GeomPrimitive::GetAreaLight() const{
+	return mAreaLight;
+}

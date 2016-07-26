@@ -65,6 +65,7 @@ class Sampler; //采样器
 class Filter; //过滤器
 class Film;
 class Light;//光源
+class AreaLight;//区域光
 struct LightSample;//光源采样点
 struct VisibilityTester;
 class Microfacet; //微平面

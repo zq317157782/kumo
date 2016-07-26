@@ -24,6 +24,7 @@ public:
     double distance;
     DifferentialGeometry dg; //微分几何
     BSDF *GetBSDF(const RayDifferential &ray, MemoryArena &arena) const;
+    RGB Le(const Vector &wo) const; //返回相交点的自发光辐射率
 };
 
 
