@@ -32,7 +32,7 @@ public:
 		//这里面一开始放的是相应积分域上的积分值
 		mCDF[0] = 0;
 		for (int i = 1; i < mCount + 1; ++i) {
-			mCDF = mFunc[i - 1] / mCount + mCDF[i - 1]; //注意，这里是积分值，还没有标准化
+			mCDF[i] = mFunc[i - 1] / mCount + mCDF[i - 1]; //注意，这里是积分值，还没有标准化
 		}
 
 		mFuncInt = mCDF[mCount]; //作用域上的总的积分值
@@ -61,7 +61,7 @@ public:
 		int offset = max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
 		if (off)
 			*off = offset;
-		float du=(u-mCDF[offset])/(mCDF[offset+1]W-mCDF[offset]); //u在cdf[offset+1]-cdf[offset]之间的所在位置百分比
+		float du=(u-mCDF[offset])/(mCDF[offset+1]-mCDF[offset]); //u在cdf[offset+1]-cdf[offset]之间的所在位置百分比
 
 		if (pdf)
 			*pdf = mCDF[offset] / mFuncInt; //计算offset下的概率密度
@@ -84,7 +84,7 @@ void RejectionSampleDisk(float* x, float*y, Random& rand) {
 	do {
 		sx = 1 - 2 * rand.RandomFloat();
 		sy = 1 - 2 * rand.RandomFloat();
-	} while (sx * sx + sy * sy > 1f);
+	} while (sx * sx + sy * sy > 1);
 	*x=sx;
 	*y=sy;
 }

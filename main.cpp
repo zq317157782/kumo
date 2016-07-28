@@ -203,6 +203,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "texture/checkerboard.h"
 #include "texture.h"
 #include "light/diffuse.h"
+#include "montecarlo.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST

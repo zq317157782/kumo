@@ -14,6 +14,8 @@
 #include <string.h>
 #include <time.h>
 #include <vector>
+#include <map>
+#include <algorithm>
 using namespace std;
 
 
