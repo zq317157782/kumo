@@ -217,6 +217,8 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
+	Vector dir=CosSampleHemisphere(0.1,0.1);
+
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));

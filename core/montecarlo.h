@@ -170,8 +170,17 @@ void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
 //cos分布采样
 Vector CosSampleHemisphere(float u1,float u2){
 	Vector ret;
-	ConcentricSampleDisk(u1,u2,&ret.x,&ret.y);
+	ConcentricSampleDisk(u1,u2,&ret.x,&ret.y);//这里其实可以换成任意的uniform disk sample
 	ret.z=sqrtf(max(0.0f,1.0f-ret.x*ret.x-ret.y*ret.y));
+	return ret;
 }
+
+
+//COS(theta)/PI cos分布的半球概率密度函数
+float CosHemispherePdf(float costheta,float phi){
+	return costheta*M_INV_PI;
+}
+
+
 //TODO 同轴Disk采样还未完成
 #endif /* CORE_MONTECARLO_H_ */
