@@ -120,4 +120,14 @@ float UniformSpherePdf(){
 	return 1.0f/(4.0f*M_PI);
 }
 
+
+//均匀采样Disk
+void UniformSampleDisk(float u1,float u2,float *x,float *y){
+	float r=sqrtf(u1);
+	float theta=2*M_PI*u2;
+	*x=r*cosf(theta);
+	*y=r*sinf(theta);
+}
+
+//TODO 同轴Disk采样还未完成
 #endif /* CORE_MONTECARLO_H_ */
