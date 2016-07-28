@@ -89,4 +89,16 @@ void RejectionSampleDisk(float* x, float*y, Random& rand) {
 	*y=sy;
 }
 
+
+//采样半球
+//这里采用的是采样多维分布的方法
+Vector UniformSampleHemisphere(float u1,float u2){
+	float z=u1;
+	float r=sqrtf(max(0.0f,1.0f-z*z));//这里使用max是为了做保护,防止1-z^2小于0
+	float phi=2*M_PI*u2;
+	float x=cosf(phi)*r;
+	float y=sinf(phi)*r;
+	return Vector(x,y,z);
+}
+
 #endif /* CORE_MONTECARLO_H_ */
