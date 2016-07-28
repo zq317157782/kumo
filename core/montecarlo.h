@@ -101,4 +101,10 @@ Vector UniformSampleHemisphere(float u1,float u2){
 	return Vector(x,y,z);
 }
 
+
+//返回Uniform采样半球的pdf
+float UniformHemispherePdf(){
+	return M_INV_TWO_PI;
+}
+
 #endif /* CORE_MONTECARLO_H_ */
