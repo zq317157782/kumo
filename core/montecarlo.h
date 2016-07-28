@@ -61,7 +61,7 @@ public:
 		int offset = max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
 		if (off)
 			*off = offset;
-		float du=(u-mCDF[offset])/(mCDF[offset+1]-mCDF[offset]); //u在cdf[offset+1]-cdf[offset]之间的所在位置百分比
+		float du = (u - mCDF[offset]) / (mCDF[offset + 1] - mCDF[offset]); //u在cdf[offset+1]-cdf[offset]之间的所在位置百分比
 
 		if (pdf)
 			*pdf = mCDF[offset] / mFuncInt; //计算offset下的概率密度
@@ -85,26 +85,39 @@ void RejectionSampleDisk(float* x, float*y, Random& rand) {
 		sx = 1 - 2 * rand.RandomFloat();
 		sy = 1 - 2 * rand.RandomFloat();
 	} while (sx * sx + sy * sy > 1);
-	*x=sx;
-	*y=sy;
+	*x = sx;
+	*y = sy;
 }
-
 
 //采样半球
 //这里采用的是采样多维分布的方法
-Vector UniformSampleHemisphere(float u1,float u2){
-	float z=u1;
-	float r=sqrtf(max(0.0f,1.0f-z*z));//这里使用max是为了做保护,防止1-z^2小于0
-	float phi=2*M_PI*u2;
-	float x=cosf(phi)*r;
-	float y=sinf(phi)*r;
-	return Vector(x,y,z);
+Vector UniformSampleHemisphere(float u1, float u2) {
+	float z = u1;
+	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	float phi = 2 * M_PI * u2;
+	float x = cosf(phi) * r;
+	float y = sinf(phi) * r;
+	return Vector(x, y, z);
 }
 
-
 //返回Uniform采样半球的pdf
-float UniformHemispherePdf(){
+float UniformHemispherePdf() {
 	return M_INV_TWO_PI;
+}
+
+//采样球
+Vector UniformSampleSphere(float u1, float u2) {
+	float z = 1.0f-2.0f*u1;//这里是和UniformSampleHemisphere唯一的区别
+	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	float phi = 2 * M_PI * u2;
+	float x = cosf(phi) * r;
+	float y = sinf(phi) * r;
+	return Vector(x, y, z);
+}
+
+//返回采样球的PDF
+float UniformSpherePdf(){
+	return 1.0f/(4.0f*M_PI);
 }
 
 #endif /* CORE_MONTECARLO_H_ */
