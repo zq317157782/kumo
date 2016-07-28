@@ -129,5 +129,49 @@ void UniformSampleDisk(float u1,float u2,float *x,float *y){
 	*y=r*sinf(theta);
 }
 
+
+
+//同轴采样DISK 直接复制自PBRT
+void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
+    float r, theta;
+    float sx = 2 * u1 - 1;
+    float sy = 2 * u2 - 1;
+    if (sx == 0.0 && sy == 0.0) {
+        *dx = 0.0;
+        *dy = 0.0;
+        return;
+    }
+    if (sx >= -sy) {
+        if (sx > sy) {
+            r = sx;
+            if (sy > 0.0) theta = sy/r;
+            else          theta = 8.0f + sy/r;
+        }
+        else {
+            r = sy;
+            theta = 2.0f - sx/r;
+        }
+    }
+    else {
+        if (sx <= sy) {
+            r = -sx;
+            theta = 4.0f - sy/r;
+        }
+        else {
+            r = -sy;
+            theta = 6.0f + sx/r;
+        }
+    }
+    theta *= M_PI / 4.f;
+    *dx = r * cosf(theta);
+    *dy = r * sinf(theta);
+}
+
+//cos分布采样
+Vector CosSampleHemisphere(float u1,float u2){
+	Vector ret;
+	ConcentricSampleDisk(u1,u2,&ret.x,&ret.y);
+	ret.z=sqrtf(max(0.0f,1.0f-ret.x*ret.x-ret.y*ret.y));
+}
 //TODO 同轴Disk采样还未完成
 #endif /* CORE_MONTECARLO_H_ */
