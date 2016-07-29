@@ -10,8 +10,8 @@ RGB BRDFToBTDF::f(const Vector &wo,const Vector &wi) const{
     return mBrdf->f(wo,otherHemisphere(wi));
 }
 
-RGB BRDFToBTDF::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const {
-    RGB ret=mBrdf->sample_f(wo,wi,u1,u2,pdf);
+RGB BRDFToBTDF::Sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const {
+    RGB ret=mBrdf->Sample_f(wo,wi,u1,u2,pdf);
     *wi=otherHemisphere(*wi);//改变采样后的入射光的方向
     return ret;
 }
@@ -20,8 +20,8 @@ RGB ScaledBxDF::f(const Vector &wo,const Vector &wi) const{
     return mScale*mBxdf->f(wo,wi);
 }
 
-RGB ScaledBxDF::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const {
-   return mScale*mBxdf->sample_f(wo,wi,u1,u2,pdf);
+RGB ScaledBxDF::Sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const {
+   return mScale*mBxdf->Sample_f(wo,wi,u1,u2,pdf);
 }
 
 
@@ -71,14 +71,14 @@ RGB FresnelDielectric::Evaluate(float cosi) const{
 	}
 }
 
-RGB SpecularReflection::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
+RGB SpecularReflection::Sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
 	*wi=Vector(-wo.x,-wo.y,wo.z);//反射向量
 	*pdf=1.f;//概率分布为1
 	return mFresnel->Evaluate(CosTheta(wo))*mScale/AbsCosTheta(*wi); //镜面反射的brdf公式
 }
 
 
-RGB SpecularTransmission::sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
+RGB SpecularTransmission::Sample_f(const Vector& wo,Vector* wi,float u1,float u2,float *pdf) const{
 	  bool entering = CosTheta(wo) > 0.;
 	  float ei = mEtaI, et = mEtaT;
 	  if (!entering)//判断wo是从外面射入还是从内部射出

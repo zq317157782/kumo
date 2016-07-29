@@ -73,7 +73,7 @@ public:
 
 	virtual RGB f(const Vector &wo, const Vector &wi) const=0;  //给非狄克尔分布的版本
 	//给狄克尔分布和蒙特卡洛积分使用的版本
-	virtual RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+	virtual RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const {
 		*wi=CosSampleHemisphere(u1,u2);
 		if(wo.z<0.0f) wi->z*=-1.0f;
@@ -112,7 +112,7 @@ public:
 					brdf) {
 	}
 	RGB f(const Vector &wo, const Vector &wi) const override; //给非狄克尔分布的版本
-	RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //给狄克尔分布和蒙特卡洛积分使用的版本
 	RGB rho(const Vector &w, int nSamples, const float *samples) const
 			override {  //hemispherical-directional reflectance
@@ -137,7 +137,7 @@ public:
 			BxDF(bxdf->type), mBxdf(bxdf), mScale(s) {
 	}
 	RGB f(const Vector &wo, const Vector &wi) const override;  //给非狄克尔分布的版本
-	RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override;  //给狄克尔分布和蒙特卡洛积分使用的版本
 	RGB rho(const Vector &w, int nSamples, const float *samples) const
 			override {  //hemispherical-directional reflectance
@@ -204,7 +204,7 @@ public:
 		return 0.f; //因为是完美镜面反射，所以直接返回0;
 	}
 	;
-	RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面反射需要实现的函数
 };
 
@@ -227,7 +227,7 @@ public:
 	}
 	;
 
-	RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面折射需要实现的函数
 };
 
