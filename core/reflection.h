@@ -9,6 +9,7 @@
 #include "geometry.h"
 #include "RGB.h"
 #include "diffgeom.h"
+#include "montecarlo.h"
 //反射坐标系 三个标准正交基是两切线和法线
 
 //cos(t)=(N.DOT.w)==(0,0,1).dot.w=w.z
@@ -52,6 +53,11 @@ enum BxDFType {
 	BSDF_ALL = BSDF_ALL_REFLECTION | BSDF_ALL_TRANSMISSION
 };
 
+//判断两个向量是否在同一半球
+inline bool SameHemisphere(const Vector &w, const Vector &wp) {
+	return w.z * wp.z > 0.f;
+}
+
 //BxDF   BRDF 和BTDF的基类
 class BxDF {
 public:
@@ -66,10 +72,19 @@ public:
 	}
 
 	virtual RGB f(const Vector &wo, const Vector &wi) const=0;  //给非狄克尔分布的版本
+	//给狄克尔分布和蒙特卡洛积分使用的版本
 	virtual RGB sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const {
-		return RGB(0);
-	}  //给狄克尔分布和蒙特卡洛积分使用的版本
+		*wi=CosSampleHemisphere(u1,u2);
+		if(wo.z<0.0f) wi->z*=-1.0f;
+		*pdf=Pdf(wo,*wi);
+		return f(wo,*wi);
+	}
+
+	//通过入射光线和出射光线来计算概率分布
+	virtual float Pdf(const Vector& wo, const Vector& wi) const {
+		return SameHemisphere(wo, wi) ? AbsCosTheta(wi) * M_INV_PI : 0.0f;
+	}
 
 	virtual RGB rho(const Vector& wo, int nSamples, const float*samples) const {
 		return RGB(0);
@@ -81,13 +96,8 @@ public:
 	}
 	;  //hemispherical-hemispherical reflectance
 
-	virtual float pdf(const Vector& wo, const Vector& wi) const {
-		return 0;
+	virtual ~BxDF() {
 	}
-	;
-	//通过入射光线和出射光线来计算概率分布
-
-	virtual ~BxDF(){}
 };
 
 //BRDF->BTDF Adapter
@@ -258,7 +268,6 @@ public:
 		B = 0.45f * sigma2 / (sigma2 + 0.09f);
 	}
 
-
 	//代码基本上是从pbrt那边照搬过来
 	RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
 		//法线坐标系下的操作
@@ -286,62 +295,65 @@ public:
 	}
 };
 
-
 //微平面分布
-class MicrofacetDistribution{
+class MicrofacetDistribution {
 public:
-	virtual ~MicrofacetDistribution(){}
-	virtual float D(const Vector &wh) const=0;//传入半角向量 返回与该半角向量垂直的位平面的分布概率
+	virtual ~MicrofacetDistribution() {
+	}
+	virtual float D(const Vector &wh) const=0;		//传入半角向量 返回与该半角向量垂直的位平面的分布概率
 };
 
 //基于Torrance-Sparrow Modle的微平面结构
-class Microfacet:public BxDF{
+class Microfacet: public BxDF {
 private:
-	RGB mR;//调节反射总比例
-	Fresnel * mFresnel;//菲涅尔系数
-	MicrofacetDistribution * mDistribution;//微平面的法线分布函数
+	RGB mR;		//调节反射总比例
+	Fresnel * mFresnel;		//菲涅尔系数
+	MicrofacetDistribution * mDistribution;		//微平面的法线分布函数
 public:
-	Microfacet(const RGB& reflectance,Fresnel* fresnel,MicrofacetDistribution* distribution);
+	Microfacet(const RGB& reflectance, Fresnel* fresnel,
+			MicrofacetDistribution* distribution);
 	float G(const Vector &wo, const Vector &wi, const Vector &wh) const;//几何衰减实数  公式:PBRT P455
-	RGB f(const Vector &wo, const Vector &wi) const override ;
+	RGB f(const Vector &wo, const Vector &wi) const override;
 };
 
-
 //第一个微平面分布 公式在p455
-class Blinn:public MicrofacetDistribution{
+class Blinn: public MicrofacetDistribution {
 private:
-	float mE;//指数
+	float mE;		//指数
 public:
-	Blinn(float e):mE(e){};
-	virtual float D(const Vector &wh) const override{
-		float cosh=CosTheta(wh);
-		return (mE+2.0f)*M_INV_TWO_PI*powf(cosh,mE);
+	Blinn(float e) :
+			mE(e) {
+	}
+	;
+	virtual float D(const Vector &wh) const override {
+		float cosh = CosTheta(wh);
+		return (mE + 2.0f) * M_INV_TWO_PI * powf(cosh, mE);
 	}
 };
 
-
 //BSDF 双向散射分布函数
 //The BSDF class represents a collection of BRDFs and BTDFs
-class BSDF{
+class BSDF {
 private:
-	Normal mNN,mNG;//着色法线，几何法线
-	Vector mSN,mTN;//次切向量，切向量
-	int mNumBxdf;//BxDF的个数
+	Normal mNN, mNG;		//着色法线，几何法线
+	Vector mSN, mTN;		//次切向量，切向量
+	int mNumBxdf;		//BxDF的个数
 #define MAX_BxDFS 8
-    BxDF *mBxdfs[MAX_BxDFS];
+	BxDF *mBxdfs[MAX_BxDFS];
 public:
-	const float eta;//材质的折射系数
-	const DifferentialGeometry dgShading;//着色微分几何
-	BSDF(const DifferentialGeometry& dg,const Normal& ng,float e= 1.f);//e是材质的折射率
+	const float eta;		//材质的折射系数
+	const DifferentialGeometry dgShading;		//着色微分几何
+	BSDF(const DifferentialGeometry& dg, const Normal& ng, float e = 1.f);//e是材质的折射率
 
-	void Add(BxDF *bxdf);//加入BxDF
+	void Add(BxDF *bxdf);		//加入BxDF
 	Vector WorldToLocal(const Vector& w) const;
 	Vector LocalToWorld(const Vector& w) const;
 
 	int NumComponents() const;
 	int NumComponents(BxDFType flags) const;
 
-	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags = BSDF_ALL) const;
+	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags =
+			BSDF_ALL) const;
 };
 
 //为BSDF分配空间的宏定义

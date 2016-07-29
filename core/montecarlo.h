@@ -10,7 +10,8 @@
 //这里都是关于蒙特卡洛方法的相关工具
 
 #include "global.h"
-
+#include "random.h"
+#include "geometry.h"
 //均匀的1维分布 作用域x为0~1
 struct Distribution1D {
 private:
@@ -79,117 +80,54 @@ public:
 };
 
 //使用拒绝采样方法来采样圆盘
-void RejectionSampleDisk(float* x, float*y, Random& rand) {
-	float sx, sy;
-	do {
-		sx = 1 - 2 * rand.RandomFloat();
-		sy = 1 - 2 * rand.RandomFloat();
-	} while (sx * sx + sy * sy > 1);
-	*x = sx;
-	*y = sy;
-}
+void RejectionSampleDisk(float* x, float*y, Random& rand);
 
 //采样半球
 //这里采用的是采样多维分布的方法
-Vector UniformSampleHemisphere(float u1, float u2) {
-	float z = u1;
-	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * M_PI * u2;
-	float x = cosf(phi) * r;
-	float y = sinf(phi) * r;
-	return Vector(x, y, z);
-}
+Vector UniformSampleHemisphere(float u1, float u2);
+
 
 //返回Uniform采样半球的pdf
-float UniformHemispherePdf() {
+inline float UniformHemispherePdf() {
 	return M_INV_TWO_PI;
 }
 
 //采样球
-Vector UniformSampleSphere(float u1, float u2) {
-	float z = 1.0f-2.0f*u1;//这里是和UniformSampleHemisphere唯一的区别
-	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * M_PI * u2;
-	float x = cosf(phi) * r;
-	float y = sinf(phi) * r;
-	return Vector(x, y, z);
-}
+Vector UniformSampleSphere(float u1, float u2);
 
 //返回采样球的PDF
-float UniformSpherePdf(){
+inline float UniformSpherePdf(){
 	return 1.0f/(4.0f*M_PI);
 }
 
 
 //均匀采样Disk
-void UniformSampleDisk(float u1,float u2,float *x,float *y){
-	float r=sqrtf(u1);
-	float theta=2*M_PI*u2;
-	*x=r*cosf(theta);
-	*y=r*sinf(theta);
-}
+void UniformSampleDisk(float u1,float u2,float *x,float *y);
+
 
 
 //TODO 同轴Disk采样是复制的
 //同轴采样DISK 直接复制自PBRT
-void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
-    float r, theta;
-    float sx = 2 * u1 - 1;
-    float sy = 2 * u2 - 1;
-    if (sx == 0.0 && sy == 0.0) {
-        *dx = 0.0;
-        *dy = 0.0;
-        return;
-    }
-    if (sx >= -sy) {
-        if (sx > sy) {
-            r = sx;
-            if (sy > 0.0) theta = sy/r;
-            else          theta = 8.0f + sy/r;
-        }
-        else {
-            r = sy;
-            theta = 2.0f - sx/r;
-        }
-    }
-    else {
-        if (sx <= sy) {
-            r = -sx;
-            theta = 4.0f - sy/r;
-        }
-        else {
-            r = -sy;
-            theta = 6.0f + sx/r;
-        }
-    }
-    theta *= M_PI / 4.f;
-    *dx = r * cosf(theta);
-    *dy = r * sinf(theta);
-}
+void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) ;
 
 //cos分布采样
-Vector CosSampleHemisphere(float u1,float u2){
-	Vector ret;
-	ConcentricSampleDisk(u1,u2,&ret.x,&ret.y);//这里其实可以换成任意的uniform disk sample
-	ret.z=sqrtf(max(0.0f,1.0f-ret.x*ret.x-ret.y*ret.y));
-	return ret;
-}
+Vector CosSampleHemisphere(float u1,float u2);
 
 
 //COS(theta)/PI cos分布的半球概率密度函数
-float CosHemispherePdf(float costheta,float phi){
+inline float CosHemispherePdf(float costheta,float phi){
 	return costheta*M_INV_PI;
 }
 
 
 
 //多重重要性采样中的 控制样本权重的函数
-float BalanceHeuristic(int nf,float fpdf,int ng,float gpdf){
+inline float BalanceHeuristic(int nf,float fpdf,int ng,float gpdf){
 	return (nf*fpdf)/(nf*fpdf+ng*gpdf);
 }
 
 //指数版本的MIS Wight函数,这里指数为2
-float PowerHeuristic(int nf,float fpdf,int ng,float gpdf){
+inline float PowerHeuristic(int nf,float fpdf,int ng,float gpdf){
 	float f=nf*fpdf;
 	float g=ng*gpdf;
 	return (f*f)/(f*f+g*g);
