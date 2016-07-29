@@ -188,5 +188,11 @@ float BalanceHeuristic(int nf,float fpdf,int ng,float gpdf){
 	return (nf*fpdf)/(nf*fpdf+ng*gpdf);
 }
 
+//指数版本的MIS Wight函数,这里指数为2
+float PowerHeuristic(int nf,float fpdf,int ng,float gpdf){
+	float f=nf*fpdf;
+	float g=ng*gpdf;
+	return (f*f)/(f*f+g*g);
+}
 
 #endif /* CORE_MONTECARLO_H_ */
