@@ -130,7 +130,7 @@ void UniformSampleDisk(float u1,float u2,float *x,float *y){
 }
 
 
-
+//TODO 同轴Disk采样是复制的
 //同轴采样DISK 直接复制自PBRT
 void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
     float r, theta;
@@ -182,5 +182,11 @@ float CosHemispherePdf(float costheta,float phi){
 }
 
 
-//TODO 同轴Disk采样还未完成
+
+//多重重要性采样中的 控制样本权重的函数
+float BalanceHeuristic(int nf,float fpdf,int ng,float gpdf){
+	return (nf*fpdf)/(nf*fpdf+ng*gpdf);
+}
+
+
 #endif /* CORE_MONTECARLO_H_ */
