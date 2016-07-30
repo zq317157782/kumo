@@ -204,9 +204,13 @@ public:
 	virtual RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
 		return 0.f; //因为是完美镜面反射，所以直接返回0;
 	}
-	;
+
 	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面反射需要实现的函数
+
+	virtual float Pdf(const Vector& wo, const Vector& wi) const override{
+		return 0.0f;
+	}
 };
 
 //镜面折射BTDF
@@ -230,6 +234,9 @@ public:
 
 	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面折射需要实现的函数
+	virtual float Pdf(const Vector& wo, const Vector& wi) const override{
+			return 0.0f;
+	}
 };
 
 //漫反射brdf
