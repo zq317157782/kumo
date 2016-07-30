@@ -258,3 +258,18 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 
 	return f;
 }
+
+float BSDF::Pdf(const Vector &woWorld, const Vector &wiWorld,
+        BxDFType flags) const {
+    if (mNumBxdf == 0) return 0;
+    Vector wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
+    float pdf = 0.0f;
+    int matchingComps = 0;
+    for (int i = 0; i < mNumBxdf; ++i)
+        if (mBxdfs[i]->MatchesFlag(flags)) {
+            ++matchingComps;
+            pdf += mBxdfs[i]->Pdf(wo, wi);
+        }
+    float v = matchingComps > 0 ? pdf / matchingComps : 0.f;
+    return v;
+}

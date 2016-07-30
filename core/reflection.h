@@ -464,7 +464,12 @@ public:
 	RGB Sample_f(const Vector &wo, Vector *wi, const BSDFSample &bsdfSample,
 	                      float *pdf, BxDFType flags = BSDF_ALL,
 	                      BxDFType *sampledType = nullptr) const;
+
+	float Pdf(const Vector &woW, const Vector &wiW,
+	        BxDFType flags= BSDF_ALL) const;
 };
+
+
 
 //为BSDF分配空间的宏定义
 #define BSDF_ALLOC(arena, Type) new (arena.Alloc(sizeof(Type))) Type
