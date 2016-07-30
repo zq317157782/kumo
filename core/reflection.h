@@ -88,12 +88,32 @@ public:
 	}
 
 	virtual RGB rho(const Vector& wo, int nSamples, const float*samples) const {
-		return RGB(0);
+		Vector wi;
+		float pdf;
+		RGB sum(0);
+		//采用蒙特卡诺方式来计算积分
+		for (int i = 0; i < nSamples; ++i) {
+			RGB f = Sample_f(wo, &wi, samples[i * 2], samples[i * 2 + 1], &pdf);
+			if (pdf > 0)
+				sum += f * AbsCosTheta(wi) / pdf;
+		}
+		return sum / nSamples;
 	}
 	;  //hemispherical-directional reflectance
 	virtual RGB rho(int nSamples, const float *samples1,
 			const float *samples2) const {
-		return RGB(0);
+		RGB sum(0);
+		for (int i = 0; i < nSamples; ++i) {
+			float pdf_o = M_INV_TWO_PI;
+			float pdf_i = 0;
+			Vector wo = UniformSampleHemisphere(samples1[i * 2],
+					samples1[i * 2 + 1]);
+			Vector wi;
+			RGB f=Sample_f(wo,&wi,samples2[i * 2],
+					samples2[i * 2 + 1],&pdf_i);
+			sum+=f*AbsCosTheta(wi) * AbsCosTheta(wo)/(pdf_i*pdf_o);
+		}
+		return sum/(M_PI*nSamples);
 	}
 	;  //hemispherical-hemispherical reflectance
 
@@ -208,7 +228,7 @@ public:
 	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面反射需要实现的函数
 
-	virtual float Pdf(const Vector& wo, const Vector& wi) const override{
+	virtual float Pdf(const Vector& wo, const Vector& wi) const override {
 		return 0.0f;
 	}
 };
@@ -234,8 +254,8 @@ public:
 
 	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const override; //这个是镜面折射需要实现的函数
-	virtual float Pdf(const Vector& wo, const Vector& wi) const override{
-			return 0.0f;
+	virtual float Pdf(const Vector& wo, const Vector& wi) const override {
+		return 0.0f;
 	}
 };
 
