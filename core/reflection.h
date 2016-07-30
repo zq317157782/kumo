@@ -460,6 +460,10 @@ public:
 
 	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags =
 			BSDF_ALL) const;
+	//采样BSDF的函数
+	RGB Sample_f(const Vector &wo, Vector *wi, const BSDFSample &bsdfSample,
+	                      float *pdf, BxDFType flags = BSDF_ALL,
+	                      BxDFType *sampledType = nullptr) const;
 };
 
 //为BSDF分配空间的宏定义
