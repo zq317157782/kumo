@@ -321,6 +321,22 @@ public:
 			MicrofacetDistribution* distribution);
 	float G(const Vector &wo, const Vector &wi, const Vector &wh) const;//几何衰减实数  公式:PBRT P455
 	RGB f(const Vector &wo, const Vector &wi) const override;
+
+	//微平面使用的PDF是法线分布
+	virtual RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
+			float *pdf) const override {
+		mDistribution->Sample_f(wo, wi, u1, u2, pdf);		//采样法线分布
+		if (!SameHemisphere(wo, *wi))
+			return RGB(0.0f); //因为采样的时候是按照半角来采样的，最后可能得到入射和出射不在同一半角的情况，则返回0  因为微平面并没有考虑折射的情况
+		return f(wo, *wi);
+	}
+
+	//通过入射光线和出射光线来计算概率分布
+	virtual float Pdf(const Vector& wo, const Vector& wi) const override {
+		if (!SameHemisphere(wo, wi))
+			return 0.f;
+		return mDistribution->Pdf(wo, wi);
+	}
 };
 
 //第一个微平面分布 公式在p455
@@ -357,8 +373,8 @@ public:
 	virtual float Pdf(const Vector &wo, const Vector &wi) const override {
 		Vector wh = Normalize(wo + wi);
 		float costheta = AbsCosTheta(wh);
-		float blinn_pdf = ((mE + 1.f) * powf(costheta, mE))  //p(wh)=(n+1)*cos(t)^n  p(wi)=dwh/dwip(wh)
-				/ (2.f * M_PI * 4.f * Dot(wo, wh));
+		float blinn_pdf = ((mE + 1.f) * powf(costheta, mE)) //p(wh)=(n+1)*cos(t)^n  p(wi)=dwh/dwip(wh)
+		/ (2.f * M_PI * 4.f * Dot(wo, wh));
 		if (Dot(wo, wh) <= 0.f)
 			blinn_pdf = 0.f;
 		return blinn_pdf;
