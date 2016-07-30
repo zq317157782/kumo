@@ -109,11 +109,11 @@ public:
 			Vector wo = UniformSampleHemisphere(samples1[i * 2],
 					samples1[i * 2 + 1]);
 			Vector wi;
-			RGB f=Sample_f(wo,&wi,samples2[i * 2],
-					samples2[i * 2 + 1],&pdf_i);
-			sum+=f*AbsCosTheta(wi) * AbsCosTheta(wo)/(pdf_i*pdf_o);
+			RGB f = Sample_f(wo, &wi, samples2[i * 2], samples2[i * 2 + 1],
+					&pdf_i);
+			sum += f * AbsCosTheta(wi) * AbsCosTheta(wo) / (pdf_i * pdf_o);
 		}
-		return sum/(M_PI*nSamples);
+		return sum / (M_PI * nSamples);
 	}
 	;  //hemispherical-hemispherical reflectance
 
@@ -406,6 +406,35 @@ public:
 			blinn_pdf = 0.f;
 		return blinn_pdf;
 	}
+};
+
+//代表一个BSDF的采样点
+struct BSDFSample {
+	float uDir[2]; //两个随机样本
+	float uComponent; //代表哪个BxDF被选中用来计算方向的样本
+	BSDFSample(Random & rand) {
+		uDir[0] = rand.RandomFloat();
+		uDir[1] = rand.RandomFloat();
+		uComponent = rand.RandomFloat();
+	}
+
+	BSDFSample(float u1, float u2, float uC) {
+		uDir[0] = u1;
+		uDir[1] = u2;
+		uComponent = uC;
+	}
+
+	//对应Sample的版本
+	BSDFSample(const Sample *sample, const BSDFSampleOffsets &offsets,
+				uint32_t num);
+};
+
+//为了使得BSDFSample和Sample结合在一起的结构
+struct BSDFSampleOffsets {
+	BSDFSampleOffsets() {
+	}
+	BSDFSampleOffsets(int count, Sample *sample);
+	int nSamples, componentOffset, dirOffset;
 };
 
 //BSDF 双向散射分布函数

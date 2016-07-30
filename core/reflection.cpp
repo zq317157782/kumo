@@ -4,6 +4,7 @@
 
 #include "reflection.h"
 #include "RGB.h"
+#include "sampler.h"
 
 
 RGB BRDFToBTDF::f(const Vector &wo,const Vector &wi) const{
@@ -126,6 +127,14 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const{
 	RGB F= mFresnel->Evaluate(cosH);
 	return mR*F*mDistribution->D(wh)*G(wo,wi,wh)/(4.0f*cosO*cosI);
 }
+
+
+BSDFSample::BSDFSample(const Sample *sample, const BSDFSampleOffsets &offsets,
+			uint32_t num) {
+		uDir[0] = sample->twoD[offsets.dirOffset][2 * num];
+		uDir[1] = sample->twoD[offsets.dirOffset][2 * num + 1];
+		uComponent = sample->oneD[offsets.componentOffset][num];
+	}
 
 
 BSDF::BSDF(const DifferentialGeometry& dg,const Normal& ng,float e):dgShading(dg),mNG(ng),eta(e){
