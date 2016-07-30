@@ -521,5 +521,12 @@ public:
 
 };
 
+//球坐标到向量的变换
+inline Vector SphericalDirection(float sintheta,
+                                 float costheta, float phi) {
+    return Vector(sintheta * cosf(phi),
+                  sintheta * sinf(phi),
+                  costheta);
+}
 
 #endif //RAYTRACER_GEOMETRY_H

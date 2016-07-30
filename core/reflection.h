@@ -75,10 +75,11 @@ public:
 	//给狄克尔分布和蒙特卡洛积分使用的版本
 	virtual RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,
 			float *pdf) const {
-		*wi=CosSampleHemisphere(u1,u2);
-		if(wo.z<0.0f) wi->z*=-1.0f;
-		*pdf=Pdf(wo,*wi);
-		return f(wo,*wi);
+		*wi = CosSampleHemisphere(u1, u2);
+		if (wo.z < 0.0f)
+			wi->z *= -1.0f;
+		*pdf = Pdf(wo, *wi);
+		return f(wo, *wi);
 	}
 
 	//通过入射光线和出射光线来计算概率分布
@@ -301,6 +302,12 @@ public:
 	virtual ~MicrofacetDistribution() {
 	}
 	virtual float D(const Vector &wh) const=0;		//传入半角向量 返回与该半角向量垂直的位平面的分布概率
+
+	//用来采样微平面法线分布的函数
+	virtual void Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
+			float *pdf) const = 0;
+	//返回概率密度
+	virtual float Pdf(const Vector &wo, const Vector &wi) const = 0;
 };
 
 //基于Torrance-Sparrow Modle的微平面结构
@@ -328,6 +335,33 @@ public:
 	virtual float D(const Vector &wh) const override {
 		float cosh = CosTheta(wh);
 		return (mE + 2.0f) * M_INV_TWO_PI * powf(cosh, mE);
+	}
+
+	virtual void Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
+			float *pdf) const override {
+		float cosTheta = powf(u1, 1.f / (mE + 1));		//cos θh == ξ1开根n+1
+		float sinTheta = sqrtf(max(0.0f, (1.0f - cosTheta * cosTheta)));
+		float phi = u2 * 2.f * M_PI;
+		Vector wh = SphericalDirection(sinTheta, cosTheta, phi);		//获得半角向量
+		if (!SameHemisphere(wo, wh))
+			wh = -wh;		//使半角向量和出射光线在同一半球中
+		*wi = -wo + 2.f * Dot(wo, wh) * wh;		//利用反射公式，计算入射光线
+		//计算Blinn的概率密度 这里是把wh的概率密度转换到wi的分布后再计算的(所以要用到分布之间的转换)
+		float blinn_pdf = ((mE + 1.f) * powf(cosTheta, mE))
+				/ (2.f * M_PI * 4.f * Dot(wo, wh));
+		if (Dot(wo, wh) <= 0.f)
+			blinn_pdf = 0.f;		//这一步无法理解
+		*pdf = blinn_pdf;
+	}
+
+	virtual float Pdf(const Vector &wo, const Vector &wi) const override {
+		Vector wh = Normalize(wo + wi);
+		float costheta = AbsCosTheta(wh);
+		float blinn_pdf = ((mE + 1.f) * powf(costheta, mE))  //p(wh)=(n+1)*cos(t)^n  p(wi)=dwh/dwip(wh)
+				/ (2.f * M_PI * 4.f * Dot(wo, wh));
+		if (Dot(wo, wh) <= 0.f)
+			blinn_pdf = 0.f;
+		return blinn_pdf;
 	}
 };
 
