@@ -80,7 +80,7 @@ template<typename T> class Texture; //纹理
 class TextureMapping2D;//纹理映射
 struct BSDFSample; //BSDF样本
 struct BSDFSampleOffsets;
-
+struct Distribution1D;
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     // 计算判别式

@@ -24,4 +24,7 @@ public:
 	        const RayDifferential &ray, const Intersection &isect,Random &rnd,MemoryArena& arena) const = 0;
 	   virtual ~SurfaceIntegrator(){}
 };
+
+//通过light的能量来计算light的CDF
+Distribution1D *ComputeLightSamplingCDF(const Scene *scene);
 #endif //RAYTRACER_INTEGRATOR_H

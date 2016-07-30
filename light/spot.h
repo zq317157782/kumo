@@ -33,7 +33,7 @@ public:
 		return delta*delta*delta*delta;//为什么这里要4次平方。
 	}
 
-	RGB Power(Scene* scene) const override;
+	RGB Power(const Scene* scene) const override;
 };
 
 

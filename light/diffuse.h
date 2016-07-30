@@ -30,7 +30,7 @@ public:
 			override {
 		return Dot(n, w) > 0.f ? mLemit : 0.f;
 	}
-	virtual RGB Power(Scene* scene) const override {
+	virtual RGB Power(const Scene* scene) const override {
 		return mLemit * mArea * M_PI;
 	}
 	//TODO 还未实现

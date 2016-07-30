@@ -22,7 +22,7 @@ public:
 	}
 
 	//todo 完成方向光的Power函数
-	RGB Power(Scene* scene) const override{
+	RGB Power(const Scene* scene) const override{
 		assert(false);
 	}
 
