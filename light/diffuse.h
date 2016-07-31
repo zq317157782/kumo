@@ -36,7 +36,12 @@ public:
 	//TODO 还未实现
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
 			Vector *wi, float *pdf, VisibilityTester *vis) const override {
-
+		Normal nn;
+		Point pLight=mShape->Sample(p,ls.uPos[0],ls.uPos[1],&nn);
+		*wi=Normalize(pLight-p);//得到p点到光源的射线
+		*pdf=mShape->Pdf(p,*wi);
+		vis->SetSegment(p,pEpsilon,pLight,1e-3f);
+		return L(pLight,nn,-*wi);//-*wi是从光源往外射的方向
 	}
 
 	virtual bool IsDeltaLight() const override {
@@ -44,7 +49,7 @@ public:
 	}
 
 	virtual float Pdf(const Point &p, const Vector &wi) const override{
-		assert(false);
+		return mShape->Pdf(p,wi);
 	}
 };
 
