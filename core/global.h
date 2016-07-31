@@ -69,6 +69,7 @@ class Film;
 class Light;//光源
 class AreaLight;//区域光
 struct LightSample;//光源采样点
+struct LightSampleOffsets;
 struct VisibilityTester;
 class Microfacet; //微平面
 class MicrofacetDistribution;//微平面法线分布函数
