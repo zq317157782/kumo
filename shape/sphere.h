@@ -24,6 +24,8 @@ public:
     virtual bool CanIntersect() const;
 
     virtual float Area() const override;
+
+    virtual Point Sample(float u1, float u2, Normal *Ns) const override;
 };
 
 
