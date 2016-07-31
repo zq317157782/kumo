@@ -37,6 +37,10 @@ public:
 		vis->SetRay(p,pEpsilon,*wi);
 		return mRadiance;
 	}
+
+	virtual float Pdf(const Point &p, const Vector &wi) const override{
+		return 0;
+	}
 };
 
 

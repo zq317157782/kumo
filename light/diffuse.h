@@ -42,6 +42,10 @@ public:
 	virtual bool IsDeltaLight() const override {
 		return false;
 	}
+
+	virtual float Pdf(const Point &p, const Vector &wi) const override{
+		assert(false);
+	}
 };
 
 #endif /* LIGHT_DIFFUSE_H_ */

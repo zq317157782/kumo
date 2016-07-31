@@ -36,9 +36,26 @@ public:
                const DifferentialGeometry &dg,
                DifferentialGeometry *dgShading) const {
            *dgShading = dg;
-       }
+    }
     virtual float Area() const;
     virtual ~Shape(){};
+
+
+    //根据area均匀采样
+    virtual Point Sample(float u1, float u2, Normal *Ns) const {
+            return Point();
+    }
+    //根据面积的均匀密度函数
+    virtual float Pdf(const Point &pShape) const {
+           return 1.f / Area();
+       }
+    //P代表被积分表面上的一点
+    virtual Point Sample(const Point &p, float u1, float u2,
+                             Normal *Ns) const {
+            return Sample(u1, u2, Ns);
+    }
+
+    virtual float Pdf(const Point &p,const Vector& wi) const;
 };
 
 

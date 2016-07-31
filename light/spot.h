@@ -23,6 +23,9 @@ public:
 	bool IsDeltaLight() const override;
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
 					VisibilityTester *vis) const override;
+	virtual float Pdf(const Point &p, const Vector &wi) const override{
+		return 0;
+	}
 	//根据向量计算衰减
 	float Falloff(const Vector& w) const{
 		Vector wl=Normalize(worldToLight(w)); //把世界坐标系下的向量转化成光源坐标系下

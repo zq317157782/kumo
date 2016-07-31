@@ -20,6 +20,9 @@ public:
 
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
 				VisibilityTester *vis) const override;
+	virtual float Pdf(const Point &p, const Vector &wi) const override{
+		return 0;
+	}
 	bool IsDeltaLight() const override;
 	RGB Power(const Scene* scene) const override;
 private:
