@@ -22,7 +22,7 @@ void SimpleRenderer::render(const Scene* scene) {
 		Ray ray = camera->generateRay(point);
 		Intersection sr;
 		if (scene->Intersect(ray, &sr)) {
-			L = mSurfaceIntegrator->Li(scene, this, ray, sr,mRand,mArena);
+			L = mSurfaceIntegrator->Li(scene, this, ray, &sample,sr,mRand,mArena);
 		} else {
 			L = scene->background;
 		}

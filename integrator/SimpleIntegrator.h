@@ -16,7 +16,7 @@ public:
 	virtual ~SimpleIntegrator();
 
 	virtual RGB Li(const Scene *scene, const Renderer *renderer,
-		  const RayDifferential &ray, const Intersection &isect,Random &rnd,MemoryArena& arena) const override;
+		  const RayDifferential &ray, const Sample *sample,const Intersection &isect,Random &rnd,MemoryArena& arena) const override;
 };
 
 #endif /* INTEGRATOR_SIMPLEINTEGRATOR_H_ */
