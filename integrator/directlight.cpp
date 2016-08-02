@@ -23,7 +23,7 @@ void DirectLightingIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 		mLightSampleOffsets = new LightSampleOffsets[ln];
 		mBsdfSampleOffsets = new BSDFSampleOffsets[ln];
 		for (int i = 0; i < ln; ++i) {
-			Reference<Light> light = scene->getLight(i);
+			Light* light = scene->getLight(i);
 			int numSample = light->numSamples;
 			//TODO sampler::RoundSize  if(sampler) numSample=sampler->RoundSize(numSample);
 			mLightSampleOffsets[i] = LightSampleOffsets(numSample, sample);

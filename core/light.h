@@ -13,7 +13,7 @@
 #include "memory.h"
 #include "random.h"
 //光源类
-class Light: public ReferenceCounted {
+class Light{
 protected:
 	const Transform lightToWorld;
 	const Transform worldToLight;

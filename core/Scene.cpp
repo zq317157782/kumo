@@ -12,7 +12,7 @@ unsigned long Scene::getLightNum() const {
 
 
 
-Reference<Light> Scene::getLight(const int index) const {
+Light* Scene::getLight(const int index) const {
 	return mLights[index];
 }
 

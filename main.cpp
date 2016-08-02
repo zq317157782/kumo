@@ -245,7 +245,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new BoxFilter(10, 10), "Renderer.ppm"),
+			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(500);
 	//场景初始化

@@ -12,13 +12,13 @@
 using namespace std;
 class Scene {
 private:
-    vector<Reference<Light>> mLights;
+    vector<Light*> mLights;
     vector<Reference<Primitive>> mPrimitives;
 public:
 
     Scene();
     unsigned long getLightNum() const;
-    Reference<Light> getLight(const int index) const;
+    Light* getLight(const int index) const;
 
     unsigned long getPrimitiveNum() const;
     Reference<Primitive> getPrimitive(int index) const;
