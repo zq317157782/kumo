@@ -10,7 +10,6 @@ class Integrator {
 public:
 	virtual ~Integrator() {
 	}
-	;
 	virtual void RequestSamples(Sampler *sampler, Sample *sample,
 			const Scene *scene) {
 		//assert(false);

@@ -12,7 +12,7 @@
 using namespace std;
 class Scene {
 private:
-    vector< Reference<Light>> mLights;
+    vector<Reference<Light>> mLights;
     vector<Reference<Primitive>> mPrimitives;
 public:
 

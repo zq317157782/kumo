@@ -133,6 +133,12 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
 	return mR * F * mDistribution->D(wh) * G(wo, wi, wh) / (4.0f * cosO * cosI);
 }
 
+BSDFSampleOffsets::BSDFSampleOffsets(int count, Sample *sample) {
+    nSamples = count;
+    componentOffset = sample->Add1D(nSamples);
+    dirOffset = sample->Add2D(nSamples);
+}
+
 BSDFSample::BSDFSample(const Sample *sample, const BSDFSampleOffsets &offsets,
 		uint32_t num) {
 	uDir[0] = sample->twoD[offsets.dirOffset][2 * num];
