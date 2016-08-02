@@ -5,6 +5,7 @@
 #ifndef RAYTRACER_INTEGRATOR_H
 #define RAYTRACER_INTEGRATOR_H
 #include "global.h"
+#include "reflection.h"
 //积分器
 class Integrator {
 public:
@@ -27,4 +28,9 @@ public:
 
 //通过light的能量来计算light的CDF
 Distribution1D *ComputeLightSamplingCDF(const Scene *scene);
+
+RGB EstimateDirect(const Scene* scene,const Renderer*renderer,
+		MemoryArena& arena,const Light* light,const Point& p,const Normal& n,
+		const Vector& wo,float rayEpsilon,const BSDF *bsdf,Random& rand,const LightSample& lightSample,
+		const BSDFSample& bsdfSample,BxDFType flags);
 #endif //RAYTRACER_INTEGRATOR_H
