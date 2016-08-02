@@ -60,19 +60,46 @@ RGB EstimateDirect(const Scene* scene, const Renderer*renderer,
 			}
 			RGB Li(0);
 			Intersection lightInc;
-			RayDifferential ray(p,wi,rayEpsilon,INFINITY);
-			if(scene->Intersect(ray,&lightInc)){
-				if(lightInc.primitive->GetAreaLight()==light){
-					Li=lightInc.Le(-wi);
+			RayDifferential ray(p, wi, rayEpsilon, INFINITY);
+			if (scene->Intersect(ray, &lightInc)) {
+				if (lightInc.primitive->GetAreaLight() == light) {
+					Li = lightInc.Le(-wi);
 				}
-			}
-			else{
+			} else {
 				//TODO 这里有还没有实现的代码
 			}
-			if(!Li.IsBlack()){
+			if (!Li.IsBlack()) {
+				//MIS
 				Ld += f * Li * (AbsDot(wi, n) * weight / bsdfPdf);
 			}
 		}
 	}
 	return Ld;
+}
+
+RGB UniformSampleAllLights(const Scene *scene, const Renderer *renderer,
+		MemoryArena &arena, const Point &p, const Normal &n, const Vector &wo,
+		float rayEpsilon, BSDF *bsdf, const Sample *sample, Random &rand,
+		const LightSampleOffsets *lightSampleOffsets,
+		const BSDFSampleOffsets *bsdfSampleOffsets) {
+	RGB L(0);
+	for (int i = 0; i < scene->getLightNum(); ++i) {
+		Light*light = scene->getLight(i);
+		int numSample = lightSampleOffsets ? lightSampleOffsets[i].nSamples : 1; //获得此光源的采样样本数
+		RGB Ld(0);
+		for (int j = 0; j < numSample; ++j) {
+			LightSample lightSample;
+			BSDFSample bsdfSample;
+			if (lightSampleOffsets != nullptr && bsdfSampleOffsets != nullptr) {
+				lightSample = LightSample(sample, lightSampleOffsets[i], j);
+				bsdfSample = BSDFSample(sample, bsdfSampleOffsets[i], j);
+			} else {
+				lightSample = LightSample(rand);
+				bsdfSample = BSDFSample(rand);
+			}
+			Ld+=EstimateDirect(scene,renderer,arena,light,p,n,wo,rayEpsilon,bsdf,rand,lightSample,bsdfSample,BxDFType(BSDF_ALL&~BSDF_SPECULAR));
+		}
+		L+=Ld/numSample;
+	}
+	return L;
 }

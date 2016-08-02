@@ -412,6 +412,9 @@ public:
 struct BSDFSample {
 	float uDir[2]; //两个随机样本
 	float uComponent; //代表哪个BxDF被选中用来计算方向的样本
+
+	BSDFSample(){}
+
 	BSDFSample(Random & rand) {
 		uDir[0] = rand.RandomFloat();
 		uDir[1] = rand.RandomFloat();

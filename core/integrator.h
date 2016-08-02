@@ -33,4 +33,11 @@ RGB EstimateDirect(const Scene* scene,const Renderer*renderer,
 		MemoryArena& arena,const Light* light,const Point& p,const Normal& n,
 		const Vector& wo,float rayEpsilon,const BSDF *bsdf,Random& rand,const LightSample& lightSample,
 		const BSDFSample& bsdfSample,BxDFType flags);
+
+//均匀采样所有光源
+RGB UniformSampleAllLights(const Scene *scene,
+        const Renderer *renderer, MemoryArena &arena, const Point &p,
+        const Normal &n, const Vector &wo, float rayEpsilon,BSDF *bsdf, const Sample *sample, Random &rng,
+        const LightSampleOffsets *lightSampleOffsets,
+        const BSDFSampleOffsets *bsdfSampleOffsets);
 #endif //RAYTRACER_INTEGRATOR_H

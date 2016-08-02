@@ -33,7 +33,6 @@ public:
 	virtual RGB Power(const Scene* scene) const override {
 		return mLemit * mArea * M_PI;
 	}
-	//TODO 还未实现
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
 			Vector *wi, float *pdf, VisibilityTester *vis) const override {
 		Normal nn;
