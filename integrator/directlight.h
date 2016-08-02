@@ -22,7 +22,7 @@ private:
 	int mLightNumOffset;	//单光源情况下使用的变量
 public:
 
-	DirectLightingIntegrator(LightStrategy strategy){
+	DirectLightingIntegrator(LightStrategy strategy=UNIFORM_ALL){
 		mStrategy=strategy;
 	}
 

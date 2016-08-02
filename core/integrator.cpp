@@ -103,3 +103,12 @@ RGB UniformSampleAllLights(const Scene *scene, const Renderer *renderer,
 	}
 	return L;
 }
+
+RGB UniformSampleOneLight(const Scene *scene,
+        const Renderer *renderer, MemoryArena &arena, const Point &p,
+        const Normal &n, const Vector &wo, float rayEpsilon,
+        BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset,
+        const LightSampleOffsets *lightSampleOffset,
+        const BSDFSampleOffsets *bsdfSampleOffset){
+//TODO 实现UniformSampleOneLight
+}

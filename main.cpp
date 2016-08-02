@@ -204,6 +204,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "texture.h"
 #include "light/diffuse.h"
 #include "montecarlo.h"
+#include "integrator/directlight.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -258,13 +259,13 @@ int main(int argc, char** argv) {
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
 	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(0, 0, -1));
-	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 0.7),
+	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(-1, 0, 0));
 	scene.addLight(p);
-	scene.addLight(p2);
+	//scene.addLight(p2);
 
 	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
-			new SimpleIntegrator());
+			new DirectLightingIntegrator());
 
 	renderer.render(&scene);
 	cout << "----" << endl;

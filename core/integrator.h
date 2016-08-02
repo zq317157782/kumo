@@ -40,4 +40,11 @@ RGB UniformSampleAllLights(const Scene *scene,
         const Normal &n, const Vector &wo, float rayEpsilon,BSDF *bsdf, const Sample *sample, Random &rng,
         const LightSampleOffsets *lightSampleOffsets,
         const BSDFSampleOffsets *bsdfSampleOffsets);
+
+RGB UniformSampleOneLight(const Scene *scene,
+        const Renderer *renderer, MemoryArena &arena, const Point &p,
+        const Normal &n, const Vector &wo, float rayEpsilon,
+        BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset,
+        const LightSampleOffsets *lightSampleOffset,
+        const BSDFSampleOffsets *bsdfSampleOffset);
 #endif //RAYTRACER_INTEGRATOR_H
