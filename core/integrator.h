@@ -47,4 +47,9 @@ RGB UniformSampleOneLight(const Scene *scene,
         BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset,
         const LightSampleOffsets *lightSampleOffset,
         const BSDFSampleOffsets *bsdfSampleOffset);
+
+//计算镜面反射的radiance的工具函数
+RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf,
+        Random &rng, const Intersection &isect, const Renderer *renderer,
+        const Scene *scene, const Sample *sample, MemoryArena &arena);
 #endif //RAYTRACER_INTEGRATOR_H

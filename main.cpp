@@ -245,15 +245,15 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(metal));
 
-	Transform localToWorld2_2 = Translate(Vector(0, 1.5, 7));
-	Transform worldToLocal2_2 = Translate(Vector(0, -1.5, -7));
+	Transform localToWorld2_2 = Translate(Vector(0, 1.5, 6));
+	Transform worldToLocal2_2 = Translate(Vector(0, -1.5, -6));
 	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
 			Reference<Material>(metal));
 
-	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 8));
-	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -8));
+	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 6));
+	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -6));
 	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
@@ -272,6 +272,7 @@ int main(int argc, char** argv) {
 	scene.addPrimitive(primit3);
 	scene.addPrimitive(primit4);
 
+
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
 	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
@@ -279,7 +280,7 @@ int main(int argc, char** argv) {
 	DistantLight* p = new DistantLight(localToWorld3, RGB(0.4, 0.3, 0.2),
 			Vector(1, 0, 0));
 	scene.addLight(diffuse);
-	scene.addLight(p);
+	//scene.addLight(p);
 	//scene.addLight(p2);
 
 	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),

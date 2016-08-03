@@ -16,14 +16,19 @@ enum LightStrategy{UNIFORM_ALL,UNIFORM_ONE};
 class DirectLightingIntegrator:public SurfaceIntegrator{
 private:
 	LightStrategy mStrategy;
+	int mMaxDepth;
 	//采样相关的结构
 	LightSampleOffsets *mLightSampleOffsets;
 	BSDFSampleOffsets *mBsdfSampleOffsets;
 	int mLightNumOffset;	//单光源情况下使用的变量
 public:
 
-	DirectLightingIntegrator(LightStrategy strategy=UNIFORM_ALL){
+	DirectLightingIntegrator(LightStrategy strategy=UNIFORM_ALL,int maxDepth=2){
 		mStrategy=strategy;
+		mMaxDepth=maxDepth;
+		mLightSampleOffsets=nullptr;
+		mBsdfSampleOffsets=nullptr;
+		mLightNumOffset=-1;
 	}
 
 	~DirectLightingIntegrator(){}

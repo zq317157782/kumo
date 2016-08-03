@@ -9,6 +9,7 @@
 #include "light.h"
 #include "Scene.h"
 #include "montecarlo.h"
+#include "renderer.h"
 Distribution1D *ComputeLightSamplingCDF(const Scene *scene) {
 	unsigned int nLights = scene->getLightNum();
 	vector<float> lightPower(nLights, 0.0f);
@@ -97,18 +98,40 @@ RGB UniformSampleAllLights(const Scene *scene, const Renderer *renderer,
 				lightSample = LightSample(rand);
 				bsdfSample = BSDFSample(rand);
 			}
-			Ld+=EstimateDirect(scene,renderer,arena,light,p,n,wo,rayEpsilon,bsdf,rand,lightSample,bsdfSample,BxDFType(BSDF_ALL&~BSDF_SPECULAR));
+			Ld += EstimateDirect(scene, renderer, arena, light, p, n, wo,
+					rayEpsilon, bsdf, rand, lightSample, bsdfSample,
+					BxDFType(BSDF_ALL & ~BSDF_SPECULAR));
 		}
-		L+=Ld/numSample;
+		L += Ld / numSample;
 	}
 	return L;
 }
 
-RGB UniformSampleOneLight(const Scene *scene,
-        const Renderer *renderer, MemoryArena &arena, const Point &p,
-        const Normal &n, const Vector &wo, float rayEpsilon,
-        BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset,
-        const LightSampleOffsets *lightSampleOffset,
-        const BSDFSampleOffsets *bsdfSampleOffset){
+RGB UniformSampleOneLight(const Scene *scene, const Renderer *renderer,
+		MemoryArena &arena, const Point &p, const Normal &n, const Vector &wo,
+		float rayEpsilon, BSDF *bsdf, const Sample *sample, Random &rand,
+		int lightNumOffset, const LightSampleOffsets *lightSampleOffset,
+		const BSDFSampleOffsets *bsdfSampleOffset) {
 //TODO 实现UniformSampleOneLight
+}
+
+RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
+		const Intersection &isect, const Renderer *renderer, const Scene *scene,
+		const Sample *sample, MemoryArena &arena) {
+	Vector wo = -ray.d;//出射方向
+	Vector wi;//入射方向
+	float pdf;
+	const Point &p = bsdf->dgShading.p;
+	const Normal &n = bsdf->dgShading.nn;
+	RGB f=bsdf->Sample_f(wo,&wi,BSDFSample(rand),&pdf,BxDFType(BSDF_REFLECTION | BSDF_SPECULAR));
+	RGB L(0);
+	//cout<<"pdf:"<<pdf<<" f:"<<f.r<<f.g<<f.b<<endl;
+	if (pdf > 0.0f && !f.IsBlack() && AbsDot(wi, n) != 0.0f) {
+		RayDifferential r(p,wi,ray,isect.rayEpsilon);
+		//TODO 没有实现RAY微分的代码
+		RGB Li=renderer->Li(scene,r,sample,rand,arena);
+		L = f * Li * AbsDot(wi, n) / pdf;
+		cout<<L.r<<L.g<<L.b<<endl;
+	}
+	return L;
 }

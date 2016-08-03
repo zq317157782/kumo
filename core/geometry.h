@@ -506,6 +506,10 @@ public:
     RayDifferential(const Point& oo,const Vector& dd,float start,float end=INFINITY,int depth=0):Ray(oo,dd,start,end,depth){
         hasDifferentials=false;
     }
+    RayDifferential(const Point &oo, const Vector &dd, const Ray &parent,
+           float start, float end = INFINITY):Ray(oo,dd,start,end,parent.depth+1){
+    	 hasDifferentials=false;
+    }
 
     RayDifferential(const Ray& r):Ray(r){
         hasDifferentials=false;
