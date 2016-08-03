@@ -24,6 +24,7 @@ public:
 			Vector *wi, float *pdf, VisibilityTester *vis) const = 0; //返回辐射照度
 	virtual float Pdf(const Point &p, const Vector &wi) const = 0;//返回在p点向wi射出的光线的pdf
 	virtual bool IsDeltaLight() const = 0;
+	virtual RGB Le(const RayDifferential &r) const;
 	virtual RGB Power(const Scene* scene) const=0; //返回光源产生的辐射通量
 	virtual ~Light() {
 	}

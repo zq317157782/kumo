@@ -28,7 +28,7 @@ public:
 
 	virtual RGB L(const Point &p, const Normal &n, const Vector &w) const
 			override {
-		return Dot(n, w) > 0.f ? mLemit : 0.f;
+		return Dot(n, w) > 0.f ? mLemit : RGB(0.0f,0.0f,0.0f);
 	}
 	virtual RGB Power(const Scene* scene) const override {
 		return mLemit * mArea * M_PI;

@@ -16,8 +16,8 @@
       <sourceFolder url="file://$MODULE_DIR$/core/diffgeom.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/geometry.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/global.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Light.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/core/Material.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/light.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/material.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/memory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/primitive.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/core/reflection.cpp" isTestSource="false" />
@@ -32,7 +32,7 @@
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/BlinnPhongMaterial.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/CookTorranceMaterial.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/material/Matte.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/material/matte.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/PhongMaterial.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/material/TorranceSparrow.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/renderer/simpleRenderer.cpp" isTestSource="false" />
@@ -42,7 +42,7 @@
       <sourceFolder url="file://$MODULE_DIR$/sampler/randomSampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sampler/Sampler.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Scene/Scene.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/shape/Sphere.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shape/sphere.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/test.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
@@ -418,11 +418,11 @@
           <root url="file://$MODULE_DIR$/core/Shape.cpp" />
           <root url="file://$MODULE_DIR$/core/RGB.cpp" />
           <root url="file://$MODULE_DIR$/core/global.cpp" />
-          <root url="file://$MODULE_DIR$/core/Material.cpp" />
+          <root url="file://$MODULE_DIR$/core/material.cpp" />
           <root url="file://$MODULE_DIR$/core/primitive.cpp" />
           <root url="file://$MODULE_DIR$/core/transform.cpp" />
           <root url="file://$MODULE_DIR$/core/BRDF.cpp" />
-          <root url="file://$MODULE_DIR$/core/Light.cpp" />
+          <root url="file://$MODULE_DIR$/core/light.cpp" />
         </excluded>
       </library>
     </orderEntry>

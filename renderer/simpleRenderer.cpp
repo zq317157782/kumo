@@ -13,55 +13,33 @@
 
 void SimpleRenderer::render(const Scene* scene) {
 	Sample sample(sampler, mSurfaceIntegrator, scene);
-	Random ran(0);
-	while (sampler->GetMoreSamples(&sample, ran) > 0) {
+	while (sampler->GetMoreSamples(&sample, mRand) > 0) {
 		RGB L;
 		Point point;
 		point.x = sample.imageX - camera->film->xResolution * 0.5f;
 		point.y = sample.imageY - camera->film->yResolution * 0.5f;
 		Ray ray = camera->generateRay(point);
 		Intersection sr;
-		if (scene->Intersect(ray, &sr)) {
-			L = mSurfaceIntegrator->Li(scene, this, ray, &sample,sr,mRand,mArena);
-		} else {
-			L = scene->background;
-		}
+		L=Li(scene,ray,&sample,mRand,mArena,&sr);
 		camera->film->AddSample(sample, L);
 	}
 	mArena.FreeAll();
 	camera->film->WriteImage(1.0f);
+}
 
-//    for(int r=0;r<camera->film->height();++r){
-//        for(int c=0;c<camera->film->width();++c){
-//            float temp=(float)(r*camera->film->width()+c)/(camera->film->height()*camera->film->width())*100;
-//            L=RGB(0,0,0);
-//            for(int p=0;p<sampler->samplesPerPixel;++p){
-//                point.x=pSize*(c-camera->film->width()*0.5+sample.lensU);
-//                point.y=pSize*(r-camera->film->height()*0.5+sample.lensV);
-//                Ray ray=camera->generateRay(point);
-//                Intersection sr(*scene,ray);
-//                if(scene->hit(ray,&sr)){
-//                	L+=mSurfaceIntegrator->Li(scene,this,ray,sr);
-//                }else{
-//                    L+=scene->background;
-//                }
-//            }
-//            //std::cout<<"Color:"<<L.r<<" "<<L.g<<" "<<L.b<<std::endl;
-//            RGB color=(L/sampler->samplesPerPixel);
-//            if(color.r>1||color.g>1||color.b>1){
-//                double max=0;
-//                if(color.r>max)
-//                    max=color.r;
-//                if(color.g>max)
-//                    max=color.g;
-//                if(color.b>max)
-//                    max=color.b;
-//                (*(camera->film))[r][c]=color/max;
-//                //   view.frameBuffer[r*view.width()+c]=color/max;
-//            }
-//            else
-//                (*(camera->film))[r][c]=color;
-//            // view.frameBuffer[r*view.width()+c]=color;
-//        }
-//    }
+
+RGB SimpleRenderer::Li(const Scene *scene, const RayDifferential &ray,
+           const Sample *sample, Random &rng, MemoryArena &arena,
+           Intersection *isect, RGB *T) const{
+	    Intersection localIsect;
+	    if (!isect) isect = &localIsect;
+	    RGB Li = 0.f;
+	    if (scene->Intersect(ray, isect))
+	    	Li = mSurfaceIntegrator->Li(scene, this, ray, sample,*isect,rng,arena);
+	    else {//处理没有形体的光源能量
+	        for (unsigned int i = 0; i < scene->getLightNum(); ++i)
+	           Li += scene->getLight(i)->Le(ray);
+	        Li+=scene->background;
+	    }
+	    return Li;
 }

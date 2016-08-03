@@ -1,4 +1,3 @@
-
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 
@@ -218,30 +217,46 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-	Vector dir=CosSampleHemisphere(0.1,0.1);
+	Vector dir = CosSampleHemisphere(0.1, 0.1);
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
-	Checkerboard2DTexture<RGB> *checker=new Checkerboard2DTexture<RGB>(new UVMapping2D(50,50),white,black);
+	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
+			new UVMapping2D(50, 50), white, black);
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(15));
 
-	Transform localToWorld = Translate(Vector(-2, 0, 6));
-	Transform worldToLocal = Translate(Vector(2, 0, -6));
+	Transform localToWorld = Translate(Vector(-1.5, 0, 6));
+	Transform worldToLocal = Translate(Vector(1.5, 0, -6));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
 			360);
-	DiffuseAreaLight *diffuse=new DiffuseAreaLight(localToWorld,RGB(0.2,0.1,0.3),1,sphere);
+	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
+			RGB(0.2, 0.3, 0.4), 1, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
-			Reference<Material>(m),diffuse);
+			Reference<Material>(m), diffuse);
 
-	Transform localToWorld2 = Translate(Vector(2, 0, 6));
-	Transform worldToLocal2 = Translate(Vector(-2, 0, -6));
-	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1, 1,
-			360);
+	Transform localToWorld2 = Translate(Vector(1.5, 0, 6));
+	Transform worldToLocal2 = Translate(Vector(-1.5, 0, -6));
+	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1,
+			1, 360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
+			Reference<Material>(metal));
+
+	Transform localToWorld2_2 = Translate(Vector(0, 1.5, 7));
+	Transform worldToLocal2_2 = Translate(Vector(0, -1.5, -7));
+	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
+			-1, 1, 360);
+	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
+			Reference<Material>(metal));
+
+	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 8));
+	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -8));
+	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 1,
+			-1, 1, 360);
+	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
 			Reference<Material>(metal));
 
 	Transform cameraTransform = RotateY(0);
@@ -254,13 +269,16 @@ int main(int argc, char** argv) {
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 	scene.addPrimitive(primit);
 	scene.addPrimitive(primit2);
+	scene.addPrimitive(primit3);
+	scene.addPrimitive(primit4);
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
 	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(0, 0, -1));
-	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
-			Vector(-1, 0, 0));
+	DistantLight* p = new DistantLight(localToWorld3, RGB(0.4, 0.3, 0.2),
+			Vector(1, 0, 0));
+	scene.addLight(diffuse);
 	scene.addLight(p);
 	//scene.addLight(p2);
 

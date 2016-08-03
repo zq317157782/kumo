@@ -13,7 +13,7 @@
 RGB DirectLightingIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		const RayDifferential &ray, const Sample *sample,
 		const Intersection &isect, Random &rnd, MemoryArena& arena) const {
-	RGB L(0.f);
+	RGB L(0);
 	//获取交点处的bsdf
 	BSDF *bsdf = isect.GetBSDF(ray, arena);
 	Vector wo = -ray.d;
@@ -21,7 +21,6 @@ RGB DirectLightingIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	const Normal &n = bsdf->dgShading.nn;
 	//计算交点处的自发光
 	L += isect.Le(wo);
-
 	//计算光源对交点的影响
 	if (scene->getLightNum() > 0) {
 		// Apply direct lighting strategy
@@ -39,6 +38,7 @@ RGB DirectLightingIntegrator::Li(const Scene *scene, const Renderer *renderer,
 			break;
 		}
 	}
+	return L;
 }
 
 void DirectLightingIntegrator::RequestSamples(Sampler *sampler, Sample *sample,

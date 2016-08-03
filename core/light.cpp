@@ -12,6 +12,9 @@ Light::Light(const Transform& l2w,int ns):lightToWorld(l2w),worldToLight(Inverse
 
 }
 
+RGB Light::Le(const RayDifferential &r) const{
+	return RGB(0);
+}
 
 bool VisibilityTester::Unoccluded(const Scene *scene) const {
     return !scene->IntersectP(r);

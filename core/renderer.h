@@ -13,6 +13,9 @@ class Renderer {
 public:
     virtual void render(const Scene* scene)=0;
     virtual ~Renderer(){}
+    virtual RGB Li(const Scene *scene, const RayDifferential &ray,
+            const Sample *sample, Random &rng, MemoryArena &arena,
+            Intersection *isect = NULL, RGB *T = NULL) const = 0;
 };
 
 
