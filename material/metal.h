@@ -20,7 +20,6 @@ private:
 public:
 	Metal(const Reference<Texture<RGB>>& reflectance, const Reference<Texture<RGB>>& e, const Reference<Texture<RGB>>& kk,
 			MicrofacetDistribution* dis);
-//	virtual RGB shade(const Intersection& sr) override;
 	virtual ~Metal(){}
 	virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
 			const DifferentialGeometry &dgShading, MemoryArena &arena) const

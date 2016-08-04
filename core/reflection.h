@@ -210,6 +210,11 @@ public:
 
 };
 
+class FresnelNoOp : public Fresnel {
+public:
+    RGB Evaluate(float) const { return RGB(1); }
+};
+
 //完美镜面反射BRDF
 class SpecularReflection: public BxDF {
 private:
@@ -222,7 +227,7 @@ public:
 	}
 
 	virtual RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
-		return 0.f; //因为是完美镜面反射，所以直接返回0;
+		return 0.0f; //因为是完美镜面反射，所以直接返回0;
 	}
 
 	RGB Sample_f(const Vector& wo, Vector* wi, float u1, float u2,

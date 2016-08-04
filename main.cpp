@@ -204,6 +204,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "light/diffuse.h"
 #include "montecarlo.h"
 #include "integrator/directlight.h"
+#include "material/mirror.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -227,6 +228,7 @@ int main(int argc, char** argv) {
 			new UVMapping2D(50, 50), white, black);
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(15));
+	MirrorMaterial * mirror=new MirrorMaterial(white);
 
 	Transform localToWorld = Translate(Vector(-1.5, 0, 6));
 	Transform worldToLocal = Translate(Vector(1.5, 0, -6));
@@ -257,7 +259,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
-			Reference<Material>(metal));
+			Reference<Material>(mirror));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(

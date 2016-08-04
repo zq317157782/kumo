@@ -16,7 +16,6 @@ private:
     Reference<Texture<RGB>> mR;
 public:
     Matte(const Reference<Texture<RGB>>& _albedo);
-//    virtual RGB shade(const Intersection& sr);
     virtual ~Matte(){}
 
     virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
