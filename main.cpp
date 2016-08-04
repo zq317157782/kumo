@@ -224,11 +224,12 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
+	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(RGB(0.5, 0.5, 0.5));
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
-			new UVMapping2D(50, 50), white, black);
+			new UVMapping2D(10, 10), white, black);
 	Matte * m = new Matte(checker);
-	Metal * metal = new Metal(checker, eta, kk, new Blinn(15));
-	MirrorMaterial * mirror=new MirrorMaterial(white);
+	Metal * metal = new Metal(checker, eta, kk, new Anisotropic(24,10));
+	MirrorMaterial * mirror=new MirrorMaterial(checker);
 
 	Transform localToWorld = Translate(Vector(-1.5, 0, 6));
 	Transform worldToLocal = Translate(Vector(1.5, 0, -6));
@@ -236,7 +237,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
 			360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
-			RGB(0.2, 0.3, 0.4), 1, sphere);
+			RGB(1, 1, 1), 1, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 
@@ -279,10 +280,10 @@ int main(int argc, char** argv) {
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
 	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(0, 0, -1));
-	DistantLight* p = new DistantLight(localToWorld3, RGB(0.4, 0.3, 0.2),
+	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(1, 0, 0));
 	scene.addLight(diffuse);
-	//scene.addLight(p);
+	scene.addLight(p);
 	//scene.addLight(p2);
 
 	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),

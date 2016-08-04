@@ -131,7 +131,7 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 		//TODO 没有实现RAY微分的代码
 		RGB Li=renderer->Li(scene,r,sample,rand,arena);
 		L = f * Li * AbsDot(wi, n) / pdf;
-		cout<<L.r<<L.g<<L.b<<endl;
+		//cout<<L.r<<L.g<<L.b<<endl;
 	}
 	return L;
 }

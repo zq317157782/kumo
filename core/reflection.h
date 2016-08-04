@@ -413,6 +413,29 @@ public:
 	}
 };
 
+//各项异性法线分布函数 实现直接取自PBRT,以后需要仔细研究
+class Anisotropic : public MicrofacetDistribution {
+public:
+    Anisotropic(float x, float y) {
+        ex = x; ey = y;
+        if (ex > 10000.f || isnan(ex)) ex = 10000.f;
+        if (ey > 10000.f || isnan(ey)) ey = 10000.f;
+    }
+    float D(const Vector &wh) const {
+        float costhetah = AbsCosTheta(wh);
+        float d = 1.f - costhetah * costhetah;
+        if (d == 0.f) return 0.f;
+        float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / d;
+        return sqrtf((ex+2.f) * (ey+2.f)) * M_INV_TWO_PI * powf(costhetah, e);
+    }
+    void Sample_f(const Vector &wo, Vector *wi, float u1, float u2, float *pdf) const;
+    float Pdf(const Vector &wo, const Vector &wi) const;
+    void sampleFirstQuadrant(float u1, float u2, float *phi, float *costheta) const;
+private:
+    float ex, ey;
+};
+
+
 //代表一个BSDF的采样点
 struct BSDFSample {
 	float uDir[2]; //两个随机样本

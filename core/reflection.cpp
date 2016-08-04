@@ -133,6 +133,74 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
 	return mR * F * mDistribution->D(wh) * G(wo, wi, wh) / (4.0f * cosO * cosI);
 }
 
+
+void Anisotropic::Sample_f(const Vector &wo, Vector *wi,
+                           float u1, float u2, float *pdf) const {
+    float phi, costheta;
+    if (u1 < .25f) {
+        sampleFirstQuadrant(4.f * u1, u2, &phi, &costheta);
+    } else if (u1 < .5f) {
+        u1 = 4.f * (.5f - u1);
+        sampleFirstQuadrant(u1, u2, &phi, &costheta);
+        phi = M_PI - phi;
+    } else if (u1 < .75f) {
+        u1 = 4.f * (u1 - .5f);
+        sampleFirstQuadrant(u1, u2, &phi, &costheta);
+        phi += M_PI;
+    } else {
+        u1 = 4.f * (1.f - u1);
+        sampleFirstQuadrant(u1, u2, &phi, &costheta);
+        phi = 2.f * M_PI - phi;
+    }
+    float sintheta = sqrtf(max(0.f, 1.f - costheta*costheta));
+    Vector wh = SphericalDirection(sintheta, costheta, phi);
+    if (!SameHemisphere(wo, wh)) wh = -wh;
+
+    // Compute incident direction by reflecting about $\wh$
+    *wi = -wo + 2.f * Dot(wo, wh) * wh;
+
+    // Compute PDF for $\wi$ from anisotropic distribution
+    float costhetah = AbsCosTheta(wh);
+    float ds = 1.f - costhetah * costhetah;
+    float anisotropic_pdf = 0.f;
+    if (ds > 0.f && Dot(wo, wh) > 0.f) {
+        float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
+        float d = sqrtf((ex+1.f) * (ey+1.f)) * M_INV_TWO_PI *
+                  powf(costhetah, e);
+        anisotropic_pdf = d / (4.f * Dot(wo, wh));
+    }
+    *pdf = anisotropic_pdf;
+}
+
+
+void Anisotropic::sampleFirstQuadrant(float u1, float u2,
+        float *phi, float *costheta) const {
+    if (ex == ey)
+        *phi = M_PI * u1 * 0.5f;
+    else
+        *phi = atanf(sqrtf((ex+1.f) / (ey+1.f)) *
+                     tanf(M_PI * u1 * 0.5f));
+    float cosphi = cosf(*phi), sinphi = sinf(*phi);
+    *costheta = powf(u2, 1.f/(ex * cosphi * cosphi +
+                              ey * sinphi * sinphi + 1));
+}
+
+
+float Anisotropic::Pdf(const Vector &wo, const Vector &wi) const {
+    Vector wh = Normalize(wo + wi);
+    float costhetah = AbsCosTheta(wh);
+    float ds = 1.f - costhetah * costhetah;
+    float anisotropic_pdf = 0.f;
+    if (ds > 0.f && Dot(wo, wh) > 0.f) {
+        float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
+        float d = sqrtf((ex+1.f) * (ey+1.f)) * M_INV_TWO_PI *
+                  powf(costhetah, e);
+        anisotropic_pdf = d / (4.f * Dot(wo, wh));
+    }
+    return anisotropic_pdf;
+}
+
+
 BSDFSampleOffsets::BSDFSampleOffsets(int count, Sample *sample) {
     nSamples = count;
     componentOffset = sample->Add1D(nSamples);
