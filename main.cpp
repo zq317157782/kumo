@@ -228,13 +228,14 @@ int main(int argc, char** argv) {
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(10, 10), white, black);
 	Matte * m = new Matte(checker);
-	Metal * metal = new Metal(checker, eta, kk, new Anisotropic(24,10));
+	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
+	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000,1000));
 	MirrorMaterial * mirror=new MirrorMaterial(checker);
 
-	Transform localToWorld = Translate(Vector(-1.5, 0, 6));
-	Transform worldToLocal = Translate(Vector(1.5, 0, -6));
+	Transform localToWorld = Translate(Vector(-5, 0, 6));
+	Transform worldToLocal = Translate(Vector(5, 0, -6));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 1, -1, 1,
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 3, -3, 3,
 			360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
 			RGB(1, 1, 1), 1, sphere);
@@ -253,7 +254,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
-			Reference<Material>(metal));
+			Reference<Material>(metal2));
 
 	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 6));
 	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -6));
@@ -278,13 +279,13 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
-	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 1, 1),
+	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 0, 0),
 			Vector(0, 0, -1));
-	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
+	DistantLight* p = new DistantLight(localToWorld3, RGB(0.2, 0.3, 0.7),
 			Vector(1, 0, 0));
 	scene.addLight(diffuse);
 	scene.addLight(p);
-	//scene.addLight(p2);
+	scene.addLight(p2);
 
 	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
 			new DirectLightingIntegrator());

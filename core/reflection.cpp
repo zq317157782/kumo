@@ -133,7 +133,7 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
 	return mR * F * mDistribution->D(wh) * G(wo, wi, wh) / (4.0f * cosO * cosI);
 }
 
-
+//复制自PBRT
 void Anisotropic::Sample_f(const Vector &wo, Vector *wi,
                            float u1, float u2, float *pdf) const {
     float phi, costheta;
@@ -172,7 +172,7 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi,
     *pdf = anisotropic_pdf;
 }
 
-
+//复制自PBRT
 void Anisotropic::sampleFirstQuadrant(float u1, float u2,
         float *phi, float *costheta) const {
     if (ex == ey)
@@ -185,7 +185,7 @@ void Anisotropic::sampleFirstQuadrant(float u1, float u2,
                               ey * sinphi * sinphi + 1));
 }
 
-
+//复制自PBRT
 float Anisotropic::Pdf(const Vector &wo, const Vector &wi) const {
     Vector wh = Normalize(wo + wi);
     float costhetah = AbsCosTheta(wh);
