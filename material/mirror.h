@@ -10,14 +10,14 @@
 #include "global.h"
 #include "material.h"
 //镜面材质
-class MirrorMaterial:public Material{
+class Mirror:public Material{
 private:
 	Reference<Texture<RGB>> mKr;
 public:
-	MirrorMaterial(const Reference<Texture<RGB>> r){
+	Mirror(const Reference<Texture<RGB>> r){
 		mKr=r;
 	}
-	virtual ~MirrorMaterial(){}
+	virtual ~Mirror(){}
 	virtual BSDF *GetBSDF(const DifferentialGeometry &dgGeom,
 				const DifferentialGeometry &dgShading, MemoryArena &arena) const
 						override;

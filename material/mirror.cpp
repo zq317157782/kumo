@@ -9,7 +9,7 @@
 #include "reflection.h"
 #include "texture.h"
 
-BSDF* MirrorMaterial::GetBSDF(const DifferentialGeometry &dgGeom,
+BSDF* Mirror::GetBSDF(const DifferentialGeometry &dgGeom,
 		const DifferentialGeometry &dgShading, MemoryArena &arena) const {
 	DifferentialGeometry dgs = dgShading;
 	BSDF *bsdf = BSDF_ALLOC(arena,BSDF)(dgShading, dgGeom.nn);
