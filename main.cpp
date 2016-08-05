@@ -232,7 +232,7 @@ int main(int argc, char** argv) {
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000,1000));
-	Translucent *trans=new Translucent(black,white,roughess,black,white);
+	Translucent *trans=new Translucent(half_white,half_white,roughess,white,black);
 	Mirror * mirror=new Mirror(checker);
 
 	Transform localToWorld = Translate(Vector(-5, 0, 6));
@@ -252,8 +252,8 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(metal));
 
-	Transform localToWorld2_2 = Translate(Vector(0, 0, 3));
-	Transform worldToLocal2_2 = Translate(Vector(0, 0, -3));
+	Transform localToWorld2_2 = Translate(Vector(0, 1.5, 3));
+	Transform worldToLocal2_2 = Translate(Vector(0, -1.5, -3));
 	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
@@ -286,7 +286,7 @@ int main(int argc, char** argv) {
 			Vector(0, 0, -1));
 	DistantLight* p = new DistantLight(localToWorld3, RGB(0.2, 0.3, 0.7),
 			Vector(1, 0, 0));
-	//scene.addLight(diffuse);
+	scene.addLight(diffuse);
 	scene.addLight(p);
 	scene.addLight(p2);
 

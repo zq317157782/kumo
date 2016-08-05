@@ -39,7 +39,7 @@ public:
 
 	//根据不同的采样光的策略，申请不同的样本点
 	virtual void RequestSamples(Sampler *sampler, Sample *sample,
-				const Scene *scene);
+				const Scene *scene) override;
 };
 
 
