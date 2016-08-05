@@ -44,9 +44,9 @@ RGB UniformSampleAllLights(const Scene *scene,
 RGB UniformSampleOneLight(const Scene *scene,
         const Renderer *renderer, MemoryArena &arena, const Point &p,
         const Normal &n, const Vector &wo, float rayEpsilon,
-        BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset,
-        const LightSampleOffsets *lightSampleOffset,
-        const BSDFSampleOffsets *bsdfSampleOffset);
+        BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset=-1,
+        const LightSampleOffsets *lightSampleOffset=nullptr,
+        const BSDFSampleOffsets *bsdfSampleOffset=nullptr);
 
 //计算镜面反射的radiance的工具函数
 RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf,

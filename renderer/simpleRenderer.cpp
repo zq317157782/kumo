@@ -39,7 +39,7 @@ RGB SimpleRenderer::Li(const Scene *scene, const RayDifferential &ray,
 	    else {//处理没有形体的光源能量
 	        for (unsigned int i = 0; i < scene->getLightNum(); ++i)
 	           Li += scene->getLight(i)->Le(ray);
-	        Li+=scene->background;
+	       // Li+=scene->background;
 	    }
 	    return Li;
 }

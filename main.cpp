@@ -206,6 +206,7 @@ TEST_CASE( "scene are computed", "[scene]" ) {
 #include "integrator/directlight.h"
 #include "material/mirror.h"
 #include "material/translucent.h"
+#include "integrator/path.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -222,38 +223,39 @@ int main(int argc, char** argv) {
 	Vector dir = CosSampleHemisphere(0.1, 0.1);
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
+	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(RGB(0.5, 0.5, 0.5));
-	ConstantTexture<float> *roughess = new ConstantTexture<float>(1000);
+	ConstantTexture<float> *roughess = new ConstantTexture<float>(0.1);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
-			new UVMapping2D(10, 10), white, black);
+			new UVMapping2D(10, 10), red, white);
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000,1000));
-	Translucent *trans=new Translucent(half_white,half_white,roughess,white,black);
+	Translucent *trans=new Translucent(white,black,roughess,black,white);
 	Mirror * mirror=new Mirror(checker);
 
-	Transform localToWorld = Translate(Vector(-5, 0, 6));
-	Transform worldToLocal = Translate(Vector(5, 0, -6));
+	Transform localToWorld = Translate(Vector(-3, 0, 6));
+	Transform worldToLocal = Translate(Vector(3, 0, -6));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 3, -3, 3,
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 2, -2, 2,
 			360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
 			RGB(1, 1, 1), 1, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 
-	Transform localToWorld2 = Translate(Vector(1.5, 0, 6));
-	Transform worldToLocal2 = Translate(Vector(-1.5, 0, -6));
+	Transform localToWorld2 = Translate(Vector(1.5, 2, 9));
+	Transform worldToLocal2 = Translate(Vector(-1.5, -2, -9));
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 1, -1,
 			1, 360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(metal));
 
-	Transform localToWorld2_2 = Translate(Vector(0, 1.5, 3));
-	Transform worldToLocal2_2 = Translate(Vector(0, -1.5, -3));
+	Transform localToWorld2_2 = Translate(Vector( 1.5,0, 6));
+	Transform worldToLocal2_2 = Translate(Vector(-1.5,0, -6));
 	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
 			-1, 1, 360);
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
@@ -274,24 +276,24 @@ int main(int argc, char** argv) {
 	//场景初始化
 	Scene scene;
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
-	scene.addPrimitive(primit);
+	//scene.addPrimitive(primit);
 	scene.addPrimitive(primit2);
 	scene.addPrimitive(primit3);
-	scene.addPrimitive(primit4);
+	//scene.addPrimitive(primit4);
 
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
 	Transform worldToLocal3 = Translate(Vector(0, 0, 0));
 	DistantLight* p2 = new DistantLight(localToWorld3, RGB(1, 0, 0),
 			Vector(0, 0, -1));
-	DistantLight* p = new DistantLight(localToWorld3, RGB(0.2, 0.3, 0.7),
+	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(1, 0, 0));
-	scene.addLight(diffuse);
+	//scene.addLight(diffuse);
 	scene.addLight(p);
-	scene.addLight(p2);
+	//scene.addLight(p2);
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),
-			new DirectLightingIntegrator());
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),new PathIntegrator(0)
+			);//new PathIntegrator(5)
 
 	renderer.render(&scene);
 	cout << "----" << endl;
