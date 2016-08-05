@@ -9,6 +9,7 @@
 #define INTEGRATOR_PATH_H_
 #include "global.h"
 #include "integrator.h"
+#include "light.h"
 
 //路径追踪器
 class PathIntegrator: public SurfaceIntegrator {
@@ -27,6 +28,10 @@ public:
 
 	virtual void RequestSamples(Sampler *sampler, Sample *sample,
 					const Scene *scene) override;
+
+	virtual RGB Li(const Scene *scene, const Renderer *renderer,
+					const RayDifferential &ray,const Sample *sample, const Intersection &isect, Random &rnd,
+					MemoryArena& arena) const override;
 
 };
 

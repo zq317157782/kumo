@@ -6,6 +6,10 @@
  */
 
 #include "path.h"
+#include "RGB.h"
+#include "scene.h"
+#include "reflection.h"
+#include "sampler.h"
 
 void PathIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 		const Scene *scene) {
@@ -16,5 +20,11 @@ void PathIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 		bsdfSampleOffsets[i] = BSDFSampleOffsets(1, sample);
 		pathSampleOffsets[i] = BSDFSampleOffsets(1, sample);
 	}
+}
+
+RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
+				const RayDifferential &ray,const Sample *sample, const Intersection &isect, Random &rnd,
+				MemoryArena& arena) const {
+
 }
 
