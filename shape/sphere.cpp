@@ -132,8 +132,64 @@ float Sphere::Area() const {
 
 Point Sphere::Sample(float u1, float u2, Normal *Ns) const {
 	Point p = Point(0, 0, 0) + mRad * UniformSampleSphere(u1, u2);
-	*Ns = Normalize((*localToWorld)(Normal(p.x, p.y, p.z)));//TODO 这样转换法线正确吗？
+	*Ns = Normalize((*localToWorld)(Normal(p.x, p.y, p.z))); //TODO 这样转换法线正确吗？
 	if (ReverseOrientation)
 		*Ns *= -1.f;
 	return (*localToWorld)(p);
+}
+
+bool Sphere::IntersectP(const Ray& r) const {
+	Ray ray;
+	(*worldToLocal)(r, &ray);
+	// Compute quadratic sphere coefficients
+	float A = ray.d.x * ray.d.x + ray.d.y * ray.d.y + ray.d.z * ray.d.z;
+	float B = 2 * (ray.d.x * ray.o.x + ray.d.y * ray.o.y + ray.d.z * ray.o.z);
+	float C = ray.o.x * ray.o.x + ray.o.y * ray.o.y + ray.o.z * ray.o.z
+			- mRad * mRad;
+	float t0, t1;
+	if (!Quadratic(A, B, C, &t0, &t1))
+		return false;
+
+	// Compute intersection distance along ray
+	if (t0 > ray.maxT || t1 < ray.minT)
+		return false;
+	float thit = t0;
+	if (t0 < ray.minT) {
+		thit = t1;
+		if (thit > ray.maxT)
+			return false;
+	}
+
+	//这里开始计算参数化变量
+
+	//计算phi
+	Point phit;
+	float phi;
+	phit = ray(thit);
+	if (phit.x == 0.f && phit.y == 0.f)
+		phit.x = 1e-5f * mRad; //排除除零的情况
+	phi = atan2f(phit.y, phit.x);
+	if (phi < 0.)
+		phi += 2.f * M_PI; //保证phi在2PI之中
+
+	//判断是否在Z坐标之间的裁剪空间中
+	if ((mZMin > -mRad && phit.z < mZMin) || (mZMax < mRad && phit.z > mZMax)
+			|| phi > mPhiMax) {
+		if (thit == t1)
+			return false;
+		if (t1 > ray.maxT)
+			return false;
+		thit = t1;
+
+		phit = ray(thit);
+		if (phit.x == 0.f && phit.y == 0.f)
+			phit.x = 1e-5f * mRad;
+		phi = atan2f(phit.y, phit.x);
+		if (phi < 0.0)
+			phi += 2.f * M_PI;
+		if ((mZMin > -mRad && phit.z < mZMin)
+				|| (mZMax < mRad && phit.z > mZMax) || phi > mPhiMax)
+			return false;
+	}
+	return true;
 }

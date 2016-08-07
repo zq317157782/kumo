@@ -228,13 +228,13 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(RGB(0.5, 0.5, 0.5));
-	ConstantTexture<float> *roughess = new ConstantTexture<float>(0.1);
+	ConstantTexture<float> *roughess = new ConstantTexture<float>(1);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(10, 10), red, white);
 	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000,1000));
-	Translucent *trans=new Translucent(white,black,roughess,black,white);
+	Translucent *trans=new Translucent(black,white,roughess,black,white);
 	Mirror * mirror=new Mirror(checker);
 
 	Transform localToWorld = Translate(Vector(-3, 0, 6));
@@ -276,10 +276,10 @@ int main(int argc, char** argv) {
 	//场景初始化
 	Scene scene;
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
-	//scene.addPrimitive(primit);
+	scene.addPrimitive(primit);
 	scene.addPrimitive(primit2);
 	scene.addPrimitive(primit3);
-	//scene.addPrimitive(primit4);
+	scene.addPrimitive(primit4);
 
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 0));
@@ -288,12 +288,11 @@ int main(int argc, char** argv) {
 			Vector(0, 0, -1));
 	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(1, 0, 0));
-	//scene.addLight(diffuse);
+	scene.addLight(diffuse);
 	scene.addLight(p);
-	//scene.addLight(p2);
+	scene.addLight(p2);
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),new PathIntegrator(0)
-			);//new PathIntegrator(5)
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 32),new PathIntegrator(5));//new PathIntegrator(5)
 
 	renderer.render(&scene);
 	cout << "----" << endl;

@@ -23,6 +23,8 @@ public:
 
     virtual bool CanIntersect() const;
 
+    virtual bool IntersectP(const Ray& ray) const override;
+
     virtual float Area() const override;
 
     virtual Point Sample(float u1, float u2, Normal *Ns) const override;

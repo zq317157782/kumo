@@ -36,6 +36,7 @@ RGB EstimateDirect(const Scene* scene, const Renderer*renderer,
 		if (!f.IsBlack() && visibility.Unoccluded(scene)) {
 			if (light->IsDeltaLight()) {
 				//这里不使用MIS策略
+			//	return RGB(1,1,1);
 				Ld += f * Li * (AbsDot(wi, n) / lightPdf);
 			} else {
 				//使用MIS策略
