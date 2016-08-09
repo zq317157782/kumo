@@ -48,6 +48,8 @@ int StratifiedSampler::GetMoreSamples(Sample *sample, Random &rand) {
 	}
 	Shuffle(lensSamples, nSamples, 2, rand); //打乱len采样点
 
+
+	//返回样本
 	for (int i = 0; i < nSamples; ++i) {
 		sample[i].imageX = imageSamples[2 * i];
 		sample[i].imageY = imageSamples[2 * i + 1];
@@ -55,10 +57,13 @@ int StratifiedSampler::GetMoreSamples(Sample *sample, Random &rand) {
 		sample[i].lensV = lensSamples[2 * i + 1];
 
 		//生成积分器需要的1维样本和2维样本
-		for (unsigned int j = 0; j < sample[i].n1D.size(); ++j)
+		for (unsigned int j = 0; j < sample[i].n1D.size(); ++j){
+			//cout<<"++"<<sample[i].n1D.size()<<"++"<<j<<"++"<<i<<endl;
 			LatinHypercube(sample[i].oneD[j], sample[i].n1D[j], 1, rand);
-		for (unsigned int  j = 0; j < sample[i].n2D.size(); ++j)
+		}
+		for (unsigned int  j = 0; j < sample[i].n2D.size(); ++j){
 			LatinHypercube(sample[i].twoD[j], sample[i].n2D[j], 2, rand);
+		}
 	}
 
 	//判断是否换行

@@ -43,6 +43,7 @@
 #include "material/mirror.h"
 #include "material/translucent.h"
 #include "integrator/path.h"
+#include "sampler/stratified.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -228,8 +229,11 @@ int main(int argc, char** argv) {
 	//scene.addLight(p);
 	//scene.addLight(p2);
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
-			new PathIntegrator(5));	//new PathIntegrator(5)
+//	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
+//			new PathIntegrator(5));	//new PathIntegrator(5)
+
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 8,8,true),
+				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);
 	cout << "----" << endl;
