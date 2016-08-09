@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "memory.h"
 #include "random.h"
+#include "parallel.h"
 
 class SimpleRenderer :public Renderer{
 private:
@@ -31,5 +32,21 @@ public:
 
 };
 
+class SimpleRendererTask:public Task{
+private:
+	int mCount;
+	int mTaskNum;
+	Sampler* mSampler;
+	Camera* mCamerea;
+	Sample *mSample;
+	const Scene *mScene;
+	Renderer* mRenderer;
+	Random mRand;
+	MemoryArena mArena;
+public:
+	SimpleRendererTask(const Scene *scene,Renderer* renderer,Camera* c,Sampler* s,Sample *sample,int count,int tasks);
+
+	virtual void Run() override;
+};
 
 #endif //RAYTRACER_SIMPLERENDERER_H

@@ -223,6 +223,7 @@ BSDF::BSDF(const DifferentialGeometry& dg, const Normal& ng, float e) :
 }
 
 void BSDF::Add(BxDF *bxdf) {
+	//cout<<mNumBxdf<<endl;
 	assert(mNumBxdf<MAX_BxDFS);
 	mBxdfs[mNumBxdf++] = bxdf;
 }

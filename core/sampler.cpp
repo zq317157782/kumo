@@ -20,7 +20,6 @@ void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
         ny <<= 1;
     }
     assert(nx * ny == count);
-
     // Compute $x$ and $y$ pixel sample range for sub-window
     int xo = num % nx, yo = num / nx;
     float tx0 = float(xo) / float(nx), tx1 = float(xo+1) / float(nx);

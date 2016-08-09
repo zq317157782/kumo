@@ -16,6 +16,10 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <iostream>
+#include <mutex>
+#include <thread>
+#include <condition_variable>
 using namespace std;
 
 
@@ -128,5 +132,12 @@ inline float Lerp(float t, float v1, float v2) {
     return (1.f - t) * v1 + t * v2;
 }
 
+inline unsigned int RoundUpPow2(uint32_t v) {
+    v--;
+    v |= v >> 1;    v |= v >> 2;
+    v |= v >> 4;    v |= v >> 8;
+    v |= v >> 16;
+    return v+1;
+}
 
 #endif //RAYTRACER_GLOBAL_H

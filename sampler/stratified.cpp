@@ -21,8 +21,9 @@ StratifiedSampler::StratifiedSampler(int xstart, int xend, int ystart, int yend,
 Sampler* StratifiedSampler::GetSubSampler(int num, int count) {
 	int x0, x1, y0, y1;
 	ComputeSubWindow(num, count, &x0, &x1, &y0, &y1);
-	if (x0 == x1 || y0 == y1)
+	if (x0 == x1 || y0 == y1){
 		return nullptr;
+	}
 	return new StratifiedSampler(x0, x1, y0, y1, xPixelSamples, yPixelSamples,
 			jitterSamples);
 }

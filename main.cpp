@@ -44,6 +44,7 @@
 #include "material/translucent.h"
 #include "integrator/path.h"
 #include "sampler/stratified.h"
+#include "parallel.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -81,6 +82,8 @@ int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc,argv);
 	return RUN_ALL_TESTS();
 #endif
+	InitTasks();
+	//WaitForAllTasks();
 
 	Vector dir = CosSampleHemisphere(0.1, 0.1);
 
