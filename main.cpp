@@ -228,7 +228,7 @@ int main(int argc, char** argv) {
 	//scene.addLight(p);
 	//scene.addLight(p2);
 
-	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 1024),
+	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 			new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);

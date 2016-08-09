@@ -19,8 +19,8 @@ private:
 public:
 
     SimpleRenderer(Camera* c,Sampler* s,SurfaceIntegrator* si):Renderer(),camera(c),sampler(s),mSurfaceIntegrator(si){
-        assert(camera!=nullptr);
-        assert(sampler!=nullptr);
+       // assert(camera!=nullptr);
+        //assert(sampler!=nullptr);
     }
     virtual void render(const Scene* scene) override;
 

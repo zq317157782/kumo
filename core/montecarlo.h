@@ -133,4 +133,23 @@ inline float PowerHeuristic(int nf,float fpdf,int ng,float gpdf){
 	return (f*f)/(f*f+g*g);
 }
 
+//1维分层采样
+void StratifiedSample1D(float *samples, int nsamples, Random &rand,
+                        bool jitter = true);
+//2维分层采样
+void StratifiedSample2D(float *samples, int nx, int ny, Random &rand,
+                        bool jitter = true);
+//用于打乱样本顺序
+template <typename T>
+void Shuffle(T *samp, unsigned int count, unsigned int dims, Random &rand) {
+    for (unsigned int  i = 0; i < count; ++i) {
+    	unsigned int other = i + (rand.RandomUInt() % (count - i));//随机选择一个其他位置
+        for (unsigned int j = 0; j < dims; ++j){
+            swap(samp[dims*i + j], samp[dims*other + j]);
+        }
+    }
+}
+
+//rooking-sampling
+void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim, Random &rng);
 #endif /* CORE_MONTECARLO_H_ */
