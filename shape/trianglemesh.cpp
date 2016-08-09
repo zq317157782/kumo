@@ -36,7 +36,7 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 		s = new Vector[nverts];
 		memcpy(s, S, nverts * sizeof(Vector));
 	} else
-		s = NULL;
+		s = nullptr;
 
 	//为uv坐标分配空间
 	if (uv) {
@@ -129,7 +129,6 @@ bool Triangle::Intersect(const Ray &ray, float *distance, float *rayEpsilon,
 		dpdu = (dv2 * dp1 - dv1 * dp2) * invdet;
 		dpdv = (-du2 * dp1 + du1 * dp2) * invdet;
 	}
-
 	//这里是在计算参数坐标  用的也是质心坐标
 	float b0 = 1 - b1 - b2;
 	float tu = b0 * uvs[0][0] + b1 * uvs[1][0] + b2 * uvs[2][0];
@@ -139,6 +138,7 @@ bool Triangle::Intersect(const Ray &ray, float *distance, float *rayEpsilon,
 			Normal(0, 0, 0), tu, tv, this);
 	*distance = t;
 	*rayEpsilon = 1e-3f * *distance;
+	//cout<<"射中三角"<<endl;
 	return true;
 }
 

@@ -22,8 +22,9 @@ void SimpleRenderer::render(const Scene* scene) {
 		Intersection sr;
 		L=Li(scene,ray,&sample,mRand,mArena,&sr);
 		camera->film->AddSample(sample, L);
+		mArena.FreeAll();
 	}
-	mArena.FreeAll();
+
 	camera->film->WriteImage(1.0f);
 }
 

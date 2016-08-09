@@ -42,9 +42,8 @@ RGB SimpleIntegrator::Li(const Scene *scene, const Renderer *renderer,
 			continue;
 		double ndotl = Dot(isect.normal, wi);
 		if (ndotl > 0) {
-			//cout<<"brdf:"<<mBrdf->f(wi,wo).r<<"brdf:"<<mBrdf->f(wi,wo).g<<"brdf:"<<mBrdf->f(wi,wo).b<<endl;
-			//cout<<"[F]:"<<bsdf->f(wi, wo).r<<bsdf->f(wi, wo).g<<bsdf->f(wi, wo).b<<endl;
 			L = L + l * bsdf->f(wo, wi) * ndotl;  //mDiffuseBrdf.f(sr,wi,wo)
+			//cout<<L.r<<" "<<L.g<<" "<<L.b<<" "<<endl;
 		}
 	}
 	return L;

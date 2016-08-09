@@ -27,7 +27,7 @@ public:
     //忽略透射
     virtual RGB Li(const Scene *scene, const RayDifferential &ray,
                const Sample *sample, Random &rng, MemoryArena &arena,
-               Intersection *isect = NULL, RGB *T = NULL) const override;
+               Intersection *isect = nullptr, RGB *T = nullptr) const override;
 
 };
 
