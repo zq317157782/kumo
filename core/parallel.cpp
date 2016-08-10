@@ -8,8 +8,7 @@
 #include "parallel.h"
 
 void EnqueueTasks(const vector<Task *> &tasks) {
-	if (!threads)
-		InitTasks();
+
 	taskQueueMutex.lock();
 	cout << "EnqueueTasks" << endl;
 	for (int i = 0; i < tasks.size(); ++i) {
@@ -20,16 +19,19 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 	tasksRunningConditionMutex.lock();
 	numUnfinishedTasks += tasks.size();
 	tasksRunningConditionMutex.unlock();
-	for (int i = 0; i < CORE_NUM; ++i) {
-		threads[i]->detach();
-	}
-
+	if (!threads)
+			InitTasks();
+//	//	progress_thread->detach();
+//	for (int i = 0; i < CORE_NUM; ++i) {
+//		threads[i]->detach();
+//	}
 }
+
 
 void WaitForAllTasks() {
 	unique_lock<mutex> mux(tasksRunningConditionMutex);
 	while (numUnfinishedTasks > 0) {
-		cout << "waiting" << endl;
+		cout << "waiting tasksRunningCondition" << endl;
 		tasksRunningCondition.wait(mux);
 	}
 }

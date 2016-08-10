@@ -81,7 +81,7 @@ SimpleRendererTask::SimpleRendererTask(const Scene *scene, Renderer* renderer,
 }
 
 void SimpleRendererTask::Run() {
-	cout << "task:" << mCount << " max:" << mTaskNum <<" thread id "<<this_thread::get_id()<<endl;
+	//cout << "task:" << mCount << " max:" << mTaskNum <<" thread id "<<this_thread::get_id()<<endl;
 	//cout<<mSampler<<endl;
 	Sample* samples = mSample->Duplicate(mSampler->samplesPerPixel);
 	int nSample = 0;
