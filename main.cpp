@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
-	Mirror * mirror = new Mirror(checker);
+	Mirror * mirror = new Mirror(white);
 
 	Transform localToWorld = Translate(Vector(0, -1, 6));
 	Transform worldToLocal = Translate(Vector(0, 1, -6));
@@ -121,12 +121,12 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(m));
 
-	Transform localToWorld2_2 = Translate(Vector(1.5, 0, 6));
-	Transform worldToLocal2_2 = Translate(Vector(-1.5, 0, -6));
-	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 1,
-			-1, 1, 360);
+	Transform localToWorld2_2 = Translate(Vector(1, 0, 6));
+	Transform worldToLocal2_2 = Translate(Vector(-1, 0, -6));
+	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 0.5,
+			-0.5, 0.5, 360);
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
-			Reference<Material>(metal));
+			Reference<Material>(mirror));
 
 	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 6));
 	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -6));
@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new TriangleFilter(4, 4), "Renderer.ppm"),
+			new PPMFilm(800, 600, new TriangleFilter(1, 1), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
@@ -214,7 +214,7 @@ int main(int argc, char** argv) {
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 	scene.addPrimitive(primit);
 	scene.addPrimitive(primit2);
-//	scene.addPrimitive(primit3);
+	scene.addPrimitive(primit3);
 //	scene.addPrimitive(primit4);
 	//scene.addPrimitive(primit_tri);
 	scene.addPrimitive(panel1);
@@ -236,7 +236,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 48,48,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);
