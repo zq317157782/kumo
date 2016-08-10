@@ -26,6 +26,7 @@
 #include "sampler/randomSampler.h"
 #include "film/ppm.h"
 #include "filter/box.h"
+#include "filter/triangle.h"
 #include "shape/trianglemesh.h"
 #include "Scene.h"
 #include "thrid/obj/Model.h"
@@ -205,7 +206,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new BoxFilter(0.5, 0.5), "Renderer.ppm"),
+			new PPMFilm(800, 600, new TriangleFilter(4, 4), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
