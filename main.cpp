@@ -235,7 +235,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 32,32,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 64,64,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);

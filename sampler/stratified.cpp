@@ -57,9 +57,8 @@ int StratifiedSampler::GetMoreSamples(Sample *sample, Random &rand) {
 		sample[i].lensU = lensSamples[2 * i];
 		sample[i].lensV = lensSamples[2 * i + 1];
 
-		//生成积分器需要的1维样本和2维样本
+		//生成积分器需要的1维样本和2维样本 rooking-sampling
 		for (unsigned int j = 0; j < sample[i].n1D.size(); ++j){
-			//cout<<"++"<<sample[i].n1D.size()<<"++"<<j<<"++"<<i<<endl;
 			LatinHypercube(sample[i].oneD[j], sample[i].n1D[j], 1, rand);
 		}
 		for (unsigned int  j = 0; j < sample[i].n2D.size(); ++j){

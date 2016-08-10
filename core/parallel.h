@@ -11,6 +11,7 @@
 //并行相关
 
 #define CORE_NUM 4
+static int active_core=CORE_NUM;
 
 //最小任务单位
 class Task {
@@ -37,6 +38,7 @@ static void taskEntry() {
 			unique_lock<mutex> lock(taskQueueMutex);
 			//cout<<"----"<<endl;
 			if (taskQueue.size() == 0) {
+				active_core-=1;
 				cout << "kill thread " << this_thread::get_id() << endl;
 				break;
 			}
@@ -64,7 +66,7 @@ static void progress() {
 			cout<<"kill progress thread"<<endl;
 			break;
 		}
-		cout<<"["<<((float)(maxNum-numUnfinishedTasks)/maxNum)*100<<"%]"<<endl;
+		cout<<"["<<((float)(maxNum-numUnfinishedTasks)/maxNum)*100<<"%] active cores:"<<active_core<<endl;
 		this_thread::sleep_for(chrono::seconds(1));
 	}
 
