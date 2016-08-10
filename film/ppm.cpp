@@ -53,6 +53,7 @@ void PPMFilm::WriteImage(float splatScale) {
 			//cout<<p.r<<p.g<<p.b<<endl;
 			float invWeight=1.0/p.weightSum;
 			RGB finalColor(p.r*invWeight,p.g*invWeight,p.b*invWeight);
+			finalColor=finalColor.clamp();
 			out << (int) (finalColor.r * 255) << " "
 					<< (int) (finalColor.g * 255) << " "
 					<< (int) (finalColor.b * 255) << " ";
