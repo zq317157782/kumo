@@ -104,8 +104,8 @@ int main(int argc, char** argv) {
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
 
-	Transform localToWorld = Translate(Vector(0, -1, 6));
-	Transform worldToLocal = Translate(Vector(0, 1, -6));
+	Transform localToWorld = Translate(Vector(0, 1, 6));
+	Transform worldToLocal = Translate(Vector(0, -1, -6));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
@@ -114,8 +114,8 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 
-	Transform localToWorld2 = Translate(Vector(0, 1, 6));
-	Transform worldToLocal2 = Translate(Vector(-0,-1, -6));
+	Transform localToWorld2 = Translate(Vector(0, -1, 6));
+	Transform worldToLocal2 = Translate(Vector(-0,1, -6));
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 0.5, -0.5,
 			0.5, 360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
@@ -128,10 +128,10 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit3 = new GeomPrimitive(Reference<Shape>(sphere3),
 			Reference<Material>(mirror));
 
-	Transform localToWorld2_3 = Translate(Vector(0, -1.5, 6));
-	Transform worldToLocal2_3 = Translate(Vector(0, 1.5, -6));
-	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 1,
-			-1, 1, 360);
+	Transform localToWorld2_3 = Translate(Vector(-1, 0, 6));
+	Transform worldToLocal2_3 = Translate(Vector(1, 0, -6));
+	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.1,
+			-0.1, 0.1, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
 			Reference<Material>(metal));
 
@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_blue = new ConstantTexture<RGB>(RGB(0, 0, 1));
 	Matte * m2 = new Matte(half_blue);
 	GeomPrimitive * panel2 = CreatePanel(&l2w_panel2, &w2l_panel2,
-			Point(-2, 2, -2 + 8), Point(-2, -2, -2 + 8), Point(-2, -2, 2 + 8),
+			Point(-2, 2, -5 + 8), Point(-2, -2, -5 + 8), Point(-2, -2, 2 + 8),
 			Point(-2, 2, 2 + 8), m2);
 
 	Transform l2w_panel3 = Translate(Vector(0, 0, 0));
@@ -156,22 +156,30 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_green = new ConstantTexture<RGB>(RGB(0, 1, 0));
 	Matte * m3 = new Matte(half_green);
 	GeomPrimitive * panel3 = CreatePanel(&l2w_panel3, &w2l_panel3,
-			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -2 + 8),
-			Point(2, 2, -2 + 8), m3);
+			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -5 + 8),
+			Point(2, 2, -5 + 8), m3);
 
 	Transform l2w_panel4 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
 	Matte * m4 = new Matte(checker);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
-			Point(-2, -2, 2 + 8), Point(-2, -2, -2 + 8), Point(2, -2, -2 + 8),
+			Point(-2, -2, 2 + 8), Point(-2, -2, -5 + 8), Point(2, -2, -5 + 8),
 			Point(2, -2, 2 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 		Transform w2l_panel5 = Translate(Vector(0, 0, -0));
 		Matte * m5 = new Matte(checker);
 		GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
-				Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -2 + 8),
-				Point(-2,  2, -2 + 8), metal);
+				Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -5 + 8),
+				Point(-2,  2, -5 + 8), m4);
+
+		Transform l2w_panel6 = Translate(Vector(0, 0, 0));
+			Transform w2l_panel6 = Translate(Vector(0, 0, -0));
+			ConstantTexture<RGB> *yellow = new ConstantTexture<RGB>(RGB(1, 1, 0));
+			Matte * m6 = new Matte(yellow);
+			GeomPrimitive * panel6 = CreatePanel(&l2w_panel6, &w2l_panel6,
+					Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2), Point(-10, 10, -2),
+					m6);
 
 //	//	//测试三角面片
 //		Model model;
@@ -206,7 +214,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new TriangleFilter(1, 1), "Renderer.ppm"),
+			new PPMFilm(800, 600, new TriangleFilter(0.5,0.5), "Renderer.ppm"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
@@ -215,13 +223,14 @@ int main(int argc, char** argv) {
 	scene.addPrimitive(primit);
 	scene.addPrimitive(primit2);
 	scene.addPrimitive(primit3);
-//	scene.addPrimitive(primit4);
+	scene.addPrimitive(primit4);
 	//scene.addPrimitive(primit_tri);
 	scene.addPrimitive(panel1);
 	scene.addPrimitive(panel2);
 	scene.addPrimitive(panel3);
 	scene.addPrimitive(panel4);
 	scene.addPrimitive(panel5);
+	//scene.addPrimitive(panel6);
 
 	Transform localToWorld3 = Translate(Vector(0, 0, 5.3));
 	Transform worldToLocal3 = Translate(Vector(0, 0, -5.3));
@@ -236,7 +245,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 48,48,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);

@@ -51,14 +51,14 @@ bool Scene::Intersect(const Ray &ray, Intersection* sr) const {
 }
 
 bool Scene::IntersectP(const Ray& ray) const {
-	for (auto it = mPrimitives.begin(); it != mPrimitives.end(); it++) {
-		if ((*it)->CanIntersect()) {
-			if ((*it)->IntersectP(ray)) {
-				return true;
+	for (auto i =0; i < mPrimitives.size(); ++i) {
+			if ((mPrimitives[i])->CanIntersect()) {
+				if ((mPrimitives[i])->IntersectP(ray)) {
+					return true;
+				}
 			}
 		}
-	}
-	return false;
+		return false;
 }
 
 void Scene::addPrimitive(Primitive* primitive) {
