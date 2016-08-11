@@ -39,9 +39,9 @@ Reference<Primitive> Scene::getPrimitiveByID(unsigned int id) const {
 
 bool Scene::Intersect(const Ray &ray, Intersection* sr) const {
 	bool ret = false;
-	for (auto it = mPrimitives.begin(); it != mPrimitives.end(); it++) {
-		if ((*it)->CanIntersect()) {
-			if ((*it)->Intersect(ray, sr)) {
+	for (int i = 0; i< mPrimitives.size();++i) {
+		if ((mPrimitives[i])->CanIntersect()) {
+			if ((mPrimitives[i])->Intersect(ray, sr)) {
 				ray.maxT = sr->distance;
 				ret = true;
 			}
