@@ -46,6 +46,7 @@
 #include "integrator/path.h"
 #include "sampler/stratified.h"
 #include "parallel.h"
+#include "film/png.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -214,7 +215,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PPMFilm(800, 600, new TriangleFilter(0.5,0.5), "Renderer.ppm"),
+			new PNGFilm(800, 600, new TriangleFilter(0.5,0.5), "Renderer.png"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
