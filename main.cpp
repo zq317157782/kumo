@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(
 			RGB(0.5, 0.5, 0.5));
-	ConstantTexture<float> *roughess = new ConstantTexture<float>(1);
+	ConstantTexture<float> *roughess = new ConstantTexture<float>(25);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(10, 10), black, white);
 	Matte * m = new Matte(checker);
@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_blue = new ConstantTexture<RGB>(RGB(0, 0, 1));
 	Matte * m2 = new Matte(half_blue);
 	GeomPrimitive * panel2 = CreatePanel(&l2w_panel2, &w2l_panel2,
-			Point(-2, 2, -5 + 8), Point(-2, -2, -5 + 8), Point(-2, -2, 2 + 8),
+			Point(-2, 2, -3 + 8), Point(-2, -2, -3 + 8), Point(-2, -2, 2 + 8),
 			Point(-2, 2, 2 + 8), m2);
 
 	Transform l2w_panel3 = Translate(Vector(0, 0, 0));
@@ -157,22 +157,22 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_green = new ConstantTexture<RGB>(RGB(0, 1, 0));
 	Matte * m3 = new Matte(half_green);
 	GeomPrimitive * panel3 = CreatePanel(&l2w_panel3, &w2l_panel3,
-			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -5 + 8),
-			Point(2, 2, -5 + 8), m3);
+			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -3 + 8),
+			Point(2, 2, -3 + 8), m3);
 
 	Transform l2w_panel4 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
 	Matte * m4 = new Matte(checker);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
-			Point(-2, -2, 2 + 8), Point(-2, -2, -5 + 8), Point(2, -2, -5 + 8),
+			Point(-2, -2, 2 + 8), Point(-2, -2, -3 + 8), Point(2, -2, -3 + 8),
 			Point(2, -2, 2 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 		Transform w2l_panel5 = Translate(Vector(0, 0, -0));
 		Matte * m5 = new Matte(checker);
 		GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
-				Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -5 + 8),
-				Point(-2,  2, -5 + 8), m4);
+				Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -3 + 8),
+				Point(-2,  2, -3 + 8), m4);
 
 		Transform l2w_panel6 = Translate(Vector(0, 0, 0));
 			Transform w2l_panel6 = Translate(Vector(0, 0, -0));
@@ -182,36 +182,6 @@ int main(int argc, char** argv) {
 					Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2), Point(-10, 10, -2),
 					m6);
 
-//	//	//测试三角面片
-//		Model model;
-//		model.load("WALL_E.obj");
-//		int triCount = model.numberOfTriangles();
-//		int vertexCount = model.numberOfVertices();
-//		Point* points = new Point[vertexCount];
-//		for (int i = 0; i < vertexCount; ++i) {
-//			_POINT p = model.getVertex(i);
-//			points[i] = Point(p.x, p.y, p.z);
-//		}
-//
-//		int * indexs = new int[3 * triCount];
-//		for (int i = 0, j = 0; i < triCount; ++i) {
-//			_TRIANGLE t = model.getTriangle(i);
-//			indexs[j++] = t.index[0];
-//			indexs[j++] = t.index[1];
-//			indexs[j++] = t.index[2];
-//		}
-//
-//
-////		Transform localToWorld_tri = Scale(10,10,10);
-////		Transform worldToLocal_tri = Scale(-10,-10,-10);
-//		Transform localToWorld_tri = Translate(Vector( 0,0, 6));
-//		Transform worldToLocal_tri = Translate(Vector(0,0, -6));
-//
-//		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-//				triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-//
-//		GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(metal));
-//
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
@@ -246,7 +216,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 10,10,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);
@@ -254,33 +224,35 @@ int main(int argc, char** argv) {
 
 }
 
-////	//测试三角面片
-//	Model model;
-//	model.load("../t2.obj");
+
+//	//	//测试三角面片
+//		Model model;
+//		model.load("WALL_E.obj");
+//		int triCount = model.numberOfTriangles();
+//		int vertexCount = model.numberOfVertices();
+//		Point* points = new Point[vertexCount];
+//		for (int i = 0; i < vertexCount; ++i) {
+//			_POINT p = model.getVertex(i);
+//			points[i] = Point(p.x, p.y, p.z);
+//		}
+//
+//		int * indexs = new int[3 * triCount];
+//		for (int i = 0, j = 0; i < triCount; ++i) {
+//			_TRIANGLE t = model.getTriangle(i);
+//			indexs[j++] = t.index[0];
+//			indexs[j++] = t.index[1];
+//			indexs[j++] = t.index[2];
+//		}
 //
 //
-//	int triCount = model.numberOfTriangles();
-//	int vertexCount = model.numberOfVertices();
-//	Point* points = new Point[vertexCount];
-//	for (int i = 0; i < vertexCount; ++i) {
-//		_POINT p = model.getVertex(i);
-//		points[i] = Point(p.x, p.y, p.z);
-//	}
+////		Transform localToWorld_tri = Scale(10,10,10);
+////		Transform worldToLocal_tri = Scale(-10,-10,-10);
+//		Transform localToWorld_tri = Translate(Vector( 0,0, 6));
+//		Transform worldToLocal_tri = Translate(Vector(0,0, -6));
 //
-//	int * indexs = new int[3 * triCount];
-//	for (int i = 0, j = 0; i < triCount; ++i) {
-//		_TRIANGLE t = model.getTriangle(i);
-//		indexs[j++] = t.index[0];
-//		indexs[j++] = t.index[1];
-//		indexs[j++] = t.index[2];
-//	}
+//		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
+//				triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
 //
+//		GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(metal));
 //
-//	Transform localToWorld_tri = Scale(100,100,100);
-//	Transform worldToLocal_tri = Scale(-100,-100,-100);
-//
-//	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-//			triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-//
-//	GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(m));
 #endif

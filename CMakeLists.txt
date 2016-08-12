@@ -1,9 +1,0 @@
-cmake_minimum_required(VERSION 3.3)
-project(RayTracer)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-include_directories(core)
-
-set(SOURCE_FILES main.cpp core/RGB.cpp core/RGB.h sampler/Sampler.cpp sampler/Sampler.h sampler/JitteredSampler.cpp sampler/JitteredSampler.h sampler/RandomSampler.cpp sampler/RandomSampler.h sampler/NRookSampler.cpp sampler/NRookSampler.h sampler/MultiJitteredSampler.cpp sampler/MultiJitteredSampler.h core/BRDF.cpp core/BRDF.h core/Intersection.cpp core/Intersection.h brdf/Lambertian.cpp brdf/Lambertian.h brdf/GlossySpecular.cpp brdf/GlossySpecular.h core/Light.cpp core/Light.h light/Ambient.cpp light/Ambient.h light/Directional.cpp light/Directional.h light/PointLight.cpp light/PointLight.h core/Film.cpp core/Film.h scene/Scene.cpp scene/Scene.h core/Material.cpp core/Material.h material/Matte.cpp material/Matte.h material/PhongMaterial.cpp material/PhongMaterial.h core/Shape.cpp core/Shape.h shape/Sphere.cpp shape/Sphere.h   core/Camera.cpp core/Camera.h camera/PinholeCamera.cpp camera/PinholeCamera.h material/BlinnPhongMaterial.cpp material/BlinnPhongMaterial.h brdf/GlossySpecularHalfVector.cpp brdf/GlossySpecularHalfVector.h brdf/TorranceSparrowSpecular.cpp brdf/TorranceSparrowSpecular.h material/TorranceSparrow.cpp material/TorranceSparrow.h brdf/CookTorrance.cpp brdf/CookTorrance.h material/CookTorranceMaterial.cpp material/CookTorranceMaterial.h light/AmbientOccluder.cpp light/AmbientOccluder.h core/geometry.cpp core/geometry.h core/global.cpp core/global.h core/primitive.cpp core/primitive.h core/memory.cpp core/memory.h core/transform.h core/transform.cpp test/test.cpp test/test.h core/diffgeom.cpp core/diffgeom.h core/renderer.cpp core/renderer.h renderer/simpleRenderer.cpp renderer/simpleRenderer.h)
-
-add_executable(RayTracer ${SOURCE_FILES})
-#target_link_libraries(RayTracer gtest)
