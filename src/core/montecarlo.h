@@ -13,7 +13,7 @@
 #include "random.h"
 #include "geometry.h"
 
-static const float OneMinusEpsilon=0x1.fffffep-1;
+static const float OneMinusEpsilon=0.9999999999999;
 
 //均匀的1维分布 作用域x为0~1
 struct Distribution1D {
@@ -159,6 +159,11 @@ void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim, Ra
 
 
 //TODO 以下为低差异序列采样相关的函数，记得理解其概念
+
+void Sample02(unsigned int n, const unsigned int scramble[2],
+	float sample[2]);
+float VanDerCorput(unsigned int n, unsigned int scramble);
+float Sobol2(unsigned int n, unsigned int scramble);
 
 inline void Sample02(unsigned int n, const unsigned int scramble[2],
                      float sample[2]) {

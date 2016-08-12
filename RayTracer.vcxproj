@@ -177,7 +177,7 @@
     <ClCompile Include="src\shape\trianglemesh.cpp" />
     <ClCompile Include="src\test\test.cpp" />
     <ClCompile Include="src\thrid\lodepng\lodepng.cpp" />
-    <ClCompile Include="src\thrid\obj\Model.cpp" />
+    <ClCompile Include="src\thrid\objloader\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\brdf\CookTorrance.h" />
@@ -240,7 +240,7 @@
     <ClInclude Include="src\texture\constant.h" />
     <ClInclude Include="src\texture\scale.h" />
     <ClInclude Include="src\thrid\lodepng\lodepng.h" />
-    <ClInclude Include="src\thrid\obj\Model.h" />
+    <ClInclude Include="src\thrid\objloader\Model.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
