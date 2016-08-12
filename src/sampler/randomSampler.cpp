@@ -9,6 +9,10 @@
 #include "randomSampler.h"
 #include "random.h"
 
+int RandomSampler::RoundSize(int size) const{
+	return size;
+}
+
 RandomSampler::RandomSampler(int xStart, int xEnd, int yStart, int yEnd,
 		int spp) :
 		Sampler(xStart, xEnd, yStart, yEnd, spp) {

@@ -17,6 +17,7 @@ public:
 	virtual int MaximumSampleCount() override{ return 1; }
 	virtual int GetMoreSamples(Sample *sample, Random &rng) override;
 	virtual Sampler* GetSubSampler(int num,int count) override;
+	virtual int RoundSize(int size) const override;
 private:
     int xPos, yPos, nSamples;
     float *imageSamples, *lensSamples;

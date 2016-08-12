@@ -20,6 +20,7 @@ public:
 	virtual int MaximumSampleCount() override { return xPixelSamples*yPixelSamples; }
 	virtual Sampler* GetSubSampler(int num, int count) override;
 	virtual int GetMoreSamples(Sample *sample, Random &rng) override;
+	virtual int RoundSize(int size) const override;
 private:
 	int xPixelSamples, yPixelSamples;//x和y方向上的样本数
 	bool jitterSamples;//是否抖动

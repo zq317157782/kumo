@@ -7,6 +7,10 @@
 #include "stratified.h"
 #include "montecarlo.h"
 
+int StratifiedSampler::RoundSize(int size) const{
+	return size;
+}
+
 StratifiedSampler::StratifiedSampler(int xstart, int xend, int ystart, int yend,
 		int xs, int ys, bool jitter) :
 		Sampler(xstart, xend, ystart, yend, xs * ys) {

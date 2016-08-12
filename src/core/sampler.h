@@ -24,6 +24,8 @@ public:
 	        const RGB *Ls, const Intersection *isects, int count){return true;};
 
 	 virtual Sampler* GetSubSampler(int num,int count)=0; //返回子采样器数组
+
+	 virtual int RoundSize(int size) const = 0;
 protected:
 	 void ComputeSubWindow(int num, int count, int *xstart, int *xend, int *ystart, int *yend) const;//用来计算一个子窗口的位置，以及大小
 };
