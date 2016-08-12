@@ -12,6 +12,9 @@
 #include "global.h"
 #include "random.h"
 #include "geometry.h"
+
+static const float OneMinusEpsilon=0x1.fffffep-1;
+
 //均匀的1维分布 作用域x为0~1
 struct Distribution1D {
 private:
@@ -152,4 +155,54 @@ void Shuffle(T *samp, unsigned int count, unsigned int dims, Random &rand) {
 
 //rooking-sampling
 void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim, Random &rng);
+
+
+
+//TODO 以下为低差异序列采样相关的函数，记得理解其概念
+
+inline void Sample02(unsigned int n, const unsigned int scramble[2],
+                     float sample[2]) {
+    sample[0] = VanDerCorput(n, scramble[0]);
+    sample[1] = Sobol2(n, scramble[1]);
+}
+
+inline float VanDerCorput(unsigned int n, unsigned int scramble) {
+    // Reverse bits of _n_
+    n = (n << 16) | (n >> 16);
+    n = ((n & 0x00ff00ff) << 8) | ((n & 0xff00ff00) >> 8);
+    n = ((n & 0x0f0f0f0f) << 4) | ((n & 0xf0f0f0f0) >> 4);
+    n = ((n & 0x33333333) << 2) | ((n & 0xcccccccc) >> 2);
+    n = ((n & 0x55555555) << 1) | ((n & 0xaaaaaaaa) >> 1);
+    n ^= scramble;
+    return min(((n>>8) & 0xffffff) / float(1 << 24), OneMinusEpsilon);
+}
+
+inline float Sobol2(unsigned int n, unsigned int scramble) {
+    for (unsigned int v = 1 << 31; n != 0; n >>= 1, v ^= v >> 1)
+        if (n & 0x1) scramble ^= v;
+    return min(((scramble>>8) & 0xffffff) / float(1 << 24), OneMinusEpsilon);
+}
+
+inline void LDShuffleScrambled1D(int nSamples, int nPixel,
+                                 float *samples, Random &rng) {
+	unsigned int scramble = rng.RandomUInt();
+    for (int i = 0; i < nSamples * nPixel; ++i)
+        samples[i] = VanDerCorput(i, scramble);
+    for (int i = 0; i < nPixel; ++i)
+        Shuffle(samples + i * nSamples, nSamples, 1, rng);
+    Shuffle(samples, nPixel, nSamples, rng);
+}
+
+
+inline void LDShuffleScrambled2D(int nSamples, int nPixel,
+                                 float *samples, Random &rng) {
+	unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
+    for (int i = 0; i < nSamples * nPixel; ++i)
+        Sample02(i, scramble, &samples[2*i]);
+    for (int i = 0; i < nPixel; ++i)
+        Shuffle(samples + 2 * i * nSamples, nSamples, 2, rng);
+    Shuffle(samples, nPixel, 2 * nSamples, rng);
+}
+
+
 #endif /* CORE_MONTECARLO_H_ */
