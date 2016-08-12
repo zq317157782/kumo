@@ -29,6 +29,7 @@ void Shape::Refine(vector<Reference<Shape> > &refined) const {
 
 float Shape::Area() const {
 	assert(false);
+	return 0;
 }
 
 float Shape::Pdf(const Point &p, const Vector& wi) const {

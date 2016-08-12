@@ -131,8 +131,8 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld2_3 = Translate(Vector(-1, 0, 6));
 	Transform worldToLocal2_3 = Translate(Vector(1, 0, -6));
-	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.5,
-			-0.5, 0.1, 360);
+	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.1,
+			-0.1, 0.1, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
 			Reference<Material>(metal));
 
@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PNGFilm(800, 600, new TriangleFilter(0.5,0.5), "result/Renderer.png"),
+			new PNGFilm(800, 600, new TriangleFilter(0.5,0.5), "Renderer.png"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 32,32,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	renderer.render(&scene);

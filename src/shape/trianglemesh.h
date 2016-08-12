@@ -20,9 +20,9 @@ protected:
 	 Vector *s; //切向量数组
 	 float *uvs; //纹理坐标数组
 public:
-	TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro, int ntris/*三角个数*/, int nverts/*顶点个数*/,
-			const int *vptr/*索引数据*/,const Point *P/*顶点位置数组*/,const Normal *N/*法线数组*/, const Vector *S/*切向量数组*/,
-            const float *uv/*纹理坐标数组*/);
+	TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
+		int ntris, int nverts, const int *vi, const Point *P, const Normal *N,
+		const Vector *S, const float *uv);
 	virtual ~TriangleMesh(){};
 	virtual void Refine(vector<Reference<Shape> > &refined) const override;
 	virtual bool CanIntersect() const override {return false;}

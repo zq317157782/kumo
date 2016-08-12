@@ -24,6 +24,7 @@ public:
 	//todo 完成方向光的Power函数
 	RGB Power(const Scene* scene) const override{
 		assert(false);
+		return 0;
 	}
 
 	bool IsDeltaLight() const override{
