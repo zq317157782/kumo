@@ -29,7 +29,7 @@
 #include "filter/triangle.h"
 #include "shape/trianglemesh.h"
 #include "Scene.h"
-#include "thrid/obj/Model.h"
+#include "thrid/objloader/Model.h"
 #include "light/point.h"
 #include "light/spot.h"
 #include "light/distant.h"
@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PNGFilm(800, 600, new TriangleFilter(0.5,0.5), "Renderer.png"),
+			new PNGFilm(800, 600, new TriangleFilter(0.5,0.5), "result/Renderer.png"),
 			&cameraTransform);    //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化

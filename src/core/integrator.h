@@ -15,6 +15,10 @@ public:
 			const Scene *scene) {
 		//assert(false);
 	}
+	//
+	virtual void Preprocess(const Scene *scene, const Camera *camera,
+	                            const Renderer *renderer) {
+	}
 };
 
 class SurfaceIntegrator: public Integrator {

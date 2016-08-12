@@ -33,6 +33,10 @@
 //}
 
 void SimpleRenderer::render(const Scene* scene) {
+
+	////预处理
+	mSurfaceIntegrator->Preprocess(scene,camera,this);
+
 	Sample sample(sampler, mSurfaceIntegrator, scene);
 	int nPixels = camera->film->xResolution * camera->film->yResolution;
 	int nTasks = max(32 * CORE_NUM, nPixels / (16 * 16));
