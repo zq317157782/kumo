@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ECDF55AD-DD2E-4D67-89F8-80DAD0A05321}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\brdf\CookTorrance.cpp" />
+    <ClCompile Include="src\brdf\GlossySpecular.cpp" />
+    <ClCompile Include="src\brdf\GlossySpecularHalfVector.cpp" />
+    <ClCompile Include="src\brdf\Lambertian.cpp" />
+    <ClCompile Include="src\brdf\TorranceSparrowSpecular.cpp" />
+    <ClCompile Include="src\camera\PinholeCamera.cpp" />
+    <ClCompile Include="src\core\BRDF.cpp" />
+    <ClCompile Include="src\core\Camera.cpp" />
+    <ClCompile Include="src\core\diffgeom.cpp" />
+    <ClCompile Include="src\core\geometry.cpp" />
+    <ClCompile Include="src\core\global.cpp" />
+    <ClCompile Include="src\core\integrator.cpp" />
+    <ClCompile Include="src\core\Intersection.cpp" />
+    <ClCompile Include="src\core\light.cpp" />
+    <ClCompile Include="src\core\material.cpp" />
+    <ClCompile Include="src\core\memory.cpp" />
+    <ClCompile Include="src\core\montecarlo.cpp" />
+    <ClCompile Include="src\core\parallel.cpp" />
+    <ClCompile Include="src\core\primitive.cpp" />
+    <ClCompile Include="src\core\random.cpp" />
+    <ClCompile Include="src\core\reflection.cpp" />
+    <ClCompile Include="src\core\renderer.cpp" />
+    <ClCompile Include="src\core\RGB.cpp" />
+    <ClCompile Include="src\core\sampler.cpp" />
+    <ClCompile Include="src\core\Scene.cpp" />
+    <ClCompile Include="src\core\Shape.cpp" />
+    <ClCompile Include="src\core\transform.cpp" />
+    <ClCompile Include="src\film\png.cpp" />
+    <ClCompile Include="src\film\ppm.cpp" />
+    <ClCompile Include="src\filter\box.cpp" />
+    <ClCompile Include="src\integrator\directlight.cpp" />
+    <ClCompile Include="src\integrator\path.cpp" />
+    <ClCompile Include="src\integrator\SimpleIntegrator.cpp" />
+    <ClCompile Include="src\light\distant.cpp" />
+    <ClCompile Include="src\light\point.cpp" />
+    <ClCompile Include="src\light\spot.cpp" />
+    <ClCompile Include="src\material\matte.cpp" />
+    <ClCompile Include="src\material\metal.cpp" />
+    <ClCompile Include="src\material\mirror.cpp" />
+    <ClCompile Include="src\material\translucent.cpp" />
+    <ClCompile Include="src\oldsampler\JitteredSampler.cpp" />
+    <ClCompile Include="src\oldsampler\MultiJitteredSampler.cpp" />
+    <ClCompile Include="src\oldsampler\NRookSampler.cpp" />
+    <ClCompile Include="src\oldsampler\OldSampler.cpp" />
+    <ClCompile Include="src\oldsampler\RandomSampler.cpp" />
+    <ClCompile Include="src\renderer\simpleRenderer.cpp" />
+    <ClCompile Include="src\sampler\randomSampler.cpp" />
+    <ClCompile Include="src\sampler\stratified.cpp" />
+    <ClCompile Include="src\shape\sphere.cpp" />
+    <ClCompile Include="src\shape\trianglemesh.cpp" />
+    <ClCompile Include="src\test\test.cpp" />
+    <ClCompile Include="src\thrid\lodepng\lodepng.cpp" />
+    <ClCompile Include="src\thrid\obj\Model.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\brdf\CookTorrance.h" />
+    <ClInclude Include="src\brdf\GlossySpecular.h" />
+    <ClInclude Include="src\brdf\GlossySpecularHalfVector.h" />
+    <ClInclude Include="src\brdf\Lambertian.h" />
+    <ClInclude Include="src\brdf\TorranceSparrowSpecular.h" />
+    <ClInclude Include="src\camera\PinholeCamera.h" />
+    <ClInclude Include="src\core\BRDF.h" />
+    <ClInclude Include="src\core\Camera.h" />
+    <ClInclude Include="src\core\diffgeom.h" />
+    <ClInclude Include="src\core\film.h" />
+    <ClInclude Include="src\core\filter.h" />
+    <ClInclude Include="src\core\geometry.h" />
+    <ClInclude Include="src\core\global.h" />
+    <ClInclude Include="src\core\integrator.h" />
+    <ClInclude Include="src\core\Intersection.h" />
+    <ClInclude Include="src\core\light.h" />
+    <ClInclude Include="src\core\material.h" />
+    <ClInclude Include="src\core\memory.h" />
+    <ClInclude Include="src\core\montecarlo.h" />
+    <ClInclude Include="src\core\parallel.h" />
+    <ClInclude Include="src\core\primitive.h" />
+    <ClInclude Include="src\core\random.h" />
+    <ClInclude Include="src\core\reflection.h" />
+    <ClInclude Include="src\core\renderer.h" />
+    <ClInclude Include="src\core\RGB.h" />
+    <ClInclude Include="src\core\sampler.h" />
+    <ClInclude Include="src\core\Scene.h" />
+    <ClInclude Include="src\core\Shape.h" />
+    <ClInclude Include="src\core\texture.h" />
+    <ClInclude Include="src\core\transform.h" />
+    <ClInclude Include="src\film\png.h" />
+    <ClInclude Include="src\film\ppm.h" />
+    <ClInclude Include="src\filter\box.h" />
+    <ClInclude Include="src\filter\triangle.h" />
+    <ClInclude Include="src\integrator\directlight.h" />
+    <ClInclude Include="src\integrator\path.h" />
+    <ClInclude Include="src\integrator\SimpleIntegrator.h" />
+    <ClInclude Include="src\light\diffuse.h" />
+    <ClInclude Include="src\light\distant.h" />
+    <ClInclude Include="src\light\point.h" />
+    <ClInclude Include="src\light\spot.h" />
+    <ClInclude Include="src\material\matte.h" />
+    <ClInclude Include="src\material\metal.h" />
+    <ClInclude Include="src\material\mirror.h" />
+    <ClInclude Include="src\material\translucent.h" />
+    <ClInclude Include="src\oldsampler\JitteredOldSampler.h" />
+    <ClInclude Include="src\oldsampler\MultiJitteredOldSampler.h" />
+    <ClInclude Include="src\oldsampler\NRookOldSampler.h" />
+    <ClInclude Include="src\oldsampler\OldSampler.h" />
+    <ClInclude Include="src\oldsampler\RandomOldSampler.h" />
+    <ClInclude Include="src\renderer\simpleRenderer.h" />
+    <ClInclude Include="src\sampler\randomSampler.h" />
+    <ClInclude Include="src\sampler\stratified.h" />
+    <ClInclude Include="src\shape\sphere.h" />
+    <ClInclude Include="src\shape\trianglemesh.h" />
+    <ClInclude Include="src\test\test.h" />
+    <ClInclude Include="src\texture\checkerboard.h" />
+    <ClInclude Include="src\texture\constant.h" />
+    <ClInclude Include="src\texture\scale.h" />
+    <ClInclude Include="src\thrid\lodepng\lodepng.h" />
+    <ClInclude Include="src\thrid\obj\Model.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
