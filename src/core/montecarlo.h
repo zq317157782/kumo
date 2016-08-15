@@ -76,8 +76,7 @@ public:
 	int SampleDiscrete(float u, float* pdf) {
 		float *ptr = std::upper_bound(mCDF, mCDF + mCount + 1, u);
 		int offset = max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
-		if (pdf)
-			*pdf = mCDF[offset] / mFuncInt; //计算offset下的概率密度
+		if (pdf) *pdf = mFunc[offset] / (mFuncInt * mCount);
 		return offset;
 	}
 };
