@@ -42,6 +42,10 @@ public:
 	virtual float Pdf(const Point &p, const Vector &wi) const override{
 		return 0;
 	}
+
+	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
+				                              float u1, float u2,Ray *ray,
+				                              Normal *Ns, float *pdf) const override;
 };
 
 

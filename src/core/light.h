@@ -28,6 +28,10 @@ public:
 	virtual RGB Power(const Scene* scene) const=0; //返回光源产生的辐射通量
 	virtual ~Light() {
 	}
+
+	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
+	                              float u1, float u2,Ray *ray,
+	                              Normal *Ns, float *pdf) const = 0;
 };
 
 //用来判断两个点之间是否有遮挡，或者射线是否与中间图元相交

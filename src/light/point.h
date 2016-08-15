@@ -25,6 +25,10 @@ public:
 	}
 	bool IsDeltaLight() const override;
 	RGB Power(const Scene* scene) const override;
+
+	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
+		                              float u1, float u2,Ray *ray,
+		                              Normal *Ns, float *pdf) const override;
 private:
 	RGB mIntensity;//光源强度
 	Point mPos;

@@ -37,6 +37,10 @@ public:
 	}
 
 	RGB Power(const Scene* scene) const override;
+
+	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
+			                              float u1, float u2,Ray *ray,
+			                              Normal *Ns, float *pdf) const override;
 };
 
 

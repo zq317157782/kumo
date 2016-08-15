@@ -163,27 +163,28 @@ void Sample02(unsigned int n, const unsigned int scramble[2],
 float VanDerCorput(unsigned int n, unsigned int scramble);
 float Sobol2(unsigned int n, unsigned int scramble);
 
-//[0-2]序列 二维
+//[0-2]序列 二维 生成一个二维样本点,存放在sample[2]中
 inline void Sample02(unsigned int n, const unsigned int scramble[2],
                      float sample[2]) {
     sample[0] = VanDerCorput(n, scramble[0]);
     sample[1] = Sobol2(n, scramble[1]);
 }
 
-//VanDerCorput低差异序列
-inline float VanDerCorput(unsigned int n, unsigned int scramble) {
-    // Reverse bits of _n_
+//VanDerCorput低差异序列 base==2 只操作32位
+inline float VanDerCorput(uint32_t n, uint32_t scramble) {
+    //--------------交换 start------------------
     n = (n << 16) | (n >> 16);
     n = ((n & 0x00ff00ff) << 8) | ((n & 0xff00ff00) >> 8);
     n = ((n & 0x0f0f0f0f) << 4) | ((n & 0xf0f0f0f0) >> 4);
     n = ((n & 0x33333333) << 2) | ((n & 0xcccccccc) >> 2);
     n = ((n & 0x55555555) << 1) | ((n & 0xaaaaaaaa) >> 1);
+    //--------------交换 end------------------
     n ^= scramble;
     return min(((n>>8) & 0xffffff) / float(1 << 24), OneMinusEpsilon);
 }
 
-//Sobol2低差异序列
-inline float Sobol2(unsigned int n, unsigned int scramble) {
+//Sobol2低差异序列 base==2 只操作32位
+inline float Sobol2(uint32_t n, uint32_t scramble) {
     for (unsigned int v = 1 << 31; n != 0; n >>= 1, v ^= v >> 1)
         if (n & 0x1) scramble ^= v;
     return min(((scramble>>8) & 0xffffff) / float(1 << 24), OneMinusEpsilon);
