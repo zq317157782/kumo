@@ -158,6 +158,7 @@ void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim, Ra
 
 
 
+<<<<<<< Updated upstream
 //TODO 以下为低差异序列采样相关的函数，记得理解其概念
 
 void Sample02(unsigned int n, const unsigned int scramble[2],
@@ -165,12 +166,16 @@ void Sample02(unsigned int n, const unsigned int scramble[2],
 float VanDerCorput(unsigned int n, unsigned int scramble);
 float Sobol2(unsigned int n, unsigned int scramble);
 
+=======
+//[0-2]序列 二维
+>>>>>>> Stashed changes
 inline void Sample02(unsigned int n, const unsigned int scramble[2],
                      float sample[2]) {
     sample[0] = VanDerCorput(n, scramble[0]);
     sample[1] = Sobol2(n, scramble[1]);
 }
 
+//VanDerCorput低差异序列
 inline float VanDerCorput(unsigned int n, unsigned int scramble) {
     // Reverse bits of _n_
     n = (n << 16) | (n >> 16);
@@ -182,6 +187,7 @@ inline float VanDerCorput(unsigned int n, unsigned int scramble) {
     return min(((n>>8) & 0xffffff) / float(1 << 24), OneMinusEpsilon);
 }
 
+//Sobol2低差异序列
 inline float Sobol2(unsigned int n, unsigned int scramble) {
     for (unsigned int v = 1 << 31; n != 0; n >>= 1, v ^= v >> 1)
         if (n & 0x1) scramble ^= v;
