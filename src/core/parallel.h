@@ -10,7 +10,6 @@
 #include "global.h"
 //并行相关
 
-#define CORE_NUM 8
 static int active_core=CORE_NUM;
 
 //最小任务单位

@@ -134,77 +134,76 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
 }
 
 //复制自PBRT
-void Anisotropic::Sample_f(const Vector &wo, Vector *wi,
-                           float u1, float u2, float *pdf) const {
-    float phi, costheta;
-    if (u1 < .25f) {
-        sampleFirstQuadrant(4.f * u1, u2, &phi, &costheta);
-    } else if (u1 < .5f) {
-        u1 = 4.f * (.5f - u1);
-        sampleFirstQuadrant(u1, u2, &phi, &costheta);
-        phi = M_PI - phi;
-    } else if (u1 < .75f) {
-        u1 = 4.f * (u1 - .5f);
-        sampleFirstQuadrant(u1, u2, &phi, &costheta);
-        phi += M_PI;
-    } else {
-        u1 = 4.f * (1.f - u1);
-        sampleFirstQuadrant(u1, u2, &phi, &costheta);
-        phi = 2.f * M_PI - phi;
-    }
-    float sintheta = sqrtf(max(0.f, 1.f - costheta*costheta));
-    Vector wh = SphericalDirection(sintheta, costheta, phi);
-    if (!SameHemisphere(wo, wh)) wh = -wh;
+void Anisotropic::Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
+		float *pdf) const {
+	float phi, costheta;
+	if (u1 < .25f) {
+		sampleFirstQuadrant(4.f * u1, u2, &phi, &costheta);
+	} else if (u1 < .5f) {
+		u1 = 4.f * (.5f - u1);
+		sampleFirstQuadrant(u1, u2, &phi, &costheta);
+		phi = M_PI - phi;
+	} else if (u1 < .75f) {
+		u1 = 4.f * (u1 - .5f);
+		sampleFirstQuadrant(u1, u2, &phi, &costheta);
+		phi += M_PI;
+	} else {
+		u1 = 4.f * (1.f - u1);
+		sampleFirstQuadrant(u1, u2, &phi, &costheta);
+		phi = 2.f * M_PI - phi;
+	}
+	float sintheta = sqrtf(max(0.f, 1.f - costheta * costheta));
+	Vector wh = SphericalDirection(sintheta, costheta, phi);
+	if (!SameHemisphere(wo, wh))
+		wh = -wh;
 
-    // Compute incident direction by reflecting about $\wh$
-    *wi = -wo + 2.f * Dot(wo, wh) * wh;
+	// Compute incident direction by reflecting about $\wh$
+	*wi = -wo + 2.f * Dot(wo, wh) * wh;
 
-    // Compute PDF for $\wi$ from anisotropic distribution
-    float costhetah = AbsCosTheta(wh);
-    float ds = 1.f - costhetah * costhetah;
-    float anisotropic_pdf = 0.f;
-    if (ds > 0.f && Dot(wo, wh) > 0.f) {
-        float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
-        float d = sqrtf((ex+1.f) * (ey+1.f)) * M_INV_TWO_PI *
-                  powf(costhetah, e);
-        anisotropic_pdf = d / (4.f * Dot(wo, wh));
-    }
-    *pdf = anisotropic_pdf;
+	// Compute PDF for $\wi$ from anisotropic distribution
+	float costhetah = AbsCosTheta(wh);
+	float ds = 1.f - costhetah * costhetah;
+	float anisotropic_pdf = 0.f;
+	if (ds > 0.f && Dot(wo, wh) > 0.f) {
+		float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
+		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * M_INV_TWO_PI
+				* powf(costhetah, e);
+		anisotropic_pdf = d / (4.f * Dot(wo, wh));
+	}
+	*pdf = anisotropic_pdf;
 }
 
 //复制自PBRT
-void Anisotropic::sampleFirstQuadrant(float u1, float u2,
-        float *phi, float *costheta) const {
-    if (ex == ey)
-        *phi = M_PI * u1 * 0.5f;
-    else
-        *phi = atanf(sqrtf((ex+1.f) / (ey+1.f)) *
-                     tanf(M_PI * u1 * 0.5f));
-    float cosphi = cosf(*phi), sinphi = sinf(*phi);
-    *costheta = powf(u2, 1.f/(ex * cosphi * cosphi +
-                              ey * sinphi * sinphi + 1));
+void Anisotropic::sampleFirstQuadrant(float u1, float u2, float *phi,
+		float *costheta) const {
+	if (ex == ey)
+		*phi = M_PI * u1 * 0.5f;
+	else
+		*phi = atanf(sqrtf((ex + 1.f) / (ey + 1.f)) * tanf(M_PI * u1 * 0.5f));
+	float cosphi = cosf(*phi), sinphi = sinf(*phi);
+	*costheta = powf(u2,
+			1.f / (ex * cosphi * cosphi + ey * sinphi * sinphi + 1));
 }
 
 //复制自PBRT
 float Anisotropic::Pdf(const Vector &wo, const Vector &wi) const {
-    Vector wh = Normalize(wo + wi);
-    float costhetah = AbsCosTheta(wh);
-    float ds = 1.f - costhetah * costhetah;
-    float anisotropic_pdf = 0.f;
-    if (ds > 0.f && Dot(wo, wh) > 0.f) {
-        float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
-        float d = sqrtf((ex+1.f) * (ey+1.f)) * M_INV_TWO_PI *
-                  powf(costhetah, e);
-        anisotropic_pdf = d / (4.f * Dot(wo, wh));
-    }
-    return anisotropic_pdf;
+	Vector wh = Normalize(wo + wi);
+	float costhetah = AbsCosTheta(wh);
+	float ds = 1.f - costhetah * costhetah;
+	float anisotropic_pdf = 0.f;
+	if (ds > 0.f && Dot(wo, wh) > 0.f) {
+		float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
+		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * M_INV_TWO_PI
+				* powf(costhetah, e);
+		anisotropic_pdf = d / (4.f * Dot(wo, wh));
+	}
+	return anisotropic_pdf;
 }
 
-
 BSDFSampleOffsets::BSDFSampleOffsets(int count, Sample *sample) {
-    nSamples = count;
-    componentOffset = sample->Add1D(nSamples);
-    dirOffset = sample->Add2D(nSamples);
+	nSamples = count;
+	componentOffset = sample->Add1D(nSamples);
+	dirOffset = sample->Add2D(nSamples);
 }
 
 BSDFSample::BSDFSample(const Sample *sample, const BSDFSampleOffsets &offsets,
@@ -321,10 +320,11 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 
 	//开始计算BRDF系数
 	if (!(bxdf->type & BSDF_SPECULAR)) {
-		f=0;//因为不是镜面反射 所以重新计算BRDF
+		f = 0; //因为不是镜面反射 所以重新计算BRDF
 		if (Dot(*wiWorld, mNG) * Dot(woWorld, mNG) > 0) //反射
 			flags = BxDFType(flags & ~BSDF_TRANSMISSION);
-		else//折射
+		else
+			//折射
 			flags = BxDFType(flags & ~BSDF_REFLECTION);
 		for (int i = 0; i < mNumBxdf; ++i)
 			if (mBxdfs[i]->MatchesFlag(flags))
@@ -335,16 +335,29 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 }
 
 float BSDF::Pdf(const Vector &woWorld, const Vector &wiWorld,
-        BxDFType flags) const {
-    if (mNumBxdf == 0) return 0;
-    Vector wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
-    float pdf = 0.0f;
-    int matchingComps = 0;
-    for (int i = 0; i < mNumBxdf; ++i)
-        if (mBxdfs[i]->MatchesFlag(flags)) {
-            ++matchingComps;
-            pdf += mBxdfs[i]->Pdf(wo, wi);
-        }
-    float v = matchingComps > 0 ? pdf / matchingComps : 0.f;
-    return v;
+		BxDFType flags) const {
+	if (mNumBxdf == 0)
+		return 0;
+	Vector wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
+	float pdf = 0.0f;
+	int matchingComps = 0;
+	for (int i = 0; i < mNumBxdf; ++i)
+		if (mBxdfs[i]->MatchesFlag(flags)) {
+			++matchingComps;
+			pdf += mBxdfs[i]->Pdf(wo, wi);
+		}
+	float v = matchingComps > 0 ? pdf / matchingComps : 0.f;
+	return v;
+}
+
+RGB BSDF::rho(const Vector &wo, Random &rng, BxDFType flags,
+		int sqrtSamples) const {
+	int nSamples = sqrtSamples * sqrtSamples;
+	float *s1 = ALLOCA(float, 2 * nSamples);
+	StratifiedSample2D(s1, sqrtSamples, sqrtSamples, rng);
+	RGB ret(0);
+	for (int i = 0; i < mNumBxdf; ++i)
+		if (mBxdfs[i]->MatchesFlag(flags))
+			ret += mBxdfs[i]->rho(wo, nSamples, s1);
+	return ret;
 }

@@ -498,6 +498,9 @@ public:
 
 	float Pdf(const Vector &woW, const Vector &wiW,
 	        BxDFType flags= BSDF_ALL) const;
+
+	RGB rho(const Vector &wo, Random &rng, BxDFType flags = BSDF_ALL,
+	                 int sqrtSamples = 6) const;
 };
 
 

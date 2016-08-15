@@ -47,6 +47,7 @@
 #include "sampler/stratified.h"
 #include "parallel.h"
 #include "film/png.h"
+#include "integrator/igi.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -216,8 +217,11 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
-				new PathIntegrator(5));	//new PathIntegrator(5)
+//	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
+//				new PathIntegrator(5));	//new PathIntegrator(5)
+
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+					new IGIIntegrator(1,2,0.1,0.1,0.1,0.1));
 
 	renderer.render(&scene);
 	cout << "----" << endl;

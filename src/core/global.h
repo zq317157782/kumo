@@ -5,6 +5,7 @@
 #ifndef RAYTRACER_GLOBAL_H
 #define RAYTRACER_GLOBAL_H
 
+#define CORE_NUM 4
 
 #include <iostream>
 #include <assert.h>
@@ -46,6 +47,9 @@ inline double drand48(){
 #endif
 #define  M_TWO_PI    2*M_PI
 #define M_INV_TWO_PI  1/M_TWO_PI
+
+
+#define ALLOCA(TYPE, COUNT) (TYPE *)alloca((COUNT) * sizeof(TYPE))
 
 class Vector; //向量
 class Point;  //空间点
