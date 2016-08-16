@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0, 0, 0));
+	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0.1, 0.1, 0.1));
 	ConstantTexture<RGB> *eta = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(
@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld, RGB(10, 10, 10),
-			32, sphere);
+			1, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 
@@ -193,9 +193,9 @@ int main(int argc, char** argv) {
 	Scene scene;
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 	scene.addPrimitive(primit);
-	scene.addPrimitive(primit2);
-	scene.addPrimitive(primit3);
-	scene.addPrimitive(primit4);
+//	scene.addPrimitive(primit2);
+//	scene.addPrimitive(primit3);
+//	scene.addPrimitive(primit4);
 	//scene.addPrimitive(primit_tri);
 	scene.addPrimitive(panel1);
 	scene.addPrimitive(panel2);
@@ -217,11 +217,11 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-//	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 1,1,true),
+//	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 10,10,true),
 //				new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
-					new IGIIntegrator(1,2,0.1,0.1,0.1,0.1));
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 32,32,true),
+					new IGIIntegrator(50,1,0.01f,2,1,0.1f));
 
 	renderer.render(&scene);
 	cout << "----" << endl;

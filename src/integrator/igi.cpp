@@ -11,6 +11,7 @@
 #include "reflection.h"
 #include "sampler.h"
 #include "geometry.h"
+#include "renderer.h"
 void IGIIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 		const Scene *scene) {
 	int numLights = scene->getLightNum();
@@ -78,6 +79,8 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 				Vector wo = -ray.d; //出射方向
 				BSDF *bsdf = isect.GetBSDF(ray, arena); //获取bsdf
 				RGB contrib = alpha * bsdf->rho(wo, random) / M_PI;
+				cout << "------" << endl;
+				//	RGB contrib(10,10,0);
 				//在交点处创建虚拟光源
 				mVirtualLights[s].push_back(
 						VirtualLight(isect.dg.p, isect.dg.nn, contrib,
@@ -128,10 +131,10 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	for (unsigned int i = 0; i < mVirtualLights[lSet].size(); ++i) {
 		const VirtualLight &vl = mVirtualLights[lSet][i];
 		float d2 = DistanceSqr(p, vl.p);
-		Vector wi = Normalize(vl.p - p);//入射方向
+		Vector wi = Normalize(vl.p - p); //入射方向
 		float G = AbsDot(wi, nl) * AbsDot(wi, vl.n) / d2;
 		G = min(G, mGeoLimit);
-		RGB f = bsdf->f(wo, wi);//采样BRDF
+		RGB f = bsdf->f(wo, wi); //采样BRDF
 		if (G == 0.f || f.IsBlack())
 			continue;
 		RGB Llight = f * G * vl.pathContrib / mNumLightPaths;
@@ -143,13 +146,47 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 			float continueProbability = 0.1f;
 			if (rnd.RandomFloat() > continueProbability)
 				continue;
-			Llight= Llight/continueProbability;//RR补正
+			Llight = Llight / continueProbability;		//RR补正
 		}
 		//加入虚拟光源的贡献
-		if (!scene->IntersectP(connectRay))
+		if (!scene->IntersectP(connectRay)) {
 			L += Llight;
+		}
+
+	}
+	if (r.depth < maxSpecularDepth) {
+		int nSamples = (r.depth == 0) ? nGatherSamples : 1;	//根据射线的深度来判断使用多少的样本
+		for (int i = 0; i < nSamples; ++i) {
+			Vector wi;
+			float pdf;
+			BSDFSample bsdfSample =
+					(r.depth == 0) ?
+							BSDFSample(sample, gatherSampleOffset, i) :
+							BSDFSample(rnd);	//根据不同的射线深度，选择不同的BSDF样本
+			RGB f = bsdf->Sample_f(wo, &wi, bsdfSample, &pdf,
+					BxDFType(BSDF_ALL & ~BSDF_SPECULAR)); //采样BSDF
+			if (!f.IsBlack() && pdf > 0.f) {
+				float maxDist = sqrtf(AbsDot(wi, nl) /mGeoLimit);//射线最大距离
+				RayDifferential gatherRay(p, wi, r, isect.rayEpsilon,maxDist);
+				Intersection gatherIsect;
+				RGB Li = renderer->Li(scene, gatherRay, sample, rnd, arena,&gatherIsect);
+				if (Li.IsBlack())
+					continue;
+				//加入补偿
+				float Ggather = AbsDot(wi, nl) * AbsDot(-wi, gatherIsect.dg.nn)
+						/ DistanceSqr(p, gatherIsect.dg.p);
+				if (Ggather - mGeoLimit > 0.f && !isinf(Ggather)) {
+					float gs = (Ggather - mGeoLimit) / Ggather;
+					L += f * Li * (AbsDot(wi, nl) * gs / (nSamples * pdf));
+				}
+			}
+		}
 	}
 
+	if (r.depth + 1 < maxSpecularDepth) {
+		L += SpecularReflect(r, bsdf, rnd, isect, renderer, scene, sample,
+				arena);
+	}
 	return L;
 }
 

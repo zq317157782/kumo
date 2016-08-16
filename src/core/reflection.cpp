@@ -357,7 +357,8 @@ RGB BSDF::rho(const Vector &wo, Random &rng, BxDFType flags,
 	StratifiedSample2D(s1, sqrtSamples, sqrtSamples, rng);
 	RGB ret(0);
 	for (int i = 0; i < mNumBxdf; ++i)
-		if (mBxdfs[i]->MatchesFlag(flags))
+		if (mBxdfs[i]->MatchesFlag(flags)){
 			ret += mBxdfs[i]->rho(wo, nSamples, s1);
+		}
 	return ret;
 }

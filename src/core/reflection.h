@@ -99,7 +99,7 @@ public:
 		}
 		return sum / nSamples;
 	}
-	;  //hemispherical-directional reflectance
+	//hemispherical-directional reflectance
 	virtual RGB rho(int nSamples, const float *samples1,
 			const float *samples2) const {
 		RGB sum(0);
