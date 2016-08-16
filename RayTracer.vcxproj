@@ -124,7 +124,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\brdf\CookTorrance.cpp" />
     <ClCompile Include="src\brdf\GlossySpecular.cpp" />
     <ClCompile Include="src\brdf\GlossySpecularHalfVector.cpp" />
@@ -156,11 +155,13 @@
     <ClCompile Include="src\film\ppm.cpp" />
     <ClCompile Include="src\filter\box.cpp" />
     <ClCompile Include="src\integrator\directlight.cpp" />
+    <ClCompile Include="src\integrator\igi.cpp" />
     <ClCompile Include="src\integrator\path.cpp" />
     <ClCompile Include="src\integrator\SimpleIntegrator.cpp" />
     <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\point.cpp" />
     <ClCompile Include="src\light\spot.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\material\matte.cpp" />
     <ClCompile Include="src\material\metal.cpp" />
     <ClCompile Include="src\material\mirror.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\filter\box.h" />
     <ClInclude Include="src\filter\triangle.h" />
     <ClInclude Include="src\integrator\directlight.h" />
+    <ClInclude Include="src\integrator\igi.h" />
     <ClInclude Include="src\integrator\path.h" />
     <ClInclude Include="src\integrator\SimpleIntegrator.h" />
     <ClInclude Include="src\light\diffuse.h" />
