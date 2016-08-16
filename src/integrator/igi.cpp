@@ -28,8 +28,8 @@ void IGIIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 	mVirtualLightSetOffset = sample->Add1D(1); //需要一个样本点来选择一个虚拟光源集合
 
 	if (sampler)
-		nGatherSamples = sampler->RoundSize(nGatherSamples);
-	gatherSampleOffset = BSDFSampleOffsets(nGatherSamples, sample);
+		mNumGatherSamples = sampler->RoundSize(mNumGatherSamples);
+	gatherSampleOffset = BSDFSampleOffsets(mNumGatherSamples, sample);
 }
 
 void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
@@ -79,7 +79,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 				Vector wo = -ray.d; //出射方向
 				BSDF *bsdf = isect.GetBSDF(ray, arena); //获取bsdf
 				RGB contrib = alpha * bsdf->rho(wo, random) / M_PI;
-				cout << "------" << endl;
+				//cout << "------" << endl;
 				//	RGB contrib(10,10,0);
 				//在交点处创建虚拟光源
 				mVirtualLights[s].push_back(
@@ -155,7 +155,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 
 	}
 	if (r.depth < maxSpecularDepth) {
-		int nSamples = (r.depth == 0) ? nGatherSamples : 1;	//根据射线的深度来判断使用多少的样本
+		int nSamples = (r.depth == 0) ? mNumGatherSamples : 1;	//根据射线的深度来判断使用多少的样本
 		for (int i = 0; i < nSamples; ++i) {
 			Vector wi;
 			float pdf;

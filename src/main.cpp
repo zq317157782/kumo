@@ -220,8 +220,8 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 10,10,true),
 //				new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 32,32,true),
-					new IGIIntegrator(50,1,0.01f,2,1,0.1f));
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+					new IGIIntegrator(4,1,0.01f,2,0.1f,1));
 
 	renderer.render(&scene);
 	cout << "----" << endl;

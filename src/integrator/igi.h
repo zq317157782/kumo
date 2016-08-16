@@ -35,24 +35,24 @@ private:
 	float mRrThreshold; //俄罗斯罗盘的阈值
 
 	//以下参数还没搞清楚
-	int nGatherSamples;
+	int mNumGatherSamples;
 	int maxSpecularDepth;
 	int mVirtualLightSetOffset;
 	BSDFSampleOffsets gatherSampleOffset;
 public:
 	IGIIntegrator(unsigned int nl, unsigned int ns, float rrt, int maxd,
-			float gl, int ng) {
+			float geoLimit, int numGather) {
 		mNumLightPaths = RoundUpPow2(nl);
 		mNumLightSets = RoundUpPow2(ns);
 		mRrThreshold = rrt;
 		mVirtualLights.resize(mNumLightSets);
-		mGeoLimit = gl;
+		mGeoLimit = geoLimit;
 		mLightSampleOffsets = nullptr;
 		mBsdfSampleOffsets = nullptr;
 		mVirtualLightSetOffset=0;
 		//-----------
 		maxSpecularDepth = maxd;
-		nGatherSamples = ng;
+		mNumGatherSamples = numGather;
 
 	}
 
