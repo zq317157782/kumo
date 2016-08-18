@@ -28,6 +28,7 @@ public:
     virtual float Area() const override;
 
     virtual Point Sample(float u1, float u2, Normal *Ns) const override;
+    virtual BBox ObjectBound() const override{};
 };
 
 

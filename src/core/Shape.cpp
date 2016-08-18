@@ -47,4 +47,8 @@ float Shape::Pdf(const Point &p, const Vector& wi) const {
 
 }
 
+BBox Shape::WorldBound() const {
+          return (*localToWorld)(ObjectBound());
+}
+
 unsigned int Shape::nextShapeID = 0;

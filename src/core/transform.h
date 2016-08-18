@@ -96,7 +96,7 @@ public:
     void operator()(const Ray& r,Ray * rr) const;
     Normal operator()(const Normal& n) const;
     void operator()(const Normal& n,Normal* normal) const;
-
+    BBox operator()(const BBox &b) const;
     bool SwapsHandedness() const;//判断变换有没有改变坐标系系统(左手=>右手 OR 右手=>左手)
 
     //判断是否是单位矩阵

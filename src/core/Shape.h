@@ -56,6 +56,12 @@ public:
     }
 
     virtual float Pdf(const Point &p,const Vector& wi) const;
+
+    virtual BBox ObjectBound() const = 0;
+
+    BBox WorldBound() const;
+
+
 };
 
 

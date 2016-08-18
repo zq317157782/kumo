@@ -44,6 +44,7 @@ public:
 	 virtual bool IntersectP(const Ray& ray) const override;
 	 virtual bool CanIntersect() const override {return true;}
 	 virtual float Area() const override;
+	 virtual BBox ObjectBound() const override{};
 };
 
 #endif /* SHAPE_TRIANGLEMESH_H_ */
