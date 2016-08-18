@@ -580,4 +580,9 @@ public:
 			nullptr) const;
 };
 
+BBox Union(const BBox &b, const Point &p);
+
+
+BBox Union(const BBox &b, const BBox &b2);
+
 #endif //RAYTRACER_GEOMETRY_H
