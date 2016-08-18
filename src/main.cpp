@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld, RGB(10, 10, 10),
-			1, sphere);
+			16, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 
@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(half_red);
+	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel2 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel2 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_blue = new ConstantTexture<RGB>(RGB(0, 0, 1));
-	Matte * m2 = new Matte(half_blue);
+	Matte * m2 = new Matte(half_red);
 	GeomPrimitive * panel2 = CreatePanel(&l2w_panel2, &w2l_panel2,
 			Point(-2, 2, -3 + 8), Point(-2, -2, -3 + 8), Point(-2, -2, 2 + 8),
 			Point(-2, 2, 2 + 8), m2);
@@ -163,14 +163,14 @@ int main(int argc, char** argv) {
 
 	Transform l2w_panel4 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
-	Matte * m4 = new Matte(checker);
+	Matte * m4 = new Matte(white);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
 			Point(-2, -2, 2 + 8), Point(-2, -2, -3 + 8), Point(2, -2, -3 + 8),
 			Point(2, -2, 2 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 		Transform w2l_panel5 = Translate(Vector(0, 0, -0));
-		Matte * m5 = new Matte(checker);
+		Matte * m5 = new Matte(white);
 		GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
 				Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -3 + 8),
 				Point(-2,  2, -3 + 8), m4);
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
 //				new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
-					new IGIIntegrator(4,1,0.01f,2,0.1f,1));
+					new IGIIntegrator(4,3,0.01f,2,0.1f,1));
 
 	renderer.render(&scene);
 	cout << "----" << endl;

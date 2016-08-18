@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_GLOBAL_H
 #define RAYTRACER_GLOBAL_H
 
-#define CORE_NUM 1
+#define CORE_NUM 4
 
 #include <iostream>
 #include <assert.h>
