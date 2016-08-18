@@ -181,3 +181,19 @@ float Triangle::Area() const {
 	const Point &p3 = mMesh->p[mIndex[2]];
 	return  Cross(p2 - p1, p3 - p1).Length()*0.5f;
 }
+
+BBox Triangle::ObjectBound() const {
+    const Point &p1 = mMesh->p[mIndex[0]];
+    const Point &p2 = mMesh->p[mIndex[1]];
+    const Point &p3 = mMesh->p[mIndex[2]];
+    return Union(BBox((*worldToLocal)(p1), (*worldToLocal)(p2)),
+                 (*worldToLocal)(p3));
+}
+
+
+BBox Triangle::WorldBound() const {
+    const Point &p1 = mMesh->p[mIndex[0]];
+    const Point &p2 = mMesh->p[mIndex[1]];
+    const Point &p3 = mMesh->p[mIndex[2]];
+    return Union(BBox(p1, p2), p3);
+}
