@@ -26,3 +26,23 @@ BBox Union(const BBox &b, const BBox &b2) {
     ret.pMax.z = max(b.pMax.z, b2.pMax.z);
     return ret;
 }
+
+
+bool BBox::IntersectP(const Ray &ray, float *hitt0,
+                      float *hitt1) const {
+    float t0 = ray.minT, t1 = ray.maxT;
+    for (int i = 0; i < 3; ++i) {
+    	//这里使用了射线与平面的相交的参数方程
+        float invRayDir = 1.f / ray.d[i];
+        float tNear = (pMin[i] - ray.o[i]) * invRayDir;
+        float tFar  = (pMax[i] - ray.o[i]) * invRayDir;
+        //和前面的结果作比较
+        if (tNear > tFar) swap(tNear, tFar);
+        t0 = tNear > t0 ? tNear : t0;
+        t1 = tFar  < t1 ? tFar  : t1;
+        if (t0 > t1) return false;
+    }
+    if (hitt0) *hitt0 = t0;
+    if (hitt1) *hitt1 = t1;
+    return true;
+}
