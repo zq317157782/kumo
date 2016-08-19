@@ -9,6 +9,13 @@
 
 void EnqueueTasks(const vector<Task *> &tasks) {
 
+	if(CORE_NUM==1){
+		for(int i=0;i<tasks.size();++i){
+			tasks[i]->Run();
+		}
+		return;
+	}
+
 	taskQueueMutex.lock();
 	cout << "EnqueueTasks" << endl;
 	for (int i = 0; i < tasks.size(); ++i) {
