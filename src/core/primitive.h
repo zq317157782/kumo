@@ -50,6 +50,8 @@ public:
 			const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
 
 	virtual const AreaLight* GetAreaLight() const=0;
+
+	virtual BBox WorldBound() const = 0;
 };
 
 class GeomPrimitive: public Primitive {
@@ -107,6 +109,8 @@ public:
 			const Transform &ObjectToWorld, MemoryArena &arena) const override;
 
 	virtual const AreaLight* GetAreaLight() const override;
+
+	virtual BBox WorldBound() const {return mShape->WorldBound();}
 };
 
 //代表图元集合

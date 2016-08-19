@@ -143,4 +143,13 @@ inline unsigned int RoundUpPow2(uint32_t v) {
     return v+1;
 }
 
+//上取整
+inline int Round2Int(float val) {
+    return Floor2Int(val + 0.5f);
+}
+
+inline int Float2Int(float val) {
+    return (int)val;
+}
+
 #endif //RAYTRACER_GLOBAL_H

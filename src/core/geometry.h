@@ -510,7 +510,7 @@ public:
 	}
 
 	RayDifferential(const Point& oo, const Vector& dd, float start, float end =
-			INFINITY, int depth = 0) :
+	INFINITY, int depth = 0) :
 			Ray(oo, dd, start, end, depth) {
 		hasDifferentials = false;
 	}
@@ -551,7 +551,8 @@ public:
 		pMax = Point(INFINITY, INFINITY, INFINITY);
 	}
 
-	BBox(const Point& p):pMin(p),pMax(p){
+	BBox(const Point& p) :
+			pMin(p), pMax(p) {
 
 	}
 
@@ -583,10 +584,19 @@ public:
 	}
 	bool IntersectP(const Ray &ray, float *hitt0 = nullptr, float *hitt1 =
 			nullptr) const;
+
+	int MaximumExtent() const {
+		Vector diag = pMax - pMin;
+		if (diag.x > diag.y && diag.x > diag.z)
+			return 0;
+		else if (diag.y > diag.z)
+			return 1;
+		else
+			return 2;
+	}
 };
 
 BBox Union(const BBox &b, const Point &p);
-
 
 BBox Union(const BBox &b, const BBox &b2);
 
