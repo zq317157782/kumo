@@ -27,19 +27,25 @@ public:
 	;
 	virtual bool Intersect(const Ray &r, Intersection *in) const = 0;
 	virtual bool IntersectP(const Ray& ray) const=0;
+
 	virtual Reference<Material> GetMaterial() const {
+		cerr<<"undifine"<<endl;
 		assert(false);
 		return nullptr;
 	}
 	;
 	virtual Reference<Shape> GetShape() const {
+		cerr<<"undifine"<<endl;
 		assert(false);
 		return nullptr;
 	}
 
 	virtual void Refine(vector<Reference<Primitive> > &refined) const {
+		cerr<<"undifine"<<endl;
 		assert(false);
 	}
+	void FullyRefine(vector<Reference<Primitive> > &refined) const;
+
 	virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
 			const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
 
