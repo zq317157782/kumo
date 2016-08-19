@@ -40,8 +40,8 @@ public:
 	virtual void Refine(vector<Reference<Primitive> > &refined) const {
 		assert(false);
 	}
-	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
-	        const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
+	virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
+			const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
 
 	virtual const AreaLight* GetAreaLight() const=0;
 };
@@ -52,8 +52,9 @@ private:
 	Reference<Material> mMaterial;
 	AreaLight* mAreaLight;
 public:
-	GeomPrimitive(const Reference<Shape>& s, const Reference<Material>& m,AreaLight * area=nullptr) :
-			Primitive(), mShape(s), mMaterial(m),mAreaLight(area){
+	GeomPrimitive(const Reference<Shape>& s, const Reference<Material>& m,
+			AreaLight * area = nullptr) :
+			Primitive(), mShape(s), mMaterial(m), mAreaLight(area) {
 
 	}
 
@@ -65,13 +66,13 @@ public:
 		float thit, rayEpsilon;
 		bool ret = mShape->Intersect(r, &thit, &rayEpsilon, &(in->dg));
 		if (ret) {
-			in->primitive=this;
+			in->primitive = this;
 			in->distance = thit;
 			in->normal = Vector(in->dg.nn);
 			in->primitiveID = primitiveID;
-			in->ObjectToWorld=*mShape->localToWorld;
-			in->WorldToObject=*mShape->worldToLocal;
-			in->rayEpsilon=rayEpsilon;
+			in->ObjectToWorld = *mShape->localToWorld;
+			in->WorldToObject = *mShape->worldToLocal;
+			in->rayEpsilon = rayEpsilon;
 		}
 		return ret;
 	}
@@ -96,10 +97,17 @@ public:
 		}
 	}
 
-	 virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
-	        const Transform &ObjectToWorld, MemoryArena &arena) const override;
+	virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
+			const Transform &ObjectToWorld, MemoryArena &arena) const override;
 
-	 virtual const  AreaLight* GetAreaLight() const override;
+	virtual const AreaLight* GetAreaLight() const override;
+};
+
+//代表图元集合
+class Aggregate: public Primitive {
+	const AreaLight *GetAreaLight() const;
+	BSDF *GetBSDF(const DifferentialGeometry &dg, const Transform &,
+			MemoryArena &) const;
 };
 
 #endif //RAYTRACER_PRIMITIVE_H

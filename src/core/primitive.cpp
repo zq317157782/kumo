@@ -19,3 +19,18 @@ BSDF *GeomPrimitive::GetBSDF(const DifferentialGeometry &dg,
 const AreaLight* GeomPrimitive::GetAreaLight() const{
 	return mAreaLight;
 }
+
+
+const AreaLight *Aggregate::GetAreaLight() const {
+    cerr<<"Aggregate::GetAreaLight() method"
+         "called; should have gone to GeometricPrimitive"<<endl;
+    return nullptr;
+}
+
+
+BSDF *Aggregate::GetBSDF(const DifferentialGeometry &,
+        const Transform &, MemoryArena &) const {
+	cerr<<"Aggregate::GetBSDF() method"
+        "called; should have gone to GeometricPrimitive"<<endl;
+    return nullptr;
+}
