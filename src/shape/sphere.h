@@ -6,7 +6,7 @@
 #define RAYTRACER_SPHERE_H
 
 
-#include "Shape.h"
+#include <shape.h>
 #include <stdio.h>
 class Sphere : public Shape {
 private:

@@ -6,9 +6,9 @@
 #define RAYTRACER_PRIMITIVE_H
 #include <Intersection.h>
 #include <material.h>
+#include <shape.h>
 #include "global.h"
 #include "memory.h"
-#include "Shape.h"
 
 //图元
 class Primitive: public ReferenceCounted {

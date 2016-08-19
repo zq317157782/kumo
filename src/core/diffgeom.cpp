@@ -2,8 +2,8 @@
 // Created by 诸谦 on 16/6/18.
 //
 
+#include <shape.h>
 #include "diffgeom.h"
-#include "shape.h"
 #include "transform.h"
 
 DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector &DPDU,

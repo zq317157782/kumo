@@ -2,7 +2,7 @@
 // Created by 诸谦 on 15/12/28.
 //
 
-#include "Shape.h"
+#include <shape.h>
 #include "transform.h"
 #include "geometry.h"
 

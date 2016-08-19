@@ -8,8 +8,8 @@
 #ifndef SHAPE_TRIANGLEMESH_H_
 #define SHAPE_TRIANGLEMESH_H_
 
+#include <shape.h>
 #include "global.h"
-#include "shape.h"
 //三角网格
 class TriangleMesh: public Shape {
 protected:
