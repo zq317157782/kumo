@@ -80,6 +80,16 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
+class TestRef:ReferenceCounted{
+public:
+	int i;
+	TestRef(int i){
+		this->i=i;
+	}
+};
+
+
+
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
 	::testing::InitGoogleTest(&argc,argv);

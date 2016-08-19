@@ -30,6 +30,8 @@ public:
 	unsigned int size() {
 		return mPrimitives.size();
 	}
+
+	bool Intersect(const Ray &ray, Intersection *isect);
 };
 
 //Grid 空间分割加速器
@@ -56,6 +58,9 @@ private:
 public:
 	GridAccel(const vector<Reference<Primitive>>& prims,
 			bool refineImmediately);
+	bool Intersect(const Ray &r, Intersection *in) const;
+	BBox WorldBound() const override;
+	bool IntersectP(const Ray &ray) const override;
 };
 
 #endif /* SRC_ACCELERATOR_GRID_H_ */

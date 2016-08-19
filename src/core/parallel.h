@@ -87,4 +87,9 @@ void EnqueueTasks(const vector<Task *> &tasks);
 
 void WaitForAllTasks();
 
+struct RWMutexLock {
+
+};
+
+
 #endif /* CORE_PARALLEL_H_ */

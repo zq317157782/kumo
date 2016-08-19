@@ -10,7 +10,7 @@ unsigned int Primitive::nextPrimitiveID=0;
 void Primitive::FullyRefine(vector<Reference<Primitive> > &refined) const{
 	vector<Reference<Primitive>> todo;
 	todo.push_back(const_cast<Primitive *>(this));
-	while(todo.size()){//todo.size()>0
+	while(todo.size()){//_todo.size()>0
 		//取出最后一个图元
 		Reference<Primitive> prim = todo.back();
 		todo.pop_back();
