@@ -11,7 +11,7 @@
 //并行相关
 #define CORE_NUM 4
 
-static int active_core=CORE_NUM;
+static int active_core = CORE_NUM;
 
 //最小任务单位
 class Task {
@@ -38,7 +38,7 @@ static void taskEntry() {
 			unique_lock<mutex> lock(taskQueueMutex);
 			//cout<<"----"<<endl;
 			if (taskQueue.size() == 0) {
-				active_core-=1;
+				active_core -= 1;
 				cout << "kill thread " << this_thread::get_id() << endl;
 				break;
 			}
@@ -60,13 +60,14 @@ static void taskEntry() {
 }
 
 static void progress() {
-	int maxNum=numUnfinishedTasks;
+	int maxNum = numUnfinishedTasks;
 	while (true) {
-		if(numUnfinishedTasks==0) {
-			cout<<"kill progress thread"<<endl;
+		if (numUnfinishedTasks == 0) {
+			cout << "kill progress thread" << endl;
 			break;
 		}
-		cout<<"["<<((float)(maxNum-numUnfinishedTasks)/maxNum)*100<<"%] active cores:"<<active_core<<endl;
+		cout << "[" << ((float) (maxNum - numUnfinishedTasks) / maxNum) * 100
+				<< "%] active cores:" << active_core << endl;
 		this_thread::sleep_for(chrono::seconds(1));
 	}
 
@@ -87,9 +88,88 @@ void EnqueueTasks(const vector<Task *> &tasks);
 
 void WaitForAllTasks();
 
-struct RWMutexLock {
+//读写锁
+class RWLock {
+private:
+	mutex mMtx, innerMtx; //互斥锁
+	unsigned int mNumReader;
+	bool mIsWriteState;
+	condition_variable cond;
+public:
+	RWLock() {
+		mNumReader = 0;
+		mIsWriteState = false;
+	}
 
+	void readLock() {
+		unique_lock<mutex> writeLock(innerMtx);
+		cout<<"读者获得互斥锁"<<endl;
+		while (mIsWriteState) {
+			cout<<"等待写着"<<endl;
+			cond.wait(writeLock);
+		}
+		++mNumReader; //增加读者
+		cout << "读者LOCK"<< endl;
+	}
+
+	void readUnlock() {
+		unique_lock<mutex> writeLock(innerMtx);
+		if (mIsWriteState) {
+			cerr << "write_lock" << endl;
+			return;
+		}
+		--mNumReader;
+		if (mNumReader == 0) {
+			cond.notify_all();
+		}
+		cout << "读者UNLOCK" << endl;
+	}
+
+	void writeLock() {
+		unique_lock<mutex> readLock(innerMtx);
+		cout<<"写着获得互斥锁"<<endl;
+		while (mNumReader > 0) {
+			cout<<"等待读者"<<endl;
+			cond.wait(readLock);
+		}
+		mIsWriteState = true;
+		cout << "写者LOCK" << endl;
+	}
+
+	void writeUnlock() {
+		unique_lock<mutex> readLock(innerMtx);
+		if (mNumReader > 0) {
+			cerr << "read_lock" << endl;
+			return;
+		}
+
+		if (!mIsWriteState) {
+			cerr << "is write_state" << endl;
+			return;
+		}
+		mIsWriteState = false;
+		cond.notify_all();
+		cout << "写者UNLOCK" << endl;
+	}
+
+	void upgrade2Writer() {
+		if (mIsWriteState) {
+			cerr << "already write_state" << endl;
+			return;
+		}
+
+		readUnlock();
+		writeLock();
+	}
+
+	void down2Reader() {
+		if (!mIsWriteState) {
+			cerr << "already read_state" << endl;
+			return;
+		}
+		writeUnlock();
+		readLock();
+	}
 };
-
 
 #endif /* CORE_PARALLEL_H_ */
