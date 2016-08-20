@@ -91,7 +91,7 @@ void WaitForAllTasks();
 //读写锁
 class RWLock {
 private:
-	mutex mMtx, innerMtx; //互斥锁
+	mutex innerMtx; //互斥锁
 	unsigned int mNumReader;
 	bool mIsWriteState;
 	condition_variable cond;
@@ -103,13 +103,13 @@ public:
 
 	void readLock() {
 		unique_lock<mutex> writeLock(innerMtx);
-		cout<<"读者获得互斥锁"<<endl;
+	//	cout<<"读者获得互斥锁"<<endl;
 		while (mIsWriteState) {
-			cout<<"等待写着"<<endl;
+		//	cout<<"等待写着"<<endl;
 			cond.wait(writeLock);
 		}
 		++mNumReader; //增加读者
-		cout << "读者LOCK"<< endl;
+		//cout << "读者LOCK"<< endl;
 	}
 
 	void readUnlock() {
@@ -122,18 +122,18 @@ public:
 		if (mNumReader == 0) {
 			cond.notify_all();
 		}
-		cout << "读者UNLOCK" << endl;
+		//cout << "读者UNLOCK" << endl;
 	}
 
 	void writeLock() {
 		unique_lock<mutex> readLock(innerMtx);
-		cout<<"写着获得互斥锁"<<endl;
+		//cout<<"写着获得互斥锁"<<endl;
 		while (mNumReader > 0) {
-			cout<<"等待读者"<<endl;
+		//	cout<<"等待读者"<<endl;
 			cond.wait(readLock);
 		}
 		mIsWriteState = true;
-		cout << "写者LOCK" << endl;
+		//cout << "写者LOCK" << endl;
 	}
 
 	void writeUnlock() {
@@ -149,7 +149,7 @@ public:
 		}
 		mIsWriteState = false;
 		cond.notify_all();
-		cout << "写者UNLOCK" << endl;
+		//cout << "写者UNLOCK" << endl;
 	}
 
 	void upgrade2Writer() {
