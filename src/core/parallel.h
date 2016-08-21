@@ -122,13 +122,13 @@ public:
 		if (mNumReader == 0) {
 			cond.notify_all();
 		}
-		//cout << "读者UNLOCK" << endl;
+	//	cout << "读者UNLOCK" << endl;
 	}
 
 	void writeLock() {
 		unique_lock<mutex> readLock(innerMtx);
 		//cout<<"写着获得互斥锁"<<endl;
-		while (mNumReader > 0) {
+		while (mNumReader > 0||mIsWriteState) {
 		//	cout<<"等待读者"<<endl;
 			cond.wait(readLock);
 		}
@@ -153,22 +153,26 @@ public:
 	}
 
 	void upgrade2Writer() {
-		if (mIsWriteState) {
-			cerr << "already write_state" << endl;
-			return;
+		unique_lock<mutex> writeLock(innerMtx);
+		--mNumReader;
+		while (mIsWriteState||mNumReader>0) {
+			//cout << "等待成为写着"<<endl;
+			cond.wait(writeLock);
 		}
-
-		readUnlock();
-		writeLock();
+		mIsWriteState=true;
+		//cout << "读者==>写着" << endl;
 	}
 
 	void down2Reader() {
-		if (!mIsWriteState) {
+		unique_lock<mutex> writeLock(innerMtx);
+		if(!mIsWriteState) {
 			cerr << "already read_state" << endl;
 			return;
 		}
-		writeUnlock();
-		readLock();
+		mIsWriteState=false;
+		mNumReader=1;
+		//cond.notify_all();
+		//cout << "读者<==写着" << endl;
 	}
 };
 
