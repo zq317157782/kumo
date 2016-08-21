@@ -15,6 +15,7 @@ void Primitive::FullyRefine(vector<Reference<Primitive> > &refined) const{
 		Reference<Primitive> prim = todo.back();
 		todo.pop_back();
 		if(prim->CanIntersect()){
+			cout<<"++"<<endl;
 			refined.push_back(prim);
 		}
 		else{

@@ -10,6 +10,7 @@
 #include "global.h"
 #include "primitive.h"
 
+
 //空间体素
 struct Voxel {
 private:
@@ -18,7 +19,6 @@ private:
 public:
 	Voxel() {
 	}
-	;
 	Voxel(Reference<Primitive> p) {
 		mPrimitives.push_back(p);
 		mAllCanIntersect = false;
@@ -31,7 +31,8 @@ public:
 		return mPrimitives.size();
 	}
 
-	bool Intersect(const Ray &ray, Intersection *isect);
+	bool Intersect(const Ray &ray, Intersection *isect,RWLock& lock);
+	bool IntersectP(const Ray &ray,RWLock& lock);
 };
 
 //Grid 空间分割加速器
