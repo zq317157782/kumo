@@ -9,7 +9,7 @@
 #define SRC_ACCELERATOR_GRID_H_
 #include "global.h"
 #include "primitive.h"
-
+#include "parallel.h"
 
 //空间体素
 struct Voxel {
@@ -31,13 +31,14 @@ public:
 		return mPrimitives.size();
 	}
 
-	bool Intersect(const Ray &ray, Intersection *isect,RWLock& lock);
-	bool IntersectP(const Ray &ray,RWLock& lock);
+	bool Intersect(const Ray &ray, Intersection *isect,RWMutexLock& lock);
+	bool IntersectP(const Ray &ray,RWMutexLock& lock);
 };
 
 //Grid 空间分割加速器
 class GridAccel: public Aggregate {
 private:
+	mutable RWMutex rwlock;
 	vector<Reference<Primitive>> mPrimitives;
 	BBox mBounds;
 	int mNumVoxels[3];
@@ -56,6 +57,9 @@ private:
 	inline int offset(int x, int y, int z) const {
 		return z * mNumVoxels[0] * mNumVoxels[1] + y * mNumVoxels[0] + x;
 	}
+
+	bool CanIntersect() const { return true; }
+
 public:
 	GridAccel(const vector<Reference<Primitive>>& prims,
 			bool refineImmediately);

@@ -89,23 +89,23 @@ void EnqueueTasks(const vector<Task *> &tasks);
 void WaitForAllTasks();
 
 //读写锁
-class RWLock {
+class RWMutex {
 private:
 	mutex innerMtx; //互斥锁
 	unsigned int mNumReader;
 	bool mIsWriteState;
 	condition_variable cond;
 public:
-	RWLock() {
+	RWMutex() {
 		mNumReader = 0;
 		mIsWriteState = false;
 	}
 
 	void readLock() {
 		unique_lock<mutex> writeLock(innerMtx);
-	//	cout<<"读者获得互斥锁"<<endl;
+		//	cout<<"读者获得互斥锁"<<endl;
 		while (mIsWriteState) {
-		//	cout<<"等待写着"<<endl;
+			//	cout<<"等待写着"<<endl;
 			cond.wait(writeLock);
 		}
 		++mNumReader; //增加读者
@@ -122,14 +122,14 @@ public:
 		if (mNumReader == 0) {
 			cond.notify_all();
 		}
-	//	cout << "读者UNLOCK" << endl;
+		//	cout << "读者UNLOCK" << endl;
 	}
 
 	void writeLock() {
 		unique_lock<mutex> readLock(innerMtx);
 		//cout<<"写着获得互斥锁"<<endl;
-		while (mNumReader > 0||mIsWriteState) {
-		//	cout<<"等待读者"<<endl;
+		while (mNumReader > 0 || mIsWriteState) {
+			//	cout<<"等待读者"<<endl;
 			cond.wait(readLock);
 		}
 		mIsWriteState = true;
@@ -155,24 +155,54 @@ public:
 	void upgrade2Writer() {
 		unique_lock<mutex> writeLock(innerMtx);
 		--mNumReader;
-		while (mIsWriteState||mNumReader>0) {
-			//cout << "等待成为写着"<<endl;
+		while (mIsWriteState || mNumReader > 0) {
+			//cout << "等待成为写着" << endl;
 			cond.wait(writeLock);
 		}
-		mIsWriteState=true;
+		mIsWriteState = true;
 		//cout << "读者==>写着" << endl;
 	}
 
 	void down2Reader() {
 		unique_lock<mutex> writeLock(innerMtx);
-		if(!mIsWriteState) {
+		if (!mIsWriteState) {
 			cerr << "already read_state" << endl;
 			return;
 		}
-		mIsWriteState=false;
-		mNumReader=1;
+		mIsWriteState = false;
+		mNumReader = 1;
 		//cond.notify_all();
 		//cout << "读者<==写着" << endl;
+	}
+};
+
+class RWMutexLock {
+private:
+	RWMutex* mMutex;
+public:
+	RWMutexLock(RWMutex* m) {
+		mMutex = m;
+	}
+
+	void readLock() {
+		mMutex->readLock();
+	}
+	void readUnlock() {
+		mMutex->readUnlock();
+	}
+	void writeLock() {
+		mMutex->writeLock();
+	}
+	void writeUnlock() {
+		mMutex->writeUnlock();
+	}
+
+	void upgrade2Writer(){
+		mMutex->upgrade2Writer();
+	}
+
+	void down2Reader(){
+		mMutex->down2Reader();
 	}
 };
 

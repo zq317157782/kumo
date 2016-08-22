@@ -8,7 +8,7 @@
 #include "grid.h"
 #include "parallel.h"
 #include "geometry.h"
-bool Voxel::Intersect(const Ray &ray, Intersection *isect,RWLock& lock) {
+bool Voxel::Intersect(const Ray &ray, Intersection *isect,RWMutexLock& lock) {
 	if (!mAllCanIntersect) { //判断所有的图元都是否可交
 		lock.upgrade2Writer();
 		for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
@@ -19,8 +19,10 @@ bool Voxel::Intersect(const Ray &ray, Intersection *isect,RWLock& lock) {
 				assert(p.size() > 0);
 				if (p.size() == 1)
 					mPrimitives[i] = p[0];
-				else
+				else{
 					mPrimitives[i] = new GridAccel(p, false);//生成多个图元的话，直接重新构建一个新的Grid
+				}
+
 			}
 		}
 		mAllCanIntersect = true;
@@ -36,7 +38,7 @@ bool Voxel::Intersect(const Ray &ray, Intersection *isect,RWLock& lock) {
 	return hitSomething;
 }
 
-bool Voxel::IntersectP(const Ray &ray,RWLock& lock){
+bool Voxel::IntersectP(const Ray &ray,RWMutexLock& lock){
 	if (!mAllCanIntersect) { //判断所有的图元都是否可交
 			lock.upgrade2Writer();
 			for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
@@ -156,7 +158,7 @@ bool GridAccel::Intersect(const Ray &r, Intersection *in) const {
 			Out[axis] = -1;
 		}
 	}
-	RWLock lock;
+	RWMutexLock lock(&rwlock);
 	lock.readLock();
 	bool hitSomething = false;
 	for (;;) {
@@ -217,7 +219,7 @@ bool GridAccel::IntersectP(const Ray &r) const {
 				Out[axis] = -1;
 			}
 		}
-		RWLock lock;
+		RWMutexLock lock(&rwlock);
 		lock.readLock();
 		for (;;) {
 			Voxel *voxel = mVoxels[offset(Pos[0], Pos[1], Pos[2])];
