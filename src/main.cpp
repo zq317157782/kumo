@@ -79,31 +79,31 @@ public:
 	}
 };
 
-RWLock d;
-
-static int n = 0;
-
-void write() {
-	while (true) {
-		d.writeLock();
-		//cout << "修改" << endl;
-		++n;
-		//this_thread::sleep_for(chrono::seconds(1));
-		d.writeUnlock();
-	}
-}
-
-void read() {
-	while (true) {
-		d.readLock();
-		d.upgrade2Writer();
-		n++;
-		cout << n << endl;
-		d.down2Reader();
-		d.readUnlock();
-		this_thread::sleep_for(chrono::seconds(1));
-	}
-}
+//RWLock d;
+//
+//static int n = 0;
+//
+//void write() {
+//	while (true) {
+//		d.writeLock();
+//		//cout << "修改" << endl;
+//		++n;
+//		//this_thread::sleep_for(chrono::seconds(1));
+//		d.writeUnlock();
+//	}
+//}
+//
+//void read() {
+//	while (true) {
+//		d.readLock();
+//		d.upgrade2Writer();
+//		n++;
+//		cout << n << endl;
+//		d.down2Reader();
+//		d.readUnlock();
+//		this_thread::sleep_for(chrono::seconds(1));
+//	}
+//}
 
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
@@ -259,11 +259,11 @@ int main(int argc, char** argv) {
 	//	primtives.push_back(primit3);
 	//	primtives.push_back(primit4);
 	primtives.push_back(primit_tri);
-//	primtives.push_back(panel1);
-//	primtives.push_back(panel2);
-//	primtives.push_back(panel3);
-//	primtives.push_back(panel4);
-//	primtives.push_back(panel5);
+	primtives.push_back(panel1);
+	//primtives.push_back(panel2);
+	//primtives.push_back(panel3);
+	//primtives.push_back(panel4);
+	//primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
 	GridAccel grid(primtives, false);
 
