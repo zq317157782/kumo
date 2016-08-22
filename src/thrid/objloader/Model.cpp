@@ -54,6 +54,7 @@ int Model::load(char * filename) {
     printf("Model loaded successfully.\n");
     printf("Number of vertices: %d.\n", vertices.size());
     printf("Number of triangles: %d.\n", triangles.size());
+	return 0;
 }
 
 int Model::numberOfVertices(){

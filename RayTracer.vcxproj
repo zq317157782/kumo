@@ -124,6 +124,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\accelerator\grid.cpp" />
     <ClCompile Include="src\brdf\CookTorrance.cpp" />
     <ClCompile Include="src\brdf\GlossySpecular.cpp" />
     <ClCompile Include="src\brdf\GlossySpecularHalfVector.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="src\thrid\objloader\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\accelerator\grid.h" />
     <ClInclude Include="src\brdf\CookTorrance.h" />
     <ClInclude Include="src\brdf\GlossySpecular.h" />
     <ClInclude Include="src\brdf\GlossySpecularHalfVector.h" />
