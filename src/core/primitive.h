@@ -73,7 +73,7 @@ public:
 	bool Intersect(const Ray &r, Intersection *in) const {
 		float thit, rayEpsilon;
 		bool ret = mShape->Intersect(r, &thit, &rayEpsilon, &(in->dg));
-		if (ret) {
+		if (ret==true) {
 			in->primitive = this;
 			in->distance = thit;
 			in->normal = Vector(in->dg.nn);
@@ -81,6 +81,7 @@ public:
 			in->ObjectToWorld = *mShape->localToWorld;
 			in->WorldToObject = *mShape->worldToLocal;
 			in->rayEpsilon = rayEpsilon;
+			r.maxT=thit;
 		}
 		return ret;
 	}
