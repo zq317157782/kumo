@@ -547,8 +547,8 @@ public:
 	Point pMin;
 	Point pMax;
 	BBox() {
-		pMin = Point(-INFINITY, -INFINITY, -INFINITY);
-		pMax = Point(INFINITY, INFINITY, INFINITY);
+		pMin = Point(INFINITY, INFINITY, INFINITY);
+		pMax = Point(-INFINITY, -INFINITY, -INFINITY);
 	}
 
 	BBox(const Point& p) :
