@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 //	thread t5(read);
 //	thread t6(write);
 //	this_thread::sleep_for(chrono::seconds(100));
-	Vector dir = CosSampleHemisphere(0.1, 0.1);
+	//Vector dir = CosSampleHemisphere(0.1, 0.1);
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -136,8 +136,8 @@ int main(int argc, char** argv) {
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
 
-	Transform localToWorld = Translate(Vector(0, 1, 6));
-	Transform worldToLocal = Translate(Vector(0, -1, -6));
+	Transform localToWorld = Translate(Vector(0, 1, 3));
+	Transform worldToLocal = Translate(Vector(0, -1, -3));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(white);
+	Matte * m1 = new Matte(red);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -241,8 +241,8 @@ int main(int argc, char** argv) {
 
 			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
 					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-
-			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(metal));
+			Matte * mtri = new Matte(white);
+			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
 
 
 
@@ -254,16 +254,16 @@ int main(int argc, char** argv) {
 	camera.setDistanceToView(700);
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
-	//primtives.push_back(primit);
-	//	primtives.push_back(primit2);
-	//	primtives.push_back(primit3);
-	//	primtives.push_back(primit4);
-	primtives.push_back(primit_tri);
+	primtives.push_back(primit);
+	primtives.push_back(primit2);
+	//primtives.push_back(primit3);
+//	primtives.push_back(primit4);
+//	primtives.push_back(primit_tri);
 	primtives.push_back(panel1);
-	//primtives.push_back(panel2);
-	//primtives.push_back(panel3);
-	//primtives.push_back(panel4);
-	//primtives.push_back(panel5);
+//	primtives.push_back(panel2);
+//	primtives.push_back(panel3);
+//	primtives.push_back(panel4);
+//	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
 	GridAccel grid(primtives, false);
 
@@ -285,11 +285,11 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 5,5,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 2,2,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
-//			new StratifiedSampler(0, 800, 0, 600, 4, 4, true),
+//			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
 //			new IGIIntegrator(4, 3, 0.01f, 2, 0.1f, 1));
 
 	renderer.render(&scene);

@@ -59,7 +59,7 @@ public:
 
     virtual BBox ObjectBound() const = 0;
 
-    BBox WorldBound() const;
+    virtual BBox WorldBound() const ;
 
 
 };

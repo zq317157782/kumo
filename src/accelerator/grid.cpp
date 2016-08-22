@@ -124,6 +124,13 @@ GridAccel::GridAccel(const vector<Reference<Primitive>>& prims,
 			}
 		}
 	}
+
+	for(int i=0;i<numVoxels;++i){
+		if(mVoxels[i])
+		{
+			cout<<"第"<<i<<"个voxel "<<mVoxels[i]->mPrimitives.size()<<endl;
+		}
+	}
 }
 
 bool GridAccel::Intersect(const Ray &r, Intersection *in) const {

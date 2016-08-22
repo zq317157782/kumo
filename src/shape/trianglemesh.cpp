@@ -20,8 +20,8 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 	p = new Point[nverts];
 	for (int i = 0; i < nverts; ++i) {
 		p[i] = (*localToWorld)(P[i]);
-		cout << "Point=>x " << p[i].x << " y " << p[i].y << " z " << p[i].z
-				<< endl;
+//		cout << "Point=>x " << p[i].x << " y " << p[i].y << " z " << p[i].z
+//				<< endl;
 	}
 
 	//为法线分配空间

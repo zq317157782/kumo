@@ -33,10 +33,15 @@ public:
 	virtual BBox ObjectBound() const override {
 		BBox objectBounds;
 		for (int i = 0; i < nverts; i++)
-			objectBounds = Union(objectBounds,(*worldToLocal)(p[i]));
+			objectBounds = Union(objectBounds, (*worldToLocal)(p[i]));
 		return objectBounds;
 	}
-	;
+	virtual BBox WorldBound() const override{
+		BBox worldBounds;
+		for (int i = 0; i < nverts; i++)
+			worldBounds = Union(worldBounds, p[i]);
+		return worldBounds;
+	}
 	friend class Triangle;
 };
 
@@ -58,7 +63,7 @@ public:
 		return true;
 	}
 	virtual float Area() const override;
-	virtual BBox ObjectBound() const override ;
+	virtual BBox ObjectBound() const override;
 	BBox WorldBound() const;
 };
 

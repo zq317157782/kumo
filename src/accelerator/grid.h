@@ -13,10 +13,12 @@
 
 //空间体素
 struct Voxel {
+
 private:
-	vector<Reference<Primitive>> mPrimitives;
+
 	bool mAllCanIntersect;
 public:
+	vector<Reference<Primitive>> mPrimitives;
 	Voxel() {
 	}
 	Voxel(Reference<Primitive> p) {
