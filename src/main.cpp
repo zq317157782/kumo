@@ -136,8 +136,8 @@ int main(int argc, char** argv) {
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
 
-	Transform localToWorld = Translate(Vector(0, 1, 3));
-	Transform worldToLocal = Translate(Vector(0, -1, -3));
+	Transform localToWorld = Translate(Vector(0, 1, 6));
+	Transform worldToLocal = Translate(Vector(0, -1, -6));
 	//第一个sphere
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
@@ -145,14 +145,12 @@ int main(int argc, char** argv) {
 			RGB(10, 10, 10), 16, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
-
 	Transform localToWorld2 = Translate(Vector(0, -1, 6));
 	Transform worldToLocal2 = Translate(Vector(-0, 1, -6));
 	Sphere* sphere2 = new Sphere(&localToWorld2, &worldToLocal2, false, 0.5,
 			-0.5, 0.5, 360);
 	GeomPrimitive * primit2 = new GeomPrimitive(Reference<Shape>(sphere2),
 			Reference<Material>(m));
-
 	Transform localToWorld2_2 = Translate(Vector(1, 0, 6));
 	Transform worldToLocal2_2 = Translate(Vector(-1, 0, -6));
 	Sphere* sphere3 = new Sphere(&localToWorld2_2, &worldToLocal2_2, false, 0.5,
@@ -256,16 +254,16 @@ int main(int argc, char** argv) {
 	vector<Reference<Primitive>> primtives;
 	primtives.push_back(primit);
 	primtives.push_back(primit2);
-	//primtives.push_back(primit3);
-//	primtives.push_back(primit4);
-//	primtives.push_back(primit_tri);
+	primtives.push_back(primit3);
+	primtives.push_back(primit4);
+	//primtives.push_back(primit_tri);
 	primtives.push_back(panel1);
-//	primtives.push_back(panel2);
-//	primtives.push_back(panel3);
-//	primtives.push_back(panel4);
-//	primtives.push_back(panel5);
+	primtives.push_back(panel2);
+	primtives.push_back(panel3);
+	primtives.push_back(panel4);
+	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	GridAccel grid(primtives, false);
+	GridAccel grid(primtives, true);
 
 	vector<Light*> lights;
 	Transform localToWorld3 = Translate(Vector(0, 0, 5.3));
@@ -286,7 +284,7 @@ int main(int argc, char** argv) {
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 2,2,true),
-				new PathIntegrator(5));	//new PathIntegrator(5)
+				new PathIntegrator(1));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),

@@ -48,7 +48,6 @@ static void taskEntry() {
 		}
 
 		myTask->Run(); //正真执行任务的地方
-
 		tasksRunningConditionMutex.lock();
 		int unfinished = --numUnfinishedTasks;
 		tasksRunningConditionMutex.unlock();
@@ -80,7 +79,6 @@ static void InitTasks() {
 		thread*work_thread = new thread(taskEntry);
 		threads[i] = work_thread;
 	}
-	progress_thread = new thread(progress);
 }
 
 //插入任务队伍
@@ -122,7 +120,7 @@ public:
 		if (mNumReader == 0) {
 			cond.notify_all();
 		}
-		//	cout << "读者UNLOCK" << endl;
+			//cout << "读者UNLOCK" << endl;
 	}
 
 	void writeLock() {
@@ -155,6 +153,7 @@ public:
 	void upgrade2Writer() {
 		unique_lock<mutex> writeLock(innerMtx);
 		--mNumReader;
+
 		while (mIsWriteState || mNumReader > 0) {
 			//cout << "等待成为写着" << endl;
 			cond.wait(writeLock);
@@ -170,7 +169,7 @@ public:
 			return;
 		}
 		mIsWriteState = false;
-		mNumReader = 1;
+		++mNumReader ;
 		//cond.notify_all();
 		//cout << "读者<==写着" << endl;
 	}
@@ -182,20 +181,26 @@ private:
 public:
 	RWMutexLock(RWMutex* m) {
 		mMutex = m;
-	}
-
-	void readLock() {
 		mMutex->readLock();
 	}
-	void readUnlock() {
+
+	~RWMutexLock(){
 		mMutex->readUnlock();
 	}
-	void writeLock() {
-		mMutex->writeLock();
-	}
-	void writeUnlock() {
-		mMutex->writeUnlock();
-	}
+//	void readLock() {
+//		cout<<"lock"<<endl;
+//		mMutex->readLock();
+//	}
+//	void readUnlock() {
+//		cout<<"unlock"<<endl;
+//		mMutex->readUnlock();
+//	}
+//	void writeLock() {
+//		mMutex->writeLock();
+//	}
+//	void writeUnlock() {
+//		mMutex->writeUnlock();
+//	}
 
 	void upgrade2Writer(){
 		mMutex->upgrade2Writer();
@@ -204,6 +209,7 @@ public:
 	void down2Reader(){
 		mMutex->down2Reader();
 	}
+
 };
 
 #endif /* CORE_PARALLEL_H_ */
