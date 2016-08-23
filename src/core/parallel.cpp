@@ -52,3 +52,5 @@ void WaitForAllTasks() {
 		tasksRunningCondition.wait(mux);
 	}
 }
+
+const std::thread::id RWMutex::NULL_THEAD;
