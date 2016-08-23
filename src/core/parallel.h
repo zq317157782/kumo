@@ -1,4 +1,4 @@
-/*
+﻿/*
  * parallel.h
  *
  *  Created on: 2016年8月9日

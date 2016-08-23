@@ -33,6 +33,7 @@
 #include "integrator/directlight.h"
 #include "material/mirror.h"
 #include "material/translucent.h"
+#include "material/grass.h"
 #include "integrator/path.h"
 #include "sampler/stratified.h"
 #include "parallel.h"
@@ -136,6 +137,9 @@ int main(int argc, char** argv) {
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
 
+	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
+	Grass * grass = new Grass(white, white, ior);
+
 	Transform localToWorld = Translate(Vector(0, 1, 6));
 	Transform worldToLocal = Translate(Vector(0, -1, -6));
 	//第一个sphere
@@ -163,7 +167,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.5,
 			-0.5, 0.5, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
-			Reference<Material>(metal));
+			Reference<Material>(grass));
 
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
