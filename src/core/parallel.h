@@ -1,4 +1,4 @@
-/*
+﻿/*
  * parallel.h
  *
  *  Created on: 2016年8月9日
@@ -9,7 +9,7 @@
 #define CORE_PARALLEL_H_
 #include "global.h"
 //并行相关
-#define CORE_NUM 4
+#define CORE_NUM 8
 
 static int active_core = CORE_NUM;
 
@@ -86,130 +86,31 @@ void EnqueueTasks(const vector<Task *> &tasks);
 
 void WaitForAllTasks();
 
-//读写锁
-class RWMutex {
+class RWLock {
+#define WRITE_LOCK_STATUS -1
+#define FREE_STATUS 0
 private:
-	mutex innerMtx; //互斥锁
-	unsigned int mNumReader;
-	bool mIsWriteState;
-	condition_variable cond;
+	/* 初始为0的线程id */
+	static const  std::thread::id NULL_THEAD;
+	const bool WRITE_FIRST;
+	/* 用于判断当前是否是写线程 */
+	thread::id m_write_thread_id;
+	/* 资源锁计数器,类型为int的原子成员变量,-1为写状态，0为自由状态,>0为共享读取状态 */
+	atomic_int m_lockCount;
+	/* 等待写线程计数器,类型为unsigned int的原子成员变量*/
+	atomic_uint m_writeWaitCount;
 public:
-	RWMutex() {
-		mNumReader = 0;
-		mIsWriteState = false;
-	}
-
-	void readLock() {
-		unique_lock<mutex> writeLock(innerMtx);
-		//	cout<<"读者获得互斥锁"<<endl;
-		while (mIsWriteState) {
-			//	cout<<"等待写着"<<endl;
-			cond.wait(writeLock);
-		}
-		++mNumReader; //增加读者
-		//cout << "读者LOCK"<< endl;
-	}
-
-	void readUnlock() {
-		unique_lock<mutex> writeLock(innerMtx);
-		if (mIsWriteState) {
-			cerr << "write_lock" << endl;
-			return;
-		}
-		--mNumReader;
-		if (mNumReader == 0) {
-			cond.notify_all();
-		}
-			//cout << "读者UNLOCK" << endl;
-	}
-
-	void writeLock() {
-		unique_lock<mutex> readLock(innerMtx);
-		//cout<<"写着获得互斥锁"<<endl;
-		while (mNumReader > 0 || mIsWriteState) {
-			//	cout<<"等待读者"<<endl;
-			cond.wait(readLock);
-		}
-		mIsWriteState = true;
-		//cout << "写者LOCK" << endl;
-	}
-
-	void writeUnlock() {
-		unique_lock<mutex> readLock(innerMtx);
-		if (mNumReader > 0) {
-			cerr << "read_lock" << endl;
-			return;
-		}
-
-		if (!mIsWriteState) {
-			cerr << "is write_state" << endl;
-			return;
-		}
-		mIsWriteState = false;
-		cond.notify_all();
-		//cout << "写者UNLOCK" << endl;
-	}
-
-	void upgrade2Writer() {
-		unique_lock<mutex> writeLock(innerMtx);
-		--mNumReader;
-
-		while (mIsWriteState || mNumReader > 0) {
-			//cout << "等待成为写着" << endl;
-			cond.wait(writeLock);
-		}
-		mIsWriteState = true;
-		//cout << "读者==>写着" << endl;
-	}
-
-	void down2Reader() {
-		unique_lock<mutex> writeLock(innerMtx);
-		if (!mIsWriteState) {
-			cerr << "already read_state" << endl;
-			return;
-		}
-		mIsWriteState = false;
-		++mNumReader ;
-		//cond.notify_all();
-		//cout << "读者<==写着" << endl;
-	}
-};
-
-class RWMutexLock {
-private:
-	RWMutex* mMutex;
-public:
-	RWMutexLock(RWMutex* m) {
-		mMutex = m;
-		mMutex->readLock();
-	}
-
-	~RWMutexLock(){
-		mMutex->readUnlock();
-	}
-//	void readLock() {
-//		cout<<"lock"<<endl;
-//		mMutex->readLock();
-//	}
-//	void readUnlock() {
-//		cout<<"unlock"<<endl;
-//		mMutex->readUnlock();
-//	}
-//	void writeLock() {
-//		mMutex->writeLock();
-//	}
-//	void writeUnlock() {
-//		mMutex->writeUnlock();
-//	}
-
-	void upgrade2Writer(){
-		mMutex->upgrade2Writer();
-	}
-
-	void down2Reader(){
-		mMutex->down2Reader();
-	}
-
+	// 禁止复制构造函数
+	RWLock(const RWLock&) = delete;
+	// 禁止对象赋值操作符
+	RWLock& operator=(const RWLock&) = delete;
+	//RWLock& operator=(const RWLock&) volatile = delete;
+	RWLock(bool writeFirst = false);;//默认为读优先模式
+	virtual ~RWLock() = default;
+	int readLock();
+	int readUnlock();
+	int writeLock();
+	int writeUnlock();
 };
 
 #endif /* CORE_PARALLEL_H_ */

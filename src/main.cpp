@@ -163,12 +163,12 @@ int main(int argc, char** argv) {
 	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.5,
 			-0.5, 0.5, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
-			Reference<Material>(metal));
+			Reference<Material>(trans));
 
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(red);
+	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -283,7 +283,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 64,64,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,

@@ -8,9 +8,10 @@
 #include "grid.h"
 #include "parallel.h"
 #include "geometry.h"
-bool Voxel::Intersect(const Ray &ray, Intersection *isect, RWMutexLock& lock) {
+bool Voxel::Intersect(const Ray &ray, Intersection *isect, RWLock& lock) {
 	if (!mAllCanIntersect) { //判断所有的图元都是否可交
-		lock.upgrade2Writer();
+		lock.readUnlock();
+		lock.writeLock();
 		for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 			Reference<Primitive> &prim = mPrimitives[i];
 			if (!prim->CanIntersect()) {
@@ -26,7 +27,8 @@ bool Voxel::Intersect(const Ray &ray, Intersection *isect, RWMutexLock& lock) {
 			}
 		}
 		mAllCanIntersect = true;
-		lock.down2Reader();
+		lock.writeUnlock();
+		lock.readLock();
 	}
 	bool hitSomething = false;
 	for (unsigned i = 0; i < mPrimitives.size(); ++i) {
@@ -39,9 +41,10 @@ bool Voxel::Intersect(const Ray &ray, Intersection *isect, RWMutexLock& lock) {
 	return hitSomething;
 }
 
-bool Voxel::IntersectP(const Ray &ray, RWMutexLock& lock) {
+bool Voxel::IntersectP(const Ray &ray, RWLock& lock) {
 	if (!mAllCanIntersect) { //判断所有的图元都是否可交
-		lock.upgrade2Writer();
+		lock.readUnlock();
+		lock.writeLock();
 		for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 			Reference<Primitive> &prim = mPrimitives[i];
 			if (!prim->CanIntersect()) {
@@ -55,7 +58,8 @@ bool Voxel::IntersectP(const Ray &ray, RWMutexLock& lock) {
 			}
 		}
 		mAllCanIntersect = true;
-		lock.down2Reader();
+		lock.writeUnlock();
+		lock.readLock();
 	}
 	bool hitSomething = false;
 	for (unsigned i = 0; i < mPrimitives.size(); ++i) {
@@ -160,12 +164,12 @@ bool GridAccel::Intersect(const Ray &r, Intersection *in) const {
 			Out[axis] = -1;
 		}
 	}
-	RWMutexLock lock(&rwlock);
+	rwlock.readLock();
 	bool hitSomething = false;
 	for (;;) {
 		Voxel *voxel = mVoxels[offset(Pos[0], Pos[1], Pos[2])];
 		if (voxel != nullptr)
-			hitSomething |= voxel->Intersect(r, in, lock);
+			hitSomething |= voxel->Intersect(r, in, rwlock);
 		//以下采用了位操作来选取最近交点的轴，具体为什么这样子，我也不知道，只是为了效率这样做。
 		int bits = ((NextCrossingT[0] < NextCrossingT[1]) << 2)
 				+ ((NextCrossingT[0] < NextCrossingT[2]) << 1)
@@ -179,6 +183,7 @@ bool GridAccel::Intersect(const Ray &r, Intersection *in) const {
 			break;
 		NextCrossingT[stepAxis] += DeltaT[stepAxis];	//更新下一个在stepAxis上相交的参数坐标
 	}
+	rwlock.readUnlock();
 	return hitSomething;
 }
 
@@ -220,11 +225,14 @@ bool GridAccel::IntersectP(const Ray &r) const {
 		}
 	}
 
-	RWMutexLock lock(&rwlock);
+	rwlock.readLock();
 	for (;;) {
 		Voxel *voxel = mVoxels[offset(Pos[0], Pos[1], Pos[2])];
-		if (voxel && voxel->IntersectP(r, lock))
+		if (voxel && voxel->IntersectP(r, rwlock)) {
+			rwlock.readUnlock();
 			return true;
+		}
+			
 		//以下采用了位操作来选取最近交点的轴，具体为什么这样子，我也不知道，只是为了效率这样做。
 		int bits = ((NextCrossingT[0] < NextCrossingT[1]) << 2)
 				+ ((NextCrossingT[0] < NextCrossingT[2]) << 1)
@@ -238,5 +246,6 @@ bool GridAccel::IntersectP(const Ray &r) const {
 			break;
 		NextCrossingT[stepAxis] += DeltaT[stepAxis];	//更新下一个在stepAxis上相交的参数坐标
 	}
+	rwlock.readUnlock();
 	return false;
 }
