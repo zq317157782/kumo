@@ -32,14 +32,14 @@ public:
 		return mPrimitives.size();
 	}
 
-	bool Intersect(const Ray &ray, Intersection *isect, RWLock& lock);
-	bool IntersectP(const Ray &ray, RWLock& lock);
+	bool Intersect(const Ray &ray, Intersection *isect,RWMutexLock& lock);
+	bool IntersectP(const Ray &ray,RWMutexLock& lock);
 };
 
 //Grid 空间分割加速器
 class GridAccel: public Aggregate {
 private:
-	mutable RWLock rwlock;
+	mutable RWMutex rwlock;
 	vector<Reference<Primitive>> mPrimitives;
 	BBox mBounds;
 	int mNumVoxels[3];

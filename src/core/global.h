@@ -20,7 +20,6 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
-#include <atomic>
 using namespace std;
 
 
@@ -90,7 +89,7 @@ class TextureMapping2D;//纹理映射
 struct BSDFSample; //BSDF样本
 struct BSDFSampleOffsets;
 struct Distribution1D;
-class RWLock; //读写锁
+class RWMutex; //读写锁
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     // 计算判别式
