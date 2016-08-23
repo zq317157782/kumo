@@ -142,7 +142,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
 			0.5, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
-			RGB(10, 10, 10), 16, sphere);
+			RGB(10, 10, 10), 1, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 	Transform localToWorld2 = Translate(Vector(0, -1, 6));
@@ -163,12 +163,12 @@ int main(int argc, char** argv) {
 	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.5,
 			-0.5, 0.5, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
-			Reference<Material>(metal));
+			Reference<Material>(trans));
 
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(red);
+	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -283,12 +283,12 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 80, 0, 60, 128,128,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
-//			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
-//			new IGIIntegrator(4, 3, 0.01f, 2, 0.1f, 1));
+//			new StratifiedSampler(0, 800, 0, 600, 32, 32, true),
+//			new IGIIntegrator(4, 4, 0.01f, 2, 0.1f, 4));
 
 	renderer.render(&scene);
 	cout << "----" << endl;
