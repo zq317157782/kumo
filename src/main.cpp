@@ -160,8 +160,8 @@ int main(int argc, char** argv) {
 
 	Transform localToWorld2_3 = Translate(Vector(-1, 0, 6));
 	Transform worldToLocal2_3 = Translate(Vector(1, 0, -6));
-	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.1,
-			-0.1, 0.1, 360);
+	Sphere* sphere4 = new Sphere(&localToWorld2_3, &worldToLocal2_3, false, 0.5,
+			-0.5, 0.5, 360);
 	GeomPrimitive * primit4 = new GeomPrimitive(Reference<Shape>(sphere4),
 			Reference<Material>(metal));
 
@@ -213,34 +213,34 @@ int main(int argc, char** argv) {
 
 
 	//测试三角面片
-			Model model;
-			model.load("res/WALL_E.obj");
-			int triCount = model.numberOfTriangles();
-			int vertexCount = model.numberOfVertices();
-			Point* points = new Point[vertexCount];
-			for (int i = 0; i < vertexCount; ++i) {
-				_POINT p = model.getVertex(i);
-				points[i] = Point(p.x, p.y, p.z);
-			}
-
-			int * indexs = new int[3 * triCount];
-			for (int i = 0, j = 0; i < triCount; ++i) {
-				_TRIANGLE t = model.getTriangle(i);
-				indexs[j++] = t.index[0];
-				indexs[j++] = t.index[1];
-				indexs[j++] = t.index[2];
-			}
-
-
-	//		Transform localToWorld_tri = Scale(10,10,10);
-	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
-			Transform localToWorld_tri = Translate(Vector( 0,0, 6));
-			Transform worldToLocal_tri = Translate(Vector(0,0, -6));
-
-			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-			Matte * mtri = new Matte(white);
-			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
+//			Model model;
+//			model.load("res/WALL_E.obj");
+//			int triCount = model.numberOfTriangles();
+//			int vertexCount = model.numberOfVertices();
+//			Point* points = new Point[vertexCount];
+//			for (int i = 0; i < vertexCount; ++i) {
+//				_POINT p = model.getVertex(i);
+//				points[i] = Point(p.x, p.y, p.z);
+//			}
+//
+//			int * indexs = new int[3 * triCount];
+//			for (int i = 0, j = 0; i < triCount; ++i) {
+//				_TRIANGLE t = model.getTriangle(i);
+//				indexs[j++] = t.index[0];
+//				indexs[j++] = t.index[1];
+//				indexs[j++] = t.index[2];
+//			}
+//
+//
+//	//		Transform localToWorld_tri = Scale(10,10,10);
+//	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
+//			Transform localToWorld_tri = Scale(0.2f,0.2f,0.2f);
+//			Transform worldToLocal_tri = Scale(5.0f,5.0f,5.0f);
+//
+//			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
+//					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
+//			Matte * mtri = new Matte(white);
+//			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
 
 
 
@@ -283,8 +283,8 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 2,2,true),
-				new PathIntegrator(1));	//new PathIntegrator(5)
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
