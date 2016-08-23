@@ -161,3 +161,23 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 	}
 	return L;
 }
+
+RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
+		const Intersection &isect, const Renderer *renderer, const Scene *scene,
+		const Sample *sample, MemoryArena &arena) {
+	Vector wo = -ray.d; //出射方向
+	Vector wi; //入射方向
+	float pdf;
+	const Point &p = bsdf->dgShading.p;
+	const Normal &n = bsdf->dgShading.nn;
+	RGB f = bsdf->Sample_f(wo, &wi, BSDFSample(rand), &pdf,
+			BxDFType(BSDF_TRANSMISSION | BSDF_SPECULAR));
+	RGB L(0);
+	if (pdf > 0.0f && !f.IsBlack() && AbsDot(wi, n) != 0.0f) {
+		RayDifferential r(p, wi, ray, isect.rayEpsilon);
+		//TODO 没有实现RAY微分的代码
+		RGB Li = renderer->Li(scene, r, sample, rand, arena);
+		L = f * Li * AbsDot(wi, n) / pdf;
+	}
+	return L;
+}
