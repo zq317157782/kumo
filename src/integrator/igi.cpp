@@ -186,8 +186,8 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	if (r.depth + 1 < maxSpecularDepth) {
 		L += SpecularReflect(r, bsdf, rnd, isect, renderer, scene, sample,
 				arena);
-		L += SpecularTransmit(r, bsdf, rnd, isect, renderer, scene, sample,
-						arena);
+		//L += SpecularTransmit(r, bsdf, rnd, isect, renderer, scene, sample,
+			//			arena);
 	}
 	return L;
 }

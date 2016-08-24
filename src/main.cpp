@@ -136,6 +136,8 @@ int main(int argc, char** argv) {
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
+	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
+	Grass * grass=new Grass(white,white,ior);
 
 	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
 	Grass * grass = new Grass(white, white, ior);
@@ -287,7 +289,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 8,8,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
