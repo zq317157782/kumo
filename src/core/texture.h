@@ -8,7 +8,8 @@
 #ifndef CORE_TEXTURE_H_
 #define CORE_TEXTURE_H_
 #include "global.h"
-
+#include "diffgeom.h"
+#include "memory.h"
 
 
 //计算坐标纹理映射的结构
@@ -53,5 +54,6 @@ virtual T Evaluate(const DifferentialGeometry&) const =0;
 virtual ~Texture(){};
 };
 
+float Lanczos(float x, float tau);
 
 #endif /* CORE_TEXTURE_H_ */
