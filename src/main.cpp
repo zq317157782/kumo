@@ -139,8 +139,8 @@ int main(int argc, char** argv) {
 	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
 	Grass * grass=new Grass(white,white,ior);
 
-	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
-	Grass * grass = new Grass(white, white, ior);
+//	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
+//	Grass * grass = new Grass(white, white, ior);
 
 	Transform localToWorld = Translate(Vector(0, 1, 6));
 	Transform worldToLocal = Translate(Vector(0, -1, -6));

@@ -36,7 +36,7 @@ RGB EstimateDirect(const Scene* scene, const Renderer*renderer,
 		if (!f.IsBlack() && visibility.Unoccluded(scene)) {
 			if (light->IsDeltaLight()) {
 				//这里不使用MIS策略
-			//	return RGB(1,1,1);
+				//	return RGB(1,1,1);
 				Ld += f * Li * (AbsDot(wi, n) / lightPdf);
 			} else {
 				//使用MIS策略
@@ -136,7 +136,7 @@ RGB UniformSampleOneLight(const Scene *scene, const Renderer *renderer,
 	}
 	return (float) nLights
 			* EstimateDirect(scene, renderer, arena, light, p, n, wo,
-					rayEpsilon,bsdf, rand, lightSample, bsdfSample,
+					rayEpsilon, bsdf, rand, lightSample, bsdfSample,
 					BxDFType(BSDF_ALL & ~BSDF_SPECULAR));
 }
 
@@ -154,7 +154,28 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 	//cout<<"pdf:"<<pdf<<" f:"<<f.r<<f.g<<f.b<<endl;
 	if (pdf > 0.0f && !f.IsBlack() && AbsDot(wi, n) != 0.0f) {
 		RayDifferential r(p, wi, ray, isect.rayEpsilon);
-		//TODO 没有实现RAY微分的代码
+		//PBRT P513
+		if (r.hasDifferentials) {
+			r.hasDifferentials = true;
+			//一次逼近
+			r.rxOrigin = p + isect.dg.dpdx;
+			r.ryOrigin = p + isect.dg.dpdy;
+			//链式法则
+			Normal dndx = bsdf->dgShading.dndu * bsdf->dgShading.dudx
+					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdx;
+			Normal dndy = bsdf->dgShading.dndu * bsdf->dgShading.dudy
+					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdy;
+			//出射方向的差分
+			Vector dwodx = -ray.rxDirection - wo, dwody = -ray.ryDirection - wo;
+			//dwidx dwidy
+			float dDNdx = Dot(dwodx, n) + Dot(wo, dndx);
+			float dDNdy = Dot(dwody, n) + Dot(wo, dndy);
+			r.rxDirection = wi - dwodx
+					+ 2 * Vector(Dot(wo, n) * dndx + dDNdx * n);//w=wi+dwidx
+			r.ryDirection = wi - dwody
+					+ 2 * Vector(Dot(wo, n) * dndy + dDNdy * n);//w=wi+dwidy
+		}
+
 		RGB Li = renderer->Li(scene, r, sample, rand, arena);
 		L = f * Li * AbsDot(wi, n) / pdf;
 		//cout<<L.r<<L.g<<L.b<<endl;
