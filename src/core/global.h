@@ -154,4 +154,8 @@ inline int Float2Int(float val) {
     return (int)val;
 }
 
+inline bool IsPowerOf2(int v) {
+    return v && !(v & (v - 1));
+}
+
 #endif //RAYTRACER_GLOBAL_H
