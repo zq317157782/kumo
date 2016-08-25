@@ -124,6 +124,7 @@ public:
 						; //写锁定时等待
 				} while (!m_lockCount.compare_exchange_weak(count, count + 1));
 		}
+		//cout<<">"<<endl;
 		return m_lockCount;
 	}
 
@@ -131,6 +132,7 @@ public:
 		// ==时为独占写状态,不需要加锁
 		if (this_thread::get_id() != this->m_write_thread_id)
 			--m_lockCount;
+		//cout<<"<"<<endl;
 		return m_lockCount;
 	}
 
@@ -146,27 +148,31 @@ public:
 			--m_writeWaitCount;		        //获取锁后,计数器减1
 			m_write_thread_id = this_thread::get_id();
 		}
+		//cout<<"!"<<endl;
 		return m_lockCount;
 	}
 
 	int writeUnlock() {
+
 		if (this_thread::get_id() != this->m_write_thread_id) {
+			cout<<this_thread::get_id()<<endl;
 			throw runtime_error("writeLock/Unlock mismatch");
 		}
 		assert(WRITE_LOCK_STATUS==m_lockCount);
 		m_write_thread_id = NULL_THEAD;
 		m_lockCount.store(FREE_STATUS);
+		//cout<<"?"<<endl;
 		return m_lockCount;
 	}
 
 	void upgrade2Writer() {
-		--m_lockCount;
+		readUnlock();
 		writeLock();
 	}
 
 	void down2Reader() {
 		writeUnlock();
-		++m_lockCount;
+		readLock();
 	}
 };
 /*

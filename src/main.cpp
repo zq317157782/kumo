@@ -40,6 +40,7 @@
 #include "film/png.h"
 #include "integrator/igi.h"
 #include "accelerator/grid.h"
+#include "texture/image.h"
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -131,7 +132,10 @@ int main(int argc, char** argv) {
 	ConstantTexture<float> *roughess = new ConstantTexture<float>(25);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(10, 10), black, white);
-	Matte * m = new Matte(checker);
+
+	PNGImageTexture *tex=new PNGImageTexture(new UVMapping2D(1, 1),"res/lala.png",505,348,true,0,TEXTURE_BLACK,0,0);
+
+	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);

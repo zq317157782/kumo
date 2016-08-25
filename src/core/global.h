@@ -91,6 +91,7 @@ struct BSDFSample; //BSDF样本
 struct BSDFSampleOffsets;
 struct Distribution1D;
 class RWMutex; //读写锁
+template<typename T> class MIPMap; //纹理
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     // 计算判别式
