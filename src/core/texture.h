@@ -42,6 +42,8 @@ public:
 		*dtdy=mScaleV*dg.dvdy;
 
 	}
+
+	virtual ~UVMapping2D(){}
 };
 
 
@@ -54,6 +56,6 @@ virtual T Evaluate(const DifferentialGeometry&) const =0;
 virtual ~Texture(){};
 };
 
-float Lanczos(float x, float tau);
+float Lanczos(float x, float tau=2);
 
 #endif /* CORE_TEXTURE_H_ */

@@ -158,4 +158,21 @@ inline bool IsPowerOf2(int v) {
     return v && !(v & (v - 1));
 }
 
+
+inline int Mod(int a, int b) {
+    int n = int(a/b);
+    a -= n*b;
+    if (a < 0) a += b;
+    return a;
+}
+
+inline float Log2(float x) {
+    static float invLog2 = 1.f / logf(2.f);
+    return logf(x) * invLog2;
+}
+
+inline int Log2Int(float v) {
+    return Floor2Int(Log2(v));
+}
+template <typename T, int logBlockSize = 2> class BlockedArray;
 #endif //RAYTRACER_GLOBAL_H
