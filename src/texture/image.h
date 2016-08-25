@@ -19,7 +19,6 @@ public:
 			const char*, unsigned int width,unsigned int height,bool doTri,
             float maxAniso,ImageWrap wm, float scale, float gamma);
 	virtual RGB Evaluate(const DifferentialGeometry&) const override;
-	virtual ~PNGImageTexture();
 };
 
 

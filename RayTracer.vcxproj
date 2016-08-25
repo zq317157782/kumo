@@ -141,6 +141,7 @@
     <ClCompile Include="src\core\light.cpp" />
     <ClCompile Include="src\core\material.cpp" />
     <ClCompile Include="src\core\memory.cpp" />
+    <ClCompile Include="src\core\mipmap.cpp" />
     <ClCompile Include="src\core\montecarlo.cpp" />
     <ClCompile Include="src\core\parallel.cpp" />
     <ClCompile Include="src\core\primitive.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="src\core\sampler.cpp" />
     <ClCompile Include="src\core\Scene.cpp" />
     <ClCompile Include="src\core\Shape.cpp" />
+    <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\film\png.cpp" />
     <ClCompile Include="src\film\ppm.cpp" />
@@ -179,6 +181,7 @@
     <ClCompile Include="src\shape\sphere.cpp" />
     <ClCompile Include="src\shape\trianglemesh.cpp" />
     <ClCompile Include="src\test\test.cpp" />
+    <ClCompile Include="src\texture\image.cpp" />
     <ClCompile Include="src\thrid\lodepng\lodepng.cpp" />
     <ClCompile Include="src\thrid\objloader\Model.cpp" />
   </ItemGroup>
@@ -202,6 +205,7 @@
     <ClInclude Include="src\core\light.h" />
     <ClInclude Include="src\core\material.h" />
     <ClInclude Include="src\core\memory.h" />
+    <ClInclude Include="src\core\mipmap.h" />
     <ClInclude Include="src\core\montecarlo.h" />
     <ClInclude Include="src\core\parallel.h" />
     <ClInclude Include="src\core\primitive.h" />
@@ -244,6 +248,7 @@
     <ClInclude Include="src\test\test.h" />
     <ClInclude Include="src\texture\checkerboard.h" />
     <ClInclude Include="src\texture\constant.h" />
+    <ClInclude Include="src\texture\image.h" />
     <ClInclude Include="src\texture\scale.h" />
     <ClInclude Include="src\thrid\lodepng\lodepng.h" />
     <ClInclude Include="src\thrid\objloader\Model.h" />
