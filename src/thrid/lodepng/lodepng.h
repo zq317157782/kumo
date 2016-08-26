@@ -886,7 +886,6 @@ unsigned compress(std::vector<unsigned char>& out, const std::vector<unsigned ch
 #endif /*LODEPNG_COMPILE_CPP*/
 
 /*
-TODO:
 [.] test if there are no memory leaks or security exploits - done a lot but needs to be checked often
 [.] check compatibility with various compilers  - done but needs to be redone for every newer version
 [X] converting color to 16-bit per channel types

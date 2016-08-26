@@ -155,7 +155,7 @@ public:
 	int writeUnlock() {
 
 		if (this_thread::get_id() != this->m_write_thread_id) {
-			cout<<this_thread::get_id()<<endl;
+			cout << this_thread::get_id() << endl;
 			throw runtime_error("writeLock/Unlock mismatch");
 		}
 		assert(WRITE_LOCK_STATUS==m_lockCount);
@@ -166,13 +166,32 @@ public:
 	}
 
 	void upgrade2Writer() {
-		readUnlock();
-		writeLock();
+		if (this_thread::get_id() != this->m_write_thread_id) {
+			--m_lockCount;
+			++m_writeWaitCount; //写等待计数器加1
+			for (int zero = FREE_STATUS;
+					!this->m_lockCount.compare_exchange_weak(zero,
+					WRITE_LOCK_STATUS); zero = FREE_STATUS)
+				;
+			--m_writeWaitCount;		        //获取锁后,计数器减1
+			m_write_thread_id = this_thread::get_id();
+			//cout<<"升级读者"<<endl;
+		}
+
+//		readUnlock();
+//		writeLock();
 	}
 
 	void down2Reader() {
-		writeUnlock();
-		readLock();
+
+		if (this_thread::get_id() != this->m_write_thread_id) {
+			cout << this_thread::get_id() << endl;
+			throw runtime_error("writeLock/Unlock mismatch");
+		}
+		assert(WRITE_LOCK_STATUS==m_lockCount);
+		m_write_thread_id = NULL_THEAD;
+		m_lockCount.store(FREE_STATUS + 1);
+		//cout<<"降级读者"<<endl;
 	}
 };
 /*
