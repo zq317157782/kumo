@@ -92,10 +92,8 @@ void SimpleRendererTask::Run() {
 	while ((nSample = mSampler->GetMoreSamples(samples, mRand)) > 0) {
 		for (int i = 0; i < nSample; ++i) {
 			RGB L;
-			Point point;
-			point.x = samples[i].imageX - mCamerea->film->xResolution * 0.5f;
-			point.y = samples[i].imageY - mCamerea->film->yResolution * 0.5f;
-			Ray ray = mCamerea->generateRay(point);
+			RayDifferential ray;
+			mCamerea->GenerateRay(samples[i],&ray);
 			Intersection sr;
 			L = mRenderer->Li(mScene, ray, &samples[i], mRand, mArena, &sr);
 			mCamerea->film->AddSample(samples[i], L);

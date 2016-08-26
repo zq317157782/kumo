@@ -12,7 +12,7 @@ class PinholeCamera: public Camera{
 protected:
     float mDistanceToView;
     float mZoomFactor;
-
+    float xOffset,yOffset;
    // Vector _rayDirection(const Point& p) const;
 public:
     PinholeCamera(Film * f,Transform* c2w,const float distance=CAMERA_VIEWPANEL_DISTANCE, const float zoomFactor=1);
@@ -21,7 +21,8 @@ public:
 
 
    // virtual void renderScene(const Scene &scene, Film &picture);
-   virtual Ray generateRay(const Point& p) const override;
+    virtual float GenerateRay(const CameraSample &sample,
+                                 Ray *ray) const override;
 };
 
 

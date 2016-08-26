@@ -40,6 +40,7 @@
 #include "film/png.h"
 #include "integrator/igi.h"
 #include "accelerator/grid.h"
+#include "accelerator/normal.h"
 #include "texture/image.h"
 using namespace std;
 //#define UNIT_TEST
@@ -273,8 +274,8 @@ int main(int argc, char** argv) {
 	primtives.push_back(panel4);
 	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	GridAccel grid(primtives, true);
-
+	//GridAccel grid(primtives, true);
+	NormalAggregate na(primtives);
 	vector<Light*> lights;
 	Transform localToWorld3 = Translate(Vector(0, 0, 5.3));
 	Transform worldToLocal3 = Translate(Vector(0, 0, -5.3));
@@ -287,13 +288,13 @@ int main(int argc, char** argv) {
 	//scene.addLight(p2);
 
 
-	Scene scene(&grid,lights);
+	Scene scene(&na,lights);
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 8,8,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,

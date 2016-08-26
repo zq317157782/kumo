@@ -16,7 +16,9 @@ public:
     Transform *cameraToWorld;
 public:
     Camera(Film * f,Transform* c2w);
-    virtual Ray generateRay(const Point& p) const=0;
+    virtual float GenerateRay(const CameraSample &sample,
+                                 Ray *ray) const = 0;
+    virtual float GenerateRayDifferential(const CameraSample &sample, RayDifferential *rd) const;
 };
 
 
