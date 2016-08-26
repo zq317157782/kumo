@@ -179,7 +179,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(red);
+	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -224,34 +224,34 @@ int main(int argc, char** argv) {
 
 
 	//测试三角面片
-//			Model model;
-//			model.load("res/WALL_E.obj");
-//			int triCount = model.numberOfTriangles();
-//			int vertexCount = model.numberOfVertices();
-//			Point* points = new Point[vertexCount];
-//			for (int i = 0; i < vertexCount; ++i) {
-//				_POINT p = model.getVertex(i);
-//				points[i] = Point(p.x, p.y, p.z);
-//			}
-//
-//			int * indexs = new int[3 * triCount];
-//			for (int i = 0, j = 0; i < triCount; ++i) {
-//				_TRIANGLE t = model.getTriangle(i);
-//				indexs[j++] = t.index[0];
-//				indexs[j++] = t.index[1];
-//				indexs[j++] = t.index[2];
-//			}
-//
-//
-//	//		Transform localToWorld_tri = Scale(10,10,10);
-//	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
-//			Transform localToWorld_tri = Scale(0.2f,0.2f,0.2f);
-//			Transform worldToLocal_tri = Scale(5.0f,5.0f,5.0f);
-//
-//			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-//					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-//			Matte * mtri = new Matte(white);
-//			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
+			Model model;
+			model.load("res/t1.obj");
+			int triCount = model.numberOfTriangles();
+			int vertexCount = model.numberOfVertices();
+			Point* points = new Point[vertexCount];
+			for (int i = 0; i < vertexCount; ++i) {
+				_POINT p = model.getVertex(i);
+				points[i] = Point(p.x, p.y, p.z);
+			}
+
+			int * indexs = new int[3 * triCount];
+			for (int i = 0, j = 0; i < triCount; ++i) {
+				_TRIANGLE t = model.getTriangle(i);
+				indexs[j++] = t.index[0];
+				indexs[j++] = t.index[1];
+				indexs[j++] = t.index[2];
+			}
+
+
+	//		Transform localToWorld_tri = Scale(10,10,10);
+	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
+			Transform localToWorld_tri = Translate(Vector(0,-1,7));
+			Transform worldToLocal_tri = Translate(Vector(0,1,-7));
+
+			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
+					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
+			Matte * mtri = new Matte(white);
+			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
 
 
 
@@ -263,19 +263,19 @@ int main(int argc, char** argv) {
 	camera.setDistanceToView(700);
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
-	primtives.push_back(primit);
-	primtives.push_back(primit2);
-	primtives.push_back(primit3);
-	primtives.push_back(primit4);
-	//primtives.push_back(primit_tri);
+//	primtives.push_back(primit);
+//	primtives.push_back(primit2);
+//	primtives.push_back(primit3);
+//	primtives.push_back(primit4);
+	primtives.push_back(primit_tri);
 	primtives.push_back(panel1);
 	primtives.push_back(panel2);
 	primtives.push_back(panel3);
 	primtives.push_back(panel4);
 	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	//GridAccel grid(primtives, true);
-	NormalAggregate na(primtives);
+	GridAccel grid(primtives, true);
+	//NormalAggregate na(primtives);
 	vector<Light*> lights;
 	Transform localToWorld3 = Translate(Vector(0, 0, 5.3));
 	Transform worldToLocal3 = Translate(Vector(0, 0, -5.3));
@@ -284,17 +284,17 @@ int main(int argc, char** argv) {
 	DistantLight* p = new DistantLight(localToWorld3, RGB(1, 1, 1),
 			Vector(1, 0, 0));
 	lights.push_back(diffuse);
-	//scene.addLight(p);
+	//lights.push_back(p);
 	//scene.addLight(p2);
 
 
-	Scene scene(&na,lights);
+	Scene scene(&grid,lights);
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 4,4,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 2,2,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
