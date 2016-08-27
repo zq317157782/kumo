@@ -245,8 +245,8 @@ int main(int argc, char** argv) {
 
 	//		Transform localToWorld_tri = Scale(10,10,10);
 	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
-			Transform localToWorld_tri = Translate(Vector(0,-1,7));
-			Transform worldToLocal_tri = Translate(Vector(0,1,-7));
+			Transform localToWorld_tri = Translate(Vector(0,-1,7))*RotateY(180);
+			Transform worldToLocal_tri = Translate(Vector(0,1,-7))*RotateY(-180);
 
 			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
 					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
@@ -294,7 +294,7 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 2,2,true),
+	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 18,18,true),
 				new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,

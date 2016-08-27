@@ -112,6 +112,7 @@ public:
     }
 
     friend Transform Inverse(const Transform& t);
+    Transform operator*(const Transform& tran) const;
 };
 
 inline Transform Inverse(const Transform& t){

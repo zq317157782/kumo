@@ -255,3 +255,9 @@ Transform Rotate(float angle, const Vector &axis) {
 	return Transform(mat, Transpose(mat));
 }
 
+Transform Transform::operator*(const Transform& tran) const{
+	Matrix4X4 m= Matrix4X4::Mul(this->m,tran.m);
+	Matrix4X4 mInv= Matrix4X4::Mul(tran.invM,this->invM);
+	return Transform(m,mInv);
+}
+
