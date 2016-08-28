@@ -4,7 +4,6 @@
 #include <iostream>
 #include "shape/sphere.h"
 #include "camera/PinholeCamera.h"
-#include "oldSampler/MultiJitteredOldSampler.h"
 #include "transform.h"
 #include "global.h"
 #include "renderer/simpleRenderer.h"
@@ -42,6 +41,8 @@
 #include "accelerator/grid.h"
 #include "accelerator/normal.h"
 #include "texture/image.h"
+#include "SDL2/SDL.h"
+
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -74,39 +75,27 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
-class TestRef: ReferenceCounted {
-public:
-	int i;
-	TestRef(int i) {
-		this->i = i;
-	}
-};
+SDL_Surface *screen;
 
-//RWLock d;
-//
-//static int n = 0;
-//
-//void write() {
-//	while (true) {
-//		d.writeLock();
-//		//cout << "修改" << endl;
-//		++n;
-//		//this_thread::sleep_for(chrono::seconds(1));
-//		d.writeUnlock();
-//	}
-//}
-//
-//void read() {
-//	while (true) {
-//		d.readLock();
-//		d.upgrade2Writer();
-//		n++;
-//		cout << n << endl;
-//		d.down2Reader();
-//		d.readUnlock();
-//		this_thread::sleep_for(chrono::seconds(1));
-//	}
-//}
+void createWindow() {
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		cerr << "Unable to init SDL:" << SDL_GetError() << endl;
+		exit(1);
+	}
+	SDL_Window* window = SDL_CreateWindow("helloWorld", 0, 0, 800, 600,
+			SDL_WINDOW_SHOWN);
+	if (window == nullptr) {
+		cerr << "Unable to create Window:" << SDL_GetError() << endl;
+		SDL_Quit();
+	}
+
+	SDL_Renderer* rendererSDL = SDL_CreateRenderer(window, -1,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (rendererSDL == nullptr) {
+		cerr << "Unable to create Renderer:" << SDL_GetError() << endl;
+		SDL_Quit();
+	}
+}
 
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
@@ -114,14 +103,6 @@ int main(int argc, char** argv) {
 	return RUN_ALL_TESTS();
 #endif
 
-//	thread t1(read);
-//	thread t2(read);
-//	thread t3(read);
-//	thread t4(read);
-//	thread t5(read);
-//	thread t6(write);
-//	this_thread::sleep_for(chrono::seconds(100));
-	//Vector dir = CosSampleHemisphere(0.1, 0.1);
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -134,7 +115,8 @@ int main(int argc, char** argv) {
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(10, 10), black, white);
 
-	PNGImageTexture *tex=new PNGImageTexture(new UVMapping2D(1, 1),"res/lala.png",505,348,true,0,TEXTURE_BLACK,0,0);
+	PNGImageTexture *tex = new PNGImageTexture(new UVMapping2D(1, 1),
+			"res/lala.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
 
 	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
@@ -142,7 +124,7 @@ int main(int argc, char** argv) {
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
 	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
-	Grass * grass=new Grass(white,white,ior);
+	Grass * grass = new Grass(white, white, ior);
 
 //	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
 //	Grass * grass = new Grass(white, white, ior);
@@ -222,39 +204,36 @@ int main(int argc, char** argv) {
 			Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2),
 			Point(-10, 10, -2), m6);
 
-
 	//测试三角面片
-			Model model;
-			model.load("res/t1.obj");
-			int triCount = model.numberOfTriangles();
-			int vertexCount = model.numberOfVertices();
-			Point* points = new Point[vertexCount];
-			for (int i = 0; i < vertexCount; ++i) {
-				_POINT p = model.getVertex(i);
-				points[i] = Point(p.x, p.y, p.z);
-			}
+	Model model;
+	model.load("res/t1.obj");
+	int triCount = model.numberOfTriangles();
+	int vertexCount = model.numberOfVertices();
+	Point* points = new Point[vertexCount];
+	for (int i = 0; i < vertexCount; ++i) {
+		_POINT p = model.getVertex(i);
+		points[i] = Point(p.x, p.y, p.z);
+	}
 
-			int * indexs = new int[3 * triCount];
-			for (int i = 0, j = 0; i < triCount; ++i) {
-				_TRIANGLE t = model.getTriangle(i);
-				indexs[j++] = t.index[0];
-				indexs[j++] = t.index[1];
-				indexs[j++] = t.index[2];
-			}
-
+	int * indexs = new int[3 * triCount];
+	for (int i = 0, j = 0; i < triCount; ++i) {
+		_TRIANGLE t = model.getTriangle(i);
+		indexs[j++] = t.index[0];
+		indexs[j++] = t.index[1];
+		indexs[j++] = t.index[2];
+	}
 
 	//		Transform localToWorld_tri = Scale(10,10,10);
 	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
-			Transform localToWorld_tri = Translate(Vector(0,-1,7))*RotateY(180);
-			Transform worldToLocal_tri = Translate(Vector(0,1,-7))*RotateY(-180);
+	Transform localToWorld_tri = Translate(Vector(0, -1, 7)) * RotateY(180);
+	Transform worldToLocal_tri = Translate(Vector(0, 1, -7)) * RotateY(-180);
 
-			TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-					triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-			Matte * mtri = new Matte(white);
-			GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(mtri));
-
-
-
+	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
+			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
+			nullptr);
+	Matte * mtri = new Matte(white);
+	GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
+			Reference<Material>((grass)));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
@@ -287,15 +266,15 @@ int main(int argc, char** argv) {
 	//lights.push_back(p);
 	//scene.addLight(p2);
 
-
-	Scene scene(&grid,lights);
+	Scene scene(&grid, lights);
 	scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new StratifiedSampler(0, 800, 0, 600, 18,18,true),
-				new PathIntegrator(5));	//new PathIntegrator(5)
+	SimpleRenderer renderer(&camera,
+			new StratifiedSampler(0, 800, 0, 600, 18, 18, true),
+			new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
