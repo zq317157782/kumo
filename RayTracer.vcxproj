@@ -126,11 +126,6 @@
   <ItemGroup>
     <ClCompile Include="src\accelerator\grid.cpp" />
     <ClCompile Include="src\accelerator\normal.cpp" />
-    <ClCompile Include="src\brdf\CookTorrance.cpp" />
-    <ClCompile Include="src\brdf\GlossySpecular.cpp" />
-    <ClCompile Include="src\brdf\GlossySpecularHalfVector.cpp" />
-    <ClCompile Include="src\brdf\Lambertian.cpp" />
-    <ClCompile Include="src\brdf\TorranceSparrowSpecular.cpp" />
     <ClCompile Include="src\camera\PinholeCamera.cpp" />
     <ClCompile Include="src\core\BRDF.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
@@ -171,11 +166,6 @@
     <ClCompile Include="src\material\metal.cpp" />
     <ClCompile Include="src\material\mirror.cpp" />
     <ClCompile Include="src\material\translucent.cpp" />
-    <ClCompile Include="src\oldsampler\JitteredSampler.cpp" />
-    <ClCompile Include="src\oldsampler\MultiJitteredSampler.cpp" />
-    <ClCompile Include="src\oldsampler\NRookSampler.cpp" />
-    <ClCompile Include="src\oldsampler\OldSampler.cpp" />
-    <ClCompile Include="src\oldsampler\RandomSampler.cpp" />
     <ClCompile Include="src\renderer\simpleRenderer.cpp" />
     <ClCompile Include="src\sampler\randomSampler.cpp" />
     <ClCompile Include="src\sampler\stratified.cpp" />
@@ -189,11 +179,6 @@
   <ItemGroup>
     <ClInclude Include="src\accelerator\grid.h" />
     <ClInclude Include="src\accelerator\normal.h" />
-    <ClInclude Include="src\brdf\CookTorrance.h" />
-    <ClInclude Include="src\brdf\GlossySpecular.h" />
-    <ClInclude Include="src\brdf\GlossySpecularHalfVector.h" />
-    <ClInclude Include="src\brdf\Lambertian.h" />
-    <ClInclude Include="src\brdf\TorranceSparrowSpecular.h" />
     <ClInclude Include="src\camera\PinholeCamera.h" />
     <ClInclude Include="src\core\BRDF.h" />
     <ClInclude Include="src\core\Camera.h" />
@@ -237,11 +222,6 @@
     <ClInclude Include="src\material\metal.h" />
     <ClInclude Include="src\material\mirror.h" />
     <ClInclude Include="src\material\translucent.h" />
-    <ClInclude Include="src\oldsampler\JitteredOldSampler.h" />
-    <ClInclude Include="src\oldsampler\MultiJitteredOldSampler.h" />
-    <ClInclude Include="src\oldsampler\NRookOldSampler.h" />
-    <ClInclude Include="src\oldsampler\OldSampler.h" />
-    <ClInclude Include="src\oldsampler\RandomOldSampler.h" />
     <ClInclude Include="src\renderer\simpleRenderer.h" />
     <ClInclude Include="src\sampler\randomSampler.h" />
     <ClInclude Include="src\sampler\stratified.h" />
