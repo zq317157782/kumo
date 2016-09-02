@@ -593,6 +593,13 @@ public:
 		else
 			return 2;
 	}
+
+	const Point &operator[](int i) const{
+		return (&pMin)[i];
+	}
+	Point &operator[](int i){
+		return (&pMin)[i];
+	}
 };
 
 BBox Union(const BBox &b, const Point &p);

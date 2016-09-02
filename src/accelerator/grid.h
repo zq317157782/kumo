@@ -64,7 +64,7 @@ private:
 public:
 	GridAccel(const vector<Reference<Primitive>>& prims,
 			bool refineImmediately);
-	bool Intersect(const Ray &r, Intersection *in) const;
+	bool Intersect(const Ray &r, Intersection *in) const override;
 	BBox WorldBound() const override;
 	bool IntersectP(const Ray &ray) const override;
 };

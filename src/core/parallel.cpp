@@ -24,11 +24,11 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 	}
 
 	taskQueueMutex.lock();
-	cout << "EnqueueTasks" << endl;
+	//cout << "EnqueueTasks" << endl;
 	for (int i = 0; i < tasks.size(); ++i) {
 		taskQueue.push_back(tasks[i]);
 	}
-	cout << "EnqueueTasks end" << endl;
+	//cout << "EnqueueTasks end" << endl;
 	taskQueueMutex.unlock();
 	tasksRunningConditionMutex.lock();
 	numUnfinishedTasks += tasks.size();

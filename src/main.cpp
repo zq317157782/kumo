@@ -41,7 +41,8 @@
 #include "accelerator/grid.h"
 #include "accelerator/normal.h"
 #include "texture/image.h"
-#include "SDL2/SDL.h"
+#include "accelerator/bvh.h"
+//#include "SDL2/SDL.h"
 
 using namespace std;
 //#define UNIT_TEST
@@ -75,27 +76,8 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
-SDL_Surface *screen;
 
-void createWindow() {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		cerr << "Unable to init SDL:" << SDL_GetError() << endl;
-		exit(1);
-	}
-	SDL_Window* window = SDL_CreateWindow("helloWorld", 0, 0, 800, 600,
-			SDL_WINDOW_SHOWN);
-	if (window == nullptr) {
-		cerr << "Unable to create Window:" << SDL_GetError() << endl;
-		SDL_Quit();
-	}
 
-	SDL_Renderer* rendererSDL = SDL_CreateRenderer(window, -1,
-			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (rendererSDL == nullptr) {
-		cerr << "Unable to create Renderer:" << SDL_GetError() << endl;
-		SDL_Quit();
-	}
-}
 
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
@@ -223,8 +205,6 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
-	//		Transform localToWorld_tri = Scale(10,10,10);
-	//		Transform worldToLocal_tri = Scale(-10,-10,-10);
 	Transform localToWorld_tri = Translate(Vector(0, -1, 7)) * RotateY(180);
 	Transform worldToLocal_tri = Translate(Vector(0, 1, -7)) * RotateY(-180);
 
@@ -253,7 +233,8 @@ int main(int argc, char** argv) {
 	primtives.push_back(panel4);
 	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	GridAccel grid(primtives, true);
+	BVHAccel grid(primtives,128,BVHAccel::SPLIT_MIDDLE);
+	//GridAccel grid(primtives, true);
 	//NormalAggregate na(primtives);
 	vector<Light*> lights;
 	Transform localToWorld3 = Translate(Vector(0, 0, 5.3));
@@ -273,7 +254,7 @@ int main(int argc, char** argv) {
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-			new StratifiedSampler(0, 800, 0, 600, 18, 18, true),
+			new StratifiedSampler(0, 800, 0, 600, 10, 10, true),
 			new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
