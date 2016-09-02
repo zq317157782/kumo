@@ -41,8 +41,11 @@
 #include "accelerator/grid.h"
 #include "accelerator/normal.h"
 #include "texture/image.h"
+<<<<<<< HEAD
 #include "accelerator/bvh.h"
 //#include "SDL2/SDL.h"
+=======
+>>>>>>> origin/master
 
 using namespace std;
 //#define UNIT_TEST
@@ -76,8 +79,11 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
@@ -98,7 +104,7 @@ int main(int argc, char** argv) {
 			new UVMapping2D(10, 10), black, white);
 
 	PNGImageTexture *tex = new PNGImageTexture(new UVMapping2D(1, 1),
-			"res/lala.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
+			"res/p1.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
 
 	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
@@ -254,7 +260,11 @@ int main(int argc, char** argv) {
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
+<<<<<<< HEAD
 			new StratifiedSampler(0, 800, 0, 600, 10, 10, true),
+=======
+			new StratifiedSampler(0, 800, 0, 600, 100, 100, true),
+>>>>>>> origin/master
 			new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
