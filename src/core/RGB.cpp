@@ -78,5 +78,5 @@ RGB RGB::operator/(const RGB& c) const {
 }
 
 RGB RGB::clamp(){
-    return RGB(min(1.0f,r),min(1.0f,g),min(1.0f,b));
+    return RGB(max(0.0f,min(1.0f,r)), max(0.0f, min(1.0f,g)), max(0.0f, min(1.0f,b)));
 }
