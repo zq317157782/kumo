@@ -124,6 +124,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\accelerator\bvh.cpp" />
     <ClCompile Include="src\accelerator\grid.cpp" />
     <ClCompile Include="src\accelerator\normal.cpp" />
     <ClCompile Include="src\camera\PinholeCamera.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="src\thrid\objloader\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\accelerator\bvh.h" />
     <ClInclude Include="src\accelerator\grid.h" />
     <ClInclude Include="src\accelerator\normal.h" />
     <ClInclude Include="src\camera\PinholeCamera.h" />
