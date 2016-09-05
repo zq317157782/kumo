@@ -19,6 +19,12 @@ Light* Scene::getLight(const int index) const {
 Scene::Scene(Primitive* aggr,const vector<Light*>& light) :background(RGB(0, 0, 0)){
 	aggregate=aggr;
 	mLights=light;
+	mBound = aggregate->WorldBound();
+}
+
+
+const BBox &Scene::WorldBound() const {
+    return mBound;
 }
 
 //unsigned long Scene::getPrimitiveNum() const {

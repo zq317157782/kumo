@@ -13,20 +13,13 @@ using namespace std;
 class Scene {
 private:
     vector<Light*> mLights;
-    //vector<Reference<Primitive>> mPrimitives;
     Primitive* aggregate;//加速器结构
+    BBox mBound;
 public:
 
     Scene(Primitive* aggr,const vector<Light*>& light);
     unsigned long getLightNum() const;
     Light* getLight(const int index) const;
-
-//    unsigned long getPrimitiveNum() const;
-//    Reference<Primitive> getPrimitive(int index) const;
-//    Reference<Primitive> getPrimitiveByID(unsigned int id) const;
-
-    //void addPrimitive(Primitive* s);
-    //void addLight(Light* light);
 
     virtual bool Intersect(const Ray& ray,Intersection* sr) const;
     virtual bool IntersectP(const Ray& ray) const;
@@ -34,6 +27,8 @@ public:
     RGB background;
 
     virtual ~Scene(){}
+
+    const BBox &WorldBound() const;
 };
 
 
