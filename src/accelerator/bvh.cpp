@@ -6,7 +6,7 @@
  */
 #include "bvh.h"
 
-//一种快速的Ray 和 Bound相交测试的方法
+//一种快速的Ray 和 Bound相交测试的方法 还没有完全理解
 static inline bool IntersectP(const BBox &bounds, const Ray &ray,
 		const Vector &invDir, const unsigned int dirIsNeg[3]) {
 
@@ -227,44 +227,45 @@ bool BVHAccel::Intersect(const Ray &ray, Intersection *isect) const {
 }
 bool BVHAccel::IntersectP(const Ray &ray) const {
 	if (!mNodes)
-			return false;
-		Vector invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
-		unsigned int dirIsNeg[3] = { invDir.x < 0, invDir.y < 0, invDir.z < 0 };//判断方向的原始是否为负数
-		unsigned int todoOffset = 0, nodeNum = 0;
-		unsigned int todo[64];
+		return false;
+	Vector invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
+	unsigned int dirIsNeg[3] = { invDir.x < 0, invDir.y < 0, invDir.z < 0 };//判断方向的原始是否为负数
+	unsigned int todoOffset = 0, nodeNum = 0;
+	unsigned int todo[64];
 	//开始循环遍历node
-		while (true) {
-			const LinearBVHNode *node = &mNodes[nodeNum];		//获取当前节点
-			if (::IntersectP(node->bounds, ray, invDir, dirIsNeg)) {
-				//射中node
-				if (node->numPrimitives > 0) {
-					//节点中有图元
-					for (unsigned int i = 0; i < node->numPrimitives; ++i) {
-						if (mPrimitives[node->primitiveOffset + i]->IntersectP(ray)) {
-							return true;
-						}
-					}
-
-					if (todoOffset == 0)
-						break;
-					nodeNum = todo[--todoOffset];
-				} else {
-					if (dirIsNeg[node->axis]) {
-						//先遍历第二个子节点
-						todo[todoOffset++] = nodeNum + 1;
-						nodeNum = node->secondOffset;
-					} else {
-						todo[todoOffset++] = node->secondOffset;
-						nodeNum = nodeNum + 1;
+	while (true) {
+		const LinearBVHNode *node = &mNodes[nodeNum];		//获取当前节点
+		if (::IntersectP(node->bounds, ray, invDir, dirIsNeg)) {
+			//射中node
+			if (node->numPrimitives > 0) {
+				//节点中有图元
+				for (unsigned int i = 0; i < node->numPrimitives; ++i) {
+					if (mPrimitives[node->primitiveOffset + i]->IntersectP(
+							ray)) {
+						return true;
 					}
 				}
-			} else {
-				//没射中node
+
 				if (todoOffset == 0)
 					break;
 				nodeNum = todo[--todoOffset];
+			} else {
+				if (dirIsNeg[node->axis]) {
+					//先遍历第二个子节点
+					todo[todoOffset++] = nodeNum + 1;
+					nodeNum = node->secondOffset;
+				} else {
+					todo[todoOffset++] = node->secondOffset;
+					nodeNum = nodeNum + 1;
+				}
 			}
+		} else {
+			//没射中node
+			if (todoOffset == 0)
+				break;
+			nodeNum = todo[--todoOffset];
 		}
-		return false;
+	}
+	return false;
 }
 
