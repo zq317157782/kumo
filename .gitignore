@@ -311,3 +311,5 @@ paket-files/
 .idea/
 *.sln.iml
 temp/rwlock.graffle
+
+res/lala.png

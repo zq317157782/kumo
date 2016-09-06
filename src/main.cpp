@@ -42,6 +42,7 @@
 #include "accelerator/normal.h"
 #include "texture/image.h"
 #include "accelerator/bvh.h"
+#include "integrator/ic.h"
 //#include "SDL2/SDL.h"
 
 
@@ -252,9 +253,13 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
+//	SimpleRenderer renderer(&camera,
+//	new StratifiedSampler(0, 800, 0, 600, 100, 100, true),
+//	new PathIntegrator(5));	//new PathIntegrator(5)
+
 	SimpleRenderer renderer(&camera,
-	new StratifiedSampler(0, 800, 0, 600, 100, 100, true),
-	new PathIntegrator(5));	//new PathIntegrator(5)
+		new StratifiedSampler(0, 800, 0, 600, 10, 10, true),
+		new IrradianceCacheIntegrator());	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),

@@ -13,11 +13,7 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 		numUnfinishedTasks += tasks.size();
 		progress_thread = new thread(progress);
 		for(int i=0;i<tasks.size();++i){
-			//cout<<"taskID:"<<numUnfinishedTasks<<endl;
-			if(1252==numUnfinishedTasks)
-				cout<<"taskID:"<<numUnfinishedTasks<<endl;
 			tasks[i]->Run();
-
 			--numUnfinishedTasks;
 		}
 		return;
@@ -28,6 +24,7 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 	for (int i = 0; i < tasks.size(); ++i) {
 		taskQueue.push_back(tasks[i]);
 	}
+	numMaxTasks=taskQueue.size();
 	//cout << "EnqueueTasks end" << endl;
 	taskQueueMutex.unlock();
 	tasksRunningConditionMutex.lock();
@@ -35,7 +32,7 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 	tasksRunningConditionMutex.unlock();
 	if (!threads){
 		InitTasks();
-		progress_thread = new thread(progress);
+		if(!progress_thread)progress_thread = new thread(progress);
 	}
 
 //	//	progress_thread->detach();
@@ -51,6 +48,12 @@ void WaitForAllTasks() {
 		cout << "waiting tasksRunningCondition" << endl;
 		tasksRunningCondition.wait(mux);
 	}
+	//	for (int i = 0; i < CORE_NUM; ++i) {
+	//			delete threads[i];
+	//	}
+	delete[] threads;
+	threads=nullptr;
+	cout << "all tasks OK" << endl;
 }
 
 const std::thread::id RWMutex::NULL_THEAD;

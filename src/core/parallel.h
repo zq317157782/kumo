@@ -23,6 +23,7 @@ public:
 };
 
 static unsigned int numUnfinishedTasks; //未完成的任务数
+static unsigned int numMaxTasks;
 static mutex taskQueueMutex; //任务队列互斥所
 static condition_variable tasksRunningCondition;
 static mutex tasksRunningConditionMutex;
@@ -32,6 +33,7 @@ static std::vector<Task *> taskQueue; //任务队列
 //执行任务入口
 static void taskEntry() {
 	while (true) {
+
 		//cout<<"get task"<<endl;
 		Task *myTask = nullptr;
 		{
@@ -59,14 +61,14 @@ static void taskEntry() {
 }
 
 static void progress() {
-	int maxNum = numUnfinishedTasks;
+	//int maxNum = numUnfinishedTasks;
 	while (true) {
 		if (numUnfinishedTasks == 0) {
 			cout << "kill progress thread" << endl;
 			break;
 		}
-		cout << "[" << ((float) (maxNum - numUnfinishedTasks) / maxNum) * 100
-				<< "%] active cores:" << active_core << endl;
+		cout << "[" << ((float) (numMaxTasks - numUnfinishedTasks) / numMaxTasks) * 100
+				<< "%] active cores:" << active_core <<"tasks:"<<numUnfinishedTasks<< endl;
 		this_thread::sleep_for(chrono::seconds(1));
 	}
 
@@ -75,6 +77,7 @@ static void progress() {
 static void InitTasks() {
 	//cout<<"init tasks"<<endl;
 	threads = new thread*[CORE_NUM];
+	active_core=CORE_NUM;
 	for (int i = 0; i < CORE_NUM; ++i) {
 		thread*work_thread = new thread(taskEntry);
 		threads[i] = work_thread;
