@@ -20,6 +20,14 @@ public:
 
 	virtual void AddSample(const CameraSample& sample, const RGB& L)=0;
 	virtual void WriteImage(float splatScale = 1.f){};
+	virtual void GetSampleExtent(int *xstart, int *xend,
+	                                 int *ystart, int *yend) const {
+		*xstart=0;
+		*xend=xResolution;
+		*ystart=0;
+		*yend=yResolution;
+
+	}
 };
 
 #endif /* CORE_FILM_H_ */

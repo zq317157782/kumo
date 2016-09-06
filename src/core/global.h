@@ -175,5 +175,10 @@ inline float Log2(float x) {
 inline int Log2Int(float v) {
     return Floor2Int(Log2(v));
 }
+
+inline float Degrees(float rad) {
+    return (180.f/(float)M_PI) * rad;
+}
+
 template <typename T, int logBlockSize = 2> class BlockedArray;
 #endif //RAYTRACER_GLOBAL_H

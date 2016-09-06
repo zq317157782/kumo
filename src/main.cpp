@@ -258,8 +258,8 @@ int main(int argc, char** argv) {
 //	new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 800, 0, 600, 10, 10, true),
-		new IrradianceCacheIntegrator());	//new PathIntegrator(5)
+		new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
+		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,4096));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
