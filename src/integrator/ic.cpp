@@ -68,7 +68,11 @@ struct IrradianceSample {
 	}
 	IrradianceSample(const RGB& e, const Point& P, const Normal&N,
 			const Vector&d, float md) {
-
+		E=e;
+		n=N;
+		p=P;
+		wAvg=d;
+		maxDistance=md;
 	}
 	RGB E; //irradiance
 	Normal n;
@@ -308,14 +312,14 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 			minHitDistance = min(minHitDistance, r.maxT);
 		}
 		E = (M_PI / float(mNumSample)) * LiSum;		//蒙特卡洛估计
-
-		//计算sample的影响范围
+//
+//		//计算sample的影响范围
 		float maxDist = maxSamplePixelSpacing * pixelSpacing;
 		float minDist = minSamplePixelSpacing * pixelSpacing;
 		float contribExtent = Clamp(minHitDistance / 2.0f, minDist, maxDist);
 		BBox sampleExtent(p);
 		sampleExtent.Expand(contribExtent);
-		//生成新的 irradiancesample
+//		//生成新的 irradiancesample
 		IrradianceSample *sample = new IrradianceSample(E, p, ng, wAvg,
 				contribExtent);
 		RWMutexLock lock(mMutex);

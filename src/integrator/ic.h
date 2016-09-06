@@ -40,7 +40,7 @@ private:
 			MemoryArena &arena) const;
 public:
 	IrradianceCacheIntegrator(float mw, float minsp, float maxsp, float maxang,
-			int msd, int maxind, int ns) {
+			int msd, int maxind, unsigned int ns) {
 		mMinWeight = mw;
 		mMaxSpecularDepth = msd;
 		mCosMaxSampleAngleDifference = cosf(Degrees(maxang));

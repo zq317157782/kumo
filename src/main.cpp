@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
 	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
-			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
+			Point(-1, 1, 8), Point(-1, -1, 8), Point(1, -1, 8), Point(1, 1, 8),
 			m1);
 
 	Transform l2w_panel2 = Translate(Vector(0, 0, 0));
@@ -153,30 +153,30 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_blue = new ConstantTexture<RGB>(RGB(0, 0, 1));
 	Matte * m2 = new Matte(half_red);
 	GeomPrimitive * panel2 = CreatePanel(&l2w_panel2, &w2l_panel2,
-			Point(-2, 2, -3 + 8), Point(-2, -2, -3 + 8), Point(-2, -2, 2 + 8),
-			Point(-2, 2, 2 + 8), m2);
+			Point(-1, 1, -3 + 8), Point(-1, -1, -3 + 8), Point(-1, -1, 2 + 8),
+			Point(-1, 1, 2 + 8), m2);
 
 	Transform l2w_panel3 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel3 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_green = new ConstantTexture<RGB>(RGB(0, 1, 0));
 	Matte * m3 = new Matte(half_green);
 	GeomPrimitive * panel3 = CreatePanel(&l2w_panel3, &w2l_panel3,
-			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -3 + 8),
-			Point(2, 2, -3 + 8), m3);
+			Point(1, 1, 2 + 8), Point(1, -1, 2 + 8), Point(1, -1, -3 + 8),
+			Point(1, 1, -3 + 8), m3);
 
 	Transform l2w_panel4 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
 	Matte * m4 = new Matte(white);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
-			Point(-2, -2, 2 + 8), Point(-2, -2, -3 + 8), Point(2, -2, -3 + 8),
-			Point(2, -2, 2 + 8), m4);
+			Point(-1, -1, 2 + 8), Point(-1, -1, -3 + 8), Point(1, -1, -3 + 8),
+			Point(1, -1, 2 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel5 = Translate(Vector(0, 0, -0));
 	Matte * m5 = new Matte(white);
 	GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
-			Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -3 + 8),
-			Point(-2, 2, -3 + 8), m4);
+			Point(-1, 1, 2 + 8), Point(1, 1, 2 + 8), Point(1, 1, -3 + 8),
+			Point(-1, 1, -3 + 8), m4);
 
 	Transform l2w_panel6 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel6 = Translate(Vector(0, 0, -0));
@@ -205,24 +205,24 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
-	Transform localToWorld_tri = Translate(Vector(0, -1, 7)) * RotateY(180);
-	Transform worldToLocal_tri = Translate(Vector(0, 1, -7)) * RotateY(-180);
+	Transform localToWorld_tri = Translate(Vector(0, -1, 7)) * RotateY(180)*Scale(0.5,0.5,0.5);
+	Transform worldToLocal_tri = Translate(Vector(0, 1, -7)) * RotateY(-180)*Scale(0.5,0.5,0.5);
 
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
 			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
 			nullptr);
 	Matte * mtri = new Matte(white);
 	GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
-			Reference<Material>((grass)));
+			Reference<Material>((m)));
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PNGFilm(800, 600, new TriangleFilter(0.5, 0.5),
+			new PNGFilm(300, 300, new TriangleFilter(0.5, 0.5),
 					"result/Renderer.png"), &cameraTransform); //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
-//	primtives.push_back(primit);
+	primtives.push_back(primit);
 //	primtives.push_back(primit2);
 //	primtives.push_back(primit3);
 //	primtives.push_back(primit4);
@@ -254,12 +254,12 @@ int main(int argc, char** argv) {
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
-//	new StratifiedSampler(0, 800, 0, 600, 100, 100, true),
+//	new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
 //	new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
-		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,4096));	//new PathIntegrator(5)
+		new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
+		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,100));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
