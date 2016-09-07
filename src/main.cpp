@@ -114,8 +114,8 @@ int main(int argc, char** argv) {
 	Transform localToWorld = Translate(Vector(0, 1, 6));
 	Transform worldToLocal = Translate(Vector(0, -1, -6));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
-			0.5, 360);
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.2, -0.2,
+			0.2, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
 			RGB(10, 10, 10), 16, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
@@ -259,7 +259,7 @@ int main(int argc, char** argv) {
 
 	SimpleRenderer renderer(&camera,
 		new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
-		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,100));	//new PathIntegrator(5)
+		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,4096));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),

@@ -167,7 +167,7 @@ void IrradianceCacheIntegrator::Preprocess(const Scene *scene,
 	int xstart, xend, ystart, yend;
 	camera->film->GetSampleExtent(&xstart, &xend, &ystart, &yend);
 	//todo PBRT使用的是Halton采样器
-	StratifiedSampler sampler(xstart, xend, ystart, yend, 1, 1, false);
+	StratifiedSampler sampler(xstart, xend, ystart, yend, 1, 1, true);
 	Sample *sample = new Sample(&sampler, this, scene);
 
 	//这里为什么要运行46个相同的任务 我非常费解
