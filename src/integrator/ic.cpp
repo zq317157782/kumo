@@ -323,7 +323,9 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 		IrradianceSample *sample = new IrradianceSample(E, p, ng, wAvg,
 				contribExtent);
 		RWMutexLock lock(mMutex);
+		lock.upgrade2Writer();
 		mOctree->Add(sample, sampleExtent);
+		lock.down2Reader();
 		wi = wAvg;
 	}
 	//判断方向的长度是否为0

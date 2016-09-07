@@ -155,6 +155,7 @@
     <ClCompile Include="src\film\ppm.cpp" />
     <ClCompile Include="src\filter\box.cpp" />
     <ClCompile Include="src\integrator\directlight.cpp" />
+    <ClCompile Include="src\integrator\ic.cpp" />
     <ClCompile Include="src\integrator\igi.cpp" />
     <ClCompile Include="src\integrator\path.cpp" />
     <ClCompile Include="src\integrator\SimpleIntegrator.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="src\filter\box.h" />
     <ClInclude Include="src\filter\triangle.h" />
     <ClInclude Include="src\integrator\directlight.h" />
+    <ClInclude Include="src\integrator\ic.h" />
     <ClInclude Include="src\integrator\igi.h" />
     <ClInclude Include="src\integrator\path.h" />
     <ClInclude Include="src\integrator\SimpleIntegrator.h" />

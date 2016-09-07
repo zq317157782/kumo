@@ -93,7 +93,7 @@ void SimpleRendererTask::Run() {
 		for (int i = 0; i < nSample; ++i) {
 			RGB L;
 			RayDifferential ray;
-			mCamerea->GenerateRay(samples[i],&ray);
+			mCamerea->GenerateRayDifferential(samples[i],&ray);
 			Intersection sr;
 			L = mRenderer->Li(mScene, ray, &samples[i], mRand, mArena, &sr);
 			mCamerea->film->AddSample(samples[i], L);

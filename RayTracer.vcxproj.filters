@@ -171,6 +171,9 @@
     <ClCompile Include="src\accelerator\bvh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\integrator\ic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\PinholeCamera.h">
@@ -345,6 +348,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\accelerator\bvh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator\ic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

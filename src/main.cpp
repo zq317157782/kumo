@@ -95,12 +95,12 @@ int main(int argc, char** argv) {
 			RGB(0.5, 0.5, 0.5));
 	ConstantTexture<float> *roughess = new ConstantTexture<float>(25);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
-			new UVMapping2D(10, 10), black, white);
+			new UVMapping2D(3, 3), black, white);
 
 	PNGImageTexture *tex = new PNGImageTexture(new UVMapping2D(1, 1),
 			"res/lala.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
 
-	Matte * m = new Matte(tex);
+	Matte * m = new Matte(checker);
 	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
 	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.2, -0.2,
 			0.2, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
-			RGB(10, 10, 10), 16, sphere);
+			RGB(20, 20, 20), 16, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 	Transform localToWorld2 = Translate(Vector(0, -1, 6));
@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
 	Matte * m5 = new Matte(white);
 	GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
 			Point(-1, 1, 2 + 8), Point(1, 1, 2 + 8), Point(1, 1, -3 + 8),
-			Point(-1, 1, -3 + 8), m4);
+			Point(-1, 1, -3 + 8), mirror);
 
 	Transform l2w_panel6 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel6 = Translate(Vector(0, 0, -0));
@@ -205,8 +205,8 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
-	Transform localToWorld_tri = Translate(Vector(0, -1, 7)) * RotateY(180)*Scale(0.5,0.5,0.5);
-	Transform worldToLocal_tri = Translate(Vector(0, 1, -7)) * RotateY(-180)*Scale(0.5,0.5,0.5);
+	Transform localToWorld_tri = Translate(Vector(0, -1, 6)) * RotateY(180)*Scale(0.5,0.5,0.5);
+	Transform worldToLocal_tri = Translate(Vector(0, 1, -6)) * RotateY(-180)*Scale(0.5,0.5,0.5);
 
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
 			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
@@ -258,8 +258,8 @@ int main(int argc, char** argv) {
 //	new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
-		new IrradianceCacheIntegrator(0.5,2.5,15,10,5,3,4096));	//new PathIntegrator(5)
+		new StratifiedSampler(0, 300, 0, 300, 10, 10, true),
+		new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,4096));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
