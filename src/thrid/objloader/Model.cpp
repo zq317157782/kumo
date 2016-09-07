@@ -26,15 +26,15 @@ void Model::readByLine(FILE * fp, char * s){
 
             if(s[0] == 'v' && s[1] == ' '){ // vertices information
 
-                sscanf(s+2, "%f%f%f", &p.x, &p.y, &p.z);
+                sscanf(s+2, "%f %f %f", &p.x, &p.y, &p.z);
                // printf("%f/%f/%f\n",p.x,p.y,p.z);
                 addVertex(p);
 
             }else if(s[0] == 'f' && s[1] == ' '){ // triangles information
 
-                int a, b, c;
-                sscanf(s+2, "%d/%d/%d %d/%d/%d %d/%d/%d", &a, &a, &a, &b, &b, &b, &c, &c, &c);
-                //printf("%d/%d/%d\n",a,b,c);
+                int a, b, c,t;
+                sscanf(s+2, "%d/%d/%d %d/%d/%d %d/%d/%d", &a, &t, &t, &b, &t, &t, &c, &t, &t);
+               // printf("%d/%d/%d\n",a,b,c);
                 addTriangle(_TRIANGLE(a-1, b-1, c-1));
 
             }
