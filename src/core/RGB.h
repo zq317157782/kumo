@@ -4,7 +4,7 @@
 
 #ifndef RAYTRACER_RGB_H
 #define RAYTRACER_RGB_H
-
+#include "global.h"
 /**
  * RGB颜色
  */
@@ -44,6 +44,12 @@ public:
     bool IsBlack(){
     	return r==0&&g==0&&b==0;
     }
+
+	void Gamma(float a, float gamma) {
+		r = a*powf(r, gamma);
+		g = a*powf(g, gamma);
+		b = a*powf(b, gamma);
+	}
 };
 
 
