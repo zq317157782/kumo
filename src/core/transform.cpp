@@ -265,3 +265,13 @@ Transform Orthographic(float znear, float zfar) {
 	return Scale(1.f, 1.f, 1.f / (zfar - znear))
 			* Translate(Vector(0.f, 0.f, -znear));
 }
+
+Transform Perspective(float fov, float n, float f){
+	 Matrix4X4 persp = Matrix4X4(1, 0,           0,              0,
+	                                0, 1,           0,              0,
+	                                0, 0, f / (f - n), -f*n / (f - n),
+	                                0, 0,           1,              0);
+	    //使用fov来缩放到标准空间
+	    float invTanAng = 1.f / tanf(Radians(fov) / 2.f);
+	    return Scale(invTanAng, invTanAng, 1) * Transform(persp);
+}
