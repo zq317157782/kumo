@@ -52,7 +52,7 @@ void PNGFilm::WriteImage(float splatScale) {
 			Pixel p = mPixels[i + j * xResolution];
 			float invWeight = 1.0 / p.weightSum;
 			RGB finalColor(p.r * invWeight, p.g * invWeight, p.b * invWeight);
-			finalColor.Gamma(1,0.45);
+			finalColor=Gamma(finalColor,1,0.45);
 			finalColor=finalColor.clamp();
 			image.push_back((int) (finalColor.r * 255));
 			image.push_back((int) (finalColor.g * 255));
