@@ -128,6 +128,7 @@
     <ClCompile Include="src\accelerator\grid.cpp" />
     <ClCompile Include="src\accelerator\normal.cpp" />
     <ClCompile Include="src\camera\orthographic.cpp" />
+    <ClCompile Include="src\camera\perspective.cpp" />
     <ClCompile Include="src\camera\PinholeCamera.cpp" />
     <ClCompile Include="src\core\BRDF.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="src\accelerator\grid.h" />
     <ClInclude Include="src\accelerator\normal.h" />
     <ClInclude Include="src\camera\orthographic.h" />
+    <ClInclude Include="src\camera\perspective.h" />
     <ClInclude Include="src\camera\PinholeCamera.h" />
     <ClInclude Include="src\core\BRDF.h" />
     <ClInclude Include="src\core\Camera.h" />

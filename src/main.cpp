@@ -44,6 +44,7 @@
 #include "accelerator/bvh.h"
 #include "integrator/ic.h"
 #include "camera/orthographic.h"
+#include "camera/perspective.h"
 //#include "SDL2/SDL.h"
 
 using namespace std;
@@ -214,15 +215,18 @@ int main(int argc, char** argv) {
 	GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
 			Reference<Material>((m)));
 
-	Transform cameraTransform = RotateY(0);
+	Transform cameraTransform = Translate(Vector(0,0,3));
 	//PinholeCamera camera(cameraTransform,
 	//		new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 	//				"result/Renderer.png")); //int xres,int yres,Filter* f,const char* file
 	//camera.setDistanceToView(700);
 
 	float w[4] = { -1.2,1.2,-1.2,1.2 };
-	OrthoCamera camera(cameraTransform, w, 0, 0, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
-		"result/Renderer_ortho.png"));
+	/*OrthoCamera camera(cameraTransform, w, 0, 0, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
+		"result/Renderer_ortho.png"));*/
+
+	PerspectiveCamera camera(cameraTransform,w,0,0,90, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
+		"result/Renderer_persp.png"));
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
 	primtives.push_back(primit);
@@ -256,13 +260,13 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera,
-	new StratifiedSampler(0, 600, 0, 600, 6, 1, true),
-	new PathIntegrator(5));	//new PathIntegrator(5)
-
 	//SimpleRenderer renderer(&camera,
-	//	new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
-	//	new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,1024));	//new PathIntegrator(5)
+	//new StratifiedSampler(0, 600, 0, 600, 6, 1, true),
+	//new PathIntegrator(5));	//new PathIntegrator(5)
+
+	SimpleRenderer renderer(&camera,
+		new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
+		new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,1024));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),

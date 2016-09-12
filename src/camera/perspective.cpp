@@ -5,7 +5,8 @@
  *      Author: zhuqian
  */
 #include "perspective.h"
-
+#include "sampler.h"
+#include "montecarlo.h"
 PerspectiveCamera::PerspectiveCamera(const Transform& c2w,
 		const float screenWindow[4], float lensr, float focald, float fov,
 		Film * f) :
