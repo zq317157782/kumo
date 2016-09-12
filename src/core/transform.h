@@ -129,5 +129,5 @@ Transform RotateZ(float angle);
 
 Transform Rotate(float angle, const Vector &axis);
 
-
+Transform Orthographic(float znear, float zfar);//正交变换
 #endif //SRC_TRANSFORM_H

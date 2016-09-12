@@ -255,9 +255,13 @@ Transform Rotate(float angle, const Vector &axis) {
 	return Transform(mat, Transpose(mat));
 }
 
-Transform Transform::operator*(const Transform& tran) const{
-	Matrix4X4 m= Matrix4X4::Mul(this->m,tran.m);
-	Matrix4X4 mInv= Matrix4X4::Mul(tran.invM,this->invM);
-	return Transform(m,mInv);
+Transform Transform::operator*(const Transform& tran) const {
+	Matrix4X4 m = Matrix4X4::Mul(this->m, tran.m);
+	Matrix4X4 mInv = Matrix4X4::Mul(tran.invM, this->invM);
+	return Transform(m, mInv);
 }
 
+Transform Orthographic(float znear, float zfar) {
+	return Scale(1.f, 1.f, 1.f / (zfar - znear))
+			* Translate(Vector(0.f, 0.f, -znear));
+}

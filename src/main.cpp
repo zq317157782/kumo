@@ -45,7 +45,6 @@
 #include "integrator/ic.h"
 //#include "SDL2/SDL.h"
 
-
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -78,13 +77,11 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
-
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
 	::testing::InitGoogleTest(&argc,argv);
 	return RUN_ALL_TESTS();
 #endif
-
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -208,6 +205,7 @@ int main(int argc, char** argv) {
 	Transform localToWorld_tri = Translate(Vector(0, -1.8, 6))*RotateY(180) * RotateX(90)*Scale(0.3,0.3,0.3);
 	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -6))*RotateY(180) * RotateX(-90)*Scale(0.3,0.3,0.3);
 
+
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
 			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
 			nullptr);
@@ -233,7 +231,7 @@ int main(int argc, char** argv) {
 	primtives.push_back(panel4);
 	//primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	BVHAccel grid(primtives,128,BVHAccel::SPLIT_MIDDLE);
+	BVHAccel grid(primtives, 128, BVHAccel::SPLIT_MIDDLE);
 	//GridAccel grid(primtives, true);
 	//NormalAggregate na(primtives);
 	vector<Light*> lights;

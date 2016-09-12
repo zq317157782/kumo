@@ -15,7 +15,7 @@ protected:
     float xOffset,yOffset;
    // Vector _rayDirection(const Point& p) const;
 public:
-    PinholeCamera(Film * f,Transform* c2w,const float distance=CAMERA_VIEWPANEL_DISTANCE, const float zoomFactor=1);
+    PinholeCamera(const Transform& c2w,Film * f,const float distance=CAMERA_VIEWPANEL_DISTANCE, const float zoomFactor=1);
 
     void setDistanceToView(const float d);
 
