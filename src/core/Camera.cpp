@@ -7,7 +7,7 @@
 #include "geometry.h"
 #include "sampler.h"
 
-Camera::Camera(Film * f, Transform *c2w) :
+Camera::Camera(const Transform& c2w, Film * f) :
 		film(f), cameraToWorld(c2w) {
 
 }
@@ -34,4 +34,22 @@ float Camera::GenerateRayDifferential(const CameraSample &sample,
 		return 0.0f;
 	rd->hasDifferentials = true;
 	return wt;
+}
+
+ProjectiveCamera::ProjectiveCamera(const Transform& c2w, const Transform& proj,
+		const float screenWindow[4], float lensr, float focald, Film * f) :
+		Camera(c2w, f) {
+	CameraToScreen = proj; //投影矩阵
+	lensRadius = lensr;
+	focalDistance = focald;
+	//从底往上看1.把screen的原点挪到00位置,然后你懂得
+	ScreenToRaster = Scale(float(film->xResolution), float(film->yResolution),
+			1.f)
+			* Scale(1.f / (screenWindow[1] - screenWindow[0]),
+					1.f / (screenWindow[2] - screenWindow[3]), 1.f)
+			* Translate(Vector(-screenWindow[0], -screenWindow[3], 0.f));
+
+	 RasterToScreen = Inverse(ScreenToRaster);
+	 RasterToCamera=Inverse(CameraToScreen)*RasterToScreen;
+
 }

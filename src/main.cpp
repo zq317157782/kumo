@@ -45,7 +45,6 @@
 #include "integrator/ic.h"
 //#include "SDL2/SDL.h"
 
-
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST
@@ -78,13 +77,11 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 	return primit_tri;
 }
 
-
 int main(int argc, char** argv) {
 #ifdef UNIT_TEST
 	::testing::InitGoogleTest(&argc,argv);
 	return RUN_ALL_TESTS();
 #endif
-
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -205,8 +202,10 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
-	Transform localToWorld_tri = Translate(Vector(0, -0.9, 6))*RotateY(180) * RotateX(90)*Scale(0.15,0.15,0.15);
-	Transform worldToLocal_tri = Translate(Vector(0, 0.9, -6))*RotateY(180) * RotateX(-90)*Scale(0.15,0.15,0.15);
+	Transform localToWorld_tri = Translate(Vector(0, -0.9, 6)) * RotateY(180)
+			* RotateX(90) * Scale(0.15, 0.15, 0.15);
+	Transform worldToLocal_tri = Translate(Vector(0, 0.9, -6)) * RotateY(180)
+			* RotateX(-90) * Scale(0.15, 0.15, 0.15);
 
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
 			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
@@ -216,9 +215,9 @@ int main(int argc, char** argv) {
 			Reference<Material>((m)));
 
 	Transform cameraTransform = RotateY(0);
-	PinholeCamera camera(
+	PinholeCamera camera(cameraTransform,
 			new PNGFilm(300, 300, new TriangleFilter(0.5, 0.5),
-					"result/Renderer.png"), &cameraTransform); //int xres,int yres,Filter* f,const char* file
+					"result/Renderer.png")); //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
@@ -233,7 +232,7 @@ int main(int argc, char** argv) {
 	primtives.push_back(panel4);
 	primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
-	BVHAccel grid(primtives,128,BVHAccel::SPLIT_MIDDLE);
+	BVHAccel grid(primtives, 128, BVHAccel::SPLIT_MIDDLE);
 	//GridAccel grid(primtives, true);
 	//NormalAggregate na(primtives);
 	vector<Light*> lights;
@@ -258,8 +257,8 @@ int main(int argc, char** argv) {
 	//new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
-		new IrradianceCacheIntegrator(0.5f,1.5,15,10,5,3,4096));	//new PathIntegrator(5)
+			new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
+			new IrradianceCacheIntegrator(0.5f, 1.5, 15, 10, 5, 3, 4096));//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
