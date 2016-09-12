@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *kk = new ConstantTexture<RGB>(RGB(1.2, 1.2, 1.2));
 	ConstantTexture<RGB> *half_white = new ConstantTexture<RGB>(
 			RGB(0.5, 0.5, 0.5));
-	ConstantTexture<float> *roughess = new ConstantTexture<float>(25);
+	ConstantTexture<float> *roughess = new ConstantTexture<float>(0.9);
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(3, 3), black, white);
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 			"res/lala.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
 
 	Matte * m = new Matte(white);
-	Metal * metal = new Metal(checker, eta, kk, new Blinn(25));
+	Metal * metal = new Metal(white, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
 	Mirror * mirror = new Mirror(white);
@@ -111,13 +111,13 @@ int main(int argc, char** argv) {
 //	ConstantTexture<float> *ior = new ConstantTexture<float>(1.5);
 //	Grass * grass = new Grass(white, white, ior);
 
-	Transform localToWorld = Translate(Vector(0, 1, 6));
-	Transform worldToLocal = Translate(Vector(0, -1, -6));
+	Transform localToWorld = Translate(Vector(-1, 2, 5));
+	Transform worldToLocal = Translate(Vector(1, -2, -5));
 	//第一个sphere
-	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.1, -0.1,
-			0.1, 360);
+	Sphere* sphere = new Sphere(&localToWorld, &worldToLocal, false, 0.5, -0.5,
+			0.5, 360);
 	DiffuseAreaLight *diffuse = new DiffuseAreaLight(localToWorld,
-			RGB(100, 100, 100), 16, sphere);
+			RGB(10, 10, 10), 16, sphere);
 	GeomPrimitive * primit = new GeomPrimitive(Reference<Shape>(sphere),
 			Reference<Material>(m), diffuse);
 	Transform localToWorld2 = Translate(Vector(0, -1, 6));
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
 	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
-			Point(-1, 1, 8), Point(-1, -1, 8), Point(1, -1, 8), Point(1, 1, 8),
+			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
 
 	Transform l2w_panel2 = Translate(Vector(0, 0, 0));
@@ -153,30 +153,30 @@ int main(int argc, char** argv) {
 	ConstantTexture<RGB> *half_blue = new ConstantTexture<RGB>(RGB(0, 0, 1));
 	Matte * m2 = new Matte(half_red);
 	GeomPrimitive * panel2 = CreatePanel(&l2w_panel2, &w2l_panel2,
-			Point(-1, 1, -3 + 8), Point(-1, -1, -3 + 8), Point(-1, -1, 2 + 8),
-			Point(-1, 1, 2 + 8), m2);
+			Point(-2, 2, -3 + 8), Point(-2, -2, -3 + 8), Point(-2, -2, 2 + 8),
+			Point(-2, 2, 2 + 8), m2);
 
 	Transform l2w_panel3 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel3 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_green = new ConstantTexture<RGB>(RGB(0, 1, 0));
 	Matte * m3 = new Matte(half_green);
 	GeomPrimitive * panel3 = CreatePanel(&l2w_panel3, &w2l_panel3,
-			Point(1, 1, 2 + 8), Point(1, -1, 2 + 8), Point(1, -1, -3 + 8),
-			Point(1, 1, -3 + 8), m3);
+			Point(2, 2, 2 + 8), Point(2, -2, 2 + 8), Point(2, -2, -3 + 8),
+			Point(2, 2, -3 + 8), m3);
 
 	Transform l2w_panel4 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
 	Matte * m4 = new Matte(white);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
-			Point(-1, -1, 2 + 8), Point(-1, -1, -3 + 8), Point(1, -1, -3 + 8),
-			Point(1, -1, 2 + 8), m4);
+			Point(-100, -2, 100 + 8), Point(-100, -2, -100 + 8), Point(100, -2, -100 + 8),
+			Point(100, -2, 100 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel5 = Translate(Vector(0, 0, -0));
 	Matte * m5 = new Matte(white);
 	GeomPrimitive * panel5 = CreatePanel(&l2w_panel5, &w2l_panel5,
-			Point(-1, 1, 2 + 8), Point(1, 1, 2 + 8), Point(1, 1, -3 + 8),
-			Point(-1, 1, -3 + 8), m4);
+			Point(-2, 2, 2 + 8), Point(2, 2, 2 + 8), Point(2, 2, -3 + 8),
+			Point(-2, 2, -3 + 8), m4);
 
 	Transform l2w_panel6 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel6 = Translate(Vector(0, 0, -0));
@@ -205,8 +205,8 @@ int main(int argc, char** argv) {
 		indexs[j++] = t.index[2];
 	}
 
-	Transform localToWorld_tri = Translate(Vector(0, -0.9, 6))*RotateY(180) * RotateX(90)*Scale(0.15,0.15,0.15);
-	Transform worldToLocal_tri = Translate(Vector(0, 0.9, -6))*RotateY(180) * RotateX(-90)*Scale(0.15,0.15,0.15);
+	Transform localToWorld_tri = Translate(Vector(0, -1.8, 6))*RotateY(180) * RotateX(90)*Scale(0.3,0.3,0.3);
+	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -6))*RotateY(180) * RotateX(-90)*Scale(0.3,0.3,0.3);
 
 	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
 			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
@@ -217,7 +217,7 @@ int main(int argc, char** argv) {
 
 	Transform cameraTransform = RotateY(0);
 	PinholeCamera camera(
-			new PNGFilm(300, 300, new TriangleFilter(0.5, 0.5),
+			new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 					"result/Renderer.png"), &cameraTransform); //int xres,int yres,Filter* f,const char* file
 	camera.setDistanceToView(700);
 	//场景初始化
@@ -227,11 +227,11 @@ int main(int argc, char** argv) {
 //	primtives.push_back(primit3);
 //	primtives.push_back(primit4);
 	primtives.push_back(primit_tri);
-	primtives.push_back(panel1);
+	/*primtives.push_back(panel1);
 	primtives.push_back(panel2);
-	primtives.push_back(panel3);
+	primtives.push_back(panel3);*/
 	primtives.push_back(panel4);
-	primtives.push_back(panel5);
+	//primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
 	BVHAccel grid(primtives,128,BVHAccel::SPLIT_MIDDLE);
 	//GridAccel grid(primtives, true);
@@ -254,12 +254,12 @@ int main(int argc, char** argv) {
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
 	//SimpleRenderer renderer(&camera,
-	//new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
+	//new StratifiedSampler(0, 600, 0, 600, 64, 64, true),
 	//new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 300, 0, 300, 6, 6, true),
-		new IrradianceCacheIntegrator(0.5f,1.5,15,10,5,3,4096));	//new PathIntegrator(5)
+		new StratifiedSampler(0, 600, 0, 600, 32, 32, true),
+		new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,1024));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
