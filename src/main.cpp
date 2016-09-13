@@ -46,6 +46,7 @@
 #include "camera/orthographic.h"
 #include "camera/perspective.h"
 #include "sampler/lowdiscrepancy.h"
+#include "tool/mesh.h"
 //#include "SDL2/SDL.h"
 
 using namespace std;
@@ -85,6 +86,11 @@ int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc,argv);
 	return RUN_ALL_TESTS();
 #endif
+
+//	MeshGroup group=LoadObjMesh("res/","ironman_Scene.obj");
+//	cout<<"顶点个数:"<<group.numVertex<<endl;
+//	cout<<"mesh个数:"<<group.data.size();
+//	return 0;
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -168,8 +174,8 @@ int main(int argc, char** argv) {
 	Transform w2l_panel4 = Translate(Vector(0, 0, -0));
 	Matte * m4 = new Matte(white);
 	GeomPrimitive * panel4 = CreatePanel(&l2w_panel4, &w2l_panel4,
-			Point(-100, -2, 100 + 8), Point(-100, -2, -100 + 8), Point(100, -2, -100 + 8),
-			Point(100, -2, 100 + 8), m4);
+			Point(-100, -2, 100 + 8), Point(-100, -2, -100 + 8),
+			Point(100, -2, -100 + 8), Point(100, -2, 100 + 8), m4);
 
 	Transform l2w_panel5 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel5 = Translate(Vector(0, 0, -0));
@@ -186,61 +192,49 @@ int main(int argc, char** argv) {
 			Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2),
 			Point(-10, 10, -2), m6);
 
-	//测试三角面片
-	Model model;
-	model.load("res/ironman_Scene.obj");
-	int triCount = model.numberOfTriangles();
-	int vertexCount = model.numberOfVertices();
-	Point* points = new Point[vertexCount];
-	for (int i = 0; i < vertexCount; ++i) {
-		_POINT p = model.getVertex(i);
-		points[i] = Point(p.x, p.y, p.z);
-	}
-
-	int * indexs = new int[3 * triCount];
-	for (int i = 0, j = 0; i < triCount; ++i) {
-		_TRIANGLE t = model.getTriangle(i);
-		indexs[j++] = t.index[0];
-		indexs[j++] = t.index[1];
-		indexs[j++] = t.index[2];
-	}
-
-	Transform localToWorld_tri = Translate(Vector(0, -1.8, 6))*RotateY(180) * RotateX(90)*Scale(0.3,0.3,0.3);
-	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -6))*RotateY(180) * RotateX(-90)*Scale(0.3,0.3,0.3);
-
-
-	TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri,
-			false, triCount, vertexCount, indexs, points, nullptr, nullptr,
-			nullptr);
-	Matte * mtri = new Matte(white);
-	GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
-			Reference<Material>((m)));
-
-	Transform cameraTransform = Translate(Vector(0,0,3));
+	Transform cameraTransform = Translate(Vector(0, 0.5, 3));
 	//PinholeCamera camera(cameraTransform,
 	//		new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 	//				"result/Renderer.png")); //int xres,int yres,Filter* f,const char* file
 	//camera.setDistanceToView(700);
 
-	float w[4] = { -1.2,1.2,-1.2,1.2 };
+	float w[4] = { -1.2, 1.2, -1.2, 1.2 };
 	/*OrthoCamera camera(cameraTransform, w, 0, 0, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
-		"result/Renderer_ortho.png"));*/
+	 "result/Renderer_ortho.png"));*/
 
-	PerspectiveCamera camera(cameraTransform,w,0,0,60, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
-		"result/Renderer_persp.png"));
+	PerspectiveCamera camera(cameraTransform, w, 0, 0, 60,
+			new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
+					"result/Renderer_persp.png"));
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
 	primtives.push_back(primit);
 //	primtives.push_back(primit2);
 //	primtives.push_back(primit3);
 //	primtives.push_back(primit4);
-	primtives.push_back(primit_tri);
+
 	/*primtives.push_back(panel1);
-	primtives.push_back(panel2);
-	primtives.push_back(panel3);*/
+	 primtives.push_back(panel2);
+	 primtives.push_back(panel3);*/
 	primtives.push_back(panel4);
 	//primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
+
+	RawMeshGroup group = LoadObjMesh("res/", "ironman_Scene.obj");
+	Transform localToWorld_tri = Translate(Vector(0, -1.8, 6)) * RotateY(180)
+			* RotateX(90) * Scale(0.3, 0.3, 0.3);
+	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -6)) * RotateY(180)
+			* RotateX(-90) * Scale(0.3, 0.3, 0.3);
+	for (int i = 0; i < group.data.size(); ++i) {
+		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri,
+				&worldToLocal_tri, false, group.data[i].numTriangle,
+				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
+				group.normals, nullptr, group.UVs, group.data[i].normal_indexs,
+				group.data[i].tex_indexs);
+		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
+				Reference<Material>((m)));
+		primtives.push_back(primit_tri);
+	}
+
 	BVHAccel grid(primtives, 128, BVHAccel::SPLIT_MIDDLE);
 	//GridAccel grid(primtives, true);
 	//NormalAggregate na(primtives);
@@ -265,9 +259,8 @@ int main(int argc, char** argv) {
 	//new StratifiedSampler(0, 600, 0, 600, 6, 1, true),
 	//new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera,
-		new LDSampler(0, 600, 0, 600,16),
-		new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,1024));	//new PathIntegrator(5)
+	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 16),
+			new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
