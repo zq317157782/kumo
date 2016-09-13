@@ -229,7 +229,7 @@ int main(int argc, char** argv) {
 		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri,
 				&worldToLocal_tri, false, group.data[i].numTriangle,
 				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
-				nullptr, nullptr, nullptr);
+				group.normals, nullptr, group.UVs,group.data[i].normal_indexs,group.data[i].tex_indexs);
 		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
 				Reference<Material>((m)));
 		primtives.push_back(primit_tri);

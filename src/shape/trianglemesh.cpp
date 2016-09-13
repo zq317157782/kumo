@@ -9,12 +9,27 @@
 
 TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 		int ntris, int nverts, const int *vi, const Point *P, const Normal *N,
-		const Vector *S, const float *uv) :
+		const Vector *S, const float *uv, const int *ni, const int *ti) :
 		Shape(o2w, w2o, ro) {
 	this->ntris = ntris;
 	this->nverts = nverts;
 	vertexIndex = new int[3 * ntris]; //为索引数组分配内存空间
+
+	texIndex = new int[3 * ntris]; //为索引数组分配内存空间
 	memcpy(vertexIndex, vi, 3 * ntris * sizeof(int));
+	if (ni) {
+		normalIndex = new int[3 * ntris]; //为索引数组分配内存空间
+		memcpy(normalIndex, ni, 3 * ntris * sizeof(int));
+	} else {
+		normalIndex = nullptr;
+	}
+
+	if (ti) {
+		texIndex = new int[3 * ntris]; //为索引数组分配内存空间
+		memcpy(texIndex, ti, 3 * ntris * sizeof(int));
+	} else {
+		texIndex = nullptr;
+	}
 
 	//为顶点分配空间
 	p = new Point[nverts];
@@ -59,16 +74,22 @@ Triangle::Triangle(const Transform *o2w, const Transform *w2o, bool ro,
 		Shape(o2w, w2o, ro) {
 	mMesh = m;
 	mIndex = &(mMesh->vertexIndex[3 * n]); //注意 这里是取地址
+	mTexIndex =
+			mMesh->texIndex ?
+					&(mMesh->texIndex[3 * n]) : &(mMesh->vertexIndex[3 * n]);
+	mNormalIndex =
+			mMesh->normalIndex ?
+					&(mMesh->normalIndex[3 * n]) : &(mMesh->vertexIndex[3 * n]);
 }
 
 void Triangle::GetUVs(float uv[3][2]) const {
 	if (mMesh->uvs) {
-		uv[0][0] = mMesh->uvs[2 * mIndex[0]];
-		uv[0][1] = mMesh->uvs[2 * mIndex[0] + 1];
-		uv[1][0] = mMesh->uvs[2 * mIndex[1]];
-		uv[1][1] = mMesh->uvs[2 * mIndex[1] + 1];
-		uv[2][0] = mMesh->uvs[2 * mIndex[2]];
-		uv[2][1] = mMesh->uvs[2 * mIndex[2] + 1];
+		uv[0][0] = mMesh->uvs[2 * mTexIndex[0]];
+		uv[0][1] = mMesh->uvs[2 * mTexIndex[0] + 1];
+		uv[1][0] = mMesh->uvs[2 * mTexIndex[1]];
+		uv[1][1] = mMesh->uvs[2 * mTexIndex[1] + 1];
+		uv[2][0] = mMesh->uvs[2 * mTexIndex[2]];
+		uv[2][1] = mMesh->uvs[2 * mTexIndex[2] + 1];
 	} else {
 		uv[0][0] = 0.0f;
 		uv[0][1] = 0.0f;
@@ -179,21 +200,20 @@ float Triangle::Area() const {
 	const Point &p1 = mMesh->p[mIndex[0]];
 	const Point &p2 = mMesh->p[mIndex[1]];
 	const Point &p3 = mMesh->p[mIndex[2]];
-	return  Cross(p2 - p1, p3 - p1).Length()*0.5f;
+	return Cross(p2 - p1, p3 - p1).Length() * 0.5f;
 }
 
 BBox Triangle::ObjectBound() const {
-    const Point &p1 = mMesh->p[mIndex[0]];
-    const Point &p2 = mMesh->p[mIndex[1]];
-    const Point &p3 = mMesh->p[mIndex[2]];
-    return Union(BBox((*worldToLocal)(p1), (*worldToLocal)(p2)),
-                 (*worldToLocal)(p3));
+	const Point &p1 = mMesh->p[mIndex[0]];
+	const Point &p2 = mMesh->p[mIndex[1]];
+	const Point &p3 = mMesh->p[mIndex[2]];
+	return Union(BBox((*worldToLocal)(p1), (*worldToLocal)(p2)),
+			(*worldToLocal)(p3));
 }
 
-
 BBox Triangle::WorldBound() const {
-    const Point &p1 = mMesh->p[mIndex[0]];
-    const Point &p2 = mMesh->p[mIndex[1]];
-    const Point &p3 = mMesh->p[mIndex[2]];
-    return Union(BBox(p1, p2), p3);
+	const Point &p1 = mMesh->p[mIndex[0]];
+	const Point &p2 = mMesh->p[mIndex[1]];
+	const Point &p3 = mMesh->p[mIndex[2]];
+	return Union(BBox(p1, p2), p3);
 }

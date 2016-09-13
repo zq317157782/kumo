@@ -16,12 +16,18 @@ struct MeshData{
 	int numVertex;
 	Point * vertexs;
 	int * vertex_indexs;
+	Normal* normals;
+	int * normal_indexs;
+	float* UVs;
+	int *tex_indexs;
 };
 
 
 struct MeshGroup{
 	int numVertex;
 	Point * vertexs;
+	Normal* normals;
+	float*  UVs;
 	vector<MeshData> data;
 };
 

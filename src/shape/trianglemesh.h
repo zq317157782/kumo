@@ -15,6 +15,8 @@ class TriangleMesh: public Shape {
 protected:
 	int ntris, nverts;
 	int *vertexIndex; //索引数组
+	int *normalIndex; //索引数组
+	int *texIndex; //索引数组
 	Point *p; //顶点数组
 	Normal *n; //法线数组
 	Vector *s; //切向量数组
@@ -22,7 +24,7 @@ protected:
 public:
 	TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro, int ntris,
 			int nverts, const int *vi, const Point *P, const Normal *N,
-			const Vector *S, const float *uv);
+			const Vector *S, const float *uv,const int *ni=nullptr,const int *ti=nullptr);
 	virtual ~TriangleMesh() {
 	}
 	;
@@ -50,6 +52,8 @@ class Triangle: public Shape {
 private:
 	Reference<TriangleMesh> mMesh;
 	int *mIndex;
+	int *mNormalIndex;
+	int *mTexIndex;
 public:
 	Triangle(const Transform *o2w, const Transform *w2o, bool ro,
 			TriangleMesh *m, int n);
