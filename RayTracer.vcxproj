@@ -180,6 +180,8 @@
     <ClCompile Include="src\texture\image.cpp" />
     <ClCompile Include="src\thrid\lodepng\lodepng.cpp" />
     <ClCompile Include="src\thrid\objloader\Model.cpp" />
+    <ClCompile Include="src\thrid\tinyobjloader\tiny_obj_loader.cc" />
+    <ClCompile Include="src\tool\mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\accelerator\bvh.h" />
@@ -244,6 +246,8 @@
     <ClInclude Include="src\texture\scale.h" />
     <ClInclude Include="src\thrid\lodepng\lodepng.h" />
     <ClInclude Include="src\thrid\objloader\Model.h" />
+    <ClInclude Include="src\thrid\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="src\tool\mesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

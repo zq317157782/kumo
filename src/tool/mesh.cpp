@@ -14,9 +14,10 @@ RawMeshGroup LoadObjMesh(string dir, string inputfile) {
 	vector<tinyobj::material_t> materials;
 	std::string err;
 	char* path = new char[100];
+	path[0] = 0;
 	strcat(path, dir.c_str());
 	strcat(path, inputfile.c_str());
-	cout << "载入OBJ模型:" << path << endl;
+	//cout << "载入OBJ模型:" << path << endl;
 	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path,
 			dir.c_str(), true);
 
