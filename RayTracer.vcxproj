@@ -171,6 +171,7 @@
     <ClCompile Include="src\material\mirror.cpp" />
     <ClCompile Include="src\material\translucent.cpp" />
     <ClCompile Include="src\renderer\simpleRenderer.cpp" />
+    <ClCompile Include="src\sampler\lowdiscrepancy.cpp" />
     <ClCompile Include="src\sampler\randomSampler.cpp" />
     <ClCompile Include="src\sampler\stratified.cpp" />
     <ClCompile Include="src\shape\sphere.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\material\mirror.h" />
     <ClInclude Include="src\material\translucent.h" />
     <ClInclude Include="src\renderer\simpleRenderer.h" />
+    <ClInclude Include="src\sampler\lowdiscrepancy.h" />
     <ClInclude Include="src\sampler\randomSampler.h" />
     <ClInclude Include="src\sampler\stratified.h" />
     <ClInclude Include="src\shape\sphere.h" />

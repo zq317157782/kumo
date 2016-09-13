@@ -1,10 +1,11 @@
-/*
+﻿/*
  * lowdiscrepancy.cpp
  *
  *  Created on: 2016年9月13日
  *      Author: zhuqian
  */
 #include "lowdiscrepancy.h"
+#include "montecarlo.h"
 
 LDSampler::LDSampler(int xstart/*x开始坐标*/, int xend/*x结束坐标*/,
 		int ystart/*y开始坐标*/, int yend/*y结束坐标*/, int nSample) :

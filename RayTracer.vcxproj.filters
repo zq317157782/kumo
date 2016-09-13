@@ -180,6 +180,9 @@
     <ClCompile Include="src\camera\perspective.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\sampler\lowdiscrepancy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\PinholeCamera.h">
@@ -363,6 +366,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\camera\perspective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampler\lowdiscrepancy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

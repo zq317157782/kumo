@@ -1,4 +1,4 @@
-/*
+﻿/*
  * lowdiscrepancy.h
  *
  *  Created on: 2016年9月13日

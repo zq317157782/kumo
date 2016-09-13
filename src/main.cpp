@@ -45,6 +45,7 @@
 #include "integrator/ic.h"
 #include "camera/orthographic.h"
 #include "camera/perspective.h"
+#include "sampler/lowdiscrepancy.h"
 //#include "SDL2/SDL.h"
 
 using namespace std;
@@ -225,7 +226,7 @@ int main(int argc, char** argv) {
 	/*OrthoCamera camera(cameraTransform, w, 0, 0, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 		"result/Renderer_ortho.png"));*/
 
-	PerspectiveCamera camera(cameraTransform,w,0,0,90, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
+	PerspectiveCamera camera(cameraTransform,w,0,0,60, new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 		"result/Renderer_persp.png"));
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
@@ -265,7 +266,7 @@ int main(int argc, char** argv) {
 	//new PathIntegrator(5));	//new PathIntegrator(5)
 
 	SimpleRenderer renderer(&camera,
-		new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
+		new LDSampler(0, 600, 0, 600,16),
 		new IrradianceCacheIntegrator(0.5f,2.5,15,10,5,3,1024));	//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
