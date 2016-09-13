@@ -180,5 +180,7 @@ inline float Degrees(float rad) {
     return (180.f/(float)M_PI) * rad;
 }
 
+
+
 template <typename T, int logBlockSize = 2> class BlockedArray;
 #endif //RAYTRACER_GLOBAL_H

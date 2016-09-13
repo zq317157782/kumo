@@ -12,6 +12,7 @@
 #include "global.h"
 #include "random.h"
 #include "geometry.h"
+#include "sampler.h"
 
 static const float OneMinusEpsilon=0.9999999999999;
 
@@ -210,5 +211,8 @@ inline void LDShuffleScrambled2D(int nSamples, int nPixel,
     Shuffle(samples, nPixel, 2 * nSamples, rng);
 }
 
-
+//计算一个像素内低差异samples总共占据的内存空间大小
+int LDPixelSampleFloatsNeeded(const Sample* sample,int numPixelSamples);
+//采样LD样本
+void LDPixelSample(int xPos,int yPos,int numPixelSamples,Sample* samples,float * buf,Random rand);
 #endif /* CORE_MONTECARLO_H_ */

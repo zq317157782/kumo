@@ -122,3 +122,74 @@ void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim,
 		}
 	}
 }
+
+int LDPixelSampleFloatsNeeded(const Sample* sample, int numPixelSamples) {
+	int n = 4;	//2 lens + 2 image
+	for (unsigned int i = 0; i < sample->n1D.size(); ++i) {
+		n += sample->n1D[i];
+	}
+	for (unsigned int i = 0; i < sample->n2D.size(); ++i) {
+		n += sample->n2D[i] * 2;
+	}
+	return numPixelSamples * n;
+}
+
+//采样LD样本
+void LDPixelSample(int xPos, int yPos, int numPixelSamples, Sample* samples,
+		float * buf, Random rand) {
+	//分配不同的指针指向相应的内存空间
+	float* imageSamples = buf;
+	buf += 2 * numPixelSamples;
+	float* lenSamples = buf;
+	buf += 2 * numPixelSamples;
+
+	//开始分配积分器样本
+	unsigned int count1D = samples[0].n1D.size();
+	unsigned int count2D = samples[0].n2D.size();
+	const unsigned int *n1D = &samples[0].n1D[0];
+	const unsigned int *n2D = &samples[0].n2D[0];
+	//指向积分器样本的指针
+	float **oneDSamples = ALLOCA(float*, count1D);
+	float **twoDSamples = ALLOCA(float*, count2D);
+	for (unsigned int i = 0; i < count1D; ++i) {
+		oneDSamples[i] = buf;
+		buf += n1D[i] * numPixelSamples;
+	}
+	for (unsigned int i = 0; i < count2D; ++i) {
+		twoDSamples[i] = buf;
+		buf += n2D[i] * numPixelSamples * 2;
+	}
+
+	//正式生成采样点
+	LDShuffleScrambled2D(1, numPixelSamples, imageSamples, rand);
+	LDShuffleScrambled2D(1, numPixelSamples, lenSamples, rand);
+	for (unsigned int i = 0; i < count1D; ++i) {
+		LDShuffleScrambled1D(n1D[i], numPixelSamples, oneDSamples[i], rand);
+	}
+	for (unsigned int i = 0; i < count2D; ++i) {
+		LDShuffleScrambled2D(n2D[i], numPixelSamples, twoDSamples[i], rand);
+	}
+
+	for (int i = 0; i < numPixelSamples; ++i) {
+		samples[i].imageX = xPos + imageSamples[i * 2];
+		samples[i].imageY = yPos + imageSamples[i * 2 + 1];
+
+		samples[i].lensU = lenSamples[2 * i];
+		samples[i].lensV = lenSamples[2 * i + 1];
+
+		for (unsigned int j = 0; j < count1D; ++j) {
+			int startSamp = n1D[j] * i;
+			for (unsigned int k = 0; k < n1D[j]; ++k) {
+				samples[i].oneD[j][k] = oneDSamples[j][startSamp + k];
+			}
+		}
+
+		for (unsigned int j = 0; j < count2D; ++j) {
+			int startSamp = n2D[j] * i*2;
+			for (unsigned int k = 0; k < n2D[j]*2; ++k) {
+				samples[i].twoD[j][k] = twoDSamples[j][startSamp + k];
+			}
+		}
+
+	}
+}
