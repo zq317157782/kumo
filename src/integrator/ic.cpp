@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "film.h"
 #include "parallel.h"
-#include "sampler/stratified.h"
+#include "sampler/lowdiscrepancy.h"
 
 //生成irradiance的任务
 struct IrradiancePrimeTask: public Task {
@@ -167,7 +167,7 @@ void IrradianceCacheIntegrator::Preprocess(const Scene *scene,
 	int xstart, xend, ystart, yend;
 	camera->film->GetSampleExtent(&xstart, &xend, &ystart, &yend);
 	//todo PBRT使用的是Halton采样器
-	StratifiedSampler sampler(xstart, xend, ystart, yend, 1, 1, true);
+	LDSampler sampler(xstart,xend, ystart, yend, 1);
 	Sample *sample = new Sample(&sampler, this, scene);
 
 	//这里为什么要运行46个相同的任务 我非常费解
