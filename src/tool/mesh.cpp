@@ -41,7 +41,7 @@ RawMeshGroup LoadObjMesh(string dir, string inputfile) {
 	Normal* normals = nullptr;
 	if (attrib.normals.size() > 0) {
 		normals = new Normal[numVertex];
-		for (unsigned int i = 0; i < numVertex; ++i) {
+		for (unsigned int i = 0; i < attrib.normals.size()/3; ++i) {
 			float x = attrib.normals[3 * i + 0];
 			float y = attrib.normals[3 * i + 1];
 			float z = attrib.normals[3 * i + 2];
@@ -52,7 +52,7 @@ RawMeshGroup LoadObjMesh(string dir, string inputfile) {
 	float* UVs = nullptr;
 	if (attrib.texcoords.size() > 0) {
 		UVs = new float[2 * numVertex];
-		for (unsigned int i = 0; i < numVertex; ++i) {
+		for (unsigned int i = 0; i < attrib.texcoords.size()/2; ++i) {
 			float u = attrib.texcoords[2 * i + 0];
 			float v = attrib.texcoords[2 * i + 1];
 			UVs[2 * i + 0] = u;

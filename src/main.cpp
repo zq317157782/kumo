@@ -212,8 +212,8 @@ int main(int argc, char** argv) {
 //	primtives.push_back(primit3);
 //	primtives.push_back(primit4);
 
-	/*primtives.push_back(panel1);
-	 primtives.push_back(panel2);
+	primtives.push_back(panel1);
+	/* primtives.push_back(panel2);
 	 primtives.push_back(panel3);*/
 	primtives.push_back(panel4);
 	//primtives.push_back(panel5);
