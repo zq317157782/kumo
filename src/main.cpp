@@ -192,7 +192,6 @@ int main(int argc, char** argv) {
 			Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2),
 			Point(-10, 10, -2), m6);
 
-
 	Transform cameraTransform = Translate(Vector(0, 0, 3));
 	//PinholeCamera camera(cameraTransform,
 	//		new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
@@ -220,20 +219,35 @@ int main(int argc, char** argv) {
 	//primtives.push_back(panel5);
 	//scene.addPrimitive(panel6);
 
-	MeshGroup group = LoadObjMesh("res/", "ironman_Scene.obj");
-	Transform localToWorld_tri = Translate(Vector(0, -1.8, 6)) * RotateY(180)
+	RawMeshGroup group = LoadObjMesh("res/", "mitsuba.obj");
+	Transform localToWorld_tri = Translate(Vector(0, -1.8, 16)) * RotateY(180)
 			* RotateX(90) * Scale(0.3, 0.3, 0.3);
-	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -6)) * RotateY(180)
+	Transform worldToLocal_tri = Translate(Vector(0, 1.8, -16)) * RotateY(180)
 			* RotateX(-90) * Scale(0.3, 0.3, 0.3);
 	for (int i = 0; i < group.data.size(); ++i) {
 		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri,
 				&worldToLocal_tri, false, group.data[i].numTriangle,
 				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
-				group.normals, nullptr, group.UVs,group.data[i].normal_indexs,group.data[i].tex_indexs);
+				group.normals, nullptr, group.UVs, group.data[i].normal_indexs,
+				group.data[i].tex_indexs);
 		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
 				Reference<Material>((m)));
 		primtives.push_back(primit_tri);
 	}
+
+//	group = LoadObjMesh("res/", "sponza.obj");
+//	localToWorld_tri = Translate(Vector(0, 0, 0)) ;
+//	worldToLocal_tri =  Translate(Vector(0, 0, 0));
+//	for (int i = 0; i < group.data.size(); ++i) {
+//		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri,
+//				&worldToLocal_tri, false, group.data[i].numTriangle,
+//				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
+//				group.normals, nullptr, group.UVs, group.data[i].normal_indexs,
+//				group.data[i].tex_indexs);
+//		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
+//				Reference<Material>((m)));
+//		primtives.push_back(primit_tri);
+//	}
 
 	BVHAccel grid(primtives, 128, BVHAccel::SPLIT_MIDDLE);
 	//GridAccel grid(primtives, true);

@@ -9,9 +9,10 @@
 #define SRC_TOOL_MESH_H_
 //mesh相关的工具函数
 #include "global.h"
+#include "thrid/tinyobjloader/tiny_obj_loader.h"
 
-
-struct MeshData{
+//todo 销毁数据
+struct RawMeshData{
 	int numTriangle;
 	int numVertex;
 	Point * vertexs;
@@ -20,18 +21,20 @@ struct MeshData{
 	int * normal_indexs;
 	float* UVs;
 	int *tex_indexs;
+	unsigned int materialID;
 };
 
 
-struct MeshGroup{
+struct RawMeshGroup{
 	int numVertex;
 	Point * vertexs;
 	Normal* normals;
 	float*  UVs;
-	vector<MeshData> data;
+	vector<RawMeshData> data;
+	vector<tinyobj::material_t> materials;
 };
 
-MeshGroup LoadObjMesh(string dir,string inputfile);
+RawMeshGroup LoadObjMesh(string dir,string inputfile);
 
 
 #endif /* SRC_TOOL_MESH_H_ */
