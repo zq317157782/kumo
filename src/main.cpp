@@ -91,6 +91,10 @@ int main(int argc, char** argv) {
 //	cout<<"顶点个数:"<<group.numVertex<<endl;
 //	cout<<"mesh个数:"<<group.data.size();
 //	return 0;
+//	for(float i=0.0000000000001;i<1;i+=0.001){
+//		cout<<i<<" "<<Log2(i)<<endl;
+//	}
+//	exit(1);
 
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
@@ -103,10 +107,10 @@ int main(int argc, char** argv) {
 	Checkerboard2DTexture<RGB> *checker = new Checkerboard2DTexture<RGB>(
 			new UVMapping2D(3, 3), black, white);
 
-	PNGImageTexture *tex = new PNGImageTexture(new UVMapping2D(1, 1),
-			"res/lala.png", 505, 348, true, 0, TEXTURE_BLACK, 0, 0);
+	SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
+			"res/lala.png", true, 0, TEXTURE_CLAMP, 0, 0);
 
-	Matte * m = new Matte(white);
+	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(white, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
@@ -149,7 +153,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(white);
+	Matte * m1 = new Matte(tex);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
@@ -192,7 +196,7 @@ int main(int argc, char** argv) {
 			Point(10, 10, -2), Point(10, -10, -2), Point(-10, -10, -2),
 			Point(-10, 10, -2), m6);
 
-	Transform cameraTransform = Translate(Vector(0, 0.5, 3));
+	Transform cameraTransform = Translate(Vector(0,0.5,3));
 	//PinholeCamera camera(cameraTransform,
 	//		new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),
 	//				"result/Renderer.png")); //int xres,int yres,Filter* f,const char* file
@@ -208,7 +212,7 @@ int main(int argc, char** argv) {
 	//场景初始化
 	vector<Reference<Primitive>> primtives;
 	primtives.push_back(primit);
-//	primtives.push_back(primit2);
+	//primtives.push_back(primit2);
 //	primtives.push_back(primit3);
 //	primtives.push_back(primit4);
 
@@ -230,6 +234,14 @@ int main(int argc, char** argv) {
 				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
 				group.normals, nullptr, group.UVs, group.data[i].normal_indexs,
 				group.data[i].tex_indexs);
+		string texName="res/";
+//		cout<<"GO";
+//		string albedoName=group.materials[group.data[i].materialID].diffuse_texname;
+//		texName.append(albedoName);
+//		cout<<"GO2";
+//		SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
+//				texName, true, 0, TEXTURE_BLACK, 0, 0);
+//		Matte * m = new Matte(tex);
 		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
 				Reference<Material>((m)));
 		primtives.push_back(primit_tri);
@@ -255,11 +267,11 @@ int main(int argc, char** argv) {
 //	SimpleRenderer renderer(&camera, new RandomSampler(0, 800, 0, 600, 64),
 //			new PathIntegrator(5));	//new PathIntegrator(5)
 
-	//SimpleRenderer renderer(&camera,
-	//new StratifiedSampler(0, 600, 0, 600, 6, 1, true),
-	//new PathIntegrator(5));	//new PathIntegrator(5)
+//	SimpleRenderer renderer(&camera,
+//	new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
+//	new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 16),
+	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 4),
 			new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
 
 //	SimpleRenderer renderer(&camera,
