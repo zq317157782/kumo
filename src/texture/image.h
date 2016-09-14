@@ -16,7 +16,7 @@ private:
 	TextureMapping2D *mMapping;
 public:
 	PNGImageTexture(TextureMapping2D *m,
-			const char*, unsigned int width,unsigned int height,bool doTri,
+			const char*,bool doTri,
             float maxAniso,ImageWrap wm, float scale, float gamma);
 	virtual RGB Evaluate(const DifferentialGeometry&) const override;
 };

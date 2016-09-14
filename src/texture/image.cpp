@@ -9,10 +9,12 @@
 #include "RGB.h"
 #include "mipmap.h"
 PNGImageTexture::PNGImageTexture(TextureMapping2D *m,
-		const char* filename, unsigned int width,unsigned int height,bool doTri,
+		const char* filename,bool doTri,
         float maxAniso,ImageWrap wm, float scale, float gamma) {
 	mMapping=m;
 	std::vector<unsigned char> image;
+	unsigned int width;
+	unsigned int height;
 	unsigned error = lodepng::decode(image, width, height, filename);
 	if(error){
 		std::cerr << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
