@@ -147,6 +147,29 @@ void Transform::operator()(const Ray &r, Ray *rr) const {
 	}
 }
 
+void Transform::operator()(const RayDifferential &r, RayDifferential *rt) const {
+    (*this)(Ray(r), (Ray*)rt);
+    rt->hasDifferentials = r.hasDifferentials;
+    (*this)(r.rxOrigin, &rt->rxOrigin);
+    (*this)(r.ryOrigin, &rt->ryOrigin);
+    (*this)(r.rxDirection, &rt->rxDirection);
+    (*this)(r.ryDirection, &rt->ryDirection);
+}
+
+
+
+RayDifferential Transform::operator()(const RayDifferential &r) const {
+    RayDifferential ret;
+    (*this)(Ray(r), (Ray*)&ret);
+    ret.hasDifferentials = r.hasDifferentials;
+    (*this)(r.rxOrigin, &ret.rxOrigin);
+    (*this)(r.ryOrigin, &ret.ryOrigin);
+    (*this)(r.rxDirection, &ret.rxDirection);
+    (*this)(r.ryDirection, &ret.ryDirection);
+    return ret;
+}
+
+
 //对法线变换需要使用转置逆矩阵
 Normal Transform::operator()(const Normal& n) const {
 	float x = n.x, y = n.y, z = n.z;

@@ -94,6 +94,8 @@ public:
     void operator()(const Point& p,Point* rp) const;
     Ray operator()(const Ray& r) const;
     void operator()(const Ray& r,Ray * rr) const;
+    RayDifferential operator()(const RayDifferential &r) const;
+    void operator()(const RayDifferential &r, RayDifferential *rt) const;
     Normal operator()(const Normal& n) const;
     void operator()(const Normal& n,Normal* normal) const;
     BBox operator()(const BBox &b) const;
