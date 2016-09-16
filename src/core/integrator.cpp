@@ -171,9 +171,9 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			float dDNdx = Dot(dwodx, n) + Dot(wo, dndx);
 			float dDNdy = Dot(dwody, n) + Dot(wo, dndy);
 			r.rxDirection = wi - dwodx
-					+ 2 * Vector(Dot(wo, n) * dndx + dDNdx * n);//w=wi+dwidx
+					+ 2 * Vector(Dot(wo, n) * dndx + dDNdx * n); //w=wi+dwidx
 			r.ryDirection = wi - dwody
-					+ 2 * Vector(Dot(wo, n) * dndy + dDNdy * n);//w=wi+dwidy
+					+ 2 * Vector(Dot(wo, n) * dndy + dDNdy * n); //w=wi+dwidy
 		}
 
 		RGB Li = renderer->Li(scene, r, sample, rand, arena);
@@ -197,6 +197,38 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 	if (pdf > 0.0f && !f.IsBlack() && AbsDot(wi, n) != 0.0f) {
 		RayDifferential r(p, wi, ray, isect.rayEpsilon);
 		//TODO 没有实现RAY微分的代码
+		if (ray.hasDifferentials) {
+			r.hasDifferentials = true;
+			//设置辅助射线的位置
+			r.rxOrigin = p + isect.dg.dpdx;
+			r.ryOrigin = p + isect.dg.dpdy;
+
+			//材质折射率
+			float eta = bsdf->eta;
+			//射线方向
+			Vector w = -wo;
+			//这里要用到Fresnel折射
+			if (Dot(wo, n) < 0)
+				eta = 1.0f / eta;
+			//法线的偏导
+			Normal dndx = bsdf->dgShading.dndu * bsdf->dgShading.dudx
+					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdx;
+			Normal dndy = bsdf->dgShading.dndu * bsdf->dgShading.dudy
+					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdy;
+			//入射射线偏导
+			Vector dwodx = (-ray.rxDirection) - wo;
+			Vector dwody = (-ray.ryDirection) - wo;
+
+			float dDNdx = Dot(dwodx, n) + Dot(wo, dndx);
+			float dDNdy = Dot(dwody, n) + Dot(wo, dndy);
+
+			float mu = eta * Dot(w, n) - Dot(wi, n);
+			float dmudx = (eta - (eta * eta * Dot(w, n)) / Dot(wi, n)) * dDNdx;
+			float dmudy = (eta - (eta * eta * Dot(w, n)) / Dot(wi, n)) * dDNdy;
+
+			r.rxDirection = wi + eta * dwodx - Vector(mu * dndx + dmudx * n);
+			r.ryDirection = wi + eta * dwody - Vector(mu * dndy + dmudy * n);
+		}
 		RGB Li = renderer->Li(scene, r, sample, rand, arena);
 		L = f * Li * AbsDot(wi, n) / pdf;
 	}
