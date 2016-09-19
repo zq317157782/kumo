@@ -135,6 +135,7 @@
     <ClCompile Include="src\core\diffgeom.cpp" />
     <ClCompile Include="src\core\geometry.cpp" />
     <ClCompile Include="src\core\global.cpp" />
+    <ClCompile Include="src\core\imageio.cpp" />
     <ClCompile Include="src\core\integrator.cpp" />
     <ClCompile Include="src\core\Intersection.cpp" />
     <ClCompile Include="src\core\light.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\core\filter.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\global.h" />
+    <ClInclude Include="src\core\imageio.h" />
     <ClInclude Include="src\core\integrator.h" />
     <ClInclude Include="src\core\Intersection.h" />
     <ClInclude Include="src\core\light.h" />
