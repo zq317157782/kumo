@@ -50,14 +50,10 @@ void PNGFilm::WriteImage(float splatScale) {
 	for (int j =0;j<yResolution;++j) {
 		for (int i = 0; i < xResolution; ++i) {
 			Pixel p = mPixels[i + j * xResolution];
-			float invWeight = 1.0 / p.weightSum;
+			float invWeight = p.weightSum!=0?1.0 / p.weightSum:1;
 			RGB finalColor(p.r * invWeight, p.g * invWeight, p.b * invWeight);
 			finalColor=Gamma(finalColor,1,0.45);
 			finalColor=finalColor.clamp();
-//			image.push_back(i);
-//			image.push_back(j);
-//			image.push_back(0);
-//			image.push_back(255);
 			image.push_back((int) (finalColor.r * 255));
 			image.push_back((int) (finalColor.g * 255));
 			image.push_back((int) (finalColor.b * 255));

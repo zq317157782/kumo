@@ -58,7 +58,7 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf,
         const Scene *scene, const Sample *sample, MemoryArena &arena);
 
 ////计算镜面折射的radiance的工具函数
-//RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf,
-//        Random &rng, const Intersection &isect, const Renderer *renderer,
-//        const Scene *scene, const Sample *sample, MemoryArena &arena);
+RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf,
+        Random &rng, const Intersection &isect, const Renderer *renderer,
+        const Scene *scene, const Sample *sample, MemoryArena &arena);
 #endif //RAYTRACER_INTEGRATOR_H

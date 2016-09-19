@@ -108,8 +108,7 @@ int main(int argc, char** argv) {
 			new UVMapping2D(3, 3), black, white);
 
 	SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
-			"res/lala.png", true, 0, TEXTURE_CLAMP, 0, 0);
-
+			"res/mat8_n.jpg", true, 0, TEXTURE_CLAMP, 0, 0);
 	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(white, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
@@ -234,16 +233,16 @@ int main(int argc, char** argv) {
 				group.numVertex, group.data[i].vertex_indexs, group.vertexs,
 				group.normals, nullptr, group.UVs, group.data[i].normal_indexs,
 				group.data[i].tex_indexs);
-		string texName="res/";
-//		cout<<"GO";
-//		string albedoName=group.materials[group.data[i].materialID].diffuse_texname;
+//		string texName="res/";
+//		string albedoName=group.materials[group.data[i].materialID].;
 //		texName.append(albedoName);
-//		cout<<"GO2";
+//		cout<<texName<<endl;
 //		SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
 //				texName, true, 0, TEXTURE_BLACK, 0, 0);
-//		Matte * m = new Matte(tex);
+//		float* kd=group.materials[group.data[i].materialID].diffuse;
+//		ConstantTexture<RGB> *duffuse = new ConstantTexture<RGB>(RGB(kd[0], kd[1], kd[2]));
 		GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
-				Reference<Material>((m)));
+				Reference<Material>((grass)));
 		primtives.push_back(primit_tri);
 	}
 

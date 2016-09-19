@@ -96,6 +96,7 @@ void SimpleRendererTask::Run() {
 			mCamerea->GenerateRayDifferential(samples[i],&ray);
 			Intersection sr;
 			L = mRenderer->Li(mScene, ray, &samples[i], mRand, mArena, &sr);
+			if(!L.IsBlack())
 			mCamerea->film->AddSample(samples[i], L);
 		}
 		mArena.FreeAll();

@@ -68,11 +68,11 @@ struct IrradianceSample {
 	}
 	IrradianceSample(const RGB& e, const Point& P, const Normal&N,
 			const Vector&d, float md) {
-		E=e;
-		n=N;
-		p=P;
-		wAvg=d;
-		maxDistance=md;
+		E = e;
+		n = N;
+		p = P;
+		wAvg = d;
+		maxDistance = md;
 	}
 	RGB E; //irradiance
 	Normal n;
@@ -167,7 +167,7 @@ void IrradianceCacheIntegrator::Preprocess(const Scene *scene,
 	int xstart, xend, ystart, yend;
 	camera->film->GetSampleExtent(&xstart, &xend, &ystart, &yend);
 	//todo PBRT使用的是Halton采样器
-	LDSampler sampler(xstart,xend, ystart, yend, 1);
+	LDSampler sampler(xstart, xend, ystart, yend, 1);
 	Sample *sample = new Sample(&sampler, this, scene);
 
 	//这里为什么要运行46个相同的任务 我非常费解
@@ -203,7 +203,8 @@ RGB IrradianceCacheIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	if (r.depth + 1 < mMaxSpecularDepth) {
 		L += SpecularReflect(r, bsdf, rnd, isect, renderer, scene, sample,
 				arena);
-		//todo 折射
+		L += SpecularTransmit(r, bsdf, rnd, isect, renderer, scene, sample,
+				arena);
 	}
 	Normal ng = isect.dg.nn;
 	ng = Faceforward(ng, wo);
