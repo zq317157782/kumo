@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
 			new UVMapping2D(3, 3), black, white);
 
 	SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
-			"res/mat8_n.jpg", true, 0, TEXTURE_CLAMP, 0, 0);
+			"res/lala.png", true, 0, TEXTURE_CLAMP, 0, 0);
 	Matte * m = new Matte(tex);
 	Metal * metal = new Metal(white, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
