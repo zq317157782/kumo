@@ -196,7 +196,7 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 	RGB L(0);
 	if (pdf > 0.0f && !f.IsBlack() && AbsDot(wi, n) != 0.0f) {
 		RayDifferential r(p, wi, ray, isect.rayEpsilon);
-		//TODO 没有实现RAY微分的代码
+		//这里要用到Fresnel折射
 		if (ray.hasDifferentials) {
 			r.hasDifferentials = true;
 			//设置辅助射线的位置
@@ -207,7 +207,7 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			float eta = bsdf->eta;
 			//射线方向
 			Vector w = -wo;
-			//这里要用到Fresnel折射
+
 			if (Dot(wo, n) < 0)
 				eta = 1.0f / eta;
 			//法线的偏导

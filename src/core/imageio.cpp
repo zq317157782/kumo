@@ -6,7 +6,7 @@
  */
 #include "imageio.h"
 #include "../thrid/lodepng/lodepng.h"
-#include "../thrid/simple-jpg/jpgReader.h"
+//#include "../thrid/simple-jpg/jpgReader.h"
 #include "RGB.h"
 
 RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
@@ -30,26 +30,26 @@ RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
 	}
 	return data;
 }
-
-RGB *ReadJPGImage(const string &name, int *xSize, int *ySize) {
-	//解析JPG文件格式
-	jpgReader decoder;
-	char* n = new char[name.size()];
-	memcpy(n, name.c_str(), name.size());
-	laz_img img = decoder.readJPG(n);
-	unsigned int width = img.getWidth();
-	unsigned int height = img.getHeight();
-	*xSize=width;
-	*ySize=height;
-	RGB* data = new RGB[width * height];
-	unsigned char* image = img.getData();
-	for (int i = 0; i < width * height; ++i) {
-		data[i].r = ((float) image[i * 3]) / 255;
-		data[i].g = ((float) image[i * 3 + 1]) / 255;
-		data[i].b = ((float) image[i * 3 + 2]) / 255;
-	}
-	return data;
-}
+//
+//RGB *ReadJPGImage(const string &name, int *xSize, int *ySize) {
+//	//解析JPG文件格式
+//	jpgReader decoder;
+//	char* n = new char[name.size()];
+//	memcpy(n, name.c_str(), name.size());
+//	laz_img img = decoder.readJPG(n);
+//	unsigned int width = img.getWidth();
+//	unsigned int height = img.getHeight();
+//	*xSize=width;
+//	*ySize=height;
+//	RGB* data = new RGB[width * height];
+//	unsigned char* image = img.getData();
+//	for (int i = 0; i < width * height; ++i) {
+//		data[i].r = ((float) image[i * 3]) / 255;
+//		data[i].g = ((float) image[i * 3 + 1]) / 255;
+//		data[i].b = ((float) image[i * 3 + 2]) / 255;
+//	}
+//	return data;
+//}
 
 RGB *ReadImage(const string &name, int *xSize, int *ySize) {
 	if (name.size() >= 5) {
@@ -59,11 +59,11 @@ RGB *ReadImage(const string &name, int *xSize, int *ySize) {
 
 			return ReadPNGImage(name, xSize, ySize);
 		}
-		if (!strcmp(name.c_str() + suffixOffset, ".jpg")
-				|| !strcmp(name.c_str() + suffixOffset, ".JPG")) {
-
-			return ReadJPGImage(name, xSize, ySize);
-		}
+//		if (!strcmp(name.c_str() + suffixOffset, ".jpg")
+//				|| !strcmp(name.c_str() + suffixOffset, ".JPG")) {
+//
+//			return ReadJPGImage(name, xSize, ySize);
+//		}
 		cerr
 				<< ("Unable to load image stored in format \"%s\" for filename \"%s\". "
 						"Returning a constant grey image instead.",
