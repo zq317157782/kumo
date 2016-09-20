@@ -110,6 +110,7 @@ int main(int argc, char** argv) {
 	SimpleImageTexture *tex = new SimpleImageTexture(new UVMapping2D(1, 1),
 			"res/lala.png", true, 0, TEXTURE_CLAMP, 0, 0);
 	Matte * m = new Matte(tex);
+
 	Metal * metal = new Metal(white, eta, kk, new Blinn(25));
 	Metal * metal2 = new Metal(checker, eta, kk, new Anisotropic(1000, 1000));
 	Translucent *trans = new Translucent(black, white, roughess, black, white);
@@ -152,7 +153,7 @@ int main(int argc, char** argv) {
 	Transform l2w_panel1 = Translate(Vector(0, 0, 0));
 	Transform w2l_panel1 = Translate(Vector(0, 0, -0));
 	ConstantTexture<RGB> *half_red = new ConstantTexture<RGB>(RGB(1, 0, 0));
-	Matte * m1 = new Matte(tex);
+	Matte * m1 = new Matte(white);
 	GeomPrimitive * panel1 = CreatePanel(&l2w_panel1, &w2l_panel1,
 			Point(-2, 2, 8), Point(-2, -2, 8), Point(2, -2, 8), Point(2, 2, 8),
 			m1);
