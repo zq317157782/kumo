@@ -47,6 +47,7 @@
 #include "camera/perspective.h"
 #include "sampler/lowdiscrepancy.h"
 #include "tool/mesh.h"
+#include "renderer/metropolis.h"
 //#include "SDL2/SDL.h"
 
 using namespace std;

@@ -38,3 +38,47 @@ struct MLTSample {
 	}
 };
 
+//突变模式1 :LargeStep 大突变，为了避免采样局限在整个状态空间的一小部分，同样的，没有实现对时间的采样
+static void LargeStep(Random &rng, MLTSample* sample, int maxDepth, float x,
+		float y, bool bidirectional) {
+	//突变相机sample
+	//image panel
+	sample->cameraSample.imageX = x;
+	sample->cameraSample.imageY = y;
+	//lens
+	sample->cameraSample.lensU = rng.RandomFloat();
+	sample->cameraSample.lensV = rng.RandomFloat();
+	//为cameraSampe重新生成随机样本
+	for (int i = 0; i < maxDepth; ++i) {
+		//path sample
+		PathSample &cps = sample->cameraPathSamples[i];
+		cps.bsdfSample.uComponent = rng.RandomFloat();
+		cps.bsdfSample.uDir[0] = rng.RandomFloat();
+		cps.bsdfSample.uDir[1] = rng.RandomFloat();
+		cps.rrSample = rng.RandomFloat();
+		//直接光样本
+		LightingSample &ls = sample->lightingSamples[i];
+		ls.bsdfSample.uComponent = rng.RandomFloat();
+		ls.bsdfSample.uDir[0] = rng.RandomFloat();
+		ls.bsdfSample.uDir[1] = rng.RandomFloat();
+		ls.lightNum=rng.RandomFloat();
+		ls.lightSample.uComponent= rng.RandomFloat();
+		ls.lightSample.uPos[0]=rng.RandomFloat();
+		ls.lightSample.uPos[1]=rng.RandomFloat();
+	}
+	//如果使用了双向路径追踪,还需要整ligthPath的样本
+	if(bidirectional){
+		sample->lightNumSample=rng.RandomFloat();
+		for(int i=0;i<5;++i){
+			sample->lightRaySamples[i]=rng.RandomFloat();
+		}
+		for(int i=0;i<maxDepth;++i){
+			PathSample &lps=sample->lightPathSamples[i];
+			lps.bsdfSample.uComponent=rng.RandomFloat();
+			lps.bsdfSample.uDir[0]=rng.RandomFloat();
+			lps.bsdfSample.uDir[1]=rng.RandomFloat();
+			lps.rrSample=rng.RandomFloat();
+		}
+	}
+}
+
