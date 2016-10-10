@@ -197,24 +197,26 @@ static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
 		//采样BSDF
 		RGB f = bsdf->Sample_f(-ray.d, &v.wNext, samples[length].bsdfSample,
 				&pdf, BSDF_ALL, &flags);
+		v.specularBounce = (flags & BSDF_SPECULAR) != 0;
+		v.nSpecularComponents = bsdf->NumComponents(BxDFType(BSDF_SPECULAR|BSDF_REFLECTION|BSDF_TRANSMISSION));
 
 		if (f.IsBlack() || pdf == 0.0f) {
 			//bsdf不提供任何贡献的情况
 			return length + 1;
 		}
 		const Point &p = bsdf->dgShading.p;	//交点
-		const Normal &n = bsdf->dgShading.nn;//法线
+		const Normal &n = bsdf->dgShading.nn;	//法线
 		//计算新的throughout
-		RGB pathScale=f*AbsDot(v.wNext,n)/pdf;
-		float rrSurviveProb=min(1.0f,pathScale.y());
+		RGB pathScale = f * AbsDot(v.wNext, n) / pdf;
+		float rrSurviveProb = min(1.0f, pathScale.y());
 		//满足罗盘条件 终结
-		if(samples[length].rrSample>rrSurviveProb){
-			return length+1;
+		if (samples[length].rrSample > rrSurviveProb) {
+			return length + 1;
 		}
 		//更新throughout 并且补偿俄罗斯罗盘权重
-		alpha*=pathScale/rrSurviveProb;
+		alpha *= pathScale / rrSurviveProb;
 		//生成新的射线
-		ray=RayDifferential(p,v.wNext,ray,v.isect.rayEpsilon);
+		ray = RayDifferential(p, v.wNext, ray, v.isect.rayEpsilon);
 	}
 	return length;
 }
