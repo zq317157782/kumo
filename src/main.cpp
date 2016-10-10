@@ -49,7 +49,6 @@
 #include "tool/mesh.h"
 #include "renderer/metropolis.h"
 //#include "SDL2/SDL.h"
-
 using namespace std;
 //#define UNIT_TEST
 #ifdef UNIT_TEST

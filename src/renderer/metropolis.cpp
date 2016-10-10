@@ -5,7 +5,10 @@
  *      Author: zhuqian
  */
 #include "metropolis.h"
-
+#include "montecarlo.h"
+#include "light.h"
+#include "reflection.h"
+#include "Intersection.h"
 //代表路径上的一个vertex的样本
 //包括bsdf样本 和 俄罗斯罗盘样本
 struct PathSample {
@@ -24,7 +27,7 @@ struct LightingSample {
 struct MLTSample {
 	CameraSample cameraSample; //相机样本 lens
 	vector<PathSample> cameraPathSamples; //相机路径下的Path样本
-	vector<LightSample> lightingSamples; //用于相机路径下 计算直接光照的MIS样本
+	vector<LightingSample> lightingSamples; //用于相机路径下 计算直接光照的MIS样本
 
 //双向路径用参数
 	float lightNumSample; //用于选择光源NUM
@@ -95,7 +98,7 @@ static inline void mutate(Random& rng, float *v, float min = 0.0f, float max =
 	//为什么要乘以(max-min) 我还没有理解
 	float delta = (max - min) * b * expf(logRatio * rng.RandomFloat());
 
-	if (rng.RandomFloat() < 0, 5f) {
+	if (rng.RandomFloat() < 0.5f) {
 		*v += delta;
 		if (*v >= max)
 			*v = min + (*v - max);	//wrap out
@@ -151,4 +154,13 @@ static void SmallStep(Random& rng, MLTSample *sample, int maxDepth, int x0,
 		}
 	}
 }
+
+struct PathVertex {
+	Intersection isect;	//交点信息
+	Vector wPrev, wNext;	//两条射线
+	BSDF *bsdf;
+	bool specularBounce;	//bsdf是否包含specular组件
+	int nSpecularComponents;	//包含多少的specular组件
+	RGB alpha;	//throughout
+};
 
