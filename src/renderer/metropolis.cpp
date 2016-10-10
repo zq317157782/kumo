@@ -61,24 +61,51 @@ static void LargeStep(Random &rng, MLTSample* sample, int maxDepth, float x,
 		ls.bsdfSample.uComponent = rng.RandomFloat();
 		ls.bsdfSample.uDir[0] = rng.RandomFloat();
 		ls.bsdfSample.uDir[1] = rng.RandomFloat();
-		ls.lightNum=rng.RandomFloat();
-		ls.lightSample.uComponent= rng.RandomFloat();
-		ls.lightSample.uPos[0]=rng.RandomFloat();
-		ls.lightSample.uPos[1]=rng.RandomFloat();
+		ls.lightNum = rng.RandomFloat();
+		ls.lightSample.uComponent = rng.RandomFloat();
+		ls.lightSample.uPos[0] = rng.RandomFloat();
+		ls.lightSample.uPos[1] = rng.RandomFloat();
 	}
 	//如果使用了双向路径追踪,还需要整ligthPath的样本
-	if(bidirectional){
-		sample->lightNumSample=rng.RandomFloat();
-		for(int i=0;i<5;++i){
-			sample->lightRaySamples[i]=rng.RandomFloat();
+	if (bidirectional) {
+		sample->lightNumSample = rng.RandomFloat();
+		for (int i = 0; i < 5; ++i) {
+			sample->lightRaySamples[i] = rng.RandomFloat();
 		}
-		for(int i=0;i<maxDepth;++i){
-			PathSample &lps=sample->lightPathSamples[i];
-			lps.bsdfSample.uComponent=rng.RandomFloat();
-			lps.bsdfSample.uDir[0]=rng.RandomFloat();
-			lps.bsdfSample.uDir[1]=rng.RandomFloat();
-			lps.rrSample=rng.RandomFloat();
+		for (int i = 0; i < maxDepth; ++i) {
+			PathSample &lps = sample->lightPathSamples[i];
+			lps.bsdfSample.uComponent = rng.RandomFloat();
+			lps.bsdfSample.uDir[0] = rng.RandomFloat();
+			lps.bsdfSample.uDir[1] = rng.RandomFloat();
+			lps.rrSample = rng.RandomFloat();
 		}
 	}
+}
+
+//按照指数分布 生成一个样本
+static inline void mutate(Random& rng, float *v, float min = 0.0f, float max =
+		1.0f) {
+	if (min == max) {
+		*v = min;
+		return;
+	}
+	//PBRT默认的突变范围 至于为啥是这个之间估计是实验得出的比较好的范围
+	float a = 1.0f / 1024.0f, b = 1.0f / 64.0f;
+	static const float logRatio = -logf(b / a);
+	//为什么要乘以(max-min) 我还没有理解
+	float delta = (max - min) * b * expf(logRatio * rng.RandomFloat());
+
+	if (rng.RandomFloat() < 0, 5f) {
+		*v += delta;
+		if (*v >= max)
+			*v = min + (*v - max);	//wrap out
+	} else {
+		*v -= delta;
+		if (*v < min)
+			*v = max - (min - *v);	//wrap out
+	}
+	//最后的保护措施
+	if (*v < min || *v >= max)
+		*v = min;
 }
 
