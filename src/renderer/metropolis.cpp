@@ -109,3 +109,46 @@ static inline void mutate(Random& rng, float *v, float min = 0.0f, float max =
 		*v = min;
 }
 
+//微小的突变的策略
+static void SmallStep(Random& rng, MLTSample *sample, int maxDepth, int x0,
+		int x1, int y0, int y1, bool bidirectional) {
+	//突变cameraSample
+	mutate(rng, &sample->cameraSample.imageX, x0, x1);
+	mutate(rng, &sample->cameraSample.imageX, y0, y1);
+	mutate(rng, &sample->cameraSample.lensU);
+	mutate(rng, &sample->cameraSample.lensV);
+	//突变path sample
+	for (int i = 0; i < maxDepth; ++i) {
+		PathSample &cps = sample->cameraPathSamples[i];
+		mutate(rng, &cps.bsdfSample.uComponent);
+		mutate(rng, &cps.bsdfSample.uDir[0]);
+		mutate(rng, &cps.bsdfSample.uDir[1]);
+		mutate(rng, &cps.rrSample);
+
+		//直接光照样本
+		LightingSample &ls = sample->lightingSamples[i];
+		mutate(rng, &ls.bsdfSample.uComponent);
+		mutate(rng, &ls.bsdfSample.uDir[0]);
+		mutate(rng, &ls.bsdfSample.uDir[1]);
+		mutate(rng, &ls.lightNum);
+		mutate(rng, &ls.lightSample.uComponent);
+		mutate(rng, &ls.lightSample.uPos[0]);
+		mutate(rng, &ls.lightSample.uPos[1]);
+	}
+
+	//突变light path的样本
+	if (bidirectional) {
+		mutate(rng, &sample->lightNumSample);
+		for (int i = 0; i < 5; ++i) {
+			mutate(rng, &sample->lightRaySamples[i]);
+		}
+		for (int i = 0; i < maxDepth; ++i) {
+			PathSample& lps = sample->lightPathSamples[i];
+			mutate(rng, &lps.bsdfSample.uComponent);
+			mutate(rng, &lps.bsdfSample.uDir[0]);
+			mutate(rng, &lps.bsdfSample.uDir[1]);
+			mutate(rng, &lps.rrSample);
+		}
+	}
+}
+
