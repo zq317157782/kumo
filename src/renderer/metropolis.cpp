@@ -9,6 +9,8 @@
 #include "light.h"
 #include "reflection.h"
 #include "Intersection.h"
+#include "RGB.h"
+#include "Scene.h"
 //代表路径上的一个vertex的样本
 //包括bsdf样本 和 俄罗斯罗盘样本
 struct PathSample {
@@ -163,4 +165,57 @@ struct PathVertex {
 	int nSpecularComponents;	//包含多少的specular组件
 	RGB alpha;	//throughout
 };
+static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
+		const Scene* scene, MemoryArena& arena,
+		const vector<PathSample>& samples, PathVertex* path,
+		RayDifferential* escapedRay, RGB* escapedAlpha) {
+	RayDifferential ray = r;	//射线
+	RGB alpha = palpha;	//初始贡献
+	if (escapedAlpha)
+		*escapedAlpha = RGB(0.0f);
+	unsigned int length = 0;	//当前路径的长度
+
+	for (; length < samples.size(); ++length) {
+		//遍历路径样本点 生成路径点
+
+		PathVertex &v = path[length];	//当前处理的路径点
+		if (!scene->Intersect(ray, &v.isect)) {
+			//没有与任何几何相交的情况
+			if (escapedRay)
+				*escapedRay = ray;
+			if (escapedAlpha)
+				*escapedAlpha = alpha;
+		}
+
+		v.alpha = alpha;	//更新当前节点的throughout
+		BSDF* bsdf = v.isect.GetBSDF(ray, arena);	//获得当前节点的bsdf
+		v.bsdf = bsdf;
+		v.wPrev = -ray.d;	//初始化顶点的前射线
+
+		float pdf;
+		BxDFType flags;
+		//采样BSDF
+		RGB f = bsdf->Sample_f(-ray.d, &v.wNext, samples[length].bsdfSample,
+				&pdf, BSDF_ALL, &flags);
+
+		if (f.IsBlack() || pdf == 0.0f) {
+			//bsdf不提供任何贡献的情况
+			return length + 1;
+		}
+		const Point &p = bsdf->dgShading.p;	//交点
+		const Normal &n = bsdf->dgShading.nn;//法线
+		//计算新的throughout
+		RGB pathScale=f*AbsDot(v.wNext,n)/pdf;
+		float rrSurviveProb=min(1.0f,pathScale.y());
+		//满足罗盘条件 终结
+		if(samples[length].rrSample>rrSurviveProb){
+			return length+1;
+		}
+		//更新throughout 并且补偿俄罗斯罗盘权重
+		alpha*=pathScale/rrSurviveProb;
+		//生成新的射线
+		ray=RayDifferential(p,v.wNext,ray,v.isect.rayEpsilon);
+	}
+	return length;
+}
 
