@@ -40,7 +40,7 @@ public:
 		return YWeight[0] * r + YWeight[1] * g + YWeight[2] * b;
 	}
 
-	bool IsBlack() {
+	bool IsBlack() const{
 		return r == 0 && g == 0 && b == 0;
 	}
 };
