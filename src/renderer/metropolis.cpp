@@ -493,7 +493,7 @@ inline float I(const RGB &L) {
 	return L.y();
 }
 
-void MetropolisRenderer::Render(const Scene *scene) {
+void MetropolisRenderer::render(const Scene *scene) {
 	if (scene->getLightNum() > 0) {
 		int x0, x1, y0, y1;
 		mCamera->film->GetPixelExtent(&x0, &x1, &y0, &y1);
@@ -694,6 +694,10 @@ void MLTTask::Run() {
 			++consecutiveRejects;
 		}
 
-
+		renderer->mNumTasksFinished+=1;
+		/*if (taskNum % 8 == 0) {
+			filmMutex->lock();
+			camera->film->WriteImage()
+		}*/
 	}
 }

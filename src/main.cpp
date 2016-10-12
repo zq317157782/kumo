@@ -271,8 +271,10 @@ int main(int argc, char** argv) {
 //	new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
 //	new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 4),
-			new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
+	//SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 32),
+	//		new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
+
+	MetropolisRenderer renderer(100,100000,4,0.25f,true,512,7,&camera,true);
 
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
