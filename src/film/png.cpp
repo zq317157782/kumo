@@ -52,6 +52,11 @@ void PNGFilm::WriteImage(float splatScale) {
 			Pixel p = mPixels[i + j * xResolution];
 			float invWeight = p.weightSum != 0 ? 1.0 / p.weightSum : 1;
 			RGB finalColor(p.r * invWeight, p.g * invWeight, p.b * invWeight);
+
+			finalColor.r += splatScale*p.sr;
+			finalColor.g += splatScale*p.sg;
+			finalColor.b += splatScale*p.sb;
+
 			finalColor = Gamma(finalColor, 1, 0.45);
 			finalColor = finalColor.clamp();
 			image.push_back((int) (finalColor.r * 255));
@@ -73,8 +78,8 @@ void PNGFilm::Splat(const CameraSample &sample, const RGB &L){
 	if (x < 0 || x >= xResolution || y < 0 || y >= yResolution)
 	return;
 	Pixel &pixel=mPixels[y*xResolution+x];
-	pixel.r+=L.r;
-	pixel.g+=L.g;
-	pixel.b+=L.b;
+	pixel.sr+=L.r;
+	pixel.sg+=L.g;
+	pixel.sb+=L.b;
 }
 

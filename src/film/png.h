@@ -16,8 +16,9 @@ private:
 	const char* mFileName;
 	struct Pixel{
 		float r,g,b;
+		float sr, sg, sb;
 		float weightSum;
-		Pixel():r(0),g(0),b(0),weightSum(0){}
+		Pixel():r(0),g(0),b(0),sr(0), sg(0), sb(0),weightSum(0){}
 	};
 	Pixel * mPixels;
 public:
