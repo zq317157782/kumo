@@ -11,6 +11,7 @@
 #include "Intersection.h"
 #include "RGB.h"
 #include "Scene.h"
+#include "Camera.h"
 //代表路径上的一个vertex的样本
 //包括bsdf样本 和 俄罗斯罗盘样本
 struct PathSample {
@@ -371,3 +372,54 @@ RGB MetropolisRenderer::LBidir(const Scene* scene, const PathVertex* cameraPath,
 	return L;
 }
 
+RGB MetropolisRenderer::PathL(const MLTSample &sample, const Scene*scene,
+		MemoryArena& arena, const Camera* camera,
+		const Distribution1D* lightDistribution, PathVertex *cameraPath,
+		PathVertex* lightPath, Random& rng) const {
+	RayDifferential cameraRay;
+	//生成射线
+	float cameraWt = camera->GenerateRayDifferential(sample.cameraSample,
+			&cameraRay);
+	cameraRay.ScaleDifferentials(1.0f / sqrtf(mNumPixelSamples));
+
+	RayDifferential escapedRay;
+	RGB escapedAlpha;
+	//生成路径
+	unsigned int cameraLength = GeneratePath(cameraRay, cameraWt, scene, arena,
+			sample.cameraPathSamples, cameraPath, &escapedRay, &escapedAlpha);
+
+	if (!mBidirectional) {
+		return LPath(scene, cameraPath, cameraLength, arena,
+				sample.lightingSamples, rng, lightDistribution, escapedRay,
+				escapedAlpha);
+	} else {
+		float lightPdf, lightRayPdf;
+		//采样光源
+		unsigned int lightNum = lightDistribution->SampleDiscrete(
+				sample.lightNumSample, &lightPdf);
+		const Light *light = scene->getLight(lightNum);
+		Ray lightRay;
+		Normal Nl;
+		LightSample lrs(sample.lightRaySamples[0], sample.lightRaySamples[1],
+				sample.lightRaySamples[2]);
+		//采样光源射线
+		RGB lightWt = light->Sample_L(scene, lrs, sample.lightRaySamples[3],
+				sample.lightRaySamples[4], &lightRay, &Nl, &lightRayPdf);
+		if (lightWt.IsBlack() || lightRayPdf == 0.0f) {
+			return LPath(scene, cameraPath, cameraLength, arena,
+					sample.lightingSamples, rng, lightDistribution, escapedRay,
+					escapedAlpha);
+		} else {
+			//双向路径追踪
+			lightWt *= AbsDot(Normalize(Nl), lightRay.d)
+					/ (lightPdf * lightRayPdf);
+			unsigned int lightLength = GeneratePath(RayDifferential(lightRay),
+					lightWt, scene, arena, sample.lightPathSamples, lightPath,
+					nullptr, nullptr);
+
+			return LBidir(scene, cameraPath, cameraLength, lightPath,
+					lightLength, arena, sample.lightingSamples, rng,lightDistribution, escapedRay,
+					escapedAlpha);
+		}
+	}
+}

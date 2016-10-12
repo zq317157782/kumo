@@ -19,6 +19,8 @@ struct LightingSample;
 class MetropolisRenderer: public Renderer {
 private:
 	DirectLightingIntegrator * mDirectLighting;
+	bool mBidirectional;
+	int mNumPixelSamples;
 
 	//普通的Path Tracing算法下计算radiance
 	RGB LPath(const Scene *scene, const PathVertex *path, int pathLength,
@@ -26,9 +28,15 @@ private:
 			Random &rng, const Distribution1D *lightDistribution,
 			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
 	RGB LBidir(const Scene* scene, const PathVertex* cameraPath,
-			int cameraPathLength, const PathVertex* lightPath,int lightPathLength,MemoryArena &arena,
-			const vector<LightingSample>& samples,Random& rng,const Distribution1D* lightDistribution,
+			int cameraPathLength, const PathVertex* lightPath,
+			int lightPathLength, MemoryArena &arena,
+			const vector<LightingSample>& samples, Random& rng,
+			const Distribution1D* lightDistribution,
 			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
+	//生成路径并计算radiance
+	RGB PathL(const MLTSample &sample, const Scene*scene, MemoryArena& arena,
+			const Camera* camera, const Distribution1D* lightDistribution,
+			PathVertex *cameraPath, PathVertex* lightPath, Random& rng) const;
 public:
 
 };
