@@ -23,7 +23,11 @@ private:
 	//普通的Path Tracing算法下计算radiance
 	RGB LPath(const Scene *scene, const PathVertex *path, int pathLength,
 			MemoryArena &arena, const vector<LightingSample> &samples,
-			Random &rng,const Distribution1D *lightDistribution,
+			Random &rng, const Distribution1D *lightDistribution,
+			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
+	RGB LBidir(const Scene* scene, const PathVertex* cameraPath,
+			int cameraPathLength, const PathVertex* lightPath,int lightPathLength,MemoryArena &arena,
+			const vector<LightingSample>& samples,Random& rng,const Distribution1D* lightDistribution,
 			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
 public:
 

@@ -277,3 +277,97 @@ RGB MetropolisRenderer::LPath(const Scene *scene, const PathVertex *path,
 	return L;
 }
 
+//使用BPT计算radiance
+RGB MetropolisRenderer::LBidir(const Scene* scene, const PathVertex* cameraPath,
+		int cameraPathLength, const PathVertex* lightPath, int lightPathLength,
+		MemoryArena &arena, const vector<LightingSample>& samples, Random& rng,
+		const Distribution1D* lightDistribution,
+		const RayDifferential &escapedRay, const RGB &escapedAlpha) const {
+	RGB L = 0.0f;		//最终返回的radiance值
+	bool previousSpecular = true;		//判断前一次bsdf是否是界面反射或者折射 从相机到第一个顶点默认算界面反射
+	bool allSpecular = true; //到当前path顶点为止是否都为镜面BSDF
+
+	//以下区块 计算路径中specular的情况
+	int nVerts = cameraPathLength + lightPathLength + 2; //最大的路径的顶点个数
+	int *nSpecularVertices = ALLOCA(int, nVerts); //分配一个储存各个长度下路径包含specular组件的数组
+	memset(nSpecularVertices, 0, nVerts * sizeof(int)); //全部初始化为0
+	for (int i = 0; i < cameraPathLength; ++i) {
+		for (int j = 0; j < lightPathLength; ++j) {
+			if (cameraPath[i].specularBounce || lightPath[j].specularBounce) {
+				++nSpecularVertices[i + j + 2]; //记录specular出现的情况
+			}
+		}
+	}
+
+	for (int i = 0; i < cameraPathLength; ++i) {
+		//遍历处理每一个Path顶点
+		const PathVertex &vc = cameraPath[i];
+		const Point &pc = vc.bsdf->dgShading.p; //当前相交点
+		const Normal &nc = vc.bsdf->dgShading.nn; //当前法线
+		//这里也包含了直接从相机射出的射线所相交的交点
+		if (previousSpecular && (mDirectLighting == nullptr || !allSpecular)) {
+			//1.MLT Path下 如果是镜面BSDF，需要考虑自发光，因为EstimeateDirect在Specular下并没有考虑自发光
+			//2.DirectLighting下 前面连续的镜面自发光已经被DirectLighting考虑，需要从非镜面BSDF后面的镜面BSDF开始考虑自发光
+			L += vc.alpha * vc.isect.Le(vc.wPrev);
+		}
+
+		//开始计算直接光
+		RGB Ld = 0.0f;
+		//满足DirectLighting 没有处理的情况
+		if (mDirectLighting == nullptr && !allSpecular) {
+			const LightingSample &ls = samples[i];
+			float lightPdf;
+			int lightNum = lightDistribution->SampleDiscrete(ls.lightNum,
+					&lightPdf);
+			const Light* light = scene->getLight(lightNum);			//获得采样后的光源
+			//计算直接光(不包括Specular BSDF)
+			Ld = vc.alpha
+					* EstimateDirect(scene, this, arena, light, pc, nc,
+							vc.wPrev, vc.isect.rayEpsilon, vc.bsdf, rng,
+							ls.lightSample, ls.bsdfSample,
+							BxDFType(BSDF_ALL & ~BSDF_SPECULAR)) / lightPdf;
+		}
+
+		//更新数据
+		previousSpecular = vc.specularBounce;
+		allSpecular &= previousSpecular;
+		L += Ld / (i + 1 - nSpecularVertices[i + 1]);//这里需要对Ld根据所有相同长度路径中Specular的个数进行reweight;
+
+		//在当前path顶点不为specular的情况下，可以尝试和lightPath进行连接
+		if (!vc.specularBounce) {
+			for (int j = 0; j < lightPathLength; ++j) {
+				const PathVertex &vl = lightPath[j];
+				const Point &pl = vl.bsdf->dgShading.p; //ligthPath下的交点
+				const Normal &nl = vl.bsdf->dgShading.nn; //ligthPath下的交点的法线
+				//lightPath这边也不是specular,可以尝试连接
+				if (!vl.specularBounce) {
+					Vector w = Normalize(pl - pc);
+					RGB fc = vc.bsdf->f(vc.wPrev, w)
+							* (1 + vc.nSpecularComponents);	//1+vc.nSpecularComponents factor用来reweight BSDF的贡献
+					RGB fl = vl.bsdf->f(-w, vl.wPrev)
+							* (1 + vl.nSpecularComponents);
+					if (fc.IsBlack() || fl.IsBlack())
+						continue;	//跳过当前ligthPath
+					Ray r(pc, pl - pc, 1e-3f, 0.999f);
+					//cameraPath和lightPath之间没有阻挡
+					if (!scene->IntersectP(r)) {
+						float pathWt = 1.0f
+								/ (i + j + 2 - nSpecularVertices[i + j + 2]);
+						float G = AbsDot(nc, w) * AbsDot(nl, w)
+								/ DistanceSqr(pl, pc);
+						L += (vc.alpha * fc * G * fl * vl.alpha) * pathWt;//BPT公式
+					}
+				}
+			}
+		}
+	}
+
+	//如果最终路径没有射到任何物体，需要考虑infinate Lights
+	if (!escapedAlpha.IsBlack() && previousSpecular
+			&& (mDirectLighting == nullptr || !allSpecular)) {
+		for (uint32_t i = 0; i < scene->getLightNum(); ++i)
+			L += escapedAlpha * scene->getLight(i)->Le(escapedRay);
+	}
+	return L;
+}
+
