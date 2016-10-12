@@ -19,8 +19,16 @@ struct LightingSample;
 class MetropolisRenderer: public Renderer {
 private:
 	DirectLightingIntegrator * mDirectLighting;
-	bool mBidirectional;
-	int mNumPixelSamples;
+	bool mBidirectional;//是否使用双向路径追踪
+	unsigned int mNumPixelSamples;//每个像素平均的样本点个数
+	Camera* mCamera;
+	unsigned int mMaxDepth;//最大的路径深度
+	unsigned int mLargeStepsPerPixel;//每个像素largeStep的个数
+	unsigned int mNumBootstrap;
+	unsigned int mNumDirectPixelSamples;//直接光照下的每个像素包含的样本点
+	unsigned int mMaxConsecutiveRejects;//最大连续拒绝次数
+	atomic_uint mNumTasksFinished;
+
 
 	//普通的Path Tracing算法下计算radiance
 	RGB LPath(const Scene *scene, const PathVertex *path, int pathLength,
@@ -37,8 +45,15 @@ private:
 	RGB PathL(const MLTSample &sample, const Scene*scene, MemoryArena& arena,
 			const Camera* camera, const Distribution1D* lightDistribution,
 			PathVertex *cameraPath, PathVertex* lightPath, Random& rng) const;
+	friend class MLTTask;
 public:
 
+	MetropolisRenderer(int perPixelSamples,int nBootstrap,int directPixelSamples,
+			float largeStepProbability,bool doDirectSeparately,int maxConsecutiveRejects,int maxDepth, Camera *camera, bool doBidirectional);
+	~MetropolisRenderer();
+
+	//渲染函数
+	void Render(const Scene *scene);
 };
 
 #endif /* SRC_RENDERER_METROPOLIS_H_ */

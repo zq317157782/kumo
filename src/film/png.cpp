@@ -47,24 +47,34 @@ void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
 void PNGFilm::WriteImage(float splatScale) {
 
 	vector<unsigned char> image;
-	for (int j =0;j<yResolution;++j) {
+	for (int j = 0; j < yResolution; ++j) {
 		for (int i = 0; i < xResolution; ++i) {
 			Pixel p = mPixels[i + j * xResolution];
-			float invWeight = p.weightSum!=0?1.0 / p.weightSum:1;
+			float invWeight = p.weightSum != 0 ? 1.0 / p.weightSum : 1;
 			RGB finalColor(p.r * invWeight, p.g * invWeight, p.b * invWeight);
-			finalColor=Gamma(finalColor,1,0.45);
-			finalColor=finalColor.clamp();
+			finalColor = Gamma(finalColor, 1, 0.45);
+			finalColor = finalColor.clamp();
 			image.push_back((int) (finalColor.r * 255));
 			image.push_back((int) (finalColor.g * 255));
 			image.push_back((int) (finalColor.b * 255));
 			image.push_back((int) (255));
 		}
 	}
-	unsigned error = lodepng::encode(mFileName,image,xResolution,
+	unsigned error = lodepng::encode(mFileName, image, xResolution,
 			yResolution);
 	if (error)
 		std::cout << "encoder error " << error << ": "
 				<< lodepng_error_text(error) << std::endl;
 
+}
+
+void PNGFilm::Splat(const CameraSample &sample, const RGB &L){
+	int x = Floor2Int(sample.imageX), y = Floor2Int(sample.imageY);
+	if (x < 0 || x >= xResolution || y < 0 || y >= yResolution)
+	return;
+	Pixel &pixel=mPixels[y*xResolution+x];
+	pixel.r+=L.r;
+	pixel.g+=L.g;
+	pixel.b+=L.b;
 }
 

@@ -12,6 +12,13 @@
 #include "RGB.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "sampler.h"
+#include "film.h"
+#include "sampler/lowdiscrepancy.h"
+#include "parallel.h"
+#include "simpleRenderer.h"
+
+
 //代表路径上的一个vertex的样本
 //包括bsdf样本 和 俄罗斯罗盘样本
 struct PathSample {
@@ -42,6 +49,28 @@ struct MLTSample {
 		lightPathSamples.resize(maxLength);
 		lightingSamples.resize(maxLength);
 	}
+};
+
+class MLTTask: public Task {
+public:
+	MLTTask(unsigned int pfreq, unsigned int taskNum, float dx, float dy,
+			int xx0, int xx1, int yy0, int yy1, float bb, const MLTSample &is,
+			const Scene *sc, const Camera *c, MetropolisRenderer *renderer,
+			mutex *filmMutex, Distribution1D *lightDistribution);
+	void Run();
+
+private:
+	unsigned int progressUpdateFrequency, taskNum;
+	float dx, dy;
+	int currentPixelSample;
+	int x0, x1, y0, y1;
+	float b;
+	const MLTSample &initialSample;
+	const Scene *scene;
+	const Camera *camera;
+	MetropolisRenderer *renderer;
+	mutex *filmMutex;
+	Distribution1D *lightDistribution;
 };
 
 //突变模式1 :LargeStep 大突变，为了避免采样局限在整个状态空间的一小部分，同样的，没有实现对时间的采样
@@ -418,8 +447,253 @@ RGB MetropolisRenderer::PathL(const MLTSample &sample, const Scene*scene,
 					nullptr, nullptr);
 
 			return LBidir(scene, cameraPath, cameraLength, lightPath,
-					lightLength, arena, sample.lightingSamples, rng,lightDistribution, escapedRay,
-					escapedAlpha);
+					lightLength, arena, sample.lightingSamples, rng,
+					lightDistribution, escapedRay, escapedAlpha);
 		}
+	}
+}
+
+MetropolisRenderer::MetropolisRenderer(int perPixelSamples, int nBootstrap,
+		int directPixelSamples, float lsp, bool doDirectSeparately,
+		int maxConsecutiveRejects, int maxDepth, Camera *c,
+		bool doBidirectional) {
+	mCamera = c;
+	mNumPixelSamples = perPixelSamples;
+	float largeStepProbability = lsp;
+	mLargeStepsPerPixel = max(1u,
+			RoundUpPow2(largeStepProbability * mNumPixelSamples));
+	if (mLargeStepsPerPixel >= mNumPixelSamples)
+		mLargeStepsPerPixel /= 2;	//这里为什么要缩减一半个数，没有理解
+	//roundUp 操作,为啥要roundUp，我也理解不了
+	if (mNumPixelSamples % mLargeStepsPerPixel != 0) {
+		int origPixelSamples = mNumPixelSamples;
+		mNumPixelSamples += mLargeStepsPerPixel
+				- (mNumPixelSamples % mLargeStepsPerPixel);
+		printf("Rounding up to %d Metropolis samples per pixel (from %d)",
+				mNumPixelSamples, origPixelSamples);
+	}
+	mNumBootstrap = nBootstrap;
+	mNumDirectPixelSamples = directPixelSamples;
+	mMaxDepth = maxDepth;
+	mMaxConsecutiveRejects = maxConsecutiveRejects;
+	mNumTasksFinished = 0;
+	mDirectLighting =
+			doDirectSeparately ?
+					new DirectLightingIntegrator(UNIFORM_ALL, maxDepth) :
+					nullptr;
+	mBidirectional = doBidirectional;
+}
+
+MetropolisRenderer::~MetropolisRenderer() {
+	delete mCamera;
+	delete mDirectLighting;
+}
+
+inline float I(const RGB &L) {
+	return L.y();
+}
+
+void MetropolisRenderer::Render(const Scene *scene) {
+	if (scene->getLightNum() > 0) {
+		int x0, x1, y0, y1;
+		mCamera->film->GetPixelExtent(&x0, &x1, &y0, &y1);
+		Distribution1D *lightDistribution = ComputeLightSamplingCDF(scene);
+
+		//运行DirectLighting任务
+		if (mDirectLighting != nullptr) {
+			if (mNumDirectPixelSamples > 0) {
+				LDSampler sampler(x0, x1, y0, y1, mNumDirectPixelSamples);//低差异采样器
+				Sample *sample = new Sample(&sampler, mDirectLighting, scene);
+				vector<Task*> directTasks;
+				int nDirectTasks =
+						max(32 * CORE_NUM,
+								(mCamera->film->xResolution
+										* mCamera->film->yResolution)
+										/ (16 * 16));
+				nDirectTasks = RoundUpPow2(nDirectTasks);
+				for (int i = 0; i < nDirectTasks; ++i) {
+					directTasks.push_back(
+							new SimpleRendererTask(scene, this, mCamera,
+									&sampler, sample, i, nDirectTasks));
+				}
+
+				std::reverse(directTasks.begin(), directTasks.end());
+				EnqueueTasks(directTasks);	//加入task System 开始运行
+				WaitForAllTasks();
+				printf("direct lighting fininsh!");
+				for (unsigned int i = 0; i < directTasks.size(); ++i)
+					delete directTasks[i];
+				delete sample;
+			}
+			mCamera->film->WriteImage();
+		}
+
+		//开始计算init sample
+		Random rng(0);
+		MemoryArena arena;
+		vector<float> bootstrapI;
+		vector<PathVertex> cameraPath(mMaxDepth, PathVertex());
+		vector<PathVertex> lightPath(mMaxDepth, PathVertex());
+		float sumI = 0.0f;
+		bootstrapI.reserve(mNumBootstrap);
+		MLTSample sample(mMaxDepth);
+		//随机采样整个场景
+		for (unsigned int i = 0; i < mNumBootstrap; ++i) {
+			float x = Lerp(rng.RandomFloat(), x0, x1);
+			float y = Lerp(rng.RandomFloat(), y0, y1);
+			LargeStep(rng, &sample, mMaxDepth, x, y, mBidirectional);
+			RGB L = PathL(sample, scene, arena, mCamera, lightDistribution,
+					&cameraPath[0], &lightPath[0], rng);
+//计算样本的贡献
+			float I = ::I(L);
+			sumI += I;
+			bootstrapI.push_back(I);
+			arena.FreeAll();
+		}
+		float b = sumI / mNumBootstrap;	//计算得B
+		printf("MLT computed b = %f", b);
+
+		//开始选择init sample
+		float contribOffset = rng.RandomFloat() * sumI;
+		rng.Seed(0);
+		sumI = 0.0f;
+		MLTSample initialSample(mMaxDepth);
+		//通过模拟前面计算积分的方式，获得initSample
+		for (unsigned int i = 0; i < mNumBootstrap; ++i) {
+			float x = Lerp(rng.RandomFloat(), x0, x1);
+			float y = Lerp(rng.RandomFloat(), y0, y1);
+			LargeStep(rng, &initialSample, mMaxDepth, x, y, mBidirectional);
+			sumI += bootstrapI[i];
+			if (sumI > contribOffset)
+				break;
+		}
+		//MLT tasks
+		unsigned int nTasks = mLargeStepsPerPixel;
+		unsigned int largeStepRate = mNumPixelSamples / mLargeStepsPerPixel;
+		printf("MLT running %d tasks, large step rate %d", nTasks,
+				largeStepRate);
+		vector<Task*> tasks;
+		//film的互斥锁
+		mutex* fileMutex = new mutex();
+		//用于dx,dy
+		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
+		unsigned int pfreq = (x1 - x0) * (y1 - y0);
+		for (unsigned int i = 0; i < nTasks; ++i) {
+			float d[2];
+			Sample02(i, scramble, d);
+			tasks.push_back(
+					new MLTTask(pfreq, i, d[0], d[1], x0, x1, y0, y1, b,
+							initialSample, scene, mCamera, this, fileMutex,
+							lightDistribution));
+		}
+		EnqueueTasks(tasks);
+		WaitForAllTasks();
+		for (unsigned int i = 0; i < tasks.size(); ++i)
+			delete tasks[i];
+		delete fileMutex;
+		delete lightDistribution;
+	}
+	mCamera->film->WriteImage();
+}
+
+MLTTask::MLTTask(unsigned int pfreq, uint32_t tn, float ddx, float ddy, int xx0,
+		int xx1, int yy0, int yy1, float bb, const MLTSample &is,
+		const Scene *sc, const Camera *c, MetropolisRenderer *ren, mutex *fm,
+		Distribution1D *ld) :
+		initialSample(is) {
+	progressUpdateFrequency = pfreq;
+	taskNum = tn;
+	dx = ddx;
+	dy = ddy;
+	x0 = xx0;
+	x1 = xx1;
+	y0 = yy0;
+	y1 = yy1;
+	currentPixelSample = 0;
+	b = bb;
+	scene = sc;
+	camera = c;
+	renderer = ren;
+	filmMutex = fm;
+	lightDistribution = ld;
+}
+
+void MLTTask::Run() {
+	unsigned int nPixels = (x1 - x0) * (y1 - y0);	//像素个数
+	unsigned int nPixelSamples = renderer->mNumPixelSamples;
+	unsigned int largeStepRate = nPixelSamples / renderer->mLargeStepsPerPixel;
+	uint64_t nTaskSamples = uint64_t(nPixels) * uint64_t(largeStepRate);
+	unsigned int consecutiveRejects = 0;
+
+	MemoryArena arena;
+	Random rng(taskNum);
+	vector<PathVertex> cameraPath(renderer->mMaxDepth, PathVertex());
+	vector<PathVertex> lightPath(renderer->mMaxDepth, PathVertex());
+	vector<MLTSample> samples(2, MLTSample(renderer->mMaxDepth));
+	RGB L[2];
+	float I[2];
+	unsigned int current = 0;
+	unsigned int proposed = 1;
+	samples[current] = initialSample;
+	L[current] = renderer->PathL(initialSample, scene, arena, camera,
+			lightDistribution, &cameraPath[0], &lightPath[0], rng);
+	I[current] = ::I(L[current]);
+	arena.FreeAll();
+
+	//随机采样x,y
+	unsigned int pixelNumOffset = 0;
+	vector<int> largeStepPixelNum;
+	largeStepPixelNum.reserve(nPixels);
+	for (unsigned int i = 0; i < nPixels; ++i) {
+		largeStepPixelNum.push_back(i);
+	}
+	Shuffle(&largeStepPixelNum[0], nPixels, 1, rng);
+	for (uint64_t s = 0; s < nTaskSamples; ++s) {
+		samples[proposed] = samples[current];
+		bool largeStep = ((s % largeStepRate) == 0);	//判断是否使用largeStep策略
+		//大突变
+		if (largeStep) {
+			int x = x0 + largeStepPixelNum[pixelNumOffset] % (x1 - x0);
+			int y = y0 + largeStepPixelNum[pixelNumOffset] / (x1 - x0);
+			LargeStep(rng, &samples[proposed], renderer->mMaxDepth, x + dx,
+					y + dy, renderer->mBidirectional);
+			++pixelNumOffset;
+		} else {
+			SmallStep(rng, &samples[proposed], renderer->mMaxDepth, x0, x1, y0,
+					y1, renderer->mBidirectional);
+		}
+		//计算突变样本的radiance
+		L[proposed] = renderer->PathL(samples[proposed], scene, arena, camera,
+				lightDistribution, &cameraPath[0], &lightPath[0], rng);
+		I[proposed] = ::I(L[proposed]);
+		arena.FreeAll();
+		//计算接受概率
+		float a = min(1.f, I[proposed] / I[current]);
+		if (I[current] > 0.0f) {
+			if (!isinf(1.0f / I[current])) {
+				RGB contrib = (b / nPixelSamples) * L[current] / I[current];
+				camera->film->Splat(samples[current].cameraSample,
+						(1.f - a) * contrib);
+			}
+		}
+
+		if (I[proposed] > 0.0f) {
+			if (!isinf(1.0f / I[proposed])) {
+				RGB contrib = (b / nPixelSamples) * L[proposed] / I[proposed];
+				camera->film->Splat(samples[proposed].cameraSample,
+						a * contrib);
+			}
+		}
+		//判断有没有连续的被拒绝
+		if (consecutiveRejects >= renderer->mMaxConsecutiveRejects
+				|| rng.RandomFloat() < a) {
+			current ^= 1;
+			proposed ^= 1;
+			consecutiveRejects = 0;
+		} else {
+			++consecutiveRejects;
+		}
+
+
 	}
 }

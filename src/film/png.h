@@ -24,6 +24,7 @@ public:
 	PNGFilm(int xres,int yres,Filter* f,const char* file);
 	virtual void AddSample(const CameraSample& sample,const RGB& L) override;
 	virtual void WriteImage(float splatScale = 1.f) override;
+	virtual void Splat(const CameraSample &sample, const RGB &L) override;
 };
 
 

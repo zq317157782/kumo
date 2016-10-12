@@ -19,15 +19,28 @@ public:
 	}
 
 	virtual void AddSample(const CameraSample& sample, const RGB& L)=0;
-	virtual void WriteImage(float splatScale = 1.f){};
-	virtual void GetSampleExtent(int *xstart, int *xend,
-	                                 int *ystart, int *yend) const {
-		*xstart=0;
-		*xend=xResolution;
-		*ystart=0;
-		*yend=yResolution;
+	virtual void WriteImage(float splatScale = 1.f) {
+	}
+	;
+	virtual void GetSampleExtent(int *xstart, int *xend, int *ystart,
+			int *yend) const {
+		*xstart = 0;
+		*xend = xResolution - 1;
+		*ystart = 0;
+		*yend = yResolution - 1;
 
 	}
+
+	virtual void GetPixelExtent(int *xstart, int *xend, int *ystart,
+			int *yend) const {
+		*xstart = 0;
+		*xend = xResolution - 1;
+		*ystart = 0;
+		*yend = yResolution - 1;
+
+	}
+
+	virtual void Splat(const CameraSample &sample, const RGB &L){};
 };
 
 #endif /* CORE_FILM_H_ */
