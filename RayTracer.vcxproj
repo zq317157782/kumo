@@ -179,6 +179,7 @@
     <ClCompile Include="src\material\metal.cpp" />
     <ClCompile Include="src\material\mirror.cpp" />
     <ClCompile Include="src\material\translucent.cpp" />
+    <ClCompile Include="src\renderer\metropolis.cpp" />
     <ClCompile Include="src\renderer\simpleRenderer.cpp" />
     <ClCompile Include="src\sampler\lowdiscrepancy.cpp" />
     <ClCompile Include="src\sampler\randomSampler.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="src\material\metal.h" />
     <ClInclude Include="src\material\mirror.h" />
     <ClInclude Include="src\material\translucent.h" />
+    <ClInclude Include="src\renderer\metropolis.h" />
     <ClInclude Include="src\renderer\simpleRenderer.h" />
     <ClInclude Include="src\sampler\lowdiscrepancy.h" />
     <ClInclude Include="src\sampler\randomSampler.h" />
