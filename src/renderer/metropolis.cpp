@@ -527,6 +527,7 @@ void MetropolisRenderer::render(const Scene *scene) {
 				delete sample;
 			}
 			mCamera->film->WriteImage();
+			//return;
 		}
 		//开始计算init sample
 		Random rng(0);
@@ -544,6 +545,7 @@ void MetropolisRenderer::render(const Scene *scene) {
 			LargeStep(rng, &sample, mMaxDepth, x, y, mBidirectional);
 			RGB L = PathL(sample, scene, arena, mCamera, lightDistribution,
 					&cameraPath[0], &lightPath[0], rng);
+			//cout << L.r << " " << L.g << " " << L.b << " " << endl;
 //计算样本的贡献
 			float I = ::I(L);
 			sumI += I;
@@ -594,6 +596,23 @@ void MetropolisRenderer::render(const Scene *scene) {
 		delete lightDistribution;
 	}
 	mCamera->film->WriteImage();
+}
+
+RGB MetropolisRenderer::Li(const Scene *scene, const RayDifferential &ray,
+	const Sample *sample, Random &rng, MemoryArena &arena,
+	Intersection *isect, RGB *T) const {
+	Intersection localIsect;
+	if (isect == nullptr) isect = &localIsect;
+	RGB Lo = 0.0f;
+	if (scene->Intersect(ray, isect)) {
+		Lo = mDirectLighting->Li(scene, this, ray, sample, *isect, rng, arena);
+	}
+	else {
+		for (int i = 0; i < scene->getLightNum(); ++i) {
+			Lo += scene->getLight(i)->Le(ray);
+		}
+	}
+	return Lo;
 }
 
 MLTTask::MLTTask(unsigned int pfreq, uint32_t tn, float ddx, float ddy, int xx0,

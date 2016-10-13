@@ -55,9 +55,7 @@ public:
 	void render(const Scene *scene);
 	RGB Li(const Scene *scene, const RayDifferential &ray,
 		const Sample *sample, Random &rng, MemoryArena &arena,
-		Intersection *isect, RGB *T) const {
-		return RGB(0);
-	}
+		Intersection *isect, RGB *T) const;
 };
 
 #endif /* SRC_RENDERER_METROPOLIS_H_ */
