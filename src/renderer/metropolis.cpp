@@ -215,6 +215,7 @@ static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
 				*escapedRay = ray;
 			if (escapedAlpha)
 				*escapedAlpha = alpha;
+			break;
 		}
 
 		v.alpha = alpha;	//更新当前节点的throughout
@@ -485,8 +486,8 @@ MetropolisRenderer::MetropolisRenderer(int perPixelSamples, int nBootstrap,
 }
 
 MetropolisRenderer::~MetropolisRenderer() {
-	delete mCamera;
-	delete mDirectLighting;
+	/*delete mCamera;
+	delete mDirectLighting;*/
 }
 
 inline float I(const RGB &L) {
@@ -527,7 +528,6 @@ void MetropolisRenderer::render(const Scene *scene) {
 			}
 			mCamera->film->WriteImage();
 		}
-
 		//开始计算init sample
 		Random rng(0);
 		MemoryArena arena;
@@ -672,16 +672,20 @@ void MLTTask::Run() {
 		if (I[current] > 0.0f) {
 			if (!isinf(1.0f / I[current])) {
 				RGB contrib = (b / nPixelSamples) * L[current] / I[current];
+				filmMutex->lock();
 				camera->film->Splat(samples[current].cameraSample,
 						(1.f - a) * contrib);
+				filmMutex->unlock();
 			}
 		}
 
 		if (I[proposed] > 0.0f) {
 			if (!isinf(1.0f / I[proposed])) {
 				RGB contrib = (b / nPixelSamples) * L[proposed] / I[proposed];
+				filmMutex->lock();
 				camera->film->Splat(samples[proposed].cameraSample,
 						a * contrib);
+				filmMutex->unlock();
 			}
 		}
 		//判断有没有连续的被拒绝
