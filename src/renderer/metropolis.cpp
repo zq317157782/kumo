@@ -149,7 +149,7 @@ static void SmallStep(Random& rng, MLTSample *sample, int maxDepth, int x0,
 		int x1, int y0, int y1, bool bidirectional) {
 	//突变cameraSample
 	mutate(rng, &sample->cameraSample.imageX, x0, x1);
-	mutate(rng, &sample->cameraSample.imageX, y0, y1);
+	mutate(rng, &sample->cameraSample.imageY, y0, y1);
 	mutate(rng, &sample->cameraSample.lensU);
 	mutate(rng, &sample->cameraSample.lensV);
 	//突变path sample
@@ -672,11 +672,11 @@ void MLTTask::Run() {
 		bool largeStep = ((s % largeStepRate) == 0);	//判断是否使用largeStep策略
 		//大突变
 		if (largeStep) {
-			int x = x0 + largeStepPixelNum[pixelNumOffset] % (x1 - x0);
+			/*int x = x0 + largeStepPixelNum[pixelNumOffset] % (x1 - x0);
 			int y = y0 + largeStepPixelNum[pixelNumOffset] / (x1 - x0);
 			LargeStep(rng, &samples[proposed], renderer->mMaxDepth, x + dx,
 					y + dy, renderer->mBidirectional);
-			++pixelNumOffset;
+			++pixelNumOffset;*/
 		} else {
 			SmallStep(rng, &samples[proposed], renderer->mMaxDepth, x0, x1, y0,
 					y1, renderer->mBidirectional);
