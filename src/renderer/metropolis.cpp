@@ -270,16 +270,16 @@ RGB MetropolisRenderer::LPath(const Scene *scene, const PathVertex *path,
 		const Normal &nc = vc.bsdf->dgShading.nn; //当前法线
 
 		//这里也包含了直接从相机射出的射线所相交的交点
-		if (previousSpecular && (mDirectLighting == nullptr || !allSpecular)) {
+		if (previousSpecular && (mDirectLighting == nullptr || !allSpecular)) { 
 			//1.MLT Path下 如果是镜面BSDF，需要考虑自发光，因为EstimeateDirect在Specular下并没有考虑自发光
 			//2.DirectLighting下 前面连续的镜面自发光已经被DirectLighting考虑，需要从非镜面BSDF后面的镜面BSDF开始考虑自发光
 			L += vc.alpha * vc.isect.Le(vc.wPrev);
 		}
 
-		//开始计算直接光
+		//开始计算直接光 
 		RGB Ld = 0.0f;
 		//满足DirectLighting 没有处理的情况
-		if (mDirectLighting == nullptr && !allSpecular) {
+		if (mDirectLighting == nullptr || !allSpecular) {
 			const LightingSample &ls = samples[i];
 			float lightPdf;
 			int lightNum = lightDistribution->SampleDiscrete(ls.lightNum,
@@ -299,7 +299,7 @@ RGB MetropolisRenderer::LPath(const Scene *scene, const PathVertex *path,
 		L += Ld;
 
 	}
-	//如果最终路径没有射到任何物体，需要考虑infinate Lights
+	////如果最终路径没有射到任何物体，需要考虑infinate Lights
 	if (!escapedAlpha.IsBlack() && previousSpecular
 			&& (mDirectLighting == nullptr || !allSpecular)) {
 		for (uint32_t i = 0; i < scene->getLightNum(); ++i)
@@ -345,7 +345,7 @@ RGB MetropolisRenderer::LBidir(const Scene* scene, const PathVertex* cameraPath,
 		//开始计算直接光
 		RGB Ld = 0.0f;
 		//满足DirectLighting 没有处理的情况
-		if (mDirectLighting == nullptr && !allSpecular) {
+		if (mDirectLighting == nullptr || !allSpecular) {
 			const LightingSample &ls = samples[i];
 			float lightPdf;
 			int lightNum = lightDistribution->SampleDiscrete(ls.lightNum,
@@ -672,11 +672,11 @@ void MLTTask::Run() {
 		bool largeStep = ((s % largeStepRate) == 0);	//判断是否使用largeStep策略
 		//大突变
 		if (largeStep) {
-			/*int x = x0 + largeStepPixelNum[pixelNumOffset] % (x1 - x0);
+			int x = x0 + largeStepPixelNum[pixelNumOffset] % (x1 - x0);
 			int y = y0 + largeStepPixelNum[pixelNumOffset] / (x1 - x0);
 			LargeStep(rng, &samples[proposed], renderer->mMaxDepth, x + dx,
 					y + dy, renderer->mBidirectional);
-			++pixelNumOffset;*/
+			++pixelNumOffset;
 		} else {
 			SmallStep(rng, &samples[proposed], renderer->mMaxDepth, x0, x1, y0,
 					y1, renderer->mBidirectional);
@@ -710,6 +710,7 @@ void MLTTask::Run() {
 		//判断有没有连续的被拒绝
 		if (consecutiveRejects >= renderer->mMaxConsecutiveRejects
 				|| rng.RandomFloat() < a) {
+			//camera->film->Splat(samples[proposed].cameraSample, I[proposed]);
 			current ^= 1;
 			proposed ^= 1;
 			consecutiveRejects = 0;
