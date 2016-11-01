@@ -33,7 +33,7 @@ public:
 	bool operator==(const RGB& c) const;
 	bool operator!=(const RGB& c) const;
 
-	RGB clamp();
+	//RGB clamp();
 
 	float y() const {
 		const float YWeight[3] = { 0.212671f, 0.715160f, 0.072169f };
@@ -51,6 +51,10 @@ inline RGB Gamma(const RGB& rgb, float a, float gamma) {
 	ret.g = a * powf(rgb.g, gamma);
 	ret.b = a * powf(rgb.b, gamma);
 	return ret;
+}
+
+inline RGB Clamp(const RGB& rgb,float minV,float maxV){
+	 return RGB(max(minV,min(maxV,rgb.r)), max(minV, min(maxV,rgb.g)), max(minV, min(maxV,rgb.b)));
 }
 
 #endif //RAYTRACER_RGB_H

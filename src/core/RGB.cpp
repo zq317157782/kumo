@@ -76,7 +76,7 @@ RGB RGB::operator/(float div) const {
 RGB RGB::operator/(const RGB& c) const {
     return RGB(r/c.r,g/c.g,b/c.b);
 }
-
-RGB RGB::clamp(){
-    return RGB(max(0.0f,min(1.0f,r)), max(0.0f, min(1.0f,g)), max(0.0f, min(1.0f,b)));
-}
+//
+//RGB RGB::clamp(){
+//    return RGB(max(0.0f,min(1.0f,r)), max(0.0f, min(1.0f,g)), max(0.0f, min(1.0f,b)));
+//}

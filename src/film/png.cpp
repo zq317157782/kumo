@@ -58,7 +58,7 @@ void PNGFilm::WriteImage(float splatScale) {
 			finalColor.b += splatScale*p.sb;
 
 			finalColor = Gamma(finalColor, 1, 0.45);
-			finalColor = finalColor.clamp();
+			finalColor = Clamp(finalColor,0,1);
 			image.push_back((int) (finalColor.r * 255));
 			image.push_back((int) (finalColor.g * 255));
 			image.push_back((int) (finalColor.b * 255));

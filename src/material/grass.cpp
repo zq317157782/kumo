@@ -14,8 +14,8 @@ BSDF * Grass::GetBSDF(const DifferentialGeometry &dgGeom,
 	 dgs = dgShading;
 	 float ior = mIndex->Evaluate(dgs);//材质折射率
 	 BSDF *bsdf = BSDF_ALLOC(arena, BSDF)(dgs, dgGeom.nn, ior);
-	 RGB R = mKr->Evaluate(dgs).clamp();
-	 RGB T = mKt->Evaluate(dgs).clamp();
+	 RGB R = Clamp(mKr->Evaluate(dgs),0,1);
+	 RGB T = Clamp(mKt->Evaluate(dgs),0,1);
 	 if(!R.IsBlack()){
 		 bsdf->Add(BSDF_ALLOC(arena, SpecularReflection)(R,BSDF_ALLOC(arena, FresnelDielectric)(1.0f, ior)));//镜面反射BRDF
 	 }
