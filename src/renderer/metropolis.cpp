@@ -53,14 +53,14 @@ struct MLTSample {
 
 class MLTTask: public Task {
 public:
-	MLTTask(unsigned int pfreq, unsigned int taskNum, float dx, float dy,
+	MLTTask( unsigned int taskNum, float dx, float dy,
 			int xx0, int xx1, int yy0, int yy1, float bb, const MLTSample &is,
 			const Scene *sc, const Camera *c, MetropolisRenderer *renderer,
 			mutex *filmMutex, Distribution1D *lightDistribution);
 	void Run();
 
 private:
-	unsigned int progressUpdateFrequency, taskNum;
+	unsigned int  taskNum;
 	float dx, dy;
 	int currentPixelSample;
 	int x0, x1, y0, y1;
@@ -581,10 +581,11 @@ void MetropolisRenderer::render(const Scene *scene) {
 		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
 		unsigned int pfreq = (x1 - x0) * (y1 - y0);
 		for (unsigned int i = 0; i < nTasks; ++i) {
+			//cout<<"start task:"<<i<<endl;
 			float d[2];
 			Sample02(i, scramble, d);
 			tasks.push_back(
-					new MLTTask(pfreq, i, d[0], d[1], x0, x1, y0, y1, b,
+					new MLTTask( i, d[0], d[1], x0, x1, y0, y1, b,
 							initialSample, scene, mCamera, this, fileMutex,
 							lightDistribution));
 		}
@@ -615,12 +616,11 @@ RGB MetropolisRenderer::Li(const Scene *scene, const RayDifferential &ray,
 	return Lo;
 }
 
-MLTTask::MLTTask(unsigned int pfreq, uint32_t tn, float ddx, float ddy, int xx0,
+MLTTask::MLTTask(uint32_t tn, float ddx, float ddy, int xx0,
 		int xx1, int yy0, int yy1, float bb, const MLTSample &is,
 		const Scene *sc, const Camera *c, MetropolisRenderer *ren, mutex *fm,
 		Distribution1D *ld) :
 		initialSample(is) {
-	progressUpdateFrequency = pfreq;
 	taskNum = tn;
 	dx = ddx;
 	dy = ddy;
