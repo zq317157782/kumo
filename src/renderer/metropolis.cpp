@@ -576,24 +576,23 @@ void MetropolisRenderer::render(const Scene *scene) {
 				largeStepRate);
 		vector<Task*> tasks;
 		//film的互斥锁
-		mutex* fileMutex = new mutex();
+		mutex* filmMutex = new mutex();
 		//用于dx,dy
 		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
 		unsigned int pfreq = (x1 - x0) * (y1 - y0);
 		for (unsigned int i = 0; i < nTasks; ++i) {
-			//cout<<"start task:"<<i<<endl;
 			float d[2];
 			Sample02(i, scramble, d);
 			tasks.push_back(
 					new MLTTask( i, d[0], d[1], x0, x1, y0, y1, b,
-							initialSample, scene, mCamera, this, fileMutex,
+							initialSample, scene, mCamera, this, filmMutex,
 							lightDistribution));
 		}
 		EnqueueTasks(tasks);
 		WaitForAllTasks();
 		for (unsigned int i = 0; i < tasks.size(); ++i)
 			delete tasks[i];
-		delete fileMutex;
+		delete filmMutex;
 		delete lightDistribution;
 	}
 	mCamera->film->WriteImage();

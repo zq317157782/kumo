@@ -275,7 +275,7 @@ int main(int argc, char** argv) {
 	//		new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
 
 	MetropolisRenderer renderer(100,100000,4,0.25f,true,512,7,&camera,true);
-
+	//MetropolisRenderer renderer(100,100000,4,0.25f,true,1,7,&camera,true);
 //	SimpleRenderer renderer(&camera,
 //			new StratifiedSampler(0, 800, 0, 600, 1, 1, true),
 //			new IGIIntegrator(4, 3, 0.01f, 2, 0.1f, 1));
