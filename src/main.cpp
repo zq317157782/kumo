@@ -57,14 +57,7 @@ using namespace std;
 #include "test/test.h"
 #endif
 
-
-
 int main(int argc, char** argv) {
-#ifdef UNIT_TEST
-	::testing::InitGoogleTest(&argc,argv);
-	return RUN_ALL_TESTS();
-#endif
-
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	ConstantTexture<RGB> *red = new ConstantTexture<RGB>(RGB(1, 0, 0));
 	ConstantTexture<RGB> *black = new ConstantTexture<RGB>(RGB(0.1, 0.1, 0.1));
@@ -240,8 +233,8 @@ int main(int argc, char** argv) {
 //	new StratifiedSampler(0, 600, 0, 600, 4, 4, true),
 //	new PathIntegrator(5));	//new PathIntegrator(5)
 
-	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 32),
-			new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 1024));//new PathIntegrator(5)
+	SimpleRenderer renderer(&camera, new LDSampler(0, 600, 0, 600, 16),
+			new IrradianceCacheIntegrator(0.5f, 2.5, 15, 10, 5, 3, 10));//new PathIntegrator(5)
 
 	// MetropolisRenderer renderer(100,100000,4,0.25f,true,512,7,&camera,true);
 	//MetropolisRenderer renderer(100,100000,4,0.25f,true,1,7,&camera,true);
@@ -253,35 +246,4 @@ int main(int argc, char** argv) {
 	cout << "----" << endl;
 
 }
-
-//	//	//测试三角面片
-//		Model model;
-//		model.load("WALL_E.obj");
-//		int triCount = model.numberOfTriangles();
-//		int vertexCount = model.numberOfVertices();
-//		Point* points = new Point[vertexCount];
-//		for (int i = 0; i < vertexCount; ++i) {
-//			_POINT p = model.getVertex(i);
-//			points[i] = Point(p.x, p.y, p.z);
-//		}
-//
-//		int * indexs = new int[3 * triCount];
-//		for (int i = 0, j = 0; i < triCount; ++i) {
-//			_TRIANGLE t = model.getTriangle(i);
-//			indexs[j++] = t.index[0];
-//			indexs[j++] = t.index[1];
-//			indexs[j++] = t.index[2];
-//		}
-//
-//
-////		Transform localToWorld_tri = Scale(10,10,10);
-////		Transform worldToLocal_tri = Scale(-10,-10,-10);
-//		Transform localToWorld_tri = Translate(Vector( 0,0, 6));
-//		Transform worldToLocal_tri = Translate(Vector(0,0, -6));
-//
-//		TriangleMesh* mesh = new TriangleMesh(&localToWorld_tri, &worldToLocal_tri, false,
-//				triCount, vertexCount, indexs, points, nullptr, nullptr, nullptr);
-//
-//		GeomPrimitive * primit_tri = new GeomPrimitive(mesh, Reference<Material>(metal));
-//
 #endif

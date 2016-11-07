@@ -101,7 +101,7 @@ GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
 		const Point& p2, const Point& p3, const Point& p4, Material* mat) {
 	Point* points = new Point[4];
 	points[0] = p1;
-//	points[1] = p2;
+	points[1] = p2;
 	points[2] = p3;
 	points[3] = p4;
 	int triCount = 2;
