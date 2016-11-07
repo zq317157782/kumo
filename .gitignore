@@ -317,3 +317,17 @@ res/lala.png
 res/image2.png
 
 res/image.png
+
+RayTracer.workspace
+
+RayTracer.project
+
+.codelite/refactoring.db
+
+.codelite/RayTracer.tags
+
+.codelite/RayTracer.session
+
+.codelite/.tern-port
+
+.codelite/compilation.db
