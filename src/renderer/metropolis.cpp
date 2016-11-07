@@ -240,7 +240,7 @@ static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
 		const Normal &n = bsdf->dgShading.nn;	//法线
 		//计算新的throughout
 		RGB pathScale = f * AbsDot(v.wNext, n) / pdf;
-		float rrSurviveProb = min(1.0f, pathScale.y());
+		float rrSurviveProb = min(1.0f, pathScale.luminance());
 		//满足罗盘条件 终结
 		if (samples[length].rrSample > rrSurviveProb) {
 			return length + 1;
@@ -491,7 +491,7 @@ MetropolisRenderer::~MetropolisRenderer() {
 }
 
 inline float I(const RGB &L) {
-	return L.y();
+	return L.luminance();
 }
 
 void MetropolisRenderer::render(const Scene *scene) {

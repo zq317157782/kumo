@@ -277,7 +277,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 		pathThroughput *= f * AbsDot(wi, n) / pdf;
 		ray = RayDifferential(p, wi, ray, isect.rayEpsilon);
 		if (pathLength > 2) {
-			float rrProb = min(1.f, pathThroughput.y());
+			float rrProb = min(1.f, pathThroughput.luminance());
 			if (rng.RandomFloat() > rrProb)
 				break;
 			pathThroughput = pathThroughput / rrProb;
@@ -309,7 +309,7 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 			r.d = Faceforward(r.d, ng);		//转化向量位置使其和法线在同一半球
 			RGB L = pathL(r, scene, renderer, rng, arena);	//计算当前射线上的radiance
 			LiSum += L;		//加入到和中
-			wAvg += r.d * L.y();		//根据能量值 计算平均入射方向
+			wAvg += r.d * L.luminance();		//根据能量值 计算平均入射方向
 			minHitDistance = min(minHitDistance, r.maxT);
 		}
 		E = (M_PI / float(mNumSample)) * LiSum;		//蒙特卡洛估计

@@ -75,7 +75,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		ray = RayDifferential(p, wi, ray, isectp->rayEpsilon); //生成新的射线
 		//反射数大于3 就开始使用俄罗斯罗盘
 		if (bounces > 3) {
-			float continueProbability = min(0.5f, pathThroughput.y());
+			float continueProbability = min(0.5f, pathThroughput.luminance());
 			if (rnd.RandomFloat() > continueProbability)
 				break;
 			pathThroughput =pathThroughput/continueProbability;

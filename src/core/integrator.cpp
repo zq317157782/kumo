@@ -15,7 +15,7 @@ Distribution1D *ComputeLightSamplingCDF(const Scene *scene) {
 	unsigned int nLights = scene->getLightNum();
 	vector<float> lightPower(nLights, 0.0f);
 	for (unsigned int i = 0; i < nLights; ++i)
-		lightPower[i] = scene->getLight(i)->Power(scene).y();
+		lightPower[i] = scene->getLight(i)->Power(scene).luminance();
 	return new Distribution1D(&lightPower[0], nLights);
 }
 //TODO 这个函数中还缺少透射相关的代码

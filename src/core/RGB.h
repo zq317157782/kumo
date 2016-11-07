@@ -35,7 +35,7 @@ public:
 
 	//RGB clamp();
 
-	float y() const {
+	float luminance() const {
 		const float YWeight[3] = { 0.212671f, 0.715160f, 0.072169f };
 		return YWeight[0] * r + YWeight[1] * g + YWeight[2] * b;
 	}

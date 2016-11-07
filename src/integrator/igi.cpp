@@ -95,7 +95,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 					break;
 				RGB contribScale = fr * AbsDot(wi, bsdf->dgShading.nn) / pdf;
 				//俄罗斯转盘继续概率
-				float rrProb = min(1.f, contribScale.y());
+				float rrProb = min(1.f, contribScale.luminance());
 				if (random.RandomFloat() > rrProb)
 					break;
 
@@ -142,7 +142,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 				sqrtf(d2) * (1.f - vl.rayEpsilon));
 		//Llight *= renderer->Transmittance(scene, connectRay, NULL, rng, arena);
 		//一定概率跳过贡献低的光源
-		if (Llight.y() < mRrThreshold) {
+		if (Llight.luminance() < mRrThreshold) {
 			float continueProbability = 0.1f;
 			if (rnd.RandomFloat() > continueProbability)
 				continue;
