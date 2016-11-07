@@ -1,9 +1,10 @@
+
 //#define UNIT_TEST
 #ifdef UNIT_TEST
 #else
 #include <iostream>
 #include "shape/sphere.h"
-#include "camera/PinholeCamera.h"
+#include <camera/pinholecamera.h>
 #include "transform.h"
 #include "global.h"
 #include "renderer/simpleRenderer.h"
@@ -17,7 +18,7 @@
 #include "filter/box.h"
 #include "filter/triangle.h"
 #include "shape/trianglemesh.h"
-#include "Scene.h"
+#include <scene.h>
 #include "thrid/objloader/Model.h"
 #include "light/point.h"
 #include "light/spot.h"

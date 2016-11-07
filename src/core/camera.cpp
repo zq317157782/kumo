@@ -2,7 +2,7 @@
 // Created by 诸谦 on 15/12/28.
 //
 
-#include "Camera.h"
+#include <camera.h>
 #include "film.h"
 #include "geometry.h"
 #include "sampler.h"

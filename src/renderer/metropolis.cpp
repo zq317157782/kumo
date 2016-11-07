@@ -4,14 +4,14 @@
  *  Created on: 2016年10月10日
  *      Author: zhuqian
  */
+#include <camera.h>
+#include <rgb.h>
+#include <scene.h>
 #include "metropolis.h"
 #include "montecarlo.h"
 #include "light.h"
 #include "reflection.h"
 #include "Intersection.h"
-#include "RGB.h"
-#include "Scene.h"
-#include "Camera.h"
 #include "sampler.h"
 #include "film.h"
 #include "sampler/lowdiscrepancy.h"

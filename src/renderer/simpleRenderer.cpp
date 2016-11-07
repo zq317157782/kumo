@@ -2,14 +2,14 @@
 // Created by 诸谦 on 16/6/25.
 //
 
-#include "Camera.h"
+#include <camera.h>
+#include <scene.h>
 #include "simpleRenderer.h"
 #include "primitive.h"
 #include "integrator.h"
 #include "sampler.h"
 #include "random.h"
 #include "film.h"
-#include "Scene.h"
 
 //void SimpleRenderer::render(const Scene* scene) {
 //	Sample sample(sampler, mSurfaceIntegrator, scene);

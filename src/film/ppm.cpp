@@ -5,10 +5,10 @@
  *      Author: Administrator
  */
 
+#include <rgb.h>
 #include "ppm.h"
 #include "sampler.h"
 #include "filter.h"
-#include "RGB.h"
 #include <fstream>
 
 PPMFilm::PPMFilm(int xres, int yres, Filter* f, const char* file) :

@@ -2,8 +2,8 @@
 // Created by 诸谦 on 15/12/24.
 //
 
-#include "RGB.h"
 #include <assert.h>
+#include <rgb.h>
 #include <algorithm>
 using namespace std;
 

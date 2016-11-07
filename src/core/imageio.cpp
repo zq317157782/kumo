@@ -4,10 +4,10 @@
  *  Created on: 2016年9月14日
  *      Author: zhuqian
  */
+#include <rgb.h>
 #include "imageio.h"
 #include "../thrid/lodepng/lodepng.h"
 //#include "../thrid/simple-jpg/jpgReader.h"
-#include "RGB.h"
 
 RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
 	std::vector<unsigned char> image;

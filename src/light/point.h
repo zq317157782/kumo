@@ -8,9 +8,9 @@
 #ifndef LIGHT_POINT_H_
 #define LIGHT_POINT_H_
 
+#include <rgb.h>
 #include "global.h"
 #include "light.h"
-#include "RGB.h"
 class PointLight:public Light{
 public:
 	PointLight(const Transform& l2w,const RGB& intensity):Light(l2w){

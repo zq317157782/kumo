@@ -7,7 +7,7 @@
 
 
 #include <Intersection.h>
-#include "RGB.h"
+#include <rgb.h>
 #include "memory.h"
 
 class Material :public ReferenceCounted{

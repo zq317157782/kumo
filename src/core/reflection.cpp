@@ -2,8 +2,8 @@
 // Created by Administrator on 2016/6/28 0028.
 //
 
+#include <rgb.h>
 #include "reflection.h"
-#include "RGB.h"
 #include "sampler.h"
 
 RGB BRDFToBTDF::f(const Vector &wo, const Vector &wi) const {

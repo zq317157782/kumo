@@ -8,8 +8,8 @@
 #ifndef SRC_CAMERA_ORTHOGRAPHIC_H_
 #define SRC_CAMERA_ORTHOGRAPHIC_H_
 //正交相机模型
+#include <camera.h>
 #include "global.h"
-#include "Camera.h"
 class OrthoCamera: public ProjectiveCamera {
 private:
 	Vector dxCamera, dyCamera; //相机空间和Raster空间的差分

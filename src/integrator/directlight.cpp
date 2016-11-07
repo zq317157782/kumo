@@ -4,9 +4,9 @@
  *  Created on: 2016年8月2日
  *      Author: zhuqian
  */
+#include <rgb.h>
+#include <scene.h>
 #include "directlight.h"
-#include "RGB.h"
-#include "scene.h"
 #include "reflection.h"
 #include "sampler.h"
 

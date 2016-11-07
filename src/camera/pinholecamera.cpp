@@ -3,7 +3,7 @@
 //
 
 
-#include "PinholeCamera.h"
+#include <camera/pinholecamera.h>
 #include "transform.h"
 #include "sampler.h"
 #include "film.h"

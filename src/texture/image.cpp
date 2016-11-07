@@ -4,9 +4,9 @@
  *  Created on: 2016年8月25日
  *      Author: zhuqian
  */
+#include <rgb.h>
 #include "image.h"
 #include "imageio.h"
-#include "RGB.h"
 #include "mipmap.h"
 SimpleImageTexture::SimpleImageTexture(TextureMapping2D *m,
 		const string& filename,bool doTri,

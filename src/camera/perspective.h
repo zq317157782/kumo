@@ -7,8 +7,8 @@
 
 #ifndef SRC_CAMERA_PERSPECTIVE_H_
 #define SRC_CAMERA_PERSPECTIVE_H_
+#include <camera.h>
 #include "global.h"
-#include "Camera.h"
 class PerspectiveCamera: public ProjectiveCamera {
 private:
 	Vector dxCamera, dyCamera; //相机空间和Raster空间的差分

@@ -4,9 +4,10 @@
 
 #ifndef RAYTRACER_PINHOLECAMERA_H
 #define RAYTRACER_PINHOLECAMERA_H
+
 #define CAMERA_VIEWPANEL_DISTANCE 200
 
-#include "Camera.h"
+#include <camera.h>
 
 class PinholeCamera: public Camera{
 protected:

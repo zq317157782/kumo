@@ -5,9 +5,9 @@
  *      Author: zhuqian
  */
 
+#include <rgb.h>
+#include <scene.h>
 #include "path.h"
-#include "RGB.h"
-#include "scene.h"
 #include "reflection.h"
 #include "sampler.h"
 

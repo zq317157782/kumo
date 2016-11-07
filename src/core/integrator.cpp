@@ -4,10 +4,10 @@
  *  Created on: 2016年7月30日
  *      Author: zhuqian
  */
+#include <scene.h>
 #include "integrator.h"
 #include "global.h"
 #include "light.h"
-#include "Scene.h"
 #include "montecarlo.h"
 #include "renderer.h"
 #include "sampler.h"

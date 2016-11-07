@@ -5,9 +5,9 @@
 #ifndef RAYTRACER_REFLECTION_H
 #define RAYTRACER_REFLECTION_H
 
+#include <rgb.h>
 #include "global.h"
 #include "geometry.h"
-#include "RGB.h"
 #include "diffgeom.h"
 #include "montecarlo.h"
 //反射坐标系 三个标准正交基是两切线和法线

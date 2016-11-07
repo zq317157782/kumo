@@ -5,10 +5,10 @@
  *      Author: zhuqian
  */
 
+#include <rgb.h>
 #include "png.h"
 #include "sampler.h"
 #include "filter.h"
-#include "RGB.h"
 #include <fstream>
 #include "../thrid/lodepng/lodepng.h"
 

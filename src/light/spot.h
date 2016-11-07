@@ -8,9 +8,9 @@
 #ifndef LIGHT_SPOT_H_
 #define LIGHT_SPOT_H_
 
+#include <rgb.h>
 #include "global.h"
 #include "light.h"
-#include "RGB.h"
 
 class SpotLight:public Light{
 private:

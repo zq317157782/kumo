@@ -4,8 +4,8 @@
  *  Created on: 2016年8月4日
  *      Author: zhuqian
  */
+#include <scene.h>
 #include "mirror.h"
-#include <Scene.h>
 #include "reflection.h"
 #include "texture.h"
 

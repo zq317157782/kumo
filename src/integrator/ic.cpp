@@ -4,11 +4,11 @@
  *  Created on: 2016年9月5日
  *      Author: zhuqian
  */
+#include <camera.h>
+#include <scene.h>
 #include "ic.h"
-#include "Scene.h"
 #include "geometry.h"
 #include "sampler.h"
-#include "Camera.h"
 #include "film.h"
 #include "parallel.h"
 #include "sampler/lowdiscrepancy.h"

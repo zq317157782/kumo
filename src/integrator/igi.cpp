@@ -4,10 +4,10 @@
  *  Created on: 2016年8月12日
  *      Author: zhuqian
  */
+#include <scene.h>
 #include "igi.h"
 #include "global.h"
 #include "light.h"
-#include "scene.h"
 #include "reflection.h"
 #include "sampler.h"
 #include "geometry.h"

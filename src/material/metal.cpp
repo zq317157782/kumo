@@ -5,8 +5,8 @@
  *      Author: Administrator
  */
 
+#include <scene.h>
 #include "metal.h"
-#include <Scene.h>
 #include "reflection.h"
 #include "texture.h"
 Metal::Metal(const Reference<Texture<RGB>>& reflectance, const Reference<Texture<RGB>>& e, const Reference<Texture<RGB>>& kk,
