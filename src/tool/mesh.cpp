@@ -97,3 +97,28 @@ RawMeshGroup LoadObjMesh(string dir, string inputfile) {
 	return group;
 }
 
+GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,
+		const Point& p2, const Point& p3, const Point& p4, Material* mat) {
+	Point* points = new Point[4];
+	points[0] = p1;
+//	points[1] = p2;
+	points[2] = p3;
+	points[3] = p4;
+	int triCount = 2;
+	int vertexCount = 4;
+	int * indexs = new int[3 * triCount];
+	indexs[0] = 0;
+	indexs[1] = 1;
+	indexs[2] = 2;
+	indexs[3] = 0;
+	indexs[4] = 2;
+	indexs[5] = 3;
+
+	TriangleMesh* mesh = new TriangleMesh(l2w, w2l, false, triCount,
+			vertexCount, indexs, points, nullptr, nullptr, nullptr);
+
+	GeomPrimitive * primit_tri = new GeomPrimitive(mesh,
+			Reference<Material>(mat));
+	return primit_tri;
+}
+
