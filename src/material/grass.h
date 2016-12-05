@@ -7,7 +7,7 @@
 
 #ifndef SRC_MATERIAL_GRASS_H_
 #define SRC_MATERIAL_GRASS_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "material.h"
 //玻璃材质
 class Grass:public Material{

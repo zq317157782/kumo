@@ -4,7 +4,7 @@
 
 #ifndef RAYTRACER_RGB_H
 #define RAYTRACER_RGB_H
-#include "global.h"
+#include "seidennki.h"
 /**
  * RGB颜色
  */

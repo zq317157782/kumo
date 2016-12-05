@@ -4,8 +4,8 @@
 
 #ifndef SRC_TRANSFORM_H
 #define SRC_TRANSFORM_H
-#include "global.h"
 #include "geometry.h"
+#include "seidennki.h"
 
 //求解2x2线性方程组 AX=b
 bool SolveLinearSystem2x2(const float A[2][2],

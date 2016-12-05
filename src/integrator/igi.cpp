@@ -6,7 +6,8 @@
  */
 #include <scene.h>
 #include "igi.h"
-#include "global.h"
+
+#include "../core/seidennki.h"
 #include "light.h"
 #include "reflection.h"
 #include "sampler.h"

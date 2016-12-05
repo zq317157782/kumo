@@ -2,8 +2,8 @@
 // Created by 诸谦 on 16/6/9.
 //
 
-#include "global.h"
 #include "transform.h"
+#include "seidennki.h"
 
 bool SolveLinearSystem2x2(const float A[2][2], const float B[2], float *x0,
 		float *x1) {

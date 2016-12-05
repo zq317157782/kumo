@@ -8,7 +8,7 @@
 #ifndef FILTER_BOX_H_
 #define FILTER_BOX_H_
 
-#include "global.h"
+#include "../core/seidennki.h"
 #include "filter.h"
 
 class BoxFilter:public Filter{

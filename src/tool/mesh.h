@@ -8,7 +8,7 @@
 #ifndef SRC_TOOL_MESH_H_
 #define SRC_TOOL_MESH_H_
 //mesh相关的工具函数
-#include "global.h"
+#include "seidennki.h"
 #include "geometry.h"
 #include "primitive.h"
 #include "shape/trianglemesh.h"

@@ -4,8 +4,8 @@
 
 #ifndef RAYTRACER_INTEGRATOR_H
 #define RAYTRACER_INTEGRATOR_H
-#include "global.h"
 #include "reflection.h"
+#include "seidennki.h"
 //积分器
 class Integrator {
 public:

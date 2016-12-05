@@ -7,7 +7,7 @@
 
 #ifndef FILM_PNG_H_
 #define FILM_PNG_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "film.h"
 
 class PNGFilm:public Film{

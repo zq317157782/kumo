@@ -7,7 +7,7 @@
 
 #ifndef SRC_ACCELERATOR_GRID_H_
 #define SRC_ACCELERATOR_GRID_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "primitive.h"
 #include "parallel.h"
 

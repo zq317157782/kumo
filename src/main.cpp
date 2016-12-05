@@ -6,7 +6,7 @@
 #include "shape/sphere.h"
 #include <camera/pinholecamera.h>
 #include "transform.h"
-#include "global.h"
+#include "core/seidennki.h"
 #include "renderer/simpleRenderer.h"
 #include "reflection.h"
 #include "primitive.h"

@@ -8,7 +8,7 @@
 #ifndef CORE_SAMPLER_H_
 #define CORE_SAMPLER_H_
 
-#include "global.h"
+#include "seidennki.h"
 class Sampler{
 public:
 	const int xPixelStart,xPixelEnd,yPixelStart,yPixelEnd;

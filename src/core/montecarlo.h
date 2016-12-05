@@ -9,10 +9,10 @@
 #define CORE_MONTECARLO_H_
 //这里都是关于蒙特卡洛方法的相关工具
 
-#include "global.h"
 #include "random.h"
 #include "geometry.h"
 #include "sampler.h"
+#include "seidennki.h"
 
 static const float OneMinusEpsilon=0.9999999999999;
 

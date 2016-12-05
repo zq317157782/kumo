@@ -7,8 +7,8 @@
 #include <Intersection.h>
 #include <material.h>
 #include <shape.h>
-#include "global.h"
 #include "memory.h"
+#include "seidennki.h"
 
 //图元
 class Primitive: public ReferenceCounted {

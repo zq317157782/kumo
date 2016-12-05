@@ -8,7 +8,7 @@
 #ifndef LIGHT_DISTANT_H_
 #define LIGHT_DISTANT_H_
 #include <rgb.h>
-#include "global.h"
+#include "../core/seidennki.h"
 #include "light.h"
 
 class DistantLight:public Light{

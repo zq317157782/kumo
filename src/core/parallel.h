@@ -7,7 +7,7 @@
 
 #ifndef CORE_PARALLEL_H_
 #define CORE_PARALLEL_H_
-#include "global.h"
+#include "seidennki.h"
 //并行相关
 #define CORE_NUM 4
 

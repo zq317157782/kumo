@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_RENDERER_H
 #define RAYTRACER_RENDERER_H
 
-#include "global.h"
+#include "seidennki.h"
 
 //渲染器
 class Renderer {

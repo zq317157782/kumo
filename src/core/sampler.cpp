@@ -6,9 +6,9 @@
  */
 
 #include "sampler.h"
-#include "global.h"
 #include "memory.h"
 #include "integrator.h"
+#include "seidennki.h"
 
 void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
         int *newXEnd, int *newYStart, int *newYEnd) const {

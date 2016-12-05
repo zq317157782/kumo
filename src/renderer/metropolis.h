@@ -7,7 +7,7 @@
 
 #ifndef SRC_RENDERER_METROPOLIS_H_
 #define SRC_RENDERER_METROPOLIS_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "renderer.h"
 #include "integrator/directlight.h"
 

@@ -7,7 +7,7 @@
 
 #ifndef SRC_INTEGRATOR_IGI_H_
 #define SRC_INTEGRATOR_IGI_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "integrator.h"
 
 // Instant Global Irradiacne

@@ -4,9 +4,10 @@
 
 #ifndef RAYTRACER_SIMPLERENDERER_H
 #define RAYTRACER_SIMPLERENDERER_H
-#include "global.h"
 #include "renderer.h"
 #include "memory.h"
+
+#include "../core/seidennki.h"
 #include "random.h"
 #include "parallel.h"
 

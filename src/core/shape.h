@@ -7,9 +7,9 @@
 
 
 #include <Intersection.h>
-#include "global.h"
 #include "memory.h"
 #include "geometry.h"
+#include "seidennki.h"
 
 using namespace std;
 

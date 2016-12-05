@@ -6,10 +6,10 @@
 #define RAYTRACER_REFLECTION_H
 
 #include <rgb.h>
-#include "global.h"
 #include "geometry.h"
 #include "diffgeom.h"
 #include "montecarlo.h"
+#include "seidennki.h"
 //反射坐标系 三个标准正交基是两切线和法线
 
 //cos(t)=(N.DOT.w)==(0,0,1).dot.w=w.z

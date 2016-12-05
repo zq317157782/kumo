@@ -6,11 +6,11 @@
  */
 #include <scene.h>
 #include "integrator.h"
-#include "global.h"
 #include "light.h"
 #include "montecarlo.h"
 #include "renderer.h"
 #include "sampler.h"
+#include "seidennki.h"
 Distribution1D *ComputeLightSamplingCDF(const Scene *scene) {
 	unsigned int nLights = scene->getLightNum();
 	vector<float> lightPower(nLights, 0.0f);

@@ -7,7 +7,7 @@
 
 #ifndef CORE_FILM_H_
 #define CORE_FILM_H_
-#include "global.h"
+#include "seidennki.h"
 
 class Film {
 public:

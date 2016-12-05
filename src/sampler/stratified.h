@@ -8,7 +8,7 @@
 #ifndef SAMPLER_STRATIFIED_H_
 #define SAMPLER_STRATIFIED_H_
 #include "sampler.h"
-#include "global.h"
+#include "../core/seidennki.h"
  //分层采样
 class StratifiedSampler : public Sampler {
 public:

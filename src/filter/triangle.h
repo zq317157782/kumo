@@ -9,7 +9,7 @@
 #define FILTER_TRIANGLE_H_
 
 
-#include "global.h"
+#include "../core/seidennki.h"
 #include "filter.h"
 
 class TriangleFilter:public Filter{

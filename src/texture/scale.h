@@ -8,7 +8,7 @@
 #ifndef TEXTURE_SCALE_H_
 #define TEXTURE_SCALE_H_
 
-#include "global.h"
+#include "../core/seidennki.h"
 #include "texture.h"
 
 

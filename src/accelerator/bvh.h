@@ -8,8 +8,8 @@
 #ifndef SRC_ACCELERATOR_BVH_H_
 #define SRC_ACCELERATOR_BVH_H_
 
+#include "../core/seidennki.h"
 #include "primitive.h"
-#include "global.h"
 
 struct BVHPrimitiveInfo {
 	int index;

@@ -4,8 +4,8 @@
 
 #ifndef RAYTRACER_DIFFGEOM_H
 #define RAYTRACER_DIFFGEOM_H
-#include "global.h"
 #include "geometry.h"
+#include "seidennki.h"
 
 //微分几何
 struct DifferentialGeometry{

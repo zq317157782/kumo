@@ -7,7 +7,7 @@
 
 #ifndef SAMPLER_RANDOMSAMPLER_H_
 #define SAMPLER_RANDOMSAMPLER_H_
-#include "global.h"
+#include "../core/seidennki.h"
 #include "sampler.h";
 
 class RandomSampler :public Sampler{
