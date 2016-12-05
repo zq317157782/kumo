@@ -7,7 +7,7 @@
 
 #ifndef INTEGRATOR_DIRECTLIGHT_H_
 #define INTEGRATOR_DIRECTLIGHT_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "integrator.h"
 //采样光的策略
 enum LightStrategy{UNIFORM_ALL,UNIFORM_ONE};

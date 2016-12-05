@@ -8,7 +8,7 @@
 #ifndef FILM_PPM_H_
 #define FILM_PPM_H_
 
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "film.h"
 
 class PPMFilm:public Film{

@@ -7,7 +7,7 @@
 
 #ifndef SRC_INTEGRATOR_IC_H_
 #define SRC_INTEGRATOR_IC_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "integrator.h"
 #include "octree.h"
 #include "parallel.h"

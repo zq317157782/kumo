@@ -7,7 +7,7 @@
 
 #ifndef INTEGRATOR_PATH_H_
 #define INTEGRATOR_PATH_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "integrator.h"
 #include "light.h"
 

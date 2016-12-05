@@ -7,7 +7,7 @@
 
 #ifndef MATERIAL_TRANSLUCENT_H_
 #define MATERIAL_TRANSLUCENT_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "material.h"
 
 class Translucent: public Material {

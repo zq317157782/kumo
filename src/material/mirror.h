@@ -7,7 +7,7 @@
 
 #ifndef MATERIAL_MIRROR_H_
 #define MATERIAL_MIRROR_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "material.h"
 //镜面材质
 class Mirror:public Material{

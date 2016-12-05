@@ -7,7 +7,7 @@
 #include <scene.h>
 #include "igi.h"
 
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "light.h"
 #include "reflection.h"
 #include "sampler.h"

@@ -7,7 +7,7 @@
 #include "renderer.h"
 #include "memory.h"
 
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "random.h"
 #include "parallel.h"
 

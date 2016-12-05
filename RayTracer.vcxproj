@@ -206,6 +206,7 @@
     <ClInclude Include="src\core\imageio.h" />
     <ClInclude Include="src\core\integrator.h" />
     <ClInclude Include="src\core\Intersection.h" />
+    <ClInclude Include="src\core\kumo.h" />
     <ClInclude Include="src\core\light.h" />
     <ClInclude Include="src\core\material.h" />
     <ClInclude Include="src\core\memory.h" />
@@ -219,7 +220,6 @@
     <ClInclude Include="src\core\RGB.h" />
     <ClInclude Include="src\core\sampler.h" />
     <ClInclude Include="src\core\Scene.h" />
-    <ClInclude Include="src\core\seidennki.h" />
     <ClInclude Include="src\core\Shape.h" />
     <ClInclude Include="src\core\texture.h" />
     <ClInclude Include="src\core\transform.h" />

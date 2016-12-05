@@ -380,7 +380,7 @@
     <ClInclude Include="src\renderer\metropolis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\seidennki.h">
+    <ClInclude Include="src\core\kumo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

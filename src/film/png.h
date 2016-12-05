@@ -7,7 +7,7 @@
 
 #ifndef FILM_PNG_H_
 #define FILM_PNG_H_
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "film.h"
 
 class PNGFilm:public Film{

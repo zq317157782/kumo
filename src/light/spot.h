@@ -9,7 +9,7 @@
 #define LIGHT_SPOT_H_
 
 #include <rgb.h>
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "light.h"
 
 class SpotLight:public Light{

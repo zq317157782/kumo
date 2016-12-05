@@ -9,7 +9,7 @@
 #define MATERIAL_METAL_H_
 
 #include <material.h>
-#include "../core/seidennki.h"
+#include "kumo.h"
 
 class Metal: public Material {
 private:

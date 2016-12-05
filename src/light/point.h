@@ -9,7 +9,7 @@
 #define LIGHT_POINT_H_
 
 #include <rgb.h>
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "light.h"
 class PointLight:public Light{
 public:

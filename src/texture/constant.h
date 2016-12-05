@@ -8,7 +8,7 @@
 #ifndef TEXTURE_CONSTANT_H_
 #define TEXTURE_CONSTANT_H_
 
-#include "../core/seidennki.h"
+#include "kumo.h"
 #include "texture.h"
 
 
