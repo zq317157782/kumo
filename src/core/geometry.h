@@ -556,8 +556,10 @@ public:
 	}
 
 	BBox(const Point& p1, const Point& p2) {
-		pMin = Point(std::min(p1.x, p2.x), std::min(p1.y, p2.y), std::min(p1.z, p2.z));
-		pMax = Point(std::max(p1.x, p2.x), std::max(p1.y, p2.y), std::max(p1.z, p2.z));
+		pMin = Point(std::min(p1.x, p2.x), std::min(p1.y, p2.y),
+				std::min(p1.z, p2.z));
+		pMax = Point(std::max(p1.x, p2.x), std::max(p1.y, p2.y),
+				std::max(p1.z, p2.z));
 	}
 	bool Overlaps(const BBox &b) const {
 		bool x = (pMax.x >= b.pMin.x) && (pMin.x <= b.pMax.x);
@@ -594,10 +596,10 @@ public:
 			return 2;
 	}
 
-	const Point &operator[](int i) const{
+	const Point &operator[](int i) const {
 		return (&pMin)[i];
 	}
-	Point &operator[](int i){
+	Point &operator[](int i) {
 		return (&pMin)[i];
 	}
 };
