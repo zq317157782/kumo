@@ -23,31 +23,30 @@
 #include <atomic>
 using namespace std;
 
-
-//如果平台没有定义M_PI的话  定义M_PI
-#ifndef  M_PI
-#define  M_PI        3.14159265358979323846
-
-//drand48函数  返回double型的随机数，如果平台已经有这个函数 需要把这里注解掉
-
-#define MNWZ 0x100000000
-#define ANWZ 0x5DEECE66D
-#define CNWZ 0xB16
-static unsigned long long seed = 1;
-inline double drand48(){
-    seed = (ANWZ * seed + CNWZ) & 0xFFFFFFFFFFFFLL;
-    unsigned int x = seed >> 16;
-    return ((double)x / (double)MNWZ);
-}
-
+//定义一个Float宏 可能指向float可能指向double
+#ifdef FLOAT_IS_DOUBLE
+typedef double Float;
+#else
+typedef float Float;
 #endif
 
-#ifndef M_INV_PI
-#define M_INV_PI  1/M_PI
-#endif
-#define  M_TWO_PI    2*M_PI
-#define M_INV_TWO_PI  1/M_TWO_PI
+//无限大数
+static constexpr Float Infinity = std::numeric_limits<Float>::infinity();
 
+//根据编译选项设置断言宏
+#ifdef DEBUG_BUILD
+#define Assert(x) assert(x)
+#else
+#define Assert(x) ((void)0)
+#endif
+
+//打印错误的宏定义，我把它定义在这，PBRT的实现我没有深究，对我来说，这个目前已经做够了
+#define Error(x) std::cerr<<x<<std::endl;
+
+static constexpr Float Pi = 3.14159265358979323846;
+static constexpr Float InvPi=1.0f/Pi;
+static constexpr Float TwoPi=2.0f*Pi;
+static constexpr Float InvTwoPi=1.0f/TwoPi;
 
 #define ALLOCA(TYPE, COUNT) (TYPE *)alloca((COUNT) * sizeof(TYPE))
 
@@ -112,7 +111,7 @@ inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
 
 //角度到弧度的转换
 inline float Radians(float deg) {
-    return ((float)M_PI/180.f) * deg;
+    return ((float)Pi/180.f) * deg;
 }
 
 //裁剪函数
@@ -177,7 +176,7 @@ inline int Log2Int(float v) {
 }
 
 inline float Degrees(float rad) {
-    return (180.f/(float)M_PI) * rad;
+    return (180.f/(float)Pi) * rad;
 }
 
 

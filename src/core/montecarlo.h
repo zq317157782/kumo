@@ -92,7 +92,7 @@ Vector UniformSampleHemisphere(float u1, float u2);
 
 //返回Uniform采样半球的pdf
 inline float UniformHemispherePdf() {
-	return M_INV_TWO_PI;
+	return InvTwoPi;
 }
 
 //采样球
@@ -100,7 +100,7 @@ Vector UniformSampleSphere(float u1, float u2);
 
 //返回采样球的PDF
 inline float UniformSpherePdf(){
-	return 1.0f/(4.0f*M_PI);
+	return 1.0f/(4.0f*Pi);
 }
 
 
@@ -119,7 +119,7 @@ Vector CosSampleHemisphere(float u1,float u2);
 
 //COS(theta)/PI cos分布的半球概率密度函数
 inline float CosHemispherePdf(float costheta,float phi){
-	return costheta*M_INV_PI;
+	return costheta*InvPi;
 }
 
 

@@ -31,7 +31,7 @@ public:
 		return Dot(n, w) > 0.f ? mLemit : RGB(0.0f, 0.0f, 0.0f);
 	}
 	virtual RGB Power(const Scene* scene) const override {
-		return mLemit * mArea * M_PI;
+		return mLemit * mArea * Pi;
 	}
 	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
 			Vector *wi, float *pdf, VisibilityTester *vis) const override {
@@ -58,7 +58,7 @@ public:
 		if (Dot(dir, *Ns) < 0.)
 			dir *= -1.f;
 		*ray = Ray(org, dir, 1e-3f, INFINITY);
-		*pdf = mShape->Pdf(org) * M_INV_TWO_PI;
+		*pdf = mShape->Pdf(org) * InvTwoPi;
 		RGB Ls = L(org, *Ns, dir);
 		return Ls;
 	}

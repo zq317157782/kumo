@@ -312,7 +312,7 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 			wAvg += r.d * L.luminance();		//根据能量值 计算平均入射方向
 			minHitDistance = min(minHitDistance, r.maxT);
 		}
-		E = (M_PI / float(mNumSample)) * LiSum;		//蒙特卡洛估计
+		E = (Pi / float(mNumSample)) * LiSum;		//蒙特卡洛估计
 //
 //		//计算sample的影响范围
 		float maxDist = maxSamplePixelSpacing * pixelSpacing;

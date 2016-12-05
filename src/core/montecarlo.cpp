@@ -28,7 +28,7 @@ void RejectionSampleDisk(float* x, float*y, Random& rand) {
 Vector UniformSampleHemisphere(float u1, float u2) {
 	float z = u1;
 	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * M_PI * u2;
+	float phi = 2 * Pi * u2;
 	float x = cosf(phi) * r;
 	float y = sinf(phi) * r;
 	return Vector(x, y, z);
@@ -37,7 +37,7 @@ Vector UniformSampleHemisphere(float u1, float u2) {
 Vector UniformSampleSphere(float u1, float u2) {
 	float z = 1.0f - 2.0f * u1; //这里是和UniformSampleHemisphere唯一的区别
 	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * M_PI * u2;
+	float phi = 2 * Pi * u2;
 	float x = cosf(phi) * r;
 	float y = sinf(phi) * r;
 	return Vector(x, y, z);
@@ -45,7 +45,7 @@ Vector UniformSampleSphere(float u1, float u2) {
 
 void UniformSampleDisk(float u1, float u2, float *x, float *y) {
 	float r = sqrtf(u1);
-	float theta = 2 * M_PI * u2;
+	float theta = 2 * Pi * u2;
 	*x = r * cosf(theta);
 	*y = r * sinf(theta);
 }
@@ -79,7 +79,7 @@ void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
 			theta = 6.0f + sx / r;
 		}
 	}
-	theta *= M_PI / 4.f;
+	theta *= Pi / 4.f;
 	*dx = r * cosf(theta);
 	*dy = r * sinf(theta);
 }

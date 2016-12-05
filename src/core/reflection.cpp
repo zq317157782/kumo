@@ -142,15 +142,15 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
 	} else if (u1 < .5f) {
 		u1 = 4.f * (.5f - u1);
 		sampleFirstQuadrant(u1, u2, &phi, &costheta);
-		phi = M_PI - phi;
+		phi = Pi - phi;
 	} else if (u1 < .75f) {
 		u1 = 4.f * (u1 - .5f);
 		sampleFirstQuadrant(u1, u2, &phi, &costheta);
-		phi += M_PI;
+		phi += Pi;
 	} else {
 		u1 = 4.f * (1.f - u1);
 		sampleFirstQuadrant(u1, u2, &phi, &costheta);
-		phi = 2.f * M_PI - phi;
+		phi = 2.f * Pi - phi;
 	}
 	float sintheta = sqrtf(max(0.f, 1.f - costheta * costheta));
 	Vector wh = SphericalDirection(sintheta, costheta, phi);
@@ -166,7 +166,7 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
 	float anisotropic_pdf = 0.f;
 	if (ds > 0.f && Dot(wo, wh) > 0.f) {
 		float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
-		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * M_INV_TWO_PI
+		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * InvTwoPi
 				* powf(costhetah, e);
 		anisotropic_pdf = d / (4.f * Dot(wo, wh));
 	}
@@ -177,9 +177,9 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
 void Anisotropic::sampleFirstQuadrant(float u1, float u2, float *phi,
 		float *costheta) const {
 	if (ex == ey)
-		*phi = M_PI * u1 * 0.5f;
+		*phi = Pi * u1 * 0.5f;
 	else
-		*phi = atanf(sqrtf((ex + 1.f) / (ey + 1.f)) * tanf(M_PI * u1 * 0.5f));
+		*phi = atanf(sqrtf((ex + 1.f) / (ey + 1.f)) * tanf(Pi * u1 * 0.5f));
 	float cosphi = cosf(*phi), sinphi = sinf(*phi);
 	*costheta = powf(u2,
 			1.f / (ex * cosphi * cosphi + ey * sinphi * sinphi + 1));
@@ -193,7 +193,7 @@ float Anisotropic::Pdf(const Vector &wo, const Vector &wi) const {
 	float anisotropic_pdf = 0.f;
 	if (ds > 0.f && Dot(wo, wh) > 0.f) {
 		float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / ds;
-		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * M_INV_TWO_PI
+		float d = sqrtf((ex + 1.f) * (ey + 1.f)) * InvTwoPi
 				* powf(costhetah, e);
 		anisotropic_pdf = d / (4.f * Dot(wo, wh));
 	}

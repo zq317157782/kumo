@@ -29,7 +29,7 @@ RGB SpotLight::Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
 
 //2PI(1-cos(theta))= w
 RGB SpotLight::Power(const Scene* scene) const {
-	return mIntensity * 2.0f * M_PI * (1.0f - 0.5f * (mCosFall + mCosMaxWidth));
+	return mIntensity * 2.0f * Pi * (1.0f - 0.5f * (mCosFall + mCosMaxWidth));
 }
 
 RGB SpotLight::Sample_L(const Scene *scene, const LightSample &ls, float u1,

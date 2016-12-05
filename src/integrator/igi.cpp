@@ -79,7 +79,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 				//TODO IGI散射代码未完成
 				Vector wo = -ray.d; //出射方向
 				BSDF *bsdf = isect.GetBSDF(ray, arena); //获取bsdf
-				RGB contrib = alpha * bsdf->rho(wo, random) / M_PI;
+				RGB contrib = alpha * bsdf->rho(wo, random) / Pi;
 				//cout << "------" << endl;
 				//	RGB contrib(10,10,0);
 				//在交点处创建虚拟光源

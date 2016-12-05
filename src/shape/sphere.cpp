@@ -40,7 +40,7 @@ bool Sphere::Intersect(const Ray &r, float *distance, float *rayEpsilon,
 		phit.x = 1e-5f * mRad; //排除除零的情况
 	phi = atan2f(phit.y, phit.x);
 	if (phi < 0.)
-		phi += 2.f * M_PI; //保证phi在2PI之中
+		phi += 2.f * Pi; //保证phi在2PI之中
 
 	//判断是否在Z坐标之间的裁剪空间中
 	if ((mZMin > -mRad && phit.z < mZMin) || (mZMax < mRad && phit.z > mZMax)
@@ -56,7 +56,7 @@ bool Sphere::Intersect(const Ray &r, float *distance, float *rayEpsilon,
 			phit.x = 1e-5f * mRad;
 		phi = atan2f(phit.y, phit.x);
 		if (phi < 0.)
-			phi += 2.f * M_PI;
+			phi += 2.f * Pi;
 		if ((mZMin > -mRad && phit.z < mZMin)
 				|| (mZMax < mRad && phit.z > mZMax) || phi > mPhiMax)
 			return false;
@@ -170,7 +170,7 @@ bool Sphere::IntersectP(const Ray& r) const {
 		phit.x = 1e-5f * mRad; //排除除零的情况
 	phi = atan2f(phit.y, phit.x);
 	if (phi < 0.)
-		phi += 2.f * M_PI; //保证phi在2PI之中
+		phi += 2.f * Pi; //保证phi在2PI之中
 
 	//判断是否在Z坐标之间的裁剪空间中
 	if ((mZMin > -mRad && phit.z < mZMin) || (mZMax < mRad && phit.z > mZMax)
@@ -186,7 +186,7 @@ bool Sphere::IntersectP(const Ray& r) const {
 			phit.x = 1e-5f * mRad;
 		phi = atan2f(phit.y, phit.x);
 		if (phi < 0.0)
-			phi += 2.f * M_PI;
+			phi += 2.f * Pi;
 		if ((mZMin > -mRad && phit.z < mZMin)
 				|| (mZMax < mRad && phit.z > mZMax) || phi > mPhiMax)
 			return false;

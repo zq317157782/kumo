@@ -11,7 +11,7 @@ float Lanczos(float x, float tau) {
     x = fabsf(x);
     if (x < 1e-5) return 1;
     if (x > 1.)    return 0;
-    x *= M_PI;
+    x *= Pi;
     float s = sinf(x * tau) / (x * tau);
     float lanczos = sinf(x) / x;
     return s * lanczos;

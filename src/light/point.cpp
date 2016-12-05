@@ -19,7 +19,7 @@ bool PointLight::IsDeltaLight() const {
 }
 
 RGB PointLight::Power(const Scene* scene) const {
-	return 4 * M_PI * mIntensity; //对点光源在整个球体立体角内求积分
+	return 4 * Pi * mIntensity; //对点光源在整个球体立体角内求积分
 }
 
 RGB PointLight::Sample_L(const Scene *scene, const LightSample &ls, float u1,

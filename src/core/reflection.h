@@ -84,7 +84,7 @@ public:
 
 	//通过入射光线和出射光线来计算概率分布
 	virtual float Pdf(const Vector& wo, const Vector& wi) const {
-		return SameHemisphere(wo, wi) ? AbsCosTheta(wi) * M_INV_PI : 0.0f;
+		return SameHemisphere(wo, wi) ? AbsCosTheta(wi) * InvPi : 0.0f;
 	}
 
 	virtual RGB rho(const Vector& wo, int nSamples, const float*samples) const {
@@ -104,7 +104,7 @@ public:
 			const float *samples2) const {
 		RGB sum(0);
 		for (int i = 0; i < nSamples; ++i) {
-			float pdf_o = M_INV_TWO_PI;
+			float pdf_o = InvTwoPi;
 			float pdf_i = 0;
 			Vector wo = UniformSampleHemisphere(samples1[i * 2],
 					samples1[i * 2 + 1]);
@@ -113,7 +113,7 @@ public:
 					&pdf_i);
 			sum += f * AbsCosTheta(wi) * AbsCosTheta(wo) / (pdf_i * pdf_o);
 		}
-		return sum / (M_PI * nSamples);
+		return sum / (Pi * nSamples);
 	}
 	;  //hemispherical-hemispherical reflectance
 
@@ -273,7 +273,7 @@ public:
 			BxDF(BxDFType(BSDF_REFLECTION | BSDF_DIFFUSE)), mR(r) {
 	}
 	RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
-		return mR / M_INV_PI;
+		return mR / InvPi;
 	}
 
 	RGB rho(const Vector &w, int nSamples, const float *samples) const
@@ -324,7 +324,7 @@ public:
 			sinalpha = sinthetai;
 			tanbeta = sinthetao / AbsCosTheta(wo);
 		}
-		return mR * M_INV_PI * (A + B * maxcos * sinalpha * tanbeta);
+		return mR * InvPi * (A + B * maxcos * sinalpha * tanbeta);
 	}
 };
 
@@ -382,21 +382,21 @@ public:
 	;
 	virtual float D(const Vector &wh) const override {
 		float cosh = CosTheta(wh);
-		return (mE + 2.0f) * M_INV_TWO_PI * powf(cosh, mE);
+		return (mE + 2.0f) * InvTwoPi * powf(cosh, mE);
 	}
 
 	virtual void Sample_f(const Vector &wo, Vector *wi, float u1, float u2,
 			float *pdf) const override {
 		float cosTheta = powf(u1, 1.f / (mE + 1));		//cos θh == ξ1开根n+1
 		float sinTheta = sqrtf(max(0.0f, (1.0f - cosTheta * cosTheta)));
-		float phi = u2 * 2.f * M_PI;
+		float phi = u2 * 2.f * Pi;
 		Vector wh = SphericalDirection(sinTheta, cosTheta, phi);		//获得半角向量
 		if (!SameHemisphere(wo, wh))
 			wh = -wh;		//使半角向量和出射光线在同一半球中
 		*wi = -wo + 2.f * Dot(wo, wh) * wh;		//利用反射公式，计算入射光线
 		//计算Blinn的概率密度 这里是把wh的概率密度转换到wi的分布后再计算的(所以要用到分布之间的转换)
 		float blinn_pdf = ((mE + 1.f) * powf(cosTheta, mE))
-				/ (2.f * M_PI * 4.f * Dot(wo, wh));
+				/ (2.f * Pi * 4.f * Dot(wo, wh));
 		if (Dot(wo, wh) <= 0.f)
 			blinn_pdf = 0.f;		//这一步无法理解
 		*pdf = blinn_pdf;
@@ -406,7 +406,7 @@ public:
 		Vector wh = Normalize(wo + wi);
 		float costheta = AbsCosTheta(wh);
 		float blinn_pdf = ((mE + 1.f) * powf(costheta, mE)) //p(wh)=(n+1)*cos(t)^n  p(wi)=dwh/dwip(wh)
-		/ (2.f * M_PI * 4.f * Dot(wo, wh));
+		/ (2.f * Pi * 4.f * Dot(wo, wh));
 		if (Dot(wo, wh) <= 0.f)
 			blinn_pdf = 0.f;
 		return blinn_pdf;
@@ -426,7 +426,7 @@ public:
         float d = 1.f - costhetah * costhetah;
         if (d == 0.f) return 0.f;
         float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / d;
-        return sqrtf((ex+2.f) * (ey+2.f)) * M_INV_TWO_PI * powf(costhetah, e);
+        return sqrtf((ex+2.f) * (ey+2.f)) * InvTwoPi * powf(costhetah, e);
     }
     void Sample_f(const Vector &wo, Vector *wi, float u1, float u2, float *pdf) const;
     float Pdf(const Vector &wo, const Vector &wi) const;
