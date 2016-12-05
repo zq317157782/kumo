@@ -80,12 +80,12 @@ inline ErrFloat operator/(float f, ErrFloat ef) {
 
 inline ErrFloat Sqrt(ErrFloat f) {
 	ErrFloat ret;
-	ret._value = std::sqrt(f._value);
+	ret._value = sqrt(f._value);
 #ifdef DEBUG_BUILD
-	ret._highPrecisionValue = std::sqrt(f._highPrecisionValue);
+	ret._highPrecisionValue = sqrt(f._highPrecisionValue);
 #endif
-	ret._low = NextFloatDown(std::sqrt(f._low));
-	ret._high = NextFloatUp(std::sqrt(f._high));
+	ret._low = NextFloatDown(sqrt(f._low));
+	ret._high = NextFloatUp(sqrt(f._high));
 	ret.Check();
 	return ret;
 }
@@ -108,9 +108,9 @@ inline ErrFloat Abs(ErrFloat f) {
 	} else {
 		//介于负数和正数这尴尬的情况
 		ErrFloat ret;
-		ret._value = std::abs(f._value);
+		ret._value = abs(f._value);
 #ifdef DEBUG_BUILD
-		ret._highPrecisionValue = std::abs(f._highPrecisionValue);
+		ret._highPrecisionValue = abs(f._highPrecisionValue);
 #endif
 		ret._low=0;//貌似也只能0了
 		ret._high=std::max(-f._low,f._high);//取最大的误差边界值

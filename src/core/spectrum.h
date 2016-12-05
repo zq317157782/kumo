@@ -81,7 +81,7 @@ public:
 	//判断光谱样本总是否包含nan
 	bool HasNaNs() const {
 		for (int i = 0; i < numSpectrumSample; ++i) {
-			if (std::isnan(_c[i]))
+			if (isnan(_c[i]))
 				return true;
 		}
 		return false;
