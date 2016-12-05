@@ -9,7 +9,7 @@
 
 TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 		int ntris, int nverts, const int *vi, const Point *P, const Normal *N,
-		const Vector *S, const Float *uv, const int *ni, const int *ti) :
+		const Vector3f *S, const Float *uv, const int *ni, const int *ti) :
 		Shape(o2w, w2o, ro) {
 	this->ntris = ntris;
 	this->nverts = nverts;
@@ -48,8 +48,8 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 
 	//为切向量分配空间
 	if (S) {
-		s = new Vector[nverts];
-		memcpy(s, S, nverts * sizeof(Vector));
+		s = new Vector3f[nverts];
+		memcpy(s, S, nverts * sizeof(Vector3f));
 	} else
 		s = nullptr;
 
@@ -62,7 +62,7 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro,
 
 }
 
-void TriangleMesh::Refine(vector<Reference<Shape> > &refined) const {
+void TriangleMesh::Refine(std::vector<Reference<Shape> > &refined) const {
 	for (int i = 0; i < ntris; ++i)
 		refined.push_back(
 				new Triangle(localToWorld, worldToLocal, ReverseOrientation,
@@ -106,22 +106,22 @@ bool Triangle::Intersect(const Ray &ray, Float *distance, Float *rayEpsilon,
 	Point p2 = mMesh->p[mIndex[1]];
 	Point p3 = mMesh->p[mIndex[2]];
 	//这里使用质心坐标来计算 详见PBRT公式
-	Vector e1 = p2 - p1; //e1=p2-p1
-	Vector e2 = p3 - p1; //e2=p3-p1
-	Vector s1 = Cross(ray.d, e2); //s1=d x e2
+	Vector3f e1 = p2 - p1; //e1=p2-p1
+	Vector3f e2 = p3 - p1; //e2=p3-p1
+	Vector3f s1 = Cross(ray.d, e2); //s1=d x e2
 	Float divisor = Dot(s1, e1);
 	if (divisor == 0.0f)
 		return false;
 	Float invDivisor = 1.f / divisor; //1/(s1.e1)
 
 	// 计算第一个质心坐标
-	Vector s = ray.o - p1; //s = o - p1
+	Vector3f s = ray.o - p1; //s = o - p1
 	Float b1 = Dot(s, s1) * invDivisor; //b1 = (s.s1)/(s1.e1)
 	if (b1 < 0. || b1 > 1.)
 		return false;
 
 	// 计算第二个质心坐标
-	Vector s2 = Cross(s, e1); //s2 = s x e1
+	Vector3f s2 = Cross(s, e1); //s2 = s x e1
 	Float b2 = Dot(ray.d, s2) * invDivisor; // b2 = (d.s2)/(s1.e1)
 	if (b2 < 0. || b1 + b2 > 1.)
 		return false;
@@ -131,7 +131,7 @@ bool Triangle::Intersect(const Ray &ray, Float *distance, Float *rayEpsilon,
 	if (t < ray.minT || t > ray.maxT)
 		return false;
 
-	Vector dpdu, dpdv; //p在u和v上的偏导
+	Vector3f dpdu, dpdv; //p在u和v上的偏导
 	Float uvs[3][2];
 	GetUVs(uvs);
 
@@ -140,7 +140,7 @@ bool Triangle::Intersect(const Ray &ray, Float *distance, Float *rayEpsilon,
 	Float du2 = uvs[1][0] - uvs[2][0];
 	Float dv1 = uvs[0][1] - uvs[2][1];
 	Float dv2 = uvs[1][1] - uvs[2][1];
-	Vector dp1 = p1 - p3, dp2 = p2 - p3;
+	Vector3f dp1 = p1 - p3, dp2 = p2 - p3;
 	Float determinant = du1 * dv2 - dv1 * du2;
 	if (determinant == 0.f) {
 		//行列式为0
@@ -168,22 +168,22 @@ bool Triangle::IntersectP(const Ray& ray) const {
 	Point p2 = mMesh->p[mIndex[1]];
 	Point p3 = mMesh->p[mIndex[2]];
 	//这里使用质心坐标来计算 详见PBRT公式
-	Vector e1 = p2 - p1; //e1=p2-p1
-	Vector e2 = p3 - p1; //e2=p3-p1
-	Vector s1 = Cross(ray.d, e2); //s1=d x e2
+	Vector3f e1 = p2 - p1; //e1=p2-p1
+	Vector3f e2 = p3 - p1; //e2=p3-p1
+	Vector3f s1 = Cross(ray.d, e2); //s1=d x e2
 	Float divisor = Dot(s1, e1);
 	if (divisor == 0.0f)
 		return false;
 	Float invDivisor = 1.f / divisor; //1/(s1.e1)
 
 	// 计算第一个质心坐标
-	Vector s = ray.o - p1; //s = o - p1
+	Vector3f s = ray.o - p1; //s = o - p1
 	Float b1 = Dot(s, s1) * invDivisor; //b1 = (s.s1)/(s1.e1)
 	if (b1 < 0. || b1 > 1.)
 		return false;
 
 	// 计算第二个质心坐标
-	Vector s2 = Cross(s, e1); //s2 = s x e1
+	Vector3f s2 = Cross(s, e1); //s2 = s x e1
 	Float b2 = Dot(ray.d, s2) * invDivisor; // b2 = (d.s2)/(s1.e1)
 	if (b2 < 0. || b1 + b2 > 1.)
 		return false;

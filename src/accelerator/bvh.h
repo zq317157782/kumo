@@ -96,18 +96,18 @@ public:
 	};
 private:
 	unsigned int mMaxPrimInNode; //每个node中最大的图元数
-	vector<Reference<Primitive>> mPrimitives;
+	std::vector<Reference<Primitive>> mPrimitives;
 	SplitMethod mSplitMethod; //分割模式 目前支持两种,居中和等个数
 
 	LinearBVHNode *mNodes;
 
 	BVHBuildNode* recursiveBuild(MemoryArena& buildArena,
-			vector<BVHPrimitiveInfo> &buildData, unsigned int start,
+		std::vector<BVHPrimitiveInfo> &buildData, unsigned int start,
 			unsigned int end, unsigned int * totalNodes,
-			vector<Reference<Primitive> > &orderedPrims);
+		std::vector<Reference<Primitive> > &orderedPrims);
 	unsigned int flattenBVHTree(BVHBuildNode *node, unsigned int *offset);
 public:
-	BVHAccel(const vector<Reference<Primitive>>& p, unsigned int maxPN,
+	BVHAccel(const std::vector<Reference<Primitive>>& p, unsigned int maxPN,
 			SplitMethod sm);
 
 	BBox WorldBound() const override;

@@ -29,22 +29,22 @@ public:
 	virtual bool IntersectP(const Ray& ray) const=0;
 
 	virtual Reference<Material> GetMaterial() const {
-		cerr<<"undifine"<<endl;
+		Error("undifine");
 		assert(false);
 		return nullptr;
 	}
 	;
 	virtual Reference<Shape> GetShape() const {
-		cerr<<"undifine"<<endl;
+		Error("undifine");
 		assert(false);
 		return nullptr;
 	}
 
-	virtual void Refine(vector<Reference<Primitive> > &refined) const {
-		cerr<<"undifine"<<endl;
+	virtual void Refine(std::vector<Reference<Primitive> > &refined) const {
+		Error("undifine");
 		assert(false);
 	}
-	void FullyRefine(vector<Reference<Primitive> > &refined) const;
+	void FullyRefine(std::vector<Reference<Primitive> > &refined) const;
 
 	virtual BSDF *GetBSDF(const DifferentialGeometry &dg,
 			const Transform &ObjectToWorld, MemoryArena &arena) const = 0;
@@ -76,7 +76,7 @@ public:
 		if (ret==true) {
 			in->primitive = this;
 			in->distance = thit;
-			in->normal = Vector(in->dg.nn);
+			in->normal = Vector3f(in->dg.nn);
 			in->primitiveID = primitiveID;
 			in->ObjectToWorld = *mShape->localToWorld;
 			in->WorldToObject = *mShape->worldToLocal;
@@ -97,8 +97,8 @@ public:
 		return mShape;
 	}
 
-	virtual void Refine(vector<Reference<Primitive> > &refined) const {
-		vector<Reference<Shape> > r;
+	virtual void Refine(std::vector<Reference<Primitive> > &refined) const {
+		std::vector<Reference<Shape> > r;
 		mShape->Refine(r);
 		for (int i = 0; i < r.size(); ++i) {
 			GeomPrimitive *gp = new GeomPrimitive(r[i], mMaterial);

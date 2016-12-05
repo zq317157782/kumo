@@ -14,7 +14,7 @@ bool Voxel::Intersect(const Ray &ray, Intersection *isect, RWMutexLock& lock) {
 		for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 			Reference<Primitive> &prim = mPrimitives[i];
 			if (!prim->CanIntersect()) {
-				vector<Reference<Primitive> > p;
+				std::vector<Reference<Primitive> > p;
 				prim->FullyRefine(p);
 				assert(p.size() > 0);
 				if (p.size() == 1)
@@ -45,7 +45,7 @@ bool Voxel::IntersectP(const Ray &ray, RWMutexLock& lock) {
 		for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 			Reference<Primitive> &prim = mPrimitives[i];
 			if (!prim->CanIntersect()) {
-				vector<Reference<Primitive> > p;
+				std::vector<Reference<Primitive> > p;
 				prim->FullyRefine(p);
 				assert(p.size() > 0);
 				if (p.size() == 1)
@@ -67,7 +67,7 @@ bool Voxel::IntersectP(const Ray &ray, RWMutexLock& lock) {
 	return hitSomething;
 }
 
-GridAccel::GridAccel(const vector<Reference<Primitive>>& prims,
+GridAccel::GridAccel(const std::vector<Reference<Primitive>>& prims,
 		bool refineImmediately) {
 	mBounds = BBox(Point());
 	if (refineImmediately) {
@@ -81,7 +81,7 @@ GridAccel::GridAccel(const vector<Reference<Primitive>>& prims,
 	for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 		mBounds = Union(mBounds, mPrimitives[i]->WorldBound()); //做并联
 	}
-	Vector delta = mBounds.pMax - mBounds.pMin;
+	Vector3f delta = mBounds.pMax - mBounds.pMin;
 
 	int maxAxis = mBounds.MaximumExtent();
 	Float invMaxWidth = 1 / delta[maxAxis];

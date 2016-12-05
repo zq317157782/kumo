@@ -18,9 +18,9 @@ public:
 		mIntensity=intensity;
 	};
 
-	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls, Vector *wi, Float *pdf,
+	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls, Vector3f *wi, Float *pdf,
 				VisibilityTester *vis) const override;
-	virtual Float Pdf(const Point &p, const Vector &wi) const override{
+	virtual Float Pdf(const Point &p, const Vector3f &wi) const override{
 		return 0;
 	}
 	bool IsDeltaLight() const override;

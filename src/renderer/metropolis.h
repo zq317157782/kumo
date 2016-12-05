@@ -27,18 +27,18 @@ private:
 	unsigned int mNumBootstrap;
 	unsigned int mNumDirectPixelSamples;//直接光照下的每个像素包含的样本点
 	unsigned int mMaxConsecutiveRejects;//最大连续拒绝次数
-	atomic_uint mNumTasksFinished;
+	std::atomic_uint mNumTasksFinished;
 
 
 	//普通的Path Tracing算法下计算radiance
 	RGB LPath(const Scene *scene, const PathVertex *path, int pathLength,
-			MemoryArena &arena, const vector<LightingSample> &samples,
+			MemoryArena &arena, const std::vector<LightingSample> &samples,
 			Random &rng, const Distribution1D *lightDistribution,
 			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
 	RGB LBidir(const Scene* scene, const PathVertex* cameraPath,
 			int cameraPathLength, const PathVertex* lightPath,
 			int lightPathLength, MemoryArena &arena,
-			const vector<LightingSample>& samples, Random& rng,
+			const std::vector<LightingSample>& samples, Random& rng,
 			const Distribution1D* lightDistribution,
 			const RayDifferential &escapedRay, const RGB &escapedAlpha) const;
 	//生成路径并计算radiance

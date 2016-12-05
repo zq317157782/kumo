@@ -87,7 +87,7 @@ void RejectionSampleDisk(Float* x, Float*y, Random& rand);
 
 //采样半球
 //这里采用的是采样多维分布的方法
-Vector UniformSampleHemisphere(Float u1, Float u2);
+Vector3f UniformSampleHemisphere(Float u1, Float u2);
 
 
 //返回Uniform采样半球的pdf
@@ -96,7 +96,7 @@ inline Float UniformHemispherePdf() {
 }
 
 //采样球
-Vector UniformSampleSphere(Float u1, Float u2);
+Vector3f UniformSampleSphere(Float u1, Float u2);
 
 //返回采样球的PDF
 inline Float UniformSpherePdf(){
@@ -114,7 +114,7 @@ void UniformSampleDisk(Float u1,Float u2,Float *x,Float *y);
 void ConcentricSampleDisk(Float u1, Float u2, Float *dx, Float *dy) ;
 
 //cos分布采样
-Vector CosSampleHemisphere(Float u1,Float u2);
+Vector3f CosSampleHemisphere(Float u1,Float u2);
 
 
 //COS(theta)/PI cos分布的半球概率密度函数

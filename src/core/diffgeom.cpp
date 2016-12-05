@@ -6,8 +6,8 @@
 #include "diffgeom.h"
 #include "transform.h"
 
-DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector &DPDU,
-		const Vector &DPDV, const Normal &DNDU, const Normal &DNDV, Float uu,
+DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector3f &DPDU,
+		const Vector3f &DPDV, const Normal &DNDU, const Normal &DNDV, Float uu,
 		Float vv, const Shape *sh) :
 		p(P), dpdu(DPDU), dpdv(DPDV), dndu(DNDU), dndv(DNDV) {
 	// Initialize _DifferentialGeometry_ from parameters
@@ -29,13 +29,13 @@ void DifferentialGeometry::ComputeDifferentials(
 		//计算主射线交点处的 切平面
 		//然后计算  辅助射线与切平面的交点，辅助交点
 		//辅助交点和原交点的差可以近似成 偏导
-		Float d = -Dot(nn, Vector(p.x, p.y, p.z));
-		Vector rxv(r.rxOrigin.x, r.rxOrigin.y, r.rxOrigin.z);
+		Float d = -Dot(nn, Vector3f(p.x, p.y, p.z));
+		Vector3f rxv(r.rxOrigin.x, r.rxOrigin.y, r.rxOrigin.z);
 		Float tx = -(Dot(nn, rxv) + d) / Dot(nn, r.rxDirection);
 		if (isnan(tx))
 			goto fail;
 		Point px = r.rxOrigin + tx * r.rxDirection;
-		Vector ryv(r.ryOrigin.x, r.ryOrigin.y, r.ryOrigin.z);
+		Vector3f ryv(r.ryOrigin.x, r.ryOrigin.y, r.ryOrigin.z);
 		Float ty = -(Dot(nn, ryv) + d) / Dot(nn, r.ryDirection);
 		if (isnan(ty))
 			goto fail;
@@ -77,8 +77,8 @@ void DifferentialGeometry::ComputeDifferentials(
 			dvdy = 0.;
 		}
 	} else {
-		fail: dpdx = Vector(0, 0, 0);
-		dpdy = Vector(0, 0, 0);
+		fail: dpdx = Vector3f(0, 0, 0);
+		dpdy = Vector3f(0, 0, 0);
 		dudx = 0;
 		dudy = 0;
 		dvdx = 0;

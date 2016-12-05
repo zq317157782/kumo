@@ -15,7 +15,7 @@
 struct Voxel {
 
 private:
-	vector<Reference<Primitive>> mPrimitives;
+	std::vector<Reference<Primitive>> mPrimitives;
 	bool mAllCanIntersect;
 public:
 	Voxel() {
@@ -40,10 +40,10 @@ public:
 class GridAccel: public Aggregate {
 private:
 	mutable RWMutex rwlock;
-	vector<Reference<Primitive>> mPrimitives;
+	std::vector<Reference<Primitive>> mPrimitives;
 	BBox mBounds;
 	int mNumVoxels[3];
-	Vector mWidth, mInvWidth; //每个体素的宽度
+	Vector3f mWidth, mInvWidth; //每个体素的宽度
 	Voxel ** mVoxels;
 	MemoryArena mVoxelArena;//分配体素用内存
 	int posToVoxel(const Point &P, int axis) const {
@@ -62,7 +62,7 @@ private:
 	bool CanIntersect() const { return true; }
 
 public:
-	GridAccel(const vector<Reference<Primitive>>& prims,
+	GridAccel(const std::vector<Reference<Primitive>>& prims,
 			bool refineImmediately);
 	bool Intersect(const Ray &r, Intersection *in) const override;
 	BBox WorldBound() const override;

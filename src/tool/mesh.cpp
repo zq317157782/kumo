@@ -8,10 +8,10 @@
 #include "shape/trianglemesh.h"
 #include "thrid/tinyobjloader/tiny_obj_loader.h"
 
-RawMeshGroup LoadObjMesh(string dir, string inputfile) {
+RawMeshGroup LoadObjMesh(std::string dir, std::string inputfile) {
 	tinyobj::attrib_t attrib;
-	vector<tinyobj::shape_t> shapes;
-	vector<tinyobj::material_t> materials;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
 	std::string err;
 	char* path = new char[100];
 	path[0] = 0;

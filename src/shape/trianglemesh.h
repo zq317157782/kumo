@@ -19,16 +19,16 @@ protected:
 	int *texIndex; //索引数组
 	Point *p; //顶点数组
 	Normal *n; //法线数组
-	Vector *s; //切向量数组
+	Vector3f *s; //切向量数组
 	Float *uvs; //纹理坐标数组
 public:
 	TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro, int ntris,
 			int nverts, const int *vi, const Point *P, const Normal *N,
-			const Vector *S, const Float *uv,const int *ni=nullptr,const int *ti=nullptr);
+			const Vector3f *S, const Float *uv,const int *ni=nullptr,const int *ti=nullptr);
 	virtual ~TriangleMesh() {
 	}
 	;
-	virtual void Refine(vector<Reference<Shape> > &refined) const override;
+	virtual void Refine(std::vector<Reference<Shape> > &refined) const override;
 	virtual bool CanIntersect() const override {
 		return false;
 	}

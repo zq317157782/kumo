@@ -12,7 +12,7 @@
 #include "kumo.h"
 class OrthoCamera: public ProjectiveCamera {
 private:
-	Vector dxCamera, dyCamera; //相机空间和Raster空间的差分
+	Vector3f dxCamera, dyCamera; //相机空间和Raster空间的差分
 public:
 	OrthoCamera(const Transform& c2w, const Float screenWindow[4], Float lensr,
 			Float focald, Film * f);

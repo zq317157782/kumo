@@ -8,8 +8,8 @@
 #include "montecarlo.h"
 #include "geometry.h"
 
-Vector CosSampleHemisphere(Float u1, Float u2) {
-	Vector ret;
+Vector3f CosSampleHemisphere(Float u1, Float u2) {
+	Vector3f ret;
 	ConcentricSampleDisk(u1, u2, &ret.x, &ret.y); //这里其实可以换成任意的uniform disk sample
 	ret.z = sqrtf(std::max(0.0f, 1.0f - ret.x * ret.x - ret.y * ret.y));
 	return ret;
@@ -25,22 +25,22 @@ void RejectionSampleDisk(Float* x, Float*y, Random& rand) {
 	*y = sy;
 }
 
-Vector UniformSampleHemisphere(Float u1, Float u2) {
+Vector3f UniformSampleHemisphere(Float u1, Float u2) {
 	Float z = u1;
 	Float r = sqrtf(std::max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
 	Float phi = 2 * Pi * u2;
 	Float x = cosf(phi) * r;
 	Float y = sinf(phi) * r;
-	return Vector(x, y, z);
+	return Vector3f(x, y, z);
 }
 
-Vector UniformSampleSphere(Float u1, Float u2) {
+Vector3f UniformSampleSphere(Float u1, Float u2) {
 	Float z = 1.0f - 2.0f * u1; //这里是和UniformSampleHemisphere唯一的区别
 	Float r = sqrtf(std::max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
 	Float phi = 2 * Pi * u2;
 	Float x = cosf(phi) * r;
 	Float y = sinf(phi) * r;
-	return Vector(x, y, z);
+	return Vector3f(x, y, z);
 }
 
 void UniformSampleDisk(Float u1, Float u2, Float *x, Float *y) {

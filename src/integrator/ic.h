@@ -31,11 +31,11 @@ private:
 
 	//irradiance 插值
 	bool interpolateE(const Scene *scene, const Point &p, const Normal &n,
-			RGB *E, Vector *wi) const;
+			RGB *E, Vector3f *wi) const;
 	RGB pathL(Ray &r, const Scene *scene, const Renderer *renderer, Random &rng,
 			MemoryArena &arena) const;
 	RGB indirectLo(const Point &p, const Normal &ng, Float pixelSpacing,
-			const Vector &wo, Float rayEpsilon, BSDF *bsdf, BxDFType flags,
+			const Vector3f &wo, Float rayEpsilon, BSDF *bsdf, BxDFType flags,
 			Random &rng, const Scene *scene, const Renderer *renderer,
 			MemoryArena &arena) const;
 public:

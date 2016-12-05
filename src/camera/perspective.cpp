@@ -21,7 +21,7 @@ Float PerspectiveCamera::GenerateRay(const CameraSample &sample,
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCam;
 	RasterToCamera(pRas, &pCam);
-	*ray = Ray(Point(0, 0, 0), Normalize(Vector(pCam)), 0.f, INFINITY);
+	*ray = Ray(Point(0, 0, 0), Normalize(Vector3f(pCam)), 0.f, INFINITY);
 	if (lensRadius > 0.0) {
 		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV);
@@ -43,7 +43,7 @@ Float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCamera;
 	RasterToCamera(pRas, &pCamera);
-	Vector dir = Normalize(Vector(pCamera.x, pCamera.y, pCamera.z));
+	Vector3f dir = Normalize(Vector3f(pCamera.x, pCamera.y, pCamera.z));
 	*ray = RayDifferential(Point(0, 0, 0), dir, 0.f, INFINITY);
 	if (lensRadius > 0.0) {
 		Float lensU, lensV;
@@ -64,21 +64,21 @@ Float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
 		lensU *= lensRadius;
 		lensV *= lensRadius;
 
-		Vector dx = Normalize(Vector(pCamera + dxCamera));
+		Vector3f dx = Normalize(Vector3f(pCamera + dxCamera));
 		Float ft = focalDistance / dx.z;//参数焦点
 		Point pFocus = Point(0, 0, 0) + (ft * dx);//焦点
 		ray->rxOrigin = Point(lensU, lensV, 0.0f);
 		ray->rxDirection = Normalize(pFocus - ray->rxOrigin);
 
-		Vector dy = Normalize(Vector(pCamera + dyCamera));
+		Vector3f dy = Normalize(Vector3f(pCamera + dyCamera));
 		ft = focalDistance / dy.z;//参数焦点
 		pFocus = Point(0, 0, 0) + (ft * dy);//焦点
 		ray->ryOrigin = Point(lensU, lensV, 0.0f);
 		ray->ryDirection = Normalize(pFocus - ray->ryOrigin);
 	} else {
 		ray->rxOrigin = ray->ryOrigin = ray->o;
-		ray->rxDirection = Normalize(Vector(pCamera) + dxCamera);
-		ray->ryDirection = Normalize(Vector(pCamera) + dyCamera);
+		ray->rxDirection = Normalize(Vector3f(pCamera) + dxCamera);
+		ray->ryDirection = Normalize(Vector3f(pCamera) + dyCamera);
 	}
 	cameraToWorld(*ray, ray);
 	ray->hasDifferentials = true;

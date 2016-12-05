@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <rgb.h>
 #include <algorithm>
-using namespace std;
 
 
 RGB::RGB(Float _r, Float _g,  Float _b):r(_r),g(_g),b(_b){

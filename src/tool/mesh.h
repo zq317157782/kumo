@@ -32,11 +32,11 @@ struct RawMeshGroup {
 	Point * vertexs;
 	Normal* normals;
 	Float* UVs;
-	vector<RawMeshData> data;
-	vector<tinyobj::material_t> materials;
+	std::vector<RawMeshData> data;
+	std::vector<tinyobj::material_t> materials;
 };
 
-RawMeshGroup LoadObjMesh(string dir, string inputfile);
+RawMeshGroup LoadObjMesh(std::string dir, std::string inputfile);
 
 //创建一个平面
 GeomPrimitive * CreatePanel(Transform* l2w, Transform*w2l, const Point& p1,

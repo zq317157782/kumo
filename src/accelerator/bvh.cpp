@@ -8,7 +8,7 @@
 
 //一种快速的Ray 和 Bound相交测试的方法 还没有完全理解
 static inline bool IntersectP(const BBox &bounds, const Ray &ray,
-		const Vector &invDir, const unsigned int dirIsNeg[3]) {
+		const Vector3f &invDir, const unsigned int dirIsNeg[3]) {
 
 	Float tmin = (bounds[dirIsNeg[0]].x - ray.o.x) * invDir.x;
 	Float tmax = (bounds[1 - dirIsNeg[0]].x - ray.o.x) * invDir.x;
@@ -32,9 +32,9 @@ static inline bool IntersectP(const BBox &bounds, const Ray &ray,
 	return (tmin < ray.maxT) && (tmax > ray.minT);
 }
 
-BVHAccel::BVHAccel(const vector<Reference<Primitive>>& p, unsigned int maxPN,
+BVHAccel::BVHAccel(const std::vector<Reference<Primitive>>& p, unsigned int maxPN,
 		SplitMethod sm) {
-	this->mMaxPrimInNode = min(255u, maxPN); //最大个数为255 PBRT默认，我觉得到时候可以更改
+	this->mMaxPrimInNode = std::min(255u, maxPN); //最大个数为255 PBRT默认，我觉得到时候可以更改
 	this->mSplitMethod = sm;
 	for (unsigned int i = 0; i < p.size(); ++i) {
 		p[i]->FullyRefine(mPrimitives); //完全Refine
@@ -44,7 +44,7 @@ BVHAccel::BVHAccel(const vector<Reference<Primitive>>& p, unsigned int maxPN,
 		mNodes = nullptr;
 		return;
 	}
-	vector<BVHPrimitiveInfo> buildData; //用于构成TREE的中间结构
+	std::vector<BVHPrimitiveInfo> buildData; //用于构成TREE的中间结构
 	buildData.reserve(mPrimitives.size());
 	for (unsigned int i = 0; i < mPrimitives.size(); ++i) {
 		BBox bbox = mPrimitives[i]->WorldBound();
@@ -53,7 +53,7 @@ BVHAccel::BVHAccel(const vector<Reference<Primitive>>& p, unsigned int maxPN,
 
 	MemoryArena buildArena; //用于创建buildTree的内存分配
 	unsigned int totalNodes = 0;
-	vector<Reference<Primitive> > orderedPrims; //排序后的图元
+	std::vector<Reference<Primitive> > orderedPrims; //排序后的图元
 	orderedPrims.reserve(mPrimitives.size());
 	//生成buildTree 返回根节点
 	BVHBuildNode *root = recursiveBuild(buildArena, buildData, 0,
@@ -100,9 +100,9 @@ unsigned int BVHAccel::flattenBVHTree(BVHBuildNode *node,
 }
 
 BVHBuildNode* BVHAccel::recursiveBuild(MemoryArena& buildArena,
-		vector<BVHPrimitiveInfo> &buildData, unsigned int start,
+		std::vector<BVHPrimitiveInfo> &buildData, unsigned int start,
 		unsigned int end, unsigned int * totalNodes,
-		vector<Reference<Primitive> > &orderedPrims) {
+	std::vector<Reference<Primitive> > &orderedPrims) {
 	(*totalNodes)++;
 	BVHBuildNode *node = buildArena.Alloc<BVHBuildNode>(); //为Node分配空间
 	BBox bbox;
@@ -153,7 +153,7 @@ BVHBuildNode* BVHAccel::recursiveBuild(MemoryArena& buildArena,
 				Float pMid = (centroidBounds.pMin[dim]
 						+ centroidBounds.pMax[dim]) * 0.5f;
 				//根据比较函数排序数组，并且获得指向第一个不满足比较的元素的指针
-				BVHPrimitiveInfo *midPtr = partition(&buildData[start],
+				BVHPrimitiveInfo *midPtr = std::partition(&buildData[start],
 						&buildData[end - 1] + 1, CompareToMid(dim, pMid));
 				mid = midPtr - &buildData[0];				 //获得中点
 				if (mid != start && mid != end)
@@ -185,7 +185,7 @@ bool BVHAccel::Intersect(const Ray &ray, Intersection *isect) const {
 	if (!mNodes)
 		return false;
 	bool hit = false;
-	Vector invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
+	Vector3f invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
 	unsigned int dirIsNeg[3] = { invDir.x < 0, invDir.y < 0, invDir.z < 0 };//判断方向的原始是否为负数
 	unsigned int todoOffset = 0, nodeNum = 0;
 	unsigned int todo[64];
@@ -228,7 +228,7 @@ bool BVHAccel::Intersect(const Ray &ray, Intersection *isect) const {
 bool BVHAccel::IntersectP(const Ray &ray) const {
 	if (!mNodes)
 		return false;
-	Vector invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
+	Vector3f invDir(1.0f / ray.d.x, 1.0f / ray.d.y, 1.0f / ray.d.z);		//方向翻转
 	unsigned int dirIsNeg[3] = { invDir.x < 0, invDir.y < 0, invDir.z < 0 };//判断方向的原始是否为负数
 	unsigned int todoOffset = 0, nodeNum = 0;
 	unsigned int todo[64];

@@ -39,9 +39,9 @@ void SimpleRenderer::render(const Scene* scene) {
 
 	Sample sample(sampler, mSurfaceIntegrator, scene);
 	int nPixels = camera->film->xResolution * camera->film->yResolution;
-	int nTasks = max(32 * CORE_NUM, nPixels / (16 * 16));
+	int nTasks = std::max(32 * CORE_NUM, nPixels / (16 * 16));
 	nTasks=RoundUpPow2(nTasks);
-	vector<Task *> renderTasks;
+	std::vector<Task *> renderTasks;
 	for (int i = 0; i < nTasks; ++i) {
 		renderTasks.push_back(
 				new SimpleRendererTask(scene, this, camera, sampler, &sample,

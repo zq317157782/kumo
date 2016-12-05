@@ -14,7 +14,7 @@ BSDF *Intersection::GetBSDF(const RayDifferential &ray, MemoryArena &arena) cons
 }
 
 
-RGB Intersection::Le(const Vector &wo) const{
+RGB Intersection::Le(const Vector3f &wo) const{
 	const AreaLight* areaLight=primitive->GetAreaLight();
 	return areaLight?areaLight->L(dg.p,dg.nn,wo):RGB(0,0,0);
 }

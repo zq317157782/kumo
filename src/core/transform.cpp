@@ -92,14 +92,14 @@ Matrix4X4 Inverse(const Matrix4X4 &mm) {
 	return Matrix4X4(minv);
 }
 
-Vector Transform::operator()(const Vector &v) const {
+Vector3f Transform::operator()(const Vector3f &v) const {
 	Float x = v.x, y = v.y, z = v.z;
-	return Vector(m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z,
+	return Vector3f(m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z,
 			m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z,
 			m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z);
 }
 
-void Transform::operator()(const Vector &v, Vector *rv) const {
+void Transform::operator()(const Vector3f &v, Vector3f *rv) const {
 	Float x = v.x, y = v.y, z = v.z;
 	rv->x = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z;
 	rv->y = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z;
@@ -207,7 +207,7 @@ BBox Transform::operator()(const BBox &b) const {
 }
 
 //位移转换 参考PBRT
-Transform Translate(const Vector &delta) {
+Transform Translate(const Vector3f &delta) {
 	Matrix4X4 m(1, 0, 0, delta.x, 0, 1, 0, delta.y, 0, 0, 1, delta.z, 0, 0, 0,
 			1);
 	Matrix4X4 minv(1, 0, 0, -delta.x, 0, 1, 0, -delta.y, 0, 0, 1, -delta.z, 0,
@@ -248,8 +248,8 @@ Transform RotateZ(Float angle) {
 //计算 绕任意轴旋转某角度的方法
 /*这个函数拷贝子PBRT代码  建立以axis为z轴的坐标系，计算任意向量旋转后的公式，把原基向量代入公式计算*/
 // v`=v_c+v_p*cos(theta)+v_2*sin(theta);
-Transform Rotate(Float angle, const Vector &axis) {
-	Vector a = Normalize(axis);
+Transform Rotate(Float angle, const Vector3f &axis) {
+	Vector3f a = Normalize(axis);
 	Float s = sinf(Radians(angle));
 	Float c = cosf(Radians(angle));
 	Float m[4][4];
@@ -286,7 +286,7 @@ Transform Transform::operator*(const Transform& tran) const {
 
 Transform Orthographic(Float znear, Float zfar) {
 	return Scale(1.f, 1.f, 1.f / (zfar - znear))
-			* Translate(Vector(0.f, 0.f, -znear));
+			* Translate(Vector3f(0.f, 0.f, -znear));
 }
 
 Transform Perspective(Float fov, Float n, Float f){

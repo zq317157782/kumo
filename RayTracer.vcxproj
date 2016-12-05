@@ -252,6 +252,7 @@
     <ClInclude Include="src\sampler\stratified.h" />
     <ClInclude Include="src\shape\sphere.h" />
     <ClInclude Include="src\shape\trianglemesh.h" />
+    <ClInclude Include="src\test\testScene.h" />
     <ClInclude Include="src\texture\checkerboard.h" />
     <ClInclude Include="src\texture\constant.h" />
     <ClInclude Include="src\texture\image.h" />

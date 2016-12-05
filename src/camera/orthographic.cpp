@@ -13,15 +13,15 @@ OrthoCamera::OrthoCamera(const Transform& c2w, const Float screenWindow[4],
 		Float lensr, Float focald, Film * f) :
 		ProjectiveCamera(c2w, Orthographic(0.0f, 1.0f), screenWindow, lensr,
 				focald, f) {
-	dxCamera = RasterToCamera(Vector(1, 0, 0));
-	dyCamera = RasterToCamera(Vector(0, 1, 0));
+	dxCamera = RasterToCamera(Vector3f(1, 0, 0));
+	dyCamera = RasterToCamera(Vector3f(0, 1, 0));
 }
 
 Float OrthoCamera::GenerateRay(const CameraSample &sample, Ray *ray) const {
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCam;
 	RasterToCamera(pRas, &pCam);
-	*ray = Ray(pCam, Vector(0, 0, 1), 0.0f, INFINITY);
+	*ray = Ray(pCam, Vector3f(0, 0, 1), 0.0f, INFINITY);
 	if (lensRadius > 0.0f) {
 		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV); //采样Lens
@@ -45,7 +45,7 @@ Float OrthoCamera::GenerateRayDifferential(const CameraSample &sample,
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCam;
 	RasterToCamera(pRas, &pCam);
-	*ray = RayDifferential(pCam, Vector(0, 0, 1), 0.0f, INFINITY);
+	*ray = RayDifferential(pCam, Vector3f(0, 0, 1), 0.0f, INFINITY);
 	if (lensRadius > 0.0f) {
 		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV); //采样Lens
@@ -69,11 +69,11 @@ Float OrthoCamera::GenerateRayDifferential(const CameraSample &sample,
 
 		Float ft = focalDistance / ray->d.z;
 
-		Point pFocus = pCam + dxCamera + (ft * Vector(0, 0, 1));
+		Point pFocus = pCam + dxCamera + (ft * Vector3f(0, 0, 1));
 		ray->rxOrigin = Point(lensU, lensV, 0.0f);
 		ray->rxDirection = Normalize(pFocus - ray->rxOrigin);
 
-		pFocus = pCam + dyCamera + (ft * Vector(0, 0, 1));
+		pFocus = pCam + dyCamera + (ft * Vector3f(0, 0, 1));
 		ray->ryOrigin = Point(lensU, lensV, 0.0f);
 		ray->ryDirection = Normalize(pFocus - ray->rxOrigin);
 	} else {

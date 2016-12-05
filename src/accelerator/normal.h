@@ -14,10 +14,10 @@
 
 class NormalAggregate: public Aggregate {
 private:
-	vector<Reference<Primitive>> mPrimitives;
+	std::vector<Reference<Primitive>> mPrimitives;
 	BBox mBounds;
 public:
-	NormalAggregate(const vector<Reference<Primitive>>& prims) {
+	NormalAggregate(const std::vector<Reference<Primitive>>& prims) {
 		for (unsigned int i = 0; i < prims.size(); ++i) {
 			prims[i]->FullyRefine(mPrimitives);
 		}

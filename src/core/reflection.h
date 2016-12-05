@@ -13,28 +13,28 @@
 //反射坐标系 三个标准正交基是两切线和法线
 
 //cos(t)=(N.DOT.w)==(0,0,1).dot.w=w.z
-inline Float CosTheta(const Vector &w) {
+inline Float CosTheta(const Vector3f &w) {
 	return w.z;
 }
-inline Float AbsCosTheta(const Vector &w) {
+inline Float AbsCosTheta(const Vector3f &w) {
 	return fabsf(w.z);
 }
 //sin(t)2+cos(t)2==1
-inline Float SinTheta2(const Vector& w) {
+inline Float SinTheta2(const Vector3f& w) {
 	Float cosw = CosTheta(w);
 	return std::max(0.0f, 1.0f - cosw * cosw);
 }
-inline Float SinTheta(const Vector& w) {
+inline Float SinTheta(const Vector3f& w) {
 	return sqrtf(SinTheta2(w));
 }
-inline Float CosPhi(const Vector& w) {
+inline Float CosPhi(const Vector3f& w) {
 	Float sint = SinTheta(w);
 	if (sint == 0.f)
 		return 1.f;
 	return Clamp(w.x / sint, -1.f, 1.f);
 }
 
-inline Float SinPhi(const Vector& w) {
+inline Float SinPhi(const Vector3f& w) {
 	Float sint = SinTheta(w);
 	if (sint == 0.f)
 		return 0.f;
@@ -54,7 +54,7 @@ enum BxDFType {
 };
 
 //判断两个向量是否在同一半球
-inline bool SameHemisphere(const Vector &w, const Vector &wp) {
+inline bool SameHemisphere(const Vector3f &w, const Vector3f &wp) {
 	return w.z * wp.z > 0.f;
 }
 
@@ -71,9 +71,9 @@ public:
 		return (type & flags) == type;
 	}
 
-	virtual RGB f(const Vector &wo, const Vector &wi) const=0;  //给非狄克尔分布的版本
+	virtual RGB f(const Vector3f &wo, const Vector3f &wi) const=0;  //给非狄克尔分布的版本
 	//给狄克尔分布和蒙特卡洛积分使用的版本
-	virtual RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	virtual RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const {
 		*wi = CosSampleHemisphere(u1, u2);
 		if (wo.z < 0.0f)
@@ -83,12 +83,12 @@ public:
 	}
 
 	//通过入射光线和出射光线来计算概率分布
-	virtual Float Pdf(const Vector& wo, const Vector& wi) const {
+	virtual Float Pdf(const Vector3f& wo, const Vector3f& wi) const {
 		return SameHemisphere(wo, wi) ? AbsCosTheta(wi) * InvPi : 0.0f;
 	}
 
-	virtual RGB rho(const Vector& wo, int nSamples, const Float*samples) const {
-		Vector wi;
+	virtual RGB rho(const Vector3f& wo, int nSamples, const Float*samples) const {
+		Vector3f wi;
 		Float pdf;
 		RGB sum(0);
 		//采用蒙特卡诺方式来计算积分
@@ -106,9 +106,9 @@ public:
 		for (int i = 0; i < nSamples; ++i) {
 			Float pdf_o = InvTwoPi;
 			Float pdf_i = 0;
-			Vector wo = UniformSampleHemisphere(samples1[i * 2],
+			Vector3f wo = UniformSampleHemisphere(samples1[i * 2],
 					samples1[i * 2 + 1]);
-			Vector wi;
+			Vector3f wi;
 			RGB f = Sample_f(wo, &wi, samples2[i * 2], samples2[i * 2 + 1],
 					&pdf_i);
 			sum += f * AbsCosTheta(wi) * AbsCosTheta(wo) / (pdf_i * pdf_o);
@@ -132,10 +132,10 @@ public:
 							^ (BSDF_REFLECTION | BSDF_TRANSMISSION))), mBrdf(
 					brdf) {
 	}
-	RGB f(const Vector &wo, const Vector &wi) const override; //给非狄克尔分布的版本
-	RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	RGB f(const Vector3f &wo, const Vector3f &wi) const override; //给非狄克尔分布的版本
+	RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const override; //给狄克尔分布和蒙特卡洛积分使用的版本
-	RGB rho(const Vector &w, int nSamples, const Float *samples) const
+	RGB rho(const Vector3f &w, int nSamples, const Float *samples) const
 			override {  //hemispherical-directional reflectance
 		return mBrdf->rho(otherHemisphere(w), nSamples, samples);
 	}
@@ -143,8 +143,8 @@ public:
 			override {  //hemispherical-hemispherical reflectance
 		return mBrdf->rho(nSamples, samples1, samples2);
 	}
-	static Vector otherHemisphere(const Vector& w) {
-		return Vector(w.x, w.y, -w.z);
+	static Vector3f otherHemisphere(const Vector3f& w) {
+		return Vector3f(w.x, w.y, -w.z);
 	}
 
 };
@@ -157,10 +157,10 @@ public:
 	ScaledBxDF(BxDF* bxdf, const RGB& s) :
 			BxDF(bxdf->type), mBxdf(bxdf), mScale(s) {
 	}
-	RGB f(const Vector &wo, const Vector &wi) const override;  //给非狄克尔分布的版本
-	RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	RGB f(const Vector3f &wo, const Vector3f &wi) const override;  //给非狄克尔分布的版本
+	RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const override;  //给狄克尔分布和蒙特卡洛积分使用的版本
-	RGB rho(const Vector &w, int nSamples, const Float *samples) const
+	RGB rho(const Vector3f &w, int nSamples, const Float *samples) const
 			override {  //hemispherical-directional reflectance
 		return mScale * mBxdf->rho(w, nSamples, samples);
 	}
@@ -226,14 +226,14 @@ public:
 					f) {
 	}
 
-	virtual RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
+	virtual RGB f(const Vector3f &wo, const Vector3f &wi) const override { //给非狄克尔分布的版本
 		return 0.0f; //因为是完美镜面反射，所以直接返回0;
 	}
 
-	RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const override; //这个是镜面反射需要实现的函数
 
-	virtual Float Pdf(const Vector& wo, const Vector& wi) const override {
+	virtual Float Pdf(const Vector3f& wo, const Vector3f& wi) const override {
 		return 0.0f;
 	}
 };
@@ -252,14 +252,14 @@ public:
 		mEtaT = et; //出射折射系数
 	}
 
-	virtual RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
+	virtual RGB f(const Vector3f &wo, const Vector3f &wi) const override { //给非狄克尔分布的版本
 		return 0.f; //因为是完美镜面折射，所以直接返回0;
 	}
 	;
 
-	RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const override; //这个是镜面折射需要实现的函数
-	virtual Float Pdf(const Vector& wo, const Vector& wi) const override {
+	virtual Float Pdf(const Vector3f& wo, const Vector3f& wi) const override {
 		return 0.0f;
 	}
 };
@@ -272,11 +272,11 @@ public:
 	Lambertian(const RGB& r) :
 			BxDF(BxDFType(BSDF_REFLECTION | BSDF_DIFFUSE)), mR(r) {
 	}
-	RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
+	RGB f(const Vector3f &wo, const Vector3f &wi) const override { //给非狄克尔分布的版本
 		return mR / InvPi;
 	}
 
-	RGB rho(const Vector &w, int nSamples, const Float *samples) const
+	RGB rho(const Vector3f &w, int nSamples, const Float *samples) const
 			override {  //hemispherical-directional reflectance
 		return mR;
 	}
@@ -302,7 +302,7 @@ public:
 	}
 
 	//代码基本上是从pbrt那边照搬过来
-	RGB f(const Vector &wo, const Vector &wi) const override { //给非狄克尔分布的版本
+	RGB f(const Vector3f &wo, const Vector3f &wi) const override { //给非狄克尔分布的版本
 		//法线坐标系下的操作
 		Float sinthetai = SinTheta(wi);
 		Float sinthetao = SinTheta(wo);
@@ -333,13 +333,13 @@ class MicrofacetDistribution {
 public:
 	virtual ~MicrofacetDistribution() {
 	}
-	virtual Float D(const Vector &wh) const=0;		//传入半角向量 返回与该半角向量垂直的位平面的分布概率
+	virtual Float D(const Vector3f &wh) const=0;		//传入半角向量 返回与该半角向量垂直的位平面的分布概率
 
 	//用来采样微平面法线分布的函数
-	virtual void Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
+	virtual void Sample_f(const Vector3f &wo, Vector3f *wi, Float u1, Float u2,
 			Float *pdf) const = 0;
 	//返回概率密度
-	virtual Float Pdf(const Vector &wo, const Vector &wi) const = 0;
+	virtual Float Pdf(const Vector3f &wo, const Vector3f &wi) const = 0;
 };
 
 //基于Torrance-Sparrow Modle的微平面结构
@@ -351,11 +351,11 @@ private:
 public:
 	Microfacet(const RGB& reflectance, Fresnel* fresnel,
 			MicrofacetDistribution* distribution);
-	Float G(const Vector &wo, const Vector &wi, const Vector &wh) const;//几何衰减实数  公式:PBRT P455
-	RGB f(const Vector &wo, const Vector &wi) const override;
+	Float G(const Vector3f &wo, const Vector3f &wi, const Vector3f &wh) const;//几何衰减实数  公式:PBRT P455
+	RGB f(const Vector3f &wo, const Vector3f &wi) const override;
 
 	//微平面使用的PDF是法线分布
-	virtual RGB Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+	virtual RGB Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 			Float *pdf) const override {
 		mDistribution->Sample_f(wo, wi, u1, u2, pdf);		//采样法线分布
 		if (!SameHemisphere(wo, *wi))
@@ -364,7 +364,7 @@ public:
 	}
 
 	//通过入射光线和出射光线来计算概率分布
-	virtual Float Pdf(const Vector& wo, const Vector& wi) const override {
+	virtual Float Pdf(const Vector3f& wo, const Vector3f& wi) const override {
 		if (!SameHemisphere(wo, wi))
 			return 0.f;
 		return mDistribution->Pdf(wo, wi);
@@ -380,17 +380,17 @@ public:
 			mE(e) {
 	}
 	;
-	virtual Float D(const Vector &wh) const override {
+	virtual Float D(const Vector3f &wh) const override {
 		Float cosh = CosTheta(wh);
 		return (mE + 2.0f) * InvTwoPi * powf(cosh, mE);
 	}
 
-	virtual void Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
+	virtual void Sample_f(const Vector3f &wo, Vector3f *wi, Float u1, Float u2,
 			Float *pdf) const override {
 		Float cosTheta = powf(u1, 1.f / (mE + 1));		//cos θh == ξ1开根n+1
 		Float sinTheta = sqrtf(std::max(0.0f, (1.0f - cosTheta * cosTheta)));
 		Float phi = u2 * 2.f * Pi;
-		Vector wh = SphericalDirection(sinTheta, cosTheta, phi);		//获得半角向量
+		Vector3f wh = SphericalDirection(sinTheta, cosTheta, phi);		//获得半角向量
 		if (!SameHemisphere(wo, wh))
 			wh = -wh;		//使半角向量和出射光线在同一半球中
 		*wi = -wo + 2.f * Dot(wo, wh) * wh;		//利用反射公式，计算入射光线
@@ -402,8 +402,8 @@ public:
 		*pdf = blinn_pdf;
 	}
 
-	virtual Float Pdf(const Vector &wo, const Vector &wi) const override {
-		Vector wh = Normalize(wo + wi);
+	virtual Float Pdf(const Vector3f &wo, const Vector3f &wi) const override {
+		Vector3f wh = Normalize(wo + wi);
 		Float costheta = AbsCosTheta(wh);
 		Float blinn_pdf = ((mE + 1.f) * powf(costheta, mE)) //p(wh)=(n+1)*cos(t)^n  p(wi)=dwh/dwip(wh)
 		/ (2.f * Pi * 4.f * Dot(wo, wh));
@@ -421,15 +421,15 @@ public:
         if (ex > 10000.f || isnan(ex)) ex = 10000.f;
         if (ey > 10000.f || isnan(ey)) ey = 10000.f;
     }
-    Float D(const Vector &wh) const {
+    Float D(const Vector3f &wh) const {
         Float costhetah = AbsCosTheta(wh);
         Float d = 1.f - costhetah * costhetah;
         if (d == 0.f) return 0.f;
         Float e = (ex * wh.x * wh.x + ey * wh.y * wh.y) / d;
         return sqrtf((ex+2.f) * (ey+2.f)) * InvTwoPi * powf(costhetah, e);
     }
-    void Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2, Float *pdf) const;
-    Float Pdf(const Vector &wo, const Vector &wi) const;
+    void Sample_f(const Vector3f &wo, Vector3f *wi, Float u1, Float u2, Float *pdf) const;
+    Float Pdf(const Vector3f &wo, const Vector3f &wi) const;
     void sampleFirstQuadrant(Float u1, Float u2, Float *phi, Float *costheta) const;
 private:
     Float ex, ey;
@@ -473,7 +473,7 @@ struct BSDFSampleOffsets {
 class BSDF {
 private:
 	Normal mNN, mNG;		//着色法线，几何法线
-	Vector mSN, mTN;		//次切向量，切向量
+	Vector3f mSN, mTN;		//次切向量，切向量
 	int mNumBxdf;		//BxDF的个数
 #define MAX_BxDFS 8
 	BxDF *mBxdfs[MAX_BxDFS];
@@ -483,23 +483,23 @@ public:
 	BSDF(const DifferentialGeometry& dg, const Normal& ng, Float e = 1.f);//e是材质的折射率
 
 	void Add(BxDF *bxdf);		//加入BxDF
-	Vector WorldToLocal(const Vector& w) const;
-	Vector LocalToWorld(const Vector& w) const;
+	Vector3f WorldToLocal(const Vector3f& w) const;
+	Vector3f LocalToWorld(const Vector3f& w) const;
 
 	int NumComponents() const;
 	int NumComponents(BxDFType flags) const;
 
-	RGB f(const Vector &woWorld, const Vector &wiWorld, BxDFType flags =
+	RGB f(const Vector3f &woWorld, const Vector3f &wiWorld, BxDFType flags =
 			BSDF_ALL) const;
 	//采样BSDF的函数
-	RGB Sample_f(const Vector &wo, Vector *wi, const BSDFSample &bsdfSample,
+	RGB Sample_f(const Vector3f &wo, Vector3f *wi, const BSDFSample &bsdfSample,
 	                      Float *pdf, BxDFType flags = BSDF_ALL,
 	                      BxDFType *sampledType = nullptr) const;
 
-	Float Pdf(const Vector &woW, const Vector &wiW,
+	Float Pdf(const Vector3f &woW, const Vector3f &wiW,
 	        BxDFType flags= BSDF_ALL) const;
 
-	RGB rho(const Vector &wo, Random &rng, BxDFType flags = BSDF_ALL,
+	RGB rho(const Vector3f &wo, Random &rng, BxDFType flags = BSDF_ALL,
 	                 int sqrtSamples = 6) const;
 };
 

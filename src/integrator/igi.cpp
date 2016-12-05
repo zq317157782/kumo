@@ -40,10 +40,10 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 	MemoryArena arena;
 	Random random;
 
-	vector<Float> lightNum(mNumLightPaths * mNumLightSets); //选择光源的样本
-	vector<Float> lightSampPos(2 * mNumLightPaths * mNumLightSets, 0.f); //光源位置样本,u,v两个
-	vector<Float> lightSampComp(mNumLightPaths * mNumLightSets, 0.f); //光源Comp样本
-	vector<Float> lightSampDir(2 * mNumLightPaths * mNumLightSets, 0.f);
+	std::vector<Float> lightNum(mNumLightPaths * mNumLightSets); //选择光源的样本
+	std::vector<Float> lightSampPos(2 * mNumLightPaths * mNumLightSets, 0.f); //光源位置样本,u,v两个
+	std::vector<Float> lightSampComp(mNumLightPaths * mNumLightSets, 0.f); //光源Comp样本
+	std::vector<Float> lightSampDir(2 * mNumLightPaths * mNumLightSets, 0.f);
 	LDShuffleScrambled1D(mNumLightPaths, mNumLightSets, &lightNum[0], random); //采样光源NO 一维
 	LDShuffleScrambled2D(mNumLightPaths, mNumLightSets, &lightSampPos[0],
 			random); //采样光源位置 二维
@@ -77,7 +77,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 			//开始生成Light Path
 			while (scene->Intersect(ray, &isect) && !alpha.IsBlack()) {
 				//TODO IGI散射代码未完成
-				Vector wo = -ray.d; //出射方向
+				Vector3f wo = -ray.d; //出射方向
 				BSDF *bsdf = isect.GetBSDF(ray, arena); //获取bsdf
 				RGB contrib = alpha * bsdf->rho(wo, random) / Pi;
 				//cout << "------" << endl;
@@ -87,7 +87,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 						VirtualLight(isect.dg.p, isect.dg.nn, contrib,
 								isect.rayEpsilon));
 				//开始采样新的射线
-				Vector wi;
+				Vector3f wi;
 				Float pdf;
 				BSDFSample bsdfSample(random);
 				RGB fr = bsdf->Sample_f(wo, &wi, bsdfSample, &pdf);
@@ -96,7 +96,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 					break;
 				RGB contribScale = fr * AbsDot(wi, bsdf->dgShading.nn) / pdf;
 				//俄罗斯转盘继续概率
-				Float rrProb = min(1.f, contribScale.luminance());
+				Float rrProb = std::min(1.f, contribScale.luminance());
 				if (random.RandomFloat() > rrProb)
 					break;
 
@@ -115,7 +115,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		const Intersection &isect, Random &rnd, MemoryArena& arena) const {
 
 	RGB L(0);
-	Vector wo = -r.d;
+	Vector3f wo = -r.d;
 	L += isect.Le(wo); //添加自发光
 
 	BSDF* bsdf = isect.GetBSDF(r, arena);
@@ -125,16 +125,16 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	L += UniformSampleAllLights(scene, renderer, arena, p, nl, wo,
 			isect.rayEpsilon, bsdf, sample, rnd, mLightSampleOffsets,
 			mBsdfSampleOffsets);
-	unsigned int lSet = min(
+	unsigned int lSet = std::min(
 			(unsigned int) (sample->oneD[mVirtualLightSetOffset][0]
 					* mNumLightSets), mNumLightSets - 1);
 	//遍历虚拟光源
 	for (unsigned int i = 0; i < mVirtualLights[lSet].size(); ++i) {
 		const VirtualLight &vl = mVirtualLights[lSet][i];
 		Float d2 = DistanceSqr(p, vl.p);
-		Vector wi = Normalize(vl.p - p); //入射方向
+		Vector3f wi = Normalize(vl.p - p); //入射方向
 		Float G = AbsDot(wi, nl) * AbsDot(wi, vl.n) / d2;
-		G = min(G, mGeoLimit);
+		G = std::min(G, mGeoLimit);
 		RGB f = bsdf->f(wo, wi); //采样BRDF
 		if (G == 0.f || f.IsBlack())
 			continue;
@@ -158,7 +158,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	if (r.depth < maxSpecularDepth) {
 		int nSamples = (r.depth == 0) ? mNumGatherSamples : 1;	//根据射线的深度来判断使用多少的样本
 		for (int i = 0; i < nSamples; ++i) {
-			Vector wi;
+			Vector3f wi;
 			Float pdf;
 			BSDFSample bsdfSample =
 					(r.depth == 0) ?

@@ -23,26 +23,26 @@
 #include "accelerator/bvh.h"
 #include "integrator/directlight.h"
 void TestSceneOne() {
-	Transform m = Translate(Vector(0, 0, 10));
+	Transform m = Translate(Vector3f(0, 0, 10));
 	Transform invM = Inverse(m);
 	Sphere sphere(&m, &invM, false, 4, -4, 4, 360);
 	ConstantTexture<RGB> *white = new ConstantTexture<RGB>(RGB(1, 1, 1));
 	Matte matte(white);
 	GeomPrimitive p(&sphere, &matte);
-	vector<Reference<Primitive>> primtives;
+	std::vector<Reference<Primitive>> primtives;
 	primtives.push_back(&p);
 	BVHAccel grid(primtives, 128, BVHAccel::SPLIT_MIDDLE);
 
-	vector<Light*> lights;
-	Transform localToWorld3 = Translate(Vector(0, 0, 2));
-	Transform worldToLocal3 = Translate(Vector(0, 0, -2));
+	std::vector<Light*> lights;
+	Transform localToWorld3 = Translate(Vector3f(0, 0, 2));
+	Transform worldToLocal3 = Translate(Vector3f(0, 0, -2));
 	DistantLight* lig = new DistantLight(localToWorld3, RGB(1, 1, 1),
-			Vector(0, 0, -1));
+		Vector3f(0, 0, -1));
 	lights.push_back(lig);
 
 	Scene scene(&grid, lights);
 
-	Transform cameraTransform = Translate(Vector(0, 0, 0));
+	Transform cameraTransform = Translate(Vector3f(0, 0, 0));
 	float w[4] = { -1.2, 1.2, -1.2, 1.2 };
 	PerspectiveCamera camera(cameraTransform, w, 0, 0, 60,
 			new PNGFilm(600, 600, new TriangleFilter(0.5, 0.5),

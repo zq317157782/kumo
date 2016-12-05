@@ -6,22 +6,22 @@
 #include "reflection.h"
 #include "sampler.h"
 
-RGB BRDFToBTDF::f(const Vector &wo, const Vector &wi) const {
+RGB BRDFToBTDF::f(const Vector3f &wo, const Vector3f &wi) const {
 	return mBrdf->f(wo, otherHemisphere(wi));
 }
 
-RGB BRDFToBTDF::Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+RGB BRDFToBTDF::Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 		Float *pdf) const {
 	RGB ret = mBrdf->Sample_f(wo, wi, u1, u2, pdf);
 	*wi = otherHemisphere(*wi); //改变采样后的入射光的方向
 	return ret;
 }
 
-RGB ScaledBxDF::f(const Vector &wo, const Vector &wi) const {
+RGB ScaledBxDF::f(const Vector3f &wo, const Vector3f &wi) const {
 	return mScale * mBxdf->f(wo, wi);
 }
 
-RGB ScaledBxDF::Sample_f(const Vector& wo, Vector* wi, Float u1, Float u2,
+RGB ScaledBxDF::Sample_f(const Vector3f& wo, Vector3f* wi, Float u1, Float u2,
 		Float *pdf) const {
 	return mScale * mBxdf->Sample_f(wo, wi, u1, u2, pdf);
 }
@@ -68,14 +68,14 @@ RGB FresnelDielectric::Evaluate(Float cosi) const {
 	}
 }
 
-RGB SpecularReflection::Sample_f(const Vector& wo, Vector* wi, Float u1,
+RGB SpecularReflection::Sample_f(const Vector3f& wo, Vector3f* wi, Float u1,
 		Float u2, Float *pdf) const {
-	*wi = Vector(-wo.x, -wo.y, wo.z);	//反射向量
+	*wi = Vector3f(-wo.x, -wo.y, wo.z);	//反射向量
 	*pdf = 1.f;	//概率分布为1
 	return mFresnel->Evaluate(CosTheta(wo)) * mScale / AbsCosTheta(*wi); //镜面反射的brdf公式
 }
 
-RGB SpecularTransmission::Sample_f(const Vector& wo, Vector* wi, Float u1,
+RGB SpecularTransmission::Sample_f(const Vector3f& wo, Vector3f* wi, Float u1,
 		Float u2, Float *pdf) const {
 	bool entering = CosTheta(wo) > 0.;
 	Float ei = mEtaI, et = mEtaT;
@@ -92,7 +92,7 @@ RGB SpecularTransmission::Sample_f(const Vector& wo, Vector* wi, Float u1,
 	if (entering)
 		cost = -cost; //设置符号
 	Float sintOverSini = eta;
-	*wi = Vector(sintOverSini * -wo.x, sintOverSini * -wo.y, cost);
+	*wi = Vector3f(sintOverSini * -wo.x, sintOverSini * -wo.y, cost);
 	*pdf = 1.f;
 	RGB F = mFresnel.Evaluate(CosTheta(wo)); //计算反射系数
 	return (ei * ei) / (et * et) * (RGB(1.0f) - F) * mScale / AbsCosTheta(*wi);
@@ -105,8 +105,8 @@ Microfacet::Microfacet(const RGB& reflectance, Fresnel* fresnel,
 
 }
 
-Float Microfacet::G(const Vector &wo, const Vector &wi,
-		const Vector &wh) const {
+Float Microfacet::G(const Vector3f &wo, const Vector3f &wi,
+		const Vector3f &wh) const {
 	Float NdotWh = AbsCosTheta(wh); //半角和法线之间的cos值  相当于是点乘
 	Float NdotWo = AbsCosTheta(wo); //出射方向与法线
 	Float NdotWi = AbsCosTheta(wi); //入射方向与法线
@@ -117,14 +117,14 @@ Float Microfacet::G(const Vector &wo, const Vector &wi,
 }
 
 //这里使用的就是Torrance-Sparrow Modle的公式
-RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
+RGB Microfacet::f(const Vector3f &wo, const Vector3f &wi) const {
 	Float cosO = AbsCosTheta(wo);
 	if (cosO == 0)
 		return RGB(0);
 	Float cosI = AbsCosTheta(wi);
 	if (cosI == 0)
 		return RGB(0);
-	Vector wh = wi + wo;
+	Vector3f wh = wi + wo;
 	if (wh.x == 0 && wh.y == 0 && wh.z == 0)
 		return RGB(0);
 	wh = Normalize(wh);
@@ -134,7 +134,7 @@ RGB Microfacet::f(const Vector &wo, const Vector &wi) const {
 }
 
 //复制自PBRT
-void Anisotropic::Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
+void Anisotropic::Sample_f(const Vector3f &wo, Vector3f *wi, Float u1, Float u2,
 		Float *pdf) const {
 	Float phi, costheta;
 	if (u1 < .25f) {
@@ -153,7 +153,7 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
 		phi = 2.f * Pi - phi;
 	}
 	Float sintheta = sqrtf(std::max(0.f, 1.f - costheta * costheta));
-	Vector wh = SphericalDirection(sintheta, costheta, phi);
+	Vector3f wh = SphericalDirection(sintheta, costheta, phi);
 	if (!SameHemisphere(wo, wh))
 		wh = -wh;
 
@@ -186,8 +186,8 @@ void Anisotropic::sampleFirstQuadrant(Float u1, Float u2, Float *phi,
 }
 
 //复制自PBRT
-Float Anisotropic::Pdf(const Vector &wo, const Vector &wi) const {
-	Vector wh = Normalize(wo + wi);
+Float Anisotropic::Pdf(const Vector3f &wo, const Vector3f &wi) const {
+	Vector3f wh = Normalize(wo + wi);
 	Float costhetah = AbsCosTheta(wh);
 	Float ds = 1.f - costhetah * costhetah;
 	Float anisotropic_pdf = 0.f;
@@ -227,20 +227,20 @@ void BSDF::Add(BxDF *bxdf) {
 	mBxdfs[mNumBxdf++] = bxdf;
 }
 
-Vector BSDF::WorldToLocal(const Vector& w) const {
-	return Vector(Dot(mSN, w), Dot(mTN, w), Dot(mNN, w));
+Vector3f BSDF::WorldToLocal(const Vector3f& w) const {
+	return Vector3f(Dot(mSN, w), Dot(mTN, w), Dot(mNN, w));
 }
 
-Vector BSDF::LocalToWorld(const Vector& w) const {
-	return Vector(mSN.x * w.x + mTN.x * w.y + mNN.x * w.z,
+Vector3f BSDF::LocalToWorld(const Vector3f& w) const {
+	return Vector3f(mSN.x * w.x + mTN.x * w.y + mNN.x * w.z,
 			mSN.y * w.x + mTN.y * w.y + mNN.y * w.z,
 			mSN.z * w.x + mTN.z * w.y + mNN.z * w.z);
 }
 
-RGB BSDF::f(const Vector &woWorld, const Vector &wiWorld,
+RGB BSDF::f(const Vector3f &woWorld, const Vector3f &wiWorld,
 		BxDFType flags) const {
-	Vector wo = WorldToLocal(woWorld);
-	Vector wi = WorldToLocal(wiWorld);
+	Vector3f wo = WorldToLocal(woWorld);
+	Vector3f wi = WorldToLocal(wiWorld);
 	if (Dot(woWorld, mNG) * Dot(wiWorld, mNG) > 0) { //相乘大于零说明在同一半球
 		flags = BxDFType(flags & ~BSDF_TRANSMISSION); //去除折射
 	} else {
@@ -269,7 +269,7 @@ int BSDF::NumComponents(BxDFType flags) const {
 	return num;
 }
 
-RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
+RGB BSDF::Sample_f(const Vector3f &woWorld, Vector3f *wiWorld,
 		const BSDFSample &bsdfSample, Float *pdf, BxDFType flags,
 		BxDFType *sampledType) const {
 	int numComp = NumComponents(flags);
@@ -291,8 +291,8 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 		}
 	}
 
-	Vector wo = WorldToLocal(woWorld); //获得局部坐标下的wo
-	Vector wi;
+	Vector3f wo = WorldToLocal(woWorld); //获得局部坐标下的wo
+	Vector3f wi;
 	*pdf = 0.f;
 	RGB f = bxdf->Sample_f(wo, &wi, bsdfSample.uDir[0], bsdfSample.uDir[1],
 			pdf); //这里的主要作用是采样出射方向
@@ -334,11 +334,11 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 	return f;
 }
 
-Float BSDF::Pdf(const Vector &woWorld, const Vector &wiWorld,
+Float BSDF::Pdf(const Vector3f &woWorld, const Vector3f &wiWorld,
 		BxDFType flags) const {
 	if (mNumBxdf == 0)
 		return 0;
-	Vector wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
+	Vector3f wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
 	Float pdf = 0.0f;
 	int matchingComps = 0;
 	for (int i = 0; i < mNumBxdf; ++i)
@@ -350,7 +350,7 @@ Float BSDF::Pdf(const Vector &woWorld, const Vector &wiWorld,
 	return v;
 }
 
-RGB BSDF::rho(const Vector &wo, Random &rng, BxDFType flags,
+RGB BSDF::rho(const Vector3f &wo, Random &rng, BxDFType flags,
 		int sqrtSamples) const {
 	int nSamples = sqrtSamples * sqrtSamples;
 	Float *s1 = ALLOCA(Float, 2 * nSamples);

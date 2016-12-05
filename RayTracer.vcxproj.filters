@@ -395,5 +395,8 @@
     <ClInclude Include="src\core\spectrum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\test\testScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,8 +14,8 @@ struct DifferentialGeometry{
         shape = nullptr;
     }
     // DifferentialGeometry Public Methods
-    DifferentialGeometry(const Point &P, const Vector &DPDU,
-                         const Vector &DPDV, const Normal &DNDU,
+    DifferentialGeometry(const Point &P, const Vector3f &DPDU,
+                         const Vector3f &DPDV, const Normal &DNDU,
                          const Normal &DNDV, Float uu, Float vv,
                          const Shape *sh);
 
@@ -26,9 +26,9 @@ struct DifferentialGeometry{
     Normal nn;
     Float u, v;
     const Shape *shape;
-    Vector dpdu, dpdv;
+    Vector3f dpdu, dpdv;
     Normal dndu, dndv;
-    mutable Vector dpdx, dpdy;
+    mutable Vector3f dpdx, dpdy;
     mutable Float dudx, dvdx, dudy, dvdy;
 };
 

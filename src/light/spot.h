@@ -21,14 +21,14 @@ private:
 public:
 	SpotLight(const Transform& l2w,const RGB& intensity,Float width,Float fall);
 	bool IsDeltaLight() const override;
-	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls, Vector *wi, Float *pdf,
+	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls, Vector3f *wi, Float *pdf,
 					VisibilityTester *vis) const override;
-	virtual Float Pdf(const Point &p, const Vector &wi) const override{
+	virtual Float Pdf(const Point &p, const Vector3f &wi) const override{
 		return 0;
 	}
 	//根据向量计算衰减
-	Float Falloff(const Vector& w) const{
-		Vector wl=Normalize(worldToLight(w)); //把世界坐标系下的向量转化成光源坐标系下
+	Float Falloff(const Vector3f& w) const{
+		Vector3f wl=Normalize(worldToLight(w)); //把世界坐标系下的向量转化成光源坐标系下
 		Float costheta=wl.z;
 		if(costheta<mCosMaxWidth) return 0;
 		if(costheta>mCosFall) return 1;

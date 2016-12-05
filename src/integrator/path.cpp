@@ -41,7 +41,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		BSDF *bsdf = isectp->GetBSDF(ray, arena); //获取交点处的bsdf
 		const Point &p = bsdf->dgShading.p;
 		const Normal &n = bsdf->dgShading.nn;
-		Vector wo = -ray.d; //出射方向
+		Vector3f wo = -ray.d; //出射方向
 		if (bounces < SAMPLE_DEPTH) { //设计好的样本
 			L += pathThroughput
 					* UniformSampleOneLight(scene, renderer, arena, p, n, wo,
@@ -63,7 +63,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		else
 			outgoingBSDFSample = BSDFSample(rnd);
 
-		Vector wi;
+		Vector3f wi;
 		Float pdf;
 		BxDFType flags;
 		RGB f = bsdf->Sample_f(wo, &wi, outgoingBSDFSample, &pdf, BSDF_ALL,
@@ -75,7 +75,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		ray = RayDifferential(p, wi, ray, isectp->rayEpsilon); //生成新的射线
 		//反射数大于3 就开始使用俄罗斯罗盘
 		if (bounces > 3) {
-			Float continueProbability = min(0.5f, pathThroughput.luminance());
+			Float continueProbability = std::min(0.5f, pathThroughput.luminance());
 			if (rnd.RandomFloat() > continueProbability)
 				break;
 			pathThroughput =pathThroughput/continueProbability;

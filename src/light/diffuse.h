@@ -26,7 +26,7 @@ public:
 		mArea = mShape->Area();
 	}
 
-	virtual RGB L(const Point &p, const Normal &n, const Vector &w) const
+	virtual RGB L(const Point &p, const Normal &n, const Vector3f &w) const
 			override {
 		return Dot(n, w) > 0.f ? mLemit : RGB(0.0f, 0.0f, 0.0f);
 	}
@@ -34,7 +34,7 @@ public:
 		return mLemit * mArea * Pi;
 	}
 	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls,
-			Vector *wi, Float *pdf, VisibilityTester *vis) const override {
+			Vector3f *wi, Float *pdf, VisibilityTester *vis) const override {
 		Normal nn;
 		Point pLight = mShape->Sample(p, ls.uPos[0], ls.uPos[1], &nn);
 		*wi = Normalize(pLight - p); //得到p点到光源的射线
@@ -47,14 +47,14 @@ public:
 		return false;
 	}
 
-	virtual Float Pdf(const Point &p, const Vector &wi) const override {
+	virtual Float Pdf(const Point &p, const Vector3f &wi) const override {
 		return mShape->Pdf(p, wi);
 	}
 
 	virtual RGB Sample_L(const Scene *scene, const LightSample &ls, Float u1,
 			Float u2, Ray *ray, Normal *Ns, Float *pdf) const override {
 		Point org = mShape->Sample(ls.uPos[0], ls.uPos[1],Ns);
-		Vector dir = UniformSampleSphere(u1, u2);
+		Vector3f dir = UniformSampleSphere(u1, u2);
 		if (Dot(dir, *Ns) < 0.)
 			dir *= -1.f;
 		*ray = Ray(org, dir, 1e-3f, INFINITY);

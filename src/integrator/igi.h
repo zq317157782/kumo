@@ -31,7 +31,7 @@ private:
 	BSDFSampleOffsets *mBsdfSampleOffsets; //BSDF样本偏移
 	unsigned int mNumLightPaths, mNumLightSets; //光源路径数 和 光源集合数
 	Float mGeoLimit; //最小的集合级数
-	vector<vector<VirtualLight> > mVirtualLights; //虚拟光源集合
+	std::vector<std::vector<VirtualLight> > mVirtualLights; //虚拟光源集合
 	Float mRrThreshold; //俄罗斯罗盘的阈值
 
 	//以下参数还没搞清楚

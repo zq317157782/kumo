@@ -7,8 +7,8 @@
 unsigned int Primitive::nextPrimitiveID=0;
 
 
-void Primitive::FullyRefine(vector<Reference<Primitive> > &refined) const{
-	vector<Reference<Primitive>> todo;
+void Primitive::FullyRefine(std::vector<Reference<Primitive> > &refined) const{
+	std::vector<Reference<Primitive>> todo;
 	todo.push_back(const_cast<Primitive *>(this));
 	while(todo.size()){//_todo.size()>0
 		//取出最后一个图元
@@ -38,15 +38,15 @@ const AreaLight* GeomPrimitive::GetAreaLight() const{
 
 
 const AreaLight *Aggregate::GetAreaLight() const {
-    cerr<<"Aggregate::GetAreaLight() method"
-         "called; should have gone to GeometricPrimitive"<<endl;
+    Error("Aggregate::GetAreaLight() method"
+         "called; should have gone to GeometricPrimitive");
     return nullptr;
 }
 
 
 BSDF *Aggregate::GetBSDF(const DifferentialGeometry &,
         const Transform &, MemoryArena &) const {
-	cerr<<"Aggregate::GetBSDF() method"
-        "called; should have gone to GeometricPrimitive"<<endl;
+	Error("Aggregate::GetBSDF() method"
+        "called; should have gone to GeometricPrimitive");
     return nullptr;
 }

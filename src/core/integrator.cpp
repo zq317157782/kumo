@@ -13,7 +13,7 @@
 #include "sampler.h"
 Distribution1D *ComputeLightSamplingCDF(const Scene *scene) {
 	unsigned int nLights = scene->getLightNum();
-	vector<Float> lightPower(nLights, 0.0f);
+	std::vector<Float> lightPower(nLights, 0.0f);
 	for (unsigned int i = 0; i < nLights; ++i)
 		lightPower[i] = scene->getLight(i)->Power(scene).luminance();
 	return new Distribution1D(&lightPower[0], nLights);
@@ -21,11 +21,11 @@ Distribution1D *ComputeLightSamplingCDF(const Scene *scene) {
 //TODO 这个函数中还缺少透射相关的代码
 RGB EstimateDirect(const Scene* scene, const Renderer*renderer,
 		MemoryArena& arena, const Light* light, const Point& p, const Normal& n,
-		const Vector& wo, Float rayEpsilon, const BSDF *bsdf, Random& rand,
+		const Vector3f& wo, Float rayEpsilon, const BSDF *bsdf, Random& rand,
 		const LightSample& lightSample, const BSDFSample& bsdfSample,
 		BxDFType flags) {
 	RGB Ld(0); //最后的direct radiance;
-	Vector wi;
+	Vector3f wi;
 	Float lightPdf, bsdfPdf;
 	VisibilityTester visibility;
 	//这里采样光源分布
@@ -81,7 +81,7 @@ RGB EstimateDirect(const Scene* scene, const Renderer*renderer,
 }
 
 RGB UniformSampleAllLights(const Scene *scene, const Renderer *renderer,
-		MemoryArena &arena, const Point &p, const Normal &n, const Vector &wo,
+		MemoryArena &arena, const Point &p, const Normal &n, const Vector3f &wo,
 		Float rayEpsilon, BSDF *bsdf, const Sample *sample, Random &rand,
 		const LightSampleOffsets *lightSampleOffsets,
 		const BSDFSampleOffsets *bsdfSampleOffsets) {
@@ -110,7 +110,7 @@ RGB UniformSampleAllLights(const Scene *scene, const Renderer *renderer,
 }
 
 RGB UniformSampleOneLight(const Scene *scene, const Renderer *renderer,
-		MemoryArena &arena, const Point &p, const Normal &n, const Vector &wo,
+		MemoryArena &arena, const Point &p, const Normal &n, const Vector3f &wo,
 		Float rayEpsilon, BSDF *bsdf, const Sample *sample, Random &rand,
 		int lightNumOffset, const LightSampleOffsets *lightSampleOffset,
 		const BSDFSampleOffsets *bsdfSampleOffset) {
@@ -122,7 +122,7 @@ RGB UniformSampleOneLight(const Scene *scene, const Renderer *renderer,
 		lightNum = Floor2Int(sample->oneD[lightNumOffset][0] * nLights);
 	else
 		lightNum = Floor2Int(rand.RandomFloat() * nLights);
-	lightNum = min(lightNum, nLights - 1);
+	lightNum = std::min(lightNum, nLights - 1);
 	Light *light = scene->getLight(lightNum);
 
 	LightSample lightSample;
@@ -143,8 +143,8 @@ RGB UniformSampleOneLight(const Scene *scene, const Renderer *renderer,
 RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 		const Intersection &isect, const Renderer *renderer, const Scene *scene,
 		const Sample *sample, MemoryArena &arena) {
-	Vector wo = -ray.d; //出射方向
-	Vector wi; //入射方向
+	Vector3f wo = -ray.d; //出射方向
+	Vector3f wi; //入射方向
 	Float pdf;
 	const Point &p = bsdf->dgShading.p;
 	const Normal &n = bsdf->dgShading.nn;
@@ -166,14 +166,14 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			Normal dndy = bsdf->dgShading.dndu * bsdf->dgShading.dudy
 					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdy;
 			//出射方向的差分
-			Vector dwodx = -ray.rxDirection - wo, dwody = -ray.ryDirection - wo;
+			Vector3f dwodx = -ray.rxDirection - wo, dwody = -ray.ryDirection - wo;
 			//dwidx dwidy
 			Float dDNdx = Dot(dwodx, n) + Dot(wo, dndx);
 			Float dDNdy = Dot(dwody, n) + Dot(wo, dndy);
 			r.rxDirection = wi - dwodx
-					+ 2 * Vector(Dot(wo, n) * dndx + dDNdx * n); //w=wi+dwidx
+					+ 2 * Vector3f(Dot(wo, n) * dndx + dDNdx * n); //w=wi+dwidx
 			r.ryDirection = wi - dwody
-					+ 2 * Vector(Dot(wo, n) * dndy + dDNdy * n); //w=wi+dwidy
+					+ 2 * Vector3f(Dot(wo, n) * dndy + dDNdy * n); //w=wi+dwidy
 		}
 
 		RGB Li = renderer->Li(scene, r, sample, rand, arena);
@@ -186,8 +186,8 @@ RGB SpecularReflect(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 		const Intersection &isect, const Renderer *renderer, const Scene *scene,
 		const Sample *sample, MemoryArena &arena) {
-	Vector wo = -ray.d; //出射方向
-	Vector wi; //入射方向
+	Vector3f wo = -ray.d; //出射方向
+	Vector3f wi; //入射方向
 	Float pdf;
 	const Point &p = bsdf->dgShading.p;
 	const Normal &n = bsdf->dgShading.nn;
@@ -206,7 +206,7 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			//材质折射率
 			Float eta = bsdf->eta;
 			//射线方向
-			Vector w = -wo;
+			Vector3f w = -wo;
 
 			if (Dot(wo, n) < 0)
 				eta = 1.0f / eta;
@@ -216,8 +216,8 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			Normal dndy = bsdf->dgShading.dndu * bsdf->dgShading.dudy
 					+ bsdf->dgShading.dndv * bsdf->dgShading.dvdy;
 			//入射射线偏导
-			Vector dwodx = (-ray.rxDirection) - wo;
-			Vector dwody = (-ray.ryDirection) - wo;
+			Vector3f dwodx = (-ray.rxDirection) - wo;
+			Vector3f dwody = (-ray.ryDirection) - wo;
 
 			Float dDNdx = Dot(dwodx, n) + Dot(wo, dndx);
 			Float dDNdy = Dot(dwody, n) + Dot(wo, dndy);
@@ -226,8 +226,8 @@ RGB SpecularTransmit(const RayDifferential &ray, BSDF *bsdf, Random &rand,
 			Float dmudx = (eta - (eta * eta * Dot(w, n)) / Dot(wi, n)) * dDNdx;
 			Float dmudy = (eta - (eta * eta * Dot(w, n)) / Dot(wi, n)) * dDNdy;
 
-			r.rxDirection = wi + eta * dwodx - Vector(mu * dndx + dmudx * n);
-			r.ryDirection = wi + eta * dwody - Vector(mu * dndy + dmudy * n);
+			r.rxDirection = wi + eta * dwodx - Vector3f(mu * dndx + dmudx * n);
+			r.ryDirection = wi + eta * dwody - Vector3f(mu * dndy + dmudy * n);
 		}
 		RGB Li = renderer->Li(scene, r, sample, rand, arena);
 		L = f * Li * AbsDot(wi, n) / pdf;

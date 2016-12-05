@@ -88,8 +88,8 @@ public:
     }
 
 
-    Vector operator()(const Vector& v) const;
-    void operator()(const Vector& v,Vector * rv) const;
+    Vector3f operator()(const Vector3f& v) const;
+    void operator()(const Vector3f& v,Vector3f * rv) const;
     Point operator()(const Point& p) const;
     void operator()(const Point& p,Point* rp) const;
     Ray operator()(const Ray& r) const;
@@ -121,7 +121,7 @@ inline Transform Inverse(const Transform& t){
 	return Transform(t.invM,t.m);
 }
 
-Transform Translate(const Vector &delta);
+Transform Translate(const Vector3f &delta);
 Transform Scale(Float x,Float y,Float z);
 
 
@@ -129,7 +129,7 @@ Transform RotateX(Float angle);
 Transform RotateY(Float angle);
 Transform RotateZ(Float angle);
 
-Transform Rotate(Float angle, const Vector &axis);
+Transform Rotate(Float angle, const Vector3f &axis);
 
 Transform Orthographic(Float znear, Float zfar);//正交变换
 Transform Perspective(Float fov, Float znear, Float zfar);//透视变换 fov:field of view

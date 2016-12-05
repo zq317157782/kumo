@@ -50,7 +50,7 @@ static constexpr Float InvTwoPi=1.0f/TwoPi;
 
 #define ALLOCA(TYPE, COUNT) (TYPE *)alloca((COUNT) * sizeof(TYPE))
 
-class Vector; //向量
+class Vector3f; //向量
 class Point;  //空间点
 class Normal; //法线
 class Ray; //射线

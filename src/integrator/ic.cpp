@@ -67,7 +67,7 @@ struct IrradianceSample {
 	IrradianceSample() {
 	}
 	IrradianceSample(const RGB& e, const Point& P, const Normal&N,
-			const Vector&d, Float md) {
+			const Vector3f&d, Float md) {
 		E = e;
 		n = N;
 		p = P;
@@ -77,7 +77,7 @@ struct IrradianceSample {
 	RGB E; //irradiance
 	Normal n;
 	Point p; // world space point 世界坐标系空间点
-	Vector wAvg; //平均方向
+	Vector3f wAvg; //平均方向
 	Float maxDistance; //max valid distance 最大有效距离
 };
 
@@ -91,7 +91,7 @@ struct IrradianceProcess {
 		numFound = 0;
 		sumWeight = 0;
 		E = 0;
-		wAvg = Vector(0, 0, 0);
+		wAvg = Vector3f(0, 0, 0);
 	}
 	//判断当前权重和是否大于最小值
 	bool Successful() {
@@ -103,7 +103,7 @@ struct IrradianceProcess {
 	}
 
 	//获取平均方向
-	Vector GetAverageDirection() const {
+	Vector3f GetAverageDirection() const {
 		return wAvg;
 	}
 
@@ -114,7 +114,7 @@ struct IrradianceProcess {
 		Float nerr = sqrtf((1.f - Dot(n, sample->n)) //夹角越小，值越小
 		/ (1.f - cosMaxSampleAngleDifference));
 		//获取最大error值
-		Float err = max(perr, nerr);
+		Float err = std::max(perr, nerr);
 
 		//满足valid
 		if (err < 1.0f) {
@@ -134,7 +134,7 @@ struct IrradianceProcess {
 	Float sumWeight;
 	int numFound;
 	RGB E; //irradiance
-	Vector wAvg; //平均方向
+	Vector3f wAvg; //平均方向
 
 };
 
@@ -157,7 +157,7 @@ void IrradianceCacheIntegrator::RequestSamples(Sampler *sampler, Sample *sample,
 void IrradianceCacheIntegrator::Preprocess(const Scene *scene,
 		const Camera *camera, const Renderer *renderer) {
 	BBox wb = scene->WorldBound();
-	Vector delta = 0.01f * (wb.pMax - wb.pMin);
+	Vector3f delta = 0.01f * (wb.pMax - wb.pMin);
 	//扩张WorldBound 消除浮点型数据导致的误差
 	wb.pMin -= delta;
 	wb.pMax += delta;
@@ -172,7 +172,7 @@ void IrradianceCacheIntegrator::Preprocess(const Scene *scene,
 
 	//这里为什么要运行46个相同的任务 我非常费解
 	const int numTasks = 64; //任务数量
-	vector<Task*> tasks;
+	std::vector<Task*> tasks;
 	for (int i = 0; i < numTasks; ++i) {
 		tasks.push_back(
 				new IrradiancePrimeTask(scene, renderer, camera, &sampler,
@@ -192,7 +192,7 @@ RGB IrradianceCacheIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		const Intersection &isect, Random &rnd, MemoryArena& arena) const {
 	RGB L(0.0);
 	BSDF* bsdf = isect.GetBSDF(r, arena); //获得BSDF
-	Vector wo = -r.d; //出射方向
+	Vector3f wo = -r.d; //出射方向
 	const Point &p = bsdf->dgShading.p;
 	const Normal &n = bsdf->dgShading.nn;
 	L += isect.Le(wo); //添加自发光
@@ -222,7 +222,7 @@ RGB IrradianceCacheIntegrator::Li(const Scene *scene, const Renderer *renderer,
 }
 
 bool IrradianceCacheIntegrator::interpolateE(const Scene *scene, const Point &p,
-		const Normal &n, RGB *E, Vector *wi) const {
+		const Normal &n, RGB *E, Vector3f *wi) const {
 	//如果octree不存在  直接返回
 	if (!mOctree)
 		return false;
@@ -258,7 +258,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 		// Sample illumination from lights to find path contribution
 		const Point &p = bsdf->dgShading.p;
 		const Normal &n = bsdf->dgShading.nn;
-		Vector wo = -ray.d;
+		Vector3f wo = -ray.d;
 		L += pathThroughput
 				* UniformSampleOneLight(scene, renderer, arena, p, n, wo,
 						isect.rayEpsilon, bsdf, NULL, rng);
@@ -266,7 +266,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 			break;
 		// Sample BSDF to get new path direction
 		// Get random numbers for sampling new direction, \mono{bs1}, \mono{bs2}, and \mono{bcs}
-		Vector wi;
+		Vector3f wi;
 		Float pdf;
 		BxDFType flags;
 		RGB f = bsdf->Sample_f(wo, &wi, BSDFSample(rng), &pdf, BSDF_ALL,
@@ -277,7 +277,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 		pathThroughput *= f * AbsDot(wi, n) / pdf;
 		ray = RayDifferential(p, wi, ray, isect.rayEpsilon);
 		if (pathLength > 2) {
-			Float rrProb = min(1.f, pathThroughput.luminance());
+			Float rrProb = std::min(1.f, pathThroughput.luminance());
 			if (rng.RandomFloat() > rrProb)
 				break;
 			pathThroughput = pathThroughput / rrProb;
@@ -288,29 +288,29 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 
 //间接光
 RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
-		Float pixelSpacing, const Vector &wo, Float rayEpsilon, BSDF *bsdf,
+		Float pixelSpacing, const Vector3f &wo, Float rayEpsilon, BSDF *bsdf,
 		BxDFType flags, Random &rng, const Scene *scene,
 		const Renderer *renderer, MemoryArena &arena) const {
 	if (bsdf->NumComponents(flags) == 0)
 		return RGB(0.0);
 	RGB E;		//irradiance
-	Vector wi;
+	Vector3f wi;
 	//寻找合适的orradiance sample
 	if (!interpolateE(scene, p, ng, &E, &wi)) {
 		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
 		Float minHitDistance = INFINITY;		//最近相交参数
-		Vector wAvg(0, 0, 0);		//平均方向
+		Vector3f wAvg(0, 0, 0);		//平均方向
 		RGB LiSum(0);		//入射Li总和
 		for (int i = 0; i < mNumSample; ++i) {
 			Float u[2];
 			Sample02(i, scramble, u);		//产生随机数
-			Vector w = CosSampleHemisphere(u[0], u[1]);		//生成依赖于cos分布的随机半球向量
+			Vector3f w = CosSampleHemisphere(u[0], u[1]);		//生成依赖于cos分布的随机半球向量
 			RayDifferential r(p, bsdf->LocalToWorld(w), rayEpsilon);
 			r.d = Faceforward(r.d, ng);		//转化向量位置使其和法线在同一半球
 			RGB L = pathL(r, scene, renderer, rng, arena);	//计算当前射线上的radiance
 			LiSum += L;		//加入到和中
 			wAvg += r.d * L.luminance();		//根据能量值 计算平均入射方向
-			minHitDistance = min(minHitDistance, r.maxT);
+			minHitDistance = std::min(minHitDistance, r.maxT);
 		}
 		E = (Pi / Float(mNumSample)) * LiSum;		//蒙特卡洛估计
 //

@@ -73,21 +73,21 @@ bool Sphere::Intersect(const Ray &r, Float *distance, Float *rayEpsilon,
 	Float invzradius = 1.f / zradius;
 	Float cosphi = phit.x * invzradius;
 	Float sinphi = phit.y * invzradius;
-	Vector dpdu(-mPhiMax * phit.y, mPhiMax * phit.x, 0);
-	Vector dpdv = (mThetaMax - mThetaMin)
-			* Vector(phit.z * cosphi, phit.z * sinphi, -mRad * sinf(theta));
+	Vector3f dpdu(-mPhiMax * phit.y, mPhiMax * phit.x, 0);
+	Vector3f dpdv = (mThetaMax - mThetaMin)
+			* Vector3f(phit.z * cosphi, phit.z * sinphi, -mRad * sinf(theta));
 
 	//计算法线的偏导
-	Vector d2Pduu = -mPhiMax * mPhiMax * Vector(phit.x, phit.y, 0);
-	Vector d2Pduv = (mThetaMax - mThetaMin) * phit.z * mPhiMax
-			* Vector(-sinphi, cosphi, 0.);
-	Vector d2Pdvv = -(mThetaMax - mThetaMin) * (mThetaMax - mThetaMin)
-			* Vector(phit.x, phit.y, phit.z);
+	Vector3f d2Pduu = -mPhiMax * mPhiMax * Vector3f(phit.x, phit.y, 0);
+	Vector3f d2Pduv = (mThetaMax - mThetaMin) * phit.z * mPhiMax
+			* Vector3f(-sinphi, cosphi, 0.);
+	Vector3f d2Pdvv = -(mThetaMax - mThetaMin) * (mThetaMax - mThetaMin)
+			* Vector3f(phit.x, phit.y, phit.z);
 
 	Float E = Dot(dpdu, dpdu);
 	Float F = Dot(dpdu, dpdv);
 	Float G = Dot(dpdv, dpdv);
-	Vector N = Normalize(Cross(dpdu, dpdv));
+	Vector3f N = Normalize(Cross(dpdu, dpdv));
 	Float e = Dot(N, d2Pduu);
 	Float f = Dot(N, d2Pduv);
 	Float g = Dot(N, d2Pdvv);
@@ -118,8 +118,8 @@ Sphere::Sphere(const Transform *o2w, const Transform *w2o, bool ro, Float rad,
 		Float z0, Float z1, Float phiMax) :
 		Shape(o2w, w2o, ro), mRad(rad) {
 
-	mZMin = Clamp(min(z0, z1), -mRad, mRad);
-	mZMax = Clamp(max(z0, z1), -mRad, mRad);
+	mZMin = Clamp(std::min(z0, z1), -mRad, mRad);
+	mZMax = Clamp(std::max(z0, z1), -mRad, mRad);
 	mThetaMin = acosf(Clamp(mZMin / mRad, -1.f, 1.f));
 	mThetaMax = acosf(Clamp(mZMax / mRad, -1.f, 1.f));
 	mPhiMax = Radians(Clamp(phiMax, 0.0f, 360.0f));

@@ -8,16 +8,14 @@
 #include "primitive.h"
 #include "memory.h"
 
-
-using namespace std;
 class Scene {
 private:
-    vector<Light*> mLights;
+	std::vector<Light*> mLights;
     Primitive* aggregate;//加速器结构
     BBox mBound;
 public:
 
-    Scene(Primitive* aggr,const vector<Light*>& light);
+    Scene(Primitive* aggr,const std::vector<Light*>& light);
     unsigned long getLightNum() const;
     Light* getLight(const int index) const;
 

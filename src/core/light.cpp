@@ -8,7 +8,7 @@
 #include "light.h"
 #include "sampler.h"
 
-Light::Light(const Transform& l2w,int ns):lightToWorld(l2w),worldToLight(Inverse(l2w)),numSamples(max(1, ns)){
+Light::Light(const Transform& l2w,int ns):lightToWorld(l2w),worldToLight(Inverse(l2w)),numSamples(std::max(1, ns)){
 
 }
 

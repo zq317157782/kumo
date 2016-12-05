@@ -9,28 +9,28 @@
 
 //空间向量类
 
-class Vector {
+class Vector3f {
 //field
 public:
 	Float x, y, z;
 
 //function
 public:
-	Vector() {
+	Vector3f() {
 		x = y = z = 0.f;
 	}
-	Vector(Float xx, Float yy, Float zz) :
+	Vector3f(Float xx, Float yy, Float zz) :
 			x(xx), y(yy), z(zz) {
 
 	}
 
-	Vector(const Vector& v) {
+	Vector3f(const Vector3f& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 	}
 
-	Vector &operator=(const Vector &v) {
+	Vector3f &operator=(const Vector3f &v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
@@ -38,11 +38,11 @@ public:
 	}
 
 	//加法
-	Vector operator +(const Vector& v) const {
-		return Vector(x + v.x, y + v.y, z + v.z);
+	Vector3f operator +(const Vector3f& v) const {
+		return Vector3f(x + v.x, y + v.y, z + v.z);
 	}
 
-	Vector& operator+=(const Vector& v) {
+	Vector3f& operator+=(const Vector3f& v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
@@ -50,11 +50,11 @@ public:
 	}
 
 	//减法
-	Vector operator-(const Vector& v) const {
-		return Vector(x - v.x, y - v.y, z - v.z);
+	Vector3f operator-(const Vector3f& v) const {
+		return Vector3f(x - v.x, y - v.y, z - v.z);
 	}
 
-	Vector& operator-=(const Vector& v) {
+	Vector3f& operator-=(const Vector3f& v) {
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
@@ -62,15 +62,15 @@ public:
 	}
 
 	//取反
-	Vector operator-() const {
-		return Vector(-x, -y, -z);
+	Vector3f operator-() const {
+		return Vector3f(-x, -y, -z);
 	}
 	//乘法
-	Vector operator*(Float f) const {
-		return Vector(x * f, y * f, z * f);
+	Vector3f operator*(Float f) const {
+		return Vector3f(x * f, y * f, z * f);
 	}
 
-	Vector& operator*=(Float f) {
+	Vector3f& operator*=(Float f) {
 		x *= f;
 		y *= f;
 		z *= f;
@@ -78,14 +78,14 @@ public:
 	}
 
 	//除法
-	Vector operator/(Float f) const {
-		assert(f != 0);
+	Vector3f operator/(Float f) const {
+		Assert(f != 0);
 		Float inv = 1 / f;
-		return Vector(x * inv, y * inv, z * inv);
+		return Vector3f(x * inv, y * inv, z * inv);
 	}
 
-	Vector& operator/=(Float f) {
-		assert(f != 0);
+	Vector3f& operator/=(Float f) {
+		Assert(f != 0);
 		Float inv = 1 / f;
 		x *= inv;
 		y *= inv;
@@ -102,13 +102,13 @@ public:
 		return sqrtf(LengthSqr());
 	}
 
-	bool operator==(const Vector& v) const {
+	bool operator==(const Vector3f& v) const {
 		if (x == v.x && y == v.y && z == v.z) {
 			return true;
 		}
 		return false;
 	}
-	bool operator!=(const Vector& v) const {
+	bool operator!=(const Vector3f& v) const {
 		if (x != v.x || y != v.y || z != v.z) {
 			return true;
 		}
@@ -117,40 +117,40 @@ public:
 
 	//专门给取操作用
 	Float operator[](int i) const {
-		assert(i >= 0 && i <= 2);
+		Assert(i >= 0 && i <= 2);
 		return (&x)[i];
 	}
 	//专门给赋值操作
 	Float& operator[](int i) {
-		assert(i >= 0 && i <= 2);
+		Assert(i >= 0 && i <= 2);
 		return (&x)[i];
 	}
 
 	//显示Point到Vector的转换
-	explicit Vector(const Point &p);
-	explicit Vector(const Normal &n);
+	explicit Vector3f(const Point &p);
+	explicit Vector3f(const Normal &n);
 
 };
 
-inline Float Dot(const Vector& v1, const Vector& v2) {
+inline Float Dot(const Vector3f& v1, const Vector3f& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
-inline Float AbsDot(const Vector& v1, const Vector& v2) {
+inline Float AbsDot(const Vector3f& v1, const Vector3f& v2) {
 	return fabsf(Dot(v1, v2));
 }
 
 //基于左手坐标系
-inline Vector Cross(const Vector& v1, const Vector& v2) {
+inline Vector3f Cross(const Vector3f& v1, const Vector3f& v2) {
 
-	return Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
+	return Vector3f(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
 			v1.x * v2.y - v1.y * v2.x);
 }
 
-inline Vector Normalize(const Vector& v) {
+inline Vector3f Normalize(const Vector3f& v) {
 	return v / v.Length();
 }
 
-inline Vector operator*(Float f, const Vector& v) {
+inline Vector3f operator*(Float f, const Vector3f& v) {
 	return v * f;
 }
 
@@ -194,8 +194,8 @@ public:
 	}
 
 	//减法
-	Vector operator-(const Point& p) const {
-		return Vector(x - p.x, y - p.y, z - p.z);
+	Vector3f operator-(const Point& p) const {
+		return Vector3f(x - p.x, y - p.y, z - p.z);
 	}
 
 	//乘法
@@ -230,19 +230,19 @@ public:
 	}
 
 	//和Vector相关的操作
-	Point operator+(const Vector& v) const {
+	Point operator+(const Vector3f& v) const {
 		return Point(x + v.x, y + v.y, z + v.z);
 	}
-	Point& operator+=(const Vector& v) {
+	Point& operator+=(const Vector3f& v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
 		return *this;
 	}
-	Point operator-(const Vector& v) const {
+	Point operator-(const Vector3f& v) const {
 		return Point(x - v.x, y - v.y, z - v.z);
 	}
-	Point& operator-=(const Vector& v) {
+	Point& operator-=(const Vector3f& v) {
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
@@ -273,7 +273,7 @@ public:
 	}
 };
 
-inline Vector::Vector(const Point &p) :
+inline Vector3f::Vector3f(const Point &p) :
 		x(p.x), y(p.y), z(p.z) {
 }
 
@@ -390,13 +390,13 @@ public:
 		return sqrtf(LengthSqr());
 	}
 
-	explicit Normal(const Vector& v) :
+	explicit Normal(const Vector3f& v) :
 			x(v.x), y(v.y), z(v.z) {
 	}
 	;
 };
 
-inline Vector::Vector(const Normal &n) :
+inline Vector3f::Vector3f(const Normal &n) :
 		x(n.x), y(n.y), z(n.z) {
 
 }
@@ -405,42 +405,42 @@ inline Normal operator*(Float f, const Normal& n) {
 	return n * f;
 }
 
-inline Float Dot(const Vector& v1, const Normal& v2) {
+inline Float Dot(const Vector3f& v1, const Normal& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 inline Float Dot(const Normal& v1, const Normal& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
-inline Float Dot(const Normal& v1, const Vector& v2) {
+inline Float Dot(const Normal& v1, const Vector3f& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-inline Float AbsDot(const Vector& v1, const Normal& v2) {
+inline Float AbsDot(const Vector3f& v1, const Normal& v2) {
 	return fabsf(Dot(v1, v2));
 }
 inline Float AbsDot(const Normal& v1, const Normal& v2) {
 	return fabsf(Dot(v1, v2));
 }
-inline Float AbsDot(const Normal& v1, const Vector& v2) {
+inline Float AbsDot(const Normal& v1, const Vector3f& v2) {
 	return fabsf(Dot(v1, v2));
 }
 
 //基于左手坐标系
-inline Vector Cross(const Vector& v1, const Normal& v2) {
+inline Vector3f Cross(const Vector3f& v1, const Normal& v2) {
 
-	return Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
+	return Vector3f(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
 			v1.x * v2.y - v1.y * v2.x);
 }
 //基于左手坐标系
-inline Vector Cross(const Normal& v1, const Vector& v2) {
+inline Vector3f Cross(const Normal& v1, const Vector3f& v2) {
 
-	return Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
+	return Vector3f(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
 			v1.x * v2.y - v1.y * v2.x);
 }
 //基于左手坐标系
-inline Vector Cross(const Normal& v1, const Normal& v2) {
+inline Vector3f Cross(const Normal& v1, const Normal& v2) {
 
-	return Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
+	return Vector3f(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
 			v1.x * v2.y - v1.y * v2.x);
 }
 
@@ -449,27 +449,27 @@ inline Normal Normalize(const Normal& n) {
 }
 
 //根据第二个参数 返回和第二个参数在同一半球中的向量火法线
-inline Normal Faceforward(const Normal &n, const Vector &v) {
+inline Normal Faceforward(const Normal &n, const Vector3f &v) {
 	return (Dot(n, v) < 0.f) ? -n : n;
 }
 inline Normal Faceforward(const Normal &n, const Normal &n2) {
 	return (Dot(n, n2) < 0.f) ? -n : n;
 }
-inline Vector Faceforward(const Vector &v, const Vector &v2) {
+inline Vector3f Faceforward(const Vector3f &v, const Vector3f &v2) {
 	return (Dot(v, v2) < 0.f) ? -v : v;
 }
-inline Vector Faceforward(const Vector &v, const Normal &n2) {
+inline Vector3f Faceforward(const Vector3f &v, const Normal &n2) {
 	return (Dot(v, n2) < 0.f) ? -v : v;
 }
 
 //根据一个向量生成一个坐标系
-inline void CoordinateSystem(const Vector &v1, Vector *v2, Vector *v3) {
+inline void CoordinateSystem(const Vector3f &v1, Vector3f *v2, Vector3f *v3) {
 	if (fabsf(v1.x) > fabsf(v1.y)) {
 		Float invLen = 1.f / sqrtf(v1.x * v1.x + v1.z * v1.z);
-		*v2 = Vector(-v1.z * invLen, 0.f, v1.x * invLen);
+		*v2 = Vector3f(-v1.z * invLen, 0.f, v1.x * invLen);
 	} else {
 		Float invLen = 1.f / sqrtf(v1.y * v1.y + v1.z * v1.z);
-		*v2 = Vector(0.f, v1.z * invLen, -v1.y * invLen);
+		*v2 = Vector3f(0.f, v1.z * invLen, -v1.y * invLen);
 	}
 	*v3 = Cross(v1, *v2);
 }
@@ -477,16 +477,16 @@ inline void CoordinateSystem(const Vector &v1, Vector *v2, Vector *v3) {
 class Ray {
 public:
 	Point o;
-	Vector d;
+	Vector3f d;
 	mutable Float minT, maxT;
 	int depth;    //射线迭代的深度
 
 public:
-	Ray(const Point& oo, const Vector& dd, Float start, Float end = INFINITY,
+	Ray(const Point& oo, const Vector3f& dd, Float start, Float end = INFINITY,
 			int depth = 0) :
 			o(oo), d(dd), minT(start), maxT(end), depth(depth) {
 	}
-	Ray(const Point &oo, const Vector &dd, const Ray &parent, Float start,
+	Ray(const Point &oo, const Vector3f &dd, const Ray &parent, Float start,
 			Float end = INFINITY) :
 			o(oo), d(dd), minT(start), maxT(end), depth(parent.depth + 1) {
 	}
@@ -502,18 +502,18 @@ class RayDifferential: public Ray {
 public:
 	bool hasDifferentials;
 	Point rxOrigin, ryOrigin;
-	Vector rxDirection, ryDirection;
+	Vector3f rxDirection, ryDirection;
 
 	RayDifferential() {
 		hasDifferentials = false;
 	}
 
-	RayDifferential(const Point& oo, const Vector& dd, Float start, Float end =
+	RayDifferential(const Point& oo, const Vector3f& dd, Float start, Float end =
 	INFINITY, int depth = 0) :
 			Ray(oo, dd, start, end, depth) {
 		hasDifferentials = false;
 	}
-	RayDifferential(const Point &oo, const Vector &dd, const Ray &parent,
+	RayDifferential(const Point &oo, const Vector3f &dd, const Ray &parent,
 			Float start, Float end = INFINITY) :
 			Ray(oo, dd, start, end, parent.depth + 1) {
 		hasDifferentials = false;
@@ -536,8 +536,8 @@ public:
 };
 
 //球坐标到向量的变换
-inline Vector SphericalDirection(Float sintheta, Float costheta, Float phi) {
-	return Vector(sintheta * cosf(phi), sintheta * sinf(phi), costheta);
+inline Vector3f SphericalDirection(Float sintheta, Float costheta, Float phi) {
+	return Vector3f(sintheta * cosf(phi), sintheta * sinf(phi), costheta);
 }
 
 //bounding-box
@@ -572,22 +572,22 @@ public:
 				&& pt.y <= pMax.y && pt.z >= pMin.z && pt.z <= pMax.z);
 	}
 	void Expand(Float delta) {
-		pMin -= Vector(delta, delta, delta);
-		pMax += Vector(delta, delta, delta);
+		pMin -= Vector3f(delta, delta, delta);
+		pMax += Vector3f(delta, delta, delta);
 	}
 	Float SurfaceArea() const {
-		Vector d = pMax - pMin;
+		Vector3f d = pMax - pMin;
 		return 2.f * (d.x * d.y + d.x * d.z + d.y * d.z);
 	}
 	Float Volume() const {
-		Vector d = pMax - pMin;
+		Vector3f d = pMax - pMin;
 		return d.x * d.y * d.z;
 	}
 	bool IntersectP(const Ray &ray, Float *hitt0 = nullptr, Float *hitt1 =
 			nullptr) const;
 
 	int MaximumExtent() const {
-		Vector diag = pMax - pMin;
+		Vector3f diag = pMax - pMin;
 		if (diag.x > diag.y && diag.x > diag.z)
 			return 0;
 		else if (diag.y > diag.z)

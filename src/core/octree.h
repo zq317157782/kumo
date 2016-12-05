@@ -23,7 +23,7 @@ template <typename NodeData> struct OctNode {
             delete children[i];
     }
     OctNode *children[8];
-    vector<NodeData> data;
+	std::vector<NodeData> data;
 };
 
 

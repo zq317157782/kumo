@@ -47,7 +47,7 @@ ProjectiveCamera::ProjectiveCamera(const Transform& c2w, const Transform& proj,
 			1.f)
 			* Scale(1.f / (screenWindow[1] - screenWindow[0]),
 					1.f / (screenWindow[2] - screenWindow[3]), 1.f)
-			* Translate(Vector(-screenWindow[0], -screenWindow[3], 0.f));
+			* Translate(Vector3f(-screenWindow[0], -screenWindow[3], 0.f));
 	 RasterToScreen = Inverse(ScreenToRaster);
 	 RasterToCamera=Inverse(CameraToScreen)*RasterToScreen;
 

@@ -10,7 +10,6 @@
 #include "reflection.h"
 #include "memory.h"
 #include "texture.h"
-using namespace std;
 class Matte : public Material{
 private:
     Reference<Texture<RGB>> mR;

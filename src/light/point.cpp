@@ -7,7 +7,7 @@
 #include "point.h"
 #include "montecarlo.h"
 RGB PointLight::Sample_L(const Point &p, Float pEpsilon, const LightSample &ls,
-		Vector *wi, Float *pdf, VisibilityTester *vis) const {
+		Vector3f *wi, Float *pdf, VisibilityTester *vis) const {
 	*wi = Normalize(mPos - p); //标准化的点到光源的向量
 	*pdf = 1.0f;
 	vis->SetSegment(p, pEpsilon, mPos, 0.0f);

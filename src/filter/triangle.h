@@ -17,7 +17,7 @@ public:
 	TriangleFilter(Float xw,Float yw):Filter(xw,yw){}
 	virtual Float Evaluate(Float x,Float y) const override{
 		Float zero=0.0f;
-		return max(0.0f,(Float)(xWidth-fabs(x)))*max(0.0f,(Float)(yWidth-fabs(y)));
+		return std::max(0.0f,(Float)(xWidth-fabs(x)))*std::max(0.0f,(Float)(yWidth-fabs(y)));
 	}
 };
 

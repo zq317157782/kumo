@@ -11,7 +11,6 @@
 #include "memory.h"
 #include "geometry.h"
 
-using namespace std;
 
 class Shape :public ReferenceCounted{
 protected:
@@ -29,7 +28,7 @@ public:
     virtual bool Intersect(const Ray& ray,Float* distance,Float *rayEpsilon, DifferentialGeometry *dg) const;
     virtual bool IntersectP(const Ray& ray) const;
     virtual bool CanIntersect() const;
-    virtual void Refine(vector<Reference<Shape> > &refined) const;//提炼函数  为一些几何体提炼更加合适的几何结构
+    virtual void Refine(std::vector<Reference<Shape> > &refined) const;//提炼函数  为一些几何体提炼更加合适的几何结构
 
     //获取着色用的微分几何结构的函数 默认直接返回原微分几何结构
     virtual void GetShadingGeometry(const Transform &obj2world,
@@ -55,7 +54,7 @@ public:
             return Sample(u1, u2, Ns);
     }
 
-    virtual Float Pdf(const Point &p,const Vector& wi) const;
+    virtual Float Pdf(const Point &p,const Vector3f& wi) const;
 
     virtual BBox ObjectBound() const = 0;
 

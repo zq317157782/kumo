@@ -16,7 +16,7 @@ RGB DirectLightingIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	RGB L(0);
 	//获取交点处的bsdf
 	BSDF *bsdf = isect.GetBSDF(ray, arena);
-	Vector wo = -ray.d;
+	Vector3f wo = -ray.d;
 	const Point &p = bsdf->dgShading.p;
 	const Normal &n = bsdf->dgShading.nn;
 	//计算交点处的自发光

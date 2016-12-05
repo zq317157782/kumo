@@ -23,7 +23,7 @@ bool Shape::CanIntersect() const {
 	return false;
 }
 
-void Shape::Refine(vector<Reference<Shape> > &refined) const {
+void Shape::Refine(std::vector<Reference<Shape> > &refined) const {
 	assert(false);
 }
 
@@ -32,7 +32,7 @@ Float Shape::Area() const {
 	return 0;
 }
 
-Float Shape::Pdf(const Point &p, const Vector& wi) const {
+Float Shape::Pdf(const Point &p, const Vector3f& wi) const {
 	DifferentialGeometry dgLight; //光源交点处的微分结构
 	Ray ray(p, wi, 1e-3f); //射向光源的射线
 	Float distance = 0;
