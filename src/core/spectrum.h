@@ -20,7 +20,7 @@ protected:
 public:
 
 	CoefficientSpectrum(Float cc = 0.0f) {
-		Assert(!std::isnan(cc));
+		Assert(!isnan(cc));
 		for (int i = 0; i < numSpectrumSample; ++i) {
 			_c[i] = cc;
 		}

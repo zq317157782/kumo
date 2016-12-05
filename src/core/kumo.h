@@ -17,10 +17,7 @@
 #include <map>
 #include <algorithm>
 #include <iostream>
-#include <mutex>
-#include <thread>
-#include <condition_variable>
-#include <atomic>
+
 
 
 //定义一个Float宏 可能指向float可能指向double
@@ -101,7 +98,7 @@ class SampledSpectrum;
 //指数为0的时候没有默认最高位的1
 //指数为255的时候，值为0则为无穷大，值不为0则为NaN
 inline uint32_t FloatToBits(float f) {
-	Assert(!std::isnan(f));
+	Assert(!isnan(f));
 	uint32_t bits = 0;
 	std::memcpy(&bits, &f, sizeof(float));
 	return bits;
@@ -115,7 +112,7 @@ inline float BitsToFloat(uint32_t bits) {
 
 //double版本的 FloatToBits
 inline uint64_t FloatToBits(double d) {
-	Assert(!std::isnan(d));
+	Assert(!isnan(d));
 	uint64_t bits = 0;
 	std::memcpy(&bits, &d, sizeof(double));
 	return d;
@@ -133,7 +130,7 @@ inline double BitsToFloat(uint64_t bits) {
 //3.转换成BIT形式，并且比较BIT是否大于0，大于++，小于--
 //4.再度转换回float，并且返回
 inline float NextFloatUp(float f) {
-	Assert(!std::isnan(f));
+	Assert(!isnan(f));
 	if (isinf(f) && f > 0.0f)
 		return f;
 	if (f == -0.0f)
@@ -148,7 +145,7 @@ inline float NextFloatUp(float f) {
 
 //获取下一个小于本float变量的float变量
 inline float NextFloatDown(float f) {
-	Assert(!std::isnan(f));
+	Assert(!isnan(f));
 	if (isinf(f) && f < 0.0f)
 		return f;
 	if (f == 0.0f)
@@ -162,7 +159,7 @@ inline float NextFloatDown(float f) {
 }
 
 inline double NextFloatUp(double d, int delta = 1) {
-	Assert(!std::isnan(d));
+	Assert(!isnan(d));
 	if (isinf(d) && d > 0.0)
 		return d;
 	if (d == -0.0)
@@ -176,7 +173,7 @@ inline double NextFloatUp(double d, int delta = 1) {
 }
 
 inline double NextFloatDown(double d, int delta = 1) {
-	Assert(!std::isnan(d));
+	Assert(!isnan(d));
 	if (isinf(d) && d < 0.0)
 		return d;
 	if (d == 0.0)
