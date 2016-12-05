@@ -17,8 +17,8 @@
 #include <map>
 #include <algorithm>
 #include <iostream>
-
-
+#include <atomic>
+#include <thread>
 
 //定义一个Float宏 可能指向float可能指向double
 #ifdef FLOAT_IS_DOUBLE
