@@ -9,8 +9,8 @@
 
 ErrFloat::ErrFloat(float v, float err) :
 		_value(v) {
-	Assert(!std::isnan(v));
-	Assert(!std::isnan(err));
+	Assert(!isnan(v));
+	Assert(!isnan(err));
 	if (err == 0.0f) {
 		_low = _high = v;
 	} else {
