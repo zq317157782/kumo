@@ -39,6 +39,7 @@ RGB DirectLightingIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		}
 	}
 	if(ray.depth+1<mMaxDepth){
+		//cout<<"ray:depth "<<ray.depth<<endl;
 		L+=SpecularReflect(ray,bsdf,rnd,isect,renderer,scene,sample,arena);
 		//L+=SpecularTransmit(ray,bsdf,rnd,isect,renderer,scene,sample,arena);
 	}
