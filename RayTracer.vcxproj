@@ -140,6 +140,7 @@
     <ClCompile Include="src\camera\PinholeCamera.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\diffgeom.cpp" />
+    <ClCompile Include="src\core\errfloat.cpp" />
     <ClCompile Include="src\core\geometry.cpp" />
     <ClCompile Include="src\core\global.cpp" />
     <ClCompile Include="src\core\imageio.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\core\sampler.cpp" />
     <ClCompile Include="src\core\Scene.cpp" />
     <ClCompile Include="src\core\Shape.cpp" />
+    <ClCompile Include="src\core\spectrum.cpp" />
     <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\film\png.cpp" />
@@ -200,6 +202,7 @@
     <ClInclude Include="src\camera\PinholeCamera.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\diffgeom.h" />
+    <ClInclude Include="src\core\errfloat.h" />
     <ClInclude Include="src\core\film.h" />
     <ClInclude Include="src\core\filter.h" />
     <ClInclude Include="src\core\geometry.h" />
@@ -221,6 +224,7 @@
     <ClInclude Include="src\core\sampler.h" />
     <ClInclude Include="src\core\Scene.h" />
     <ClInclude Include="src\core\Shape.h" />
+    <ClInclude Include="src\core\spectrum.h" />
     <ClInclude Include="src\core\texture.h" />
     <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\film\png.h" />

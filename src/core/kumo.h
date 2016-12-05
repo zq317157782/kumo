@@ -91,6 +91,9 @@ struct BSDFSampleOffsets;
 struct Distribution1D;
 class RWMutex; //读写锁
 template<typename T> class MIPMap; //纹理
+template<int num>class CoefficientSpectrum;
+class RGBSpectrum;
+class SampledSpectrum;
 
 
 //float类型相应的IEEE标准的BIT格式

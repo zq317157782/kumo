@@ -1,4 +1,4 @@
-/*
+﻿/*
  * spectrum.cpp
  *
  *  Created on: 2016年11月25日
@@ -89,7 +89,7 @@ void SortSpectrumSamples(Float *lambda, Float *vals, int n) {
 }
 
 
-Float InterpolateSpectrumSamples(const Float *lambda/*样本波长*/, const Float *vals/*样本值*/,
+Float InterpolateSpectrumSamples(const Float *lambda/*样本波长*/, const Float *valss/*样本值*/,
                                         int n/*样本大小*/, Float wl/*提供的波长*/){
 #ifdef DEBUG_BUILD
 	//数据检查
@@ -98,19 +98,19 @@ Float InterpolateSpectrumSamples(const Float *lambda/*样本波长*/, const Floa
 	}
 #endif
 	if(wl<lambda[0]){
-		return vals[0];
+		return valss[0];
 	}
 	if(wl>lambda[n-1]){
-		return vals[n-1];
+		return valss[n-1];
 	}
 	if(n==1){
-		return vals[0];
+		return valss[0];
 	}
 	//使用二分法，需找到波长所在的区间
 	//这里的lambda表达式，是我第二次运用，oh yeah
 	int offset=FindInterval(n,[&](int index){return lambda[index]<wl;});
 	Float t=(wl-lambda[offset])/(lambda[offset+1]-lambda[offset]);
-	return Lerp(t,vals[offset],vals[offset+1]);
+	return Lerp(t, valss[offset], valss[offset+1]);
 }
 
 //

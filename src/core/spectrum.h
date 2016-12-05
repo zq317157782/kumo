@@ -1,4 +1,4 @@
-/*
+﻿/*
  * spectrum.h
  *
  *  Created on: 2016年11月25日
