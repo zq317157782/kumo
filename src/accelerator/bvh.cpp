@@ -10,10 +10,10 @@
 static inline bool IntersectP(const BBox &bounds, const Ray &ray,
 		const Vector &invDir, const unsigned int dirIsNeg[3]) {
 
-	float tmin = (bounds[dirIsNeg[0]].x - ray.o.x) * invDir.x;
-	float tmax = (bounds[1 - dirIsNeg[0]].x - ray.o.x) * invDir.x;
-	float tymin = (bounds[dirIsNeg[1]].y - ray.o.y) * invDir.y;
-	float tymax = (bounds[1 - dirIsNeg[1]].y - ray.o.y) * invDir.y;
+	Float tmin = (bounds[dirIsNeg[0]].x - ray.o.x) * invDir.x;
+	Float tmax = (bounds[1 - dirIsNeg[0]].x - ray.o.x) * invDir.x;
+	Float tymin = (bounds[dirIsNeg[1]].y - ray.o.y) * invDir.y;
+	Float tymax = (bounds[1 - dirIsNeg[1]].y - ray.o.y) * invDir.y;
 	if ((tmin > tymax) || (tymin > tmax))
 		return false;
 	if (tymin > tmin)
@@ -21,8 +21,8 @@ static inline bool IntersectP(const BBox &bounds, const Ray &ray,
 	if (tymax < tmax)
 		tmax = tymax;
 
-	float tzmin = (bounds[dirIsNeg[2]].z - ray.o.z) * invDir.z;
-	float tzmax = (bounds[1 - dirIsNeg[2]].z - ray.o.z) * invDir.z;
+	Float tzmin = (bounds[dirIsNeg[2]].z - ray.o.z) * invDir.z;
+	Float tzmax = (bounds[1 - dirIsNeg[2]].z - ray.o.z) * invDir.z;
 	if ((tmin > tzmax) || (tzmin > tmax))
 		return false;
 	if (tzmin > tmin)
@@ -64,7 +64,7 @@ BVHAccel::BVHAccel(const vector<Reference<Primitive>>& p, unsigned int maxPN,
 
 	printf("BVH created with %d nodes for %d primitives (%.2f MB)", totalNodes,
 			(int) mPrimitives.size(),
-			float(totalNodes * sizeof(LinearBVHNode)) / (1024.f * 1024.f));
+			Float(totalNodes * sizeof(LinearBVHNode)) / (1024.f * 1024.f));
 
 	mNodes = AllocAligned<LinearBVHNode>(totalNodes);
 	//创建LinearBVHNode对象
@@ -150,7 +150,7 @@ BVHBuildNode* BVHAccel::recursiveBuild(MemoryArena& buildArena,
 				 //根据分割模式 选择不同的分割方式
 			switch (mSplitMethod) {
 			case SPLIT_MIDDLE: {
-				float pMid = (centroidBounds.pMin[dim]
+				Float pMid = (centroidBounds.pMin[dim]
 						+ centroidBounds.pMax[dim]) * 0.5f;
 				//根据比较函数排序数组，并且获得指向第一个不满足比较的元素的指针
 				BVHPrimitiveInfo *midPtr = partition(&buildData[start],

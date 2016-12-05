@@ -22,7 +22,7 @@ struct RawMeshData {
 	int * vertex_indexs;
 	Normal* normals;
 	int * normal_indexs;
-	float* UVs;
+	Float* UVs;
 	int *tex_indexs;
 	unsigned int materialID;
 };
@@ -31,7 +31,7 @@ struct RawMeshGroup {
 	int numVertex;
 	Point * vertexs;
 	Normal* normals;
-	float* UVs;
+	Float* UVs;
 	vector<RawMeshData> data;
 	vector<tinyobj::material_t> materials;
 };

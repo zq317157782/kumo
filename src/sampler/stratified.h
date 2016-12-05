@@ -25,6 +25,6 @@ private:
 	int xPixelSamples, yPixelSamples;//x和y方向上的样本数
 	bool jitterSamples;//是否抖动
 	int xPos, yPos;
-	float *sampleBuf;//临时缓冲区
+	Float *sampleBuf;//临时缓冲区
 };
 #endif // !SAMPLER_STRATIFIED_H_

@@ -20,11 +20,11 @@ protected:
 	Point *p; //顶点数组
 	Normal *n; //法线数组
 	Vector *s; //切向量数组
-	float *uvs; //纹理坐标数组
+	Float *uvs; //纹理坐标数组
 public:
 	TriangleMesh(const Transform *o2w, const Transform *w2o, bool ro, int ntris,
 			int nverts, const int *vi, const Point *P, const Normal *N,
-			const Vector *S, const float *uv,const int *ni=nullptr,const int *ti=nullptr);
+			const Vector *S, const Float *uv,const int *ni=nullptr,const int *ti=nullptr);
 	virtual ~TriangleMesh() {
 	}
 	;
@@ -59,14 +59,14 @@ public:
 			TriangleMesh *m, int n);
 
 	//获取三个顶点的纹理坐标
-	void GetUVs(float uv[3][2]) const;
-	virtual bool Intersect(const Ray &ray, float *distance, float *rayEpsilon,
+	void GetUVs(Float uv[3][2]) const;
+	virtual bool Intersect(const Ray &ray, Float *distance, Float *rayEpsilon,
 			DifferentialGeometry *dg) const override;
 	virtual bool IntersectP(const Ray& ray) const override;
 	virtual bool CanIntersect() const override {
 		return true;
 	}
-	virtual float Area() const override;
+	virtual Float Area() const override;
 	virtual BBox ObjectBound() const override;
 	BBox WorldBound() const;
 };

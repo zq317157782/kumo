@@ -14,7 +14,7 @@ Matte::Matte(const Reference<Texture<RGB>>& _albedo):mR(_albedo){
 //	Vector wo=-sr.ray.d;
 //    Point hitPoint=sr.ray(sr.distance);
 //    Vector wi;
-//    float pdf;
+//    Float pdf;
 //    VisibilityTester vt;
 //    RGB L(0,0,0);
 //    LightSample ls;

@@ -33,28 +33,28 @@ RawMeshGroup LoadObjMesh(string dir, string inputfile) {
 	//初始化整个顶点数组
 	Point* vertexs = new Point[numVertex];
 	for (unsigned int i = 0; i < numVertex; ++i) {
-		float x = attrib.vertices[3 * i + 0];
-		float y = attrib.vertices[3 * i + 1];
-		float z = attrib.vertices[3 * i + 2];
+		Float x = attrib.vertices[3 * i + 0];
+		Float y = attrib.vertices[3 * i + 1];
+		Float z = attrib.vertices[3 * i + 2];
 		vertexs[i] = Point(x, y, z);
 	}
 	Normal* normals = nullptr;
 	if (attrib.normals.size() > 0) {
 		normals = new Normal[numVertex];
 		for (unsigned int i = 0; i < attrib.normals.size()/3; ++i) {
-			float x = attrib.normals[3 * i + 0];
-			float y = attrib.normals[3 * i + 1];
-			float z = attrib.normals[3 * i + 2];
+			Float x = attrib.normals[3 * i + 0];
+			Float y = attrib.normals[3 * i + 1];
+			Float z = attrib.normals[3 * i + 2];
 			normals[i] = Normal(x, y, z);
 		}
 	}
 
-	float* UVs = nullptr;
+	Float* UVs = nullptr;
 	if (attrib.texcoords.size() > 0) {
-		UVs = new float[2 * numVertex];
+		UVs = new Float[2 * numVertex];
 		for (unsigned int i = 0; i < attrib.texcoords.size()/2; ++i) {
-			float u = attrib.texcoords[2 * i + 0];
-			float v = attrib.texcoords[2 * i + 1];
+			Float u = attrib.texcoords[2 * i + 0];
+			Float v = attrib.texcoords[2 * i + 1];
 			UVs[2 * i + 0] = u;
 			UVs[2 * i + 1] = v;
 		}

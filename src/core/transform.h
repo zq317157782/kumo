@@ -8,11 +8,11 @@
 #include "seidennki.h"
 
 //求解2x2线性方程组 AX=b
-bool SolveLinearSystem2x2(const float A[2][2],
-        const float B[2], float *x0, float *x1);
+bool SolveLinearSystem2x2(const Float A[2][2],
+        const Float B[2], Float *x0, Float *x1);
 
 struct Matrix4X4{
-    float m[4][4];
+    Float m[4][4];
 
     Matrix4X4(){
         m[0][0]=m[1][1]=m[2][2]=m[3][3]=1.0;
@@ -22,12 +22,12 @@ struct Matrix4X4{
         m[3][0]=m[3][1]=m[3][2]=0.0;
     }
 
-    Matrix4X4(float mm[4][4]);
+    Matrix4X4(Float mm[4][4]);
 
-    Matrix4X4(float t00, float t01, float t02, float t03,
-              float t10, float t11, float t12, float t13,
-              float t20, float t21, float t22, float t23,
-              float t30, float t31, float t32, float t33){
+    Matrix4X4(Float t00, Float t01, Float t02, Float t03,
+              Float t10, Float t11, Float t12, Float t13,
+              Float t20, Float t21, Float t22, Float t23,
+              Float t30, Float t31, Float t32, Float t33){
         m[0][0] = t00; m[0][1] = t01; m[0][2] = t02; m[0][3] = t03;
         m[1][0] = t10; m[1][1] = t11; m[1][2] = t12; m[1][3] = t13;
         m[2][0] = t20; m[2][1] = t21; m[2][2] = t22; m[2][3] = t23;
@@ -74,7 +74,7 @@ public:
 
     }
 
-    Transform(float mm[4][4]){
+    Transform(Float mm[4][4]){
         m=Matrix4X4(mm);
         invM= Inverse(m);//取逆
     }
@@ -122,15 +122,15 @@ inline Transform Inverse(const Transform& t){
 }
 
 Transform Translate(const Vector &delta);
-Transform Scale(float x,float y,float z);
+Transform Scale(Float x,Float y,Float z);
 
 
-Transform RotateX(float angle);
-Transform RotateY(float angle);
-Transform RotateZ(float angle);
+Transform RotateX(Float angle);
+Transform RotateY(Float angle);
+Transform RotateZ(Float angle);
 
-Transform Rotate(float angle, const Vector &axis);
+Transform Rotate(Float angle, const Vector &axis);
 
-Transform Orthographic(float znear, float zfar);//正交变换
-Transform Perspective(float fov, float znear, float zfar);//透视变换 fov:field of view
+Transform Orthographic(Float znear, Float zfar);//正交变换
+Transform Perspective(Float fov, Float znear, Float zfar);//透视变换 fov:field of view
 #endif //SRC_TRANSFORM_H

@@ -33,15 +33,15 @@ protected:
 
 //相机采样点
 struct CameraSample {
-    float imageX, imageY;
-    float lensU, lensV;
+    Float imageX, imageY;
+    Float lensU, lensV;
 };
 
 //普通采样点
 struct Sample:public CameraSample{
 public:
 	 vector<unsigned int> n1D, n2D;
-	 float **oneD, **twoD; //这里是存放真正的采样点的地方
+	 Float **oneD, **twoD; //这里是存放真正的采样点的地方
 
 	 Sample(Sampler* sampler,SurfaceIntegrator* si,const Scene* scene);
 

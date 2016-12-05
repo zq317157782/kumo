@@ -27,7 +27,7 @@ public:
 	;
 private:
 	int xPos, yPos, nPixelSamples;
-	float *sampleBuf; //临时缓冲区
+	Float *sampleBuf; //临时缓冲区
 };
 
 #endif /* SRC_SAMPLER_LOWDISCREPANCY_H_ */

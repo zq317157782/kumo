@@ -13,10 +13,10 @@
 class Grass:public Material{
 private:
 	 Reference<Texture<RGB> > mKr, mKt;
-	 Reference<Texture<float> > mIndex;
+	 Reference<Texture<Float> > mIndex;
 public:
 	Grass(Reference<Texture<RGB> > r, Reference<Texture<RGB> > t,
-            Reference<Texture<float> > i){
+            Reference<Texture<Float> > i){
 		mKr=r;
 		mKt=t;
 		mIndex=i;

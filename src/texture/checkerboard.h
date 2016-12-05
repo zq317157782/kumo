@@ -26,7 +26,7 @@ public:
 
 	virtual T Evaluate(const DifferentialGeometry& dg) const override {
 		//计算st坐标
-		float s, t, dsdx, dtdx, dsdy, dtdy;
+		Float s, t, dsdx, dtdx, dsdy, dtdy;
 		mMapping->Map(dg, &s, &t, &dsdx, &dtdx, &dsdy, &dtdy);
 		if ((Floor2Int(s) + Floor2Int(t)) % 2 == 0)
 			return tex1->Evaluate(dg);

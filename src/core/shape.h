@@ -26,7 +26,7 @@ public:
 public:
     Shape(const Transform *o2w,const Transform *w2o,bool ro);
     /*判断与法线的碰撞*/
-    virtual bool Intersect(const Ray& ray,float* distance,float *rayEpsilon, DifferentialGeometry *dg) const;
+    virtual bool Intersect(const Ray& ray,Float* distance,Float *rayEpsilon, DifferentialGeometry *dg) const;
     virtual bool IntersectP(const Ray& ray) const;
     virtual bool CanIntersect() const;
     virtual void Refine(vector<Reference<Shape> > &refined) const;//提炼函数  为一些几何体提炼更加合适的几何结构
@@ -37,25 +37,25 @@ public:
                DifferentialGeometry *dgShading) const {
            *dgShading = dg;
     }
-    virtual float Area() const;
+    virtual Float Area() const;
     virtual ~Shape(){};
 
 
     //根据area均匀采样
-    virtual Point Sample(float u1, float u2, Normal *Ns) const {
+    virtual Point Sample(Float u1, Float u2, Normal *Ns) const {
             return Point();
     }
     //根据面积的均匀密度函数
-    virtual float Pdf(const Point &pShape) const {
+    virtual Float Pdf(const Point &pShape) const {
            return 1.f / Area();
        }
     //P代表被积分表面上的一点
-    virtual Point Sample(const Point &p, float u1, float u2,
+    virtual Point Sample(const Point &p, Float u1, Float u2,
                              Normal *Ns) const {
             return Sample(u1, u2, Ns);
     }
 
-    virtual float Pdf(const Point &p,const Vector& wi) const;
+    virtual Float Pdf(const Point &p,const Vector& wi) const;
 
     virtual BBox ObjectBound() const = 0;
 

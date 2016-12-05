@@ -10,24 +10,24 @@
 #include <stdio.h>
 class Sphere : public Shape {
 private:
-     float mRad;//半径
-    float mPhiMax; //最大phi值  Y轴和X轴之间的角度
-    float mZMin, mZMax;  //最大和最小的z值
-    float mThetaMin, mThetaMax; //最大和最小的theta值  绕y轴的角度
+     Float mRad;//半径
+    Float mPhiMax; //最大phi值  Y轴和X轴之间的角度
+    Float mZMin, mZMax;  //最大和最小的z值
+    Float mThetaMin, mThetaMax; //最大和最小的theta值  绕y轴的角度
 public:
-    Sphere(const Transform *o2w,const Transform *w2o,bool ro, float rad,float zmin, float zmax, float phiMax);
+    Sphere(const Transform *o2w,const Transform *w2o,bool ro, Float rad,Float zmin, Float zmax, Float phiMax);
 
     virtual ~Sphere() { }
 
-    virtual bool Intersect(const Ray &ray, float *distance,float *rayEpsilon,  DifferentialGeometry *dg) const override;
+    virtual bool Intersect(const Ray &ray, Float *distance,Float *rayEpsilon,  DifferentialGeometry *dg) const override;
 
     virtual bool CanIntersect() const;
 
     virtual bool IntersectP(const Ray& ray) const override;
 
-    virtual float Area() const override;
+    virtual Float Area() const override;
 
-    virtual Point Sample(float u1, float u2, Normal *Ns) const override;
+    virtual Point Sample(Float u1, Float u2, Normal *Ns) const override;
     virtual BBox ObjectBound() const override{
     	 return BBox(Point(-mRad, -mRad, mZMin),
     	                Point( mRad,  mRad, mZMax));

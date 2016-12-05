@@ -12,7 +12,7 @@
 
 BSDF *Translucent::GetBSDF(const DifferentialGeometry &dgGeom,
 				const DifferentialGeometry &dgShading, MemoryArena &arena) const{
-	 float ior = 1.5f;//材质的折射率
+	 Float ior = 1.5f;//材质的折射率
 	 DifferentialGeometry dgs=dgShading;
 	 BSDF *bsdf = BSDF_ALLOC(arena, BSDF)(dgs, dgGeom.nn, ior);
 	 RGB r = mReflect->Evaluate(dgs);//反射系数
@@ -25,7 +25,7 @@ BSDF *Translucent::GetBSDF(const DifferentialGeometry &dgGeom,
 	 }
 	 RGB ks = mKs->Evaluate(dgs);//镜面反射系数
 	 if (!ks.IsBlack()) {
-	         float rough = mRoughness->Evaluate(dgs);
+	         Float rough = mRoughness->Evaluate(dgs);
 	         //反射 基于微平面
 	         if (!r.IsBlack()) {
 	             Fresnel *fresnel = BSDF_ALLOC(arena, FresnelDielectric)(ior, 1.f);

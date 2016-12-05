@@ -18,8 +18,8 @@ PNGFilm::PNGFilm(int xres, int yres, Filter* f, const char* file) :
 }
 
 void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
-	float dimageX = sample.imageX - 0.5f;
-	float dimageY = sample.imageY - 0.5f;
+	Float dimageX = sample.imageX - 0.5f;
+	Float dimageY = sample.imageY - 0.5f;
 	int x0 = Ceil2Int(dimageX - mFilter->xWidth);
 	int x1 = Floor2Int(dimageX + mFilter->xWidth);
 	int y0 = Ceil2Int(dimageY - mFilter->yWidth);
@@ -33,7 +33,7 @@ void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
 
 	for (int i = x0; i <= x1; ++i) {
 		for (int j = y0; j <= y1; ++j) {
-			float weight = mFilter->Evaluate(i - sample.imageX,
+			Float weight = mFilter->Evaluate(i - sample.imageX,
 					j - sample.imageY);
 			mPixels[i + j * xResolution].r += weight * L.r;
 			mPixels[i + j * xResolution].g += weight * L.g;
@@ -44,13 +44,13 @@ void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
 	}
 }
 
-void PNGFilm::WriteImage(float splatScale) {
+void PNGFilm::WriteImage(Float splatScale) {
 
 	vector<unsigned char> image;
 	for (int j = 0; j < yResolution; ++j) {
 		for (int i = 0; i < xResolution; ++i) {
 			Pixel p = mPixels[i + j * xResolution];
-			float invWeight = p.weightSum != 0 ? 1.0 / p.weightSum : 1;
+			Float invWeight = p.weightSum != 0 ? 1.0 / p.weightSum : 1;
 			RGB finalColor(p.r * invWeight, p.g * invWeight, p.b * invWeight);
 
 			finalColor.r += splatScale*p.sr;

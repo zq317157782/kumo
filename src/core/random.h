@@ -7,7 +7,7 @@
 
 #ifndef CORE_RANDOM_H_
 #define CORE_RANDOM_H_
-
+#include "seidennki.h"
 class Random {
 public:
 	Random(unsigned int seed = 5489UL) {
@@ -16,7 +16,7 @@ public:
     }
 
     void Seed(unsigned int seed) const;
-    float RandomFloat() const;
+    Float RandomFloat() const;
     unsigned int RandomUInt() const;
 
 private:

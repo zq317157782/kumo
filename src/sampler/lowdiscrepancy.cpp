@@ -33,7 +33,7 @@ int LDSampler::GetMoreSamples(Sample *sample, Random &rng) {
 	if (yPos == yPixelEnd)
 		return 0;
 	if (sampleBuf == nullptr) {
-		sampleBuf = new float[LDPixelSampleFloatsNeeded(sample, nPixelSamples)];
+		sampleBuf = new Float[LDPixelSampleFloatsNeeded(sample, nPixelSamples)];
 	}
 	LDPixelSample(xPos, yPos, nPixelSamples, sample, sampleBuf, rng); //生成采样点
 	if (++xPos == xPixelEnd) {

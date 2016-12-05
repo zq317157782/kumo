@@ -19,7 +19,7 @@ StratifiedSampler::StratifiedSampler(int xstart, int xend, int ystart, int yend,
 	xPixelSamples = xs;
 	yPixelSamples = ys;
 	jitterSamples = jitter;
-	sampleBuf = new float[4 * xPixelSamples * yPixelSamples]; //一个像素内所有的采样点的临时空间
+	sampleBuf = new Float[4 * xPixelSamples * yPixelSamples]; //一个像素内所有的采样点的临时空间
 }
 
 Sampler* StratifiedSampler::GetSubSampler(int num, int count) {
@@ -38,10 +38,10 @@ int StratifiedSampler::GetMoreSamples(Sample *sample, Random &rand) {
 	int nSamples = xPixelSamples * yPixelSamples;
 
 	//创建指向相应缓冲区地址的指针
-	float *bufPointer = sampleBuf;
-	float *imageSamples = bufPointer;
+	Float *bufPointer = sampleBuf;
+	Float *imageSamples = bufPointer;
 	bufPointer += 2 * nSamples;
-	float *lensSamples = bufPointer;
+	Float *lensSamples = bufPointer;
 	bufPointer += 2 * nSamples;
 
 	StratifiedSample2D(imageSamples, xPixelSamples, yPixelSamples, rand);

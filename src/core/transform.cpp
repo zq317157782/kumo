@@ -5,9 +5,9 @@
 #include "transform.h"
 #include "seidennki.h"
 
-bool SolveLinearSystem2x2(const float A[2][2], const float B[2], float *x0,
-		float *x1) {
-	float det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+bool SolveLinearSystem2x2(const Float A[2][2], const Float B[2], Float *x0,
+		Float *x1) {
+	Float det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
 	if (fabsf(det) < 1e-10f)
 		return false;
 	*x0 = (A[1][1] * B[0] - A[0][1] * B[1]) / det;
@@ -17,8 +17,8 @@ bool SolveLinearSystem2x2(const float A[2][2], const float B[2], float *x0,
 	return true;
 }
 
-Matrix4X4::Matrix4X4(float mm[4][4]) {
-	memcpy(m, mm, 16 * sizeof(float));
+Matrix4X4::Matrix4X4(Float mm[4][4]) {
+	memcpy(m, mm, 16 * sizeof(Float));
 }
 
 Matrix4X4 Transpose(const Matrix4X4 &mm) {
@@ -32,18 +32,18 @@ Matrix4X4 Transpose(const Matrix4X4 &mm) {
 Matrix4X4 Inverse(const Matrix4X4 &mm) {
 	int indxc[4], indxr[4];
 	int ipiv[4] = { 0, 0, 0, 0 };
-	float minv[4][4];
-	memcpy(minv, mm.m, 4 * 4 * sizeof(float));
+	Float minv[4][4];
+	memcpy(minv, mm.m, 4 * 4 * sizeof(Float));
 	for (int i = 0; i < 4; i++) {
 		int irow = -1, icol = -1;
-		float big = 0.;
+		Float big = 0.;
 		// Choose pivot
 		for (int j = 0; j < 4; j++) {
 			if (ipiv[j] != 1) {
 				for (int k = 0; k < 4; k++) {
 					if (ipiv[k] == 0) {
 						if (fabsf(minv[j][k]) >= big) {
-							big = float(fabsf(minv[j][k]));
+							big = Float(fabsf(minv[j][k]));
 							irow = j;
 							icol = k;
 						}
@@ -67,7 +67,7 @@ Matrix4X4 Inverse(const Matrix4X4 &mm) {
 		//Error("Singular matrix in MatrixInvert");
 
 		// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
-		float pivinv = 1.f / minv[icol][icol];
+		Float pivinv = 1.f / minv[icol][icol];
 		minv[icol][icol] = 1.f;
 		for (int j = 0; j < 4; j++)
 			minv[icol][j] *= pivinv;
@@ -75,7 +75,7 @@ Matrix4X4 Inverse(const Matrix4X4 &mm) {
 		// Subtract this row from others to zero out their columns
 		for (int j = 0; j < 4; j++) {
 			if (j != icol) {
-				float save = minv[j][icol];
+				Float save = minv[j][icol];
 				minv[j][icol] = 0;
 				for (int k = 0; k < 4; k++)
 					minv[j][k] -= minv[icol][k] * save;
@@ -93,25 +93,25 @@ Matrix4X4 Inverse(const Matrix4X4 &mm) {
 }
 
 Vector Transform::operator()(const Vector &v) const {
-	float x = v.x, y = v.y, z = v.z;
+	Float x = v.x, y = v.y, z = v.z;
 	return Vector(m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z,
 			m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z,
 			m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z);
 }
 
 void Transform::operator()(const Vector &v, Vector *rv) const {
-	float x = v.x, y = v.y, z = v.z;
+	Float x = v.x, y = v.y, z = v.z;
 	rv->x = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z;
 	rv->y = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z;
 	rv->z = m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z;
 }
 
 Point Transform::operator()(const Point &p) const {
-	float x = p.x, y = p.y, z = p.z;
-	float xp = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z + m.m[0][3];
-	float yp = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z + m.m[1][3];
-	float zp = m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z + m.m[2][3];
-	float wp = m.m[3][0] * x + m.m[3][1] * y + m.m[3][2] * z + m.m[3][3];
+	Float x = p.x, y = p.y, z = p.z;
+	Float xp = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z + m.m[0][3];
+	Float yp = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z + m.m[1][3];
+	Float zp = m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z + m.m[2][3];
+	Float wp = m.m[3][0] * x + m.m[3][1] * y + m.m[3][2] * z + m.m[3][3];
 	assert(wp != 0.0f);
 	if (wp == 1.)
 		return Point(xp, yp, zp);
@@ -120,11 +120,11 @@ Point Transform::operator()(const Point &p) const {
 }
 
 void Transform::operator()(const Point &p, Point *rp) const {
-	float x = p.x, y = p.y, z = p.z;
+	Float x = p.x, y = p.y, z = p.z;
 	rp->x = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z + m.m[0][3];
 	rp->y = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z + m.m[1][3];
 	rp->z = m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z + m.m[2][3];
-	float wp = m.m[3][0] * x + m.m[3][1] * y + m.m[3][2] * z + m.m[3][3];
+	Float wp = m.m[3][0] * x + m.m[3][1] * y + m.m[3][2] * z + m.m[3][3];
 	assert(wp != 0.0f);
 	if (wp != 1.)
 		*rp /= wp;
@@ -172,21 +172,21 @@ RayDifferential Transform::operator()(const RayDifferential &r) const {
 
 //对法线变换需要使用转置逆矩阵
 Normal Transform::operator()(const Normal& n) const {
-	float x = n.x, y = n.y, z = n.z;
+	Float x = n.x, y = n.y, z = n.z;
 	return Normal(invM.m[0][0] * x + invM.m[1][0] * y + invM.m[2][0] * z,
 			invM.m[0][1] * x + invM.m[1][1] * y + invM.m[2][1] * z,
 			invM.m[0][2] * x + invM.m[1][2] * y + invM.m[2][2] * z);
 }
 
 void Transform::operator()(const Normal &n, Normal *normal) const {
-	float x = n.x, y = n.y, z = n.z;
+	Float x = n.x, y = n.y, z = n.z;
 	normal->x = invM.m[0][0] * x + invM.m[1][0] * y + invM.m[2][0] * z;
 	normal->y = invM.m[0][1] * x + invM.m[1][1] * y + invM.m[2][1] * z;
 	normal->z = invM.m[0][2] * x + invM.m[1][2] * y + invM.m[2][2] * z;
 }
 
 bool Transform::SwapsHandedness() const {
-	float det = ((m.m[0][0] * (m.m[1][1] * m.m[2][2] - m.m[1][2] * m.m[2][1]))
+	Float det = ((m.m[0][0] * (m.m[1][1] * m.m[2][2] - m.m[1][2] * m.m[2][1]))
 			- (m.m[0][1] * (m.m[1][0] * m.m[2][2] - m.m[1][2] * m.m[2][0]))
 			+ (m.m[0][2] * (m.m[1][0] * m.m[2][1] - m.m[1][1] * m.m[2][0])));
 	return det < 0.f;
@@ -216,7 +216,7 @@ Transform Translate(const Vector &delta) {
 }
 
 //缩放
-Transform Scale(float x, float y, float z) {
+Transform Scale(Float x, Float y, Float z) {
 	Matrix4X4 m(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
 	Matrix4X4 minv(1.0f / x, 0, 0, 0, 0, 1.0f / y, 0, 0, 0, 0, 1.0f / z, 0, 0,
 			0, 0, 1);
@@ -224,23 +224,23 @@ Transform Scale(float x, float y, float z) {
 }
 
 //旋转矩阵的逆 等于旋转矩阵的转置  所以是正交矩阵
-Transform RotateX(float angle) {
-	float sinR = sinf(Radians(angle));
-	float cosR = cosf(Radians(angle));
+Transform RotateX(Float angle) {
+	Float sinR = sinf(Radians(angle));
+	Float cosR = cosf(Radians(angle));
 	Matrix4X4 m(1, 0, 0, 0, 0, cosR, -sinR, 0, 0, sinR, cosR, 0, 0, 0, 0, 1);
 	return Transform(m, Transpose(m));
 }
 
-Transform RotateY(float angle) {
-	float sinR = sinf(Radians(angle));
-	float cosR = cosf(Radians(angle));
+Transform RotateY(Float angle) {
+	Float sinR = sinf(Radians(angle));
+	Float cosR = cosf(Radians(angle));
 	Matrix4X4 m(cosR, 0, sinR, 0, 0, 1, 0, 0, -sinR, 0, cosR, 0, 0, 0, 0, 1);
 	return Transform(m, Transpose(m));
 }
 
-Transform RotateZ(float angle) {
-	float sinR = sinf(Radians(angle));
-	float cosR = cosf(Radians(angle));
+Transform RotateZ(Float angle) {
+	Float sinR = sinf(Radians(angle));
+	Float cosR = cosf(Radians(angle));
 	Matrix4X4 m(cosR, -sinR, 0, 0, sinR, cosR, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 	return Transform(m, Transpose(m));
 }
@@ -248,11 +248,11 @@ Transform RotateZ(float angle) {
 //计算 绕任意轴旋转某角度的方法
 /*这个函数拷贝子PBRT代码  建立以axis为z轴的坐标系，计算任意向量旋转后的公式，把原基向量代入公式计算*/
 // v`=v_c+v_p*cos(theta)+v_2*sin(theta);
-Transform Rotate(float angle, const Vector &axis) {
+Transform Rotate(Float angle, const Vector &axis) {
 	Vector a = Normalize(axis);
-	float s = sinf(Radians(angle));
-	float c = cosf(Radians(angle));
-	float m[4][4];
+	Float s = sinf(Radians(angle));
+	Float c = cosf(Radians(angle));
+	Float m[4][4];
 
 	m[0][0] = a.x * a.x + (1.f - a.x * a.x) * c;
 	m[0][1] = a.x * a.y * (1.f - c) - a.z * s;
@@ -284,17 +284,17 @@ Transform Transform::operator*(const Transform& tran) const {
 	return Transform(m, mInv);
 }
 
-Transform Orthographic(float znear, float zfar) {
+Transform Orthographic(Float znear, Float zfar) {
 	return Scale(1.f, 1.f, 1.f / (zfar - znear))
 			* Translate(Vector(0.f, 0.f, -znear));
 }
 
-Transform Perspective(float fov, float n, float f){
+Transform Perspective(Float fov, Float n, Float f){
 	 Matrix4X4 persp = Matrix4X4(1, 0,           0,              0,
 	                                0, 1,           0,              0,
 	                                0, 0, f / (f - n), -f*n / (f - n),
 	                                0, 0,           1,              0);
 	    //使用fov来缩放到标准空间
-	    float invTanAng = 1.f / tanf(Radians(fov) / 2.f);
+	    Float invTanAng = 1.f / tanf(Radians(fov) / 2.f);
 	    return Scale(invTanAng, invTanAng, 1) * Transform(persp);
 }

@@ -22,8 +22,8 @@ void Sampler::ComputeSubWindow(int num, int count, int *newXStart,
     assert(nx * ny == count);
     // Compute $x$ and $y$ pixel sample range for sub-window
     int xo = num % nx, yo = num / nx;
-    float tx0 = float(xo) / float(nx), tx1 = float(xo+1) / float(nx);
-    float ty0 = float(yo) / float(ny), ty1 = float(yo+1) / float(ny);
+    Float tx0 = Float(xo) / Float(nx), tx1 = Float(xo+1) / Float(nx);
+    Float ty0 = Float(yo) / Float(ny), ty1 = Float(yo+1) / Float(ny);
     *newXStart = Floor2Int(Lerp(tx0, xPixelStart, xPixelEnd));
     *newXEnd   = Floor2Int(Lerp(tx1, xPixelStart, xPixelEnd));
     *newYStart = Floor2Int(Lerp(ty0, yPixelStart, yPixelEnd));
@@ -51,7 +51,7 @@ void Sample::AllocateSampleMemory() {
 		return;
 	}
 
-	oneD=AllocAligned<float*>(nPtrs);
+	oneD=AllocAligned<Float*>(nPtrs);
 	twoD = oneD+n1D.size();//存放二维样本点的二维数组的起始位置
 
 	int totalSamples=0;
@@ -60,7 +60,7 @@ void Sample::AllocateSampleMemory() {
 	for(unsigned int i=0;i<n2D.size();++i)
 		totalSamples+=n2D[i]*2;
 
-	float* mem=AllocAligned<float>(totalSamples);//分配所有采样点的内存空间
+	Float* mem=AllocAligned<Float>(totalSamples);//分配所有采样点的内存空间
 
 	for(unsigned int i=0;i<n1D.size();++i){
 		oneD[i]=mem;

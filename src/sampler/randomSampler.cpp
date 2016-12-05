@@ -19,7 +19,7 @@ RandomSampler::RandomSampler(int xStart, int xEnd, int yStart, int yEnd,
 	xPos = xStart;
 	yPos = yStart;
 	nSamples = spp;
-	imageSamples = AllocAligned<float>(4 * nSamples); //为一个像素的所有采样点分配空间 2->image 2->lens
+	imageSamples = AllocAligned<Float>(4 * nSamples); //为一个像素的所有采样点分配空间 2->image 2->lens
 	lensSamples = imageSamples + 2 * nSamples;
 
 	Random rand(xStart + yStart * (xEnd - xStart));

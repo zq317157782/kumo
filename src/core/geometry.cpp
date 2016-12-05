@@ -28,14 +28,14 @@ BBox Union(const BBox &b, const BBox &b2) {
 }
 
 
-bool BBox::IntersectP(const Ray &ray, float *hitt0,
-                      float *hitt1) const {
-    float t0 = ray.minT, t1 = ray.maxT;
+bool BBox::IntersectP(const Ray &ray, Float *hitt0,
+                      Float *hitt1) const {
+    Float t0 = ray.minT, t1 = ray.maxT;
     for (int i = 0; i < 3; ++i) {
     	//这里使用了射线与平面的相交的参数方程
-        float invRayDir = 1.f / ray.d[i];
-        float tNear = (pMin[i] - ray.o[i]) * invRayDir;
-        float tFar  = (pMax[i] - ray.o[i]) * invRayDir;
+        Float invRayDir = 1.f / ray.d[i];
+        Float tNear = (pMin[i] - ray.o[i]) * invRayDir;
+        Float tFar  = (pMax[i] - ray.o[i]) * invRayDir;
         //和前面的结果作比较
         if (tNear > tFar) swap(tNear, tFar);
         t0 = tNear > t0 ? tNear : t0;

@@ -16,7 +16,7 @@ struct DifferentialGeometry{
     // DifferentialGeometry Public Methods
     DifferentialGeometry(const Point &P, const Vector &DPDU,
                          const Vector &DPDV, const Normal &DNDU,
-                         const Normal &DNDV, float uu, float vv,
+                         const Normal &DNDV, Float uu, Float vv,
                          const Shape *sh);
 
     void ComputeDifferentials(const RayDifferential &r) const; //通过微分射线  计算  几何微分
@@ -24,12 +24,12 @@ struct DifferentialGeometry{
     // DifferentialGeometry Public Data
     Point p;
     Normal nn;
-    float u, v;
+    Float u, v;
     const Shape *shape;
     Vector dpdu, dpdv;
     Normal dndu, dndv;
     mutable Vector dpdx, dpdy;
-    mutable float dudx, dvdx, dudy, dvdy;
+    mutable Float dudx, dvdx, dudy, dvdy;
 };
 
 #endif //RAYTRACER_DIFFGEOM_H

@@ -10,7 +10,7 @@
 #include "mipmap.h"
 SimpleImageTexture::SimpleImageTexture(TextureMapping2D *m,
 		const string& filename,bool doTri,
-        float maxAniso,ImageWrap wm, float scale, float gamma) {
+        Float maxAniso,ImageWrap wm, Float scale, Float gamma) {
 	mMapping=m;
 	std::vector<unsigned char> image;
 	int width;
@@ -20,7 +20,7 @@ SimpleImageTexture::SimpleImageTexture(TextureMapping2D *m,
 }
 
 RGB SimpleImageTexture::Evaluate(const DifferentialGeometry& dg) const{
-	 float s, t, dsdx, dtdx, dsdy, dtdy;
+	 Float s, t, dsdx, dtdx, dsdy, dtdy;
 	 mMapping->Map(dg, &s, &t, &dsdx, &dtdx, &dsdy, &dtdy);
 	 RGB mem = mMipmap->Lookup(s, t, dsdx, dtdx, dsdy, dtdy);
 	 return mem;

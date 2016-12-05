@@ -49,7 +49,7 @@ private:
 public:
 
 	MetropolisRenderer(int perPixelSamples,int nBootstrap,int directPixelSamples,
-			float largeStepProbability,bool doDirectSeparately,int maxConsecutiveRejects,int maxDepth, Camera *camera, bool doBidirectional);
+			Float largeStepProbability,bool doDirectSeparately,int maxConsecutiveRejects,int maxDepth, Camera *camera, bool doBidirectional);
 	~MetropolisRenderer();
 	//渲染函数
 	void render(const Scene *scene);

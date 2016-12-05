@@ -15,7 +15,7 @@
 //计算坐标纹理映射的结构
 class TextureMapping2D{
 public:
-	virtual void Map(const DifferentialGeometry& dg,float* s,float *t,float *dsdx,float *dtdx,float *dsdy,float *dtdy) const=0;
+	virtual void Map(const DifferentialGeometry& dg,Float* s,Float *t,Float *dsdx,Float *dtdx,Float *dsdy,Float *dtdy) const=0;
 	~TextureMapping2D(){};
 };
 
@@ -23,14 +23,14 @@ public:
 //根据参数uv来计算纹理坐标映射
 class UVMapping2D:public TextureMapping2D{
 private:
-	float mScaleU,mScaleV;
-	float mDeltaU,mDeltaV;
+	Float mScaleU,mScaleV;
+	Float mDeltaU,mDeltaV;
 public:
-	UVMapping2D(float su=1, float sv=1, float du=0, float dv=0):mScaleU(su),mScaleV(sv),mDeltaU(du),mDeltaV(dv){
+	UVMapping2D(Float su=1, Float sv=1, Float du=0, Float dv=0):mScaleU(su),mScaleV(sv),mDeltaU(du),mDeltaV(dv){
 
 	}
 
-	virtual void Map(const DifferentialGeometry& dg,float* s,float *t,float *dsdx,float *dtdx,float *dsdy,float *dtdy) const override{
+	virtual void Map(const DifferentialGeometry& dg,Float* s,Float *t,Float *dsdx,Float *dtdx,Float *dsdy,Float *dtdy) const override{
 		//根据uv坐标计算st坐标
 		*s=mScaleU*dg.u+mDeltaU;
 		*t=mScaleV*dg.v+mDeltaV;
@@ -56,6 +56,6 @@ virtual T Evaluate(const DifferentialGeometry&) const =0;
 virtual ~Texture(){};
 };
 
-float Lanczos(float x, float tau=2);
+Float Lanczos(Float x, Float tau=2);
 
 #endif /* CORE_TEXTURE_H_ */

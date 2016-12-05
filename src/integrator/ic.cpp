@@ -67,7 +67,7 @@ struct IrradianceSample {
 	IrradianceSample() {
 	}
 	IrradianceSample(const RGB& e, const Point& P, const Normal&N,
-			const Vector&d, float md) {
+			const Vector&d, Float md) {
 		E = e;
 		n = N;
 		p = P;
@@ -78,12 +78,12 @@ struct IrradianceSample {
 	Normal n;
 	Point p; // world space point 世界坐标系空间点
 	Vector wAvg; //平均方向
-	float maxDistance; //max valid distance 最大有效距离
+	Float maxDistance; //max valid distance 最大有效距离
 };
 
 //用来处理有效irradiance的过程
 struct IrradianceProcess {
-	IrradianceProcess(const Point&P, const Normal&N, float minW, float maxcos) {
+	IrradianceProcess(const Point&P, const Normal&N, Float minW, Float maxcos) {
 		p = P;
 		n = N;
 		minWeight = minW;
@@ -109,17 +109,17 @@ struct IrradianceProcess {
 
 	bool operator()(const IrradianceSample* sample) {
 		//点和样本之间的距离误差
-		float perr = Distance(p, sample->p) / sample->maxDistance;
+		Float perr = Distance(p, sample->p) / sample->maxDistance;
 
-		float nerr = sqrtf((1.f - Dot(n, sample->n)) //夹角越小，值越小
+		Float nerr = sqrtf((1.f - Dot(n, sample->n)) //夹角越小，值越小
 		/ (1.f - cosMaxSampleAngleDifference));
 		//获取最大error值
-		float err = max(perr, nerr);
+		Float err = max(perr, nerr);
 
 		//满足valid
 		if (err < 1.0f) {
 			numFound++;
-			float weight = 1 - err;
+			Float weight = 1 - err;
 			E += weight * sample->E; //累积irradiance
 			wAvg += weight * sample->wAvg;
 			sumWeight += weight; //累积weight
@@ -129,9 +129,9 @@ struct IrradianceProcess {
 
 	Point p;
 	Normal n;
-	float minWeight;
-	float cosMaxSampleAngleDifference;
-	float sumWeight;
+	Float minWeight;
+	Float cosMaxSampleAngleDifference;
+	Float sumWeight;
 	int numFound;
 	RGB E; //irradiance
 	Vector wAvg; //平均方向
@@ -209,7 +209,7 @@ RGB IrradianceCacheIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	Normal ng = isect.dg.nn;
 	ng = Faceforward(ng, wo);
 	//计算一个像素在世界空间中的长度
-	float pixelSpacing = sqrtf(Cross(isect.dg.dpdx, isect.dg.dpdy).Length());
+	Float pixelSpacing = sqrtf(Cross(isect.dg.dpdx, isect.dg.dpdy).Length());
 	BxDFType flags = BxDFType(BSDF_REFLECTION | BSDF_DIFFUSE | BSDF_GLOSSY);
 	//反射
 	L += indirectLo(p, ng, pixelSpacing, wo, isect.rayEpsilon, bsdf, flags, rnd,
@@ -267,7 +267,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 		// Sample BSDF to get new path direction
 		// Get random numbers for sampling new direction, \mono{bs1}, \mono{bs2}, and \mono{bcs}
 		Vector wi;
-		float pdf;
+		Float pdf;
 		BxDFType flags;
 		RGB f = bsdf->Sample_f(wo, &wi, BSDFSample(rng), &pdf, BSDF_ALL,
 				&flags);
@@ -277,7 +277,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 		pathThroughput *= f * AbsDot(wi, n) / pdf;
 		ray = RayDifferential(p, wi, ray, isect.rayEpsilon);
 		if (pathLength > 2) {
-			float rrProb = min(1.f, pathThroughput.luminance());
+			Float rrProb = min(1.f, pathThroughput.luminance());
 			if (rng.RandomFloat() > rrProb)
 				break;
 			pathThroughput = pathThroughput / rrProb;
@@ -288,7 +288,7 @@ RGB IrradianceCacheIntegrator::pathL(Ray &r, const Scene *scene,
 
 //间接光
 RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
-		float pixelSpacing, const Vector &wo, float rayEpsilon, BSDF *bsdf,
+		Float pixelSpacing, const Vector &wo, Float rayEpsilon, BSDF *bsdf,
 		BxDFType flags, Random &rng, const Scene *scene,
 		const Renderer *renderer, MemoryArena &arena) const {
 	if (bsdf->NumComponents(flags) == 0)
@@ -298,11 +298,11 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 	//寻找合适的orradiance sample
 	if (!interpolateE(scene, p, ng, &E, &wi)) {
 		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
-		float minHitDistance = INFINITY;		//最近相交参数
+		Float minHitDistance = INFINITY;		//最近相交参数
 		Vector wAvg(0, 0, 0);		//平均方向
 		RGB LiSum(0);		//入射Li总和
 		for (int i = 0; i < mNumSample; ++i) {
-			float u[2];
+			Float u[2];
 			Sample02(i, scramble, u);		//产生随机数
 			Vector w = CosSampleHemisphere(u[0], u[1]);		//生成依赖于cos分布的随机半球向量
 			RayDifferential r(p, bsdf->LocalToWorld(w), rayEpsilon);
@@ -312,12 +312,12 @@ RGB IrradianceCacheIntegrator::indirectLo(const Point &p, const Normal &ng,
 			wAvg += r.d * L.luminance();		//根据能量值 计算平均入射方向
 			minHitDistance = min(minHitDistance, r.maxT);
 		}
-		E = (Pi / float(mNumSample)) * LiSum;		//蒙特卡洛估计
+		E = (Pi / Float(mNumSample)) * LiSum;		//蒙特卡洛估计
 //
 //		//计算sample的影响范围
-		float maxDist = maxSamplePixelSpacing * pixelSpacing;
-		float minDist = minSamplePixelSpacing * pixelSpacing;
-		float contribExtent = Clamp(minHitDistance / 2.0f, minDist, maxDist);
+		Float maxDist = maxSamplePixelSpacing * pixelSpacing;
+		Float minDist = minSamplePixelSpacing * pixelSpacing;
+		Float contribExtent = Clamp(minHitDistance / 2.0f, minDist, maxDist);
 		BBox sampleExtent(p);
 		sampleExtent.Expand(contribExtent);
 //		//生成新的 irradiancesample

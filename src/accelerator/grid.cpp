@@ -84,9 +84,9 @@ GridAccel::GridAccel(const vector<Reference<Primitive>>& prims,
 	Vector delta = mBounds.pMax - mBounds.pMin;
 
 	int maxAxis = mBounds.MaximumExtent();
-	float invMaxWidth = 1 / delta[maxAxis];
-	float cubeRoot = powf(float(mPrimitives.size()), 1.0f / 3.0f) * 3.0f;
-	float voxelPerUnit = cubeRoot * invMaxWidth;
+	Float invMaxWidth = 1 / delta[maxAxis];
+	Float cubeRoot = powf(Float(mPrimitives.size()), 1.0f / 3.0f) * 3.0f;
+	Float voxelPerUnit = cubeRoot * invMaxWidth;
 
 	//计算获取每个轴体素的个数
 	for (int axis = 0; axis < 3; ++axis) {
@@ -129,7 +129,7 @@ GridAccel::GridAccel(const vector<Reference<Primitive>>& prims,
 }
 
 bool GridAccel::Intersect(const Ray &r, Intersection *in) const {
-	float rayT;
+	Float rayT;
 	//判断是否在内部
 	if (mBounds.Inside(r(r.minT))) {
 		rayT = r.minT;
@@ -140,7 +140,7 @@ bool GridAccel::Intersect(const Ray &r, Intersection *in) const {
 	}
 	Point gridIntersect = r(rayT);	//和Grid的bound的相交点
 
-	float NextCrossingT[3], DeltaT[3];
+	Float NextCrossingT[3], DeltaT[3];
 	int Step[3], Out[3], Pos[3];
 	for (int axis = 0; axis < 3; ++axis) {
 		Pos[axis] = posToVoxel(gridIntersect, axis);
@@ -188,7 +188,7 @@ BBox GridAccel::WorldBound() const {
 
 bool GridAccel::IntersectP(const Ray &r) const {
 	//return true;
-	float rayT;
+	Float rayT;
 	//判断是否在内部
 	if (mBounds.Inside(r(r.minT))) {
 		rayT = r.minT;
@@ -199,7 +199,7 @@ bool GridAccel::IntersectP(const Ray &r) const {
 	}
 	Point gridIntersect = r(rayT);	//和Grid的bound的相交点
 
-	float NextCrossingT[3], DeltaT[3];
+	Float NextCrossingT[3], DeltaT[3];
 	int Step[3], Out[3], Pos[3];
 	for (int axis = 0; axis < 3; ++axis) {
 		Pos[axis] = posToVoxel(gridIntersect, axis);

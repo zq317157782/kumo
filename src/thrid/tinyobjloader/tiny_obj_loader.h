@@ -452,7 +452,7 @@ fail:
   return false;
 }
 
-static inline float parseFloat(const char **token, double default_value = 0.0) {
+static inline float parsefloat(const char **token, double default_value = 0.0) {
   (*token) += strspn((*token), " \t");
   const char *end = (*token) + strcspn((*token), " \t\r");
   double val = default_value;
@@ -462,24 +462,24 @@ static inline float parseFloat(const char **token, double default_value = 0.0) {
   return f;
 }
 
-static inline void parseFloat2(float *x, float *y, const char **token) {
-  (*x) = parseFloat(token);
-  (*y) = parseFloat(token);
+static inline void parsefloat2(float *x, float *y, const char **token) {
+  (*x) = parsefloat(token);
+  (*y) = parsefloat(token);
 }
 
-static inline void parseFloat3(float *x, float *y, float *z,
+static inline void parsefloat3(float *x, float *y, float *z,
                                const char **token) {
-  (*x) = parseFloat(token);
-  (*y) = parseFloat(token);
-  (*z) = parseFloat(token);
+  (*x) = parsefloat(token);
+  (*y) = parsefloat(token);
+  (*z) = parsefloat(token);
 }
 
 static inline void parseV(float *x, float *y, float *z, float *w,
                           const char **token) {
-  (*x) = parseFloat(token);
-  (*y) = parseFloat(token);
-  (*z) = parseFloat(token);
-  (*w) = parseFloat(token, 1.0);
+  (*x) = parsefloat(token);
+  (*y) = parsefloat(token);
+  (*z) = parsefloat(token);
+  (*w) = parsefloat(token, 1.0);
 }
 
 static tag_sizes parseTagTriple(const char **token) {
@@ -740,7 +740,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     if (token[0] == 'K' && token[1] == 'a' && IS_SPACE((token[2]))) {
       token += 2;
       float r, g, b;
-      parseFloat3(&r, &g, &b, &token);
+      parsefloat3(&r, &g, &b, &token);
       material.ambient[0] = r;
       material.ambient[1] = g;
       material.ambient[2] = b;
@@ -751,7 +751,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     if (token[0] == 'K' && token[1] == 'd' && IS_SPACE((token[2]))) {
       token += 2;
       float r, g, b;
-      parseFloat3(&r, &g, &b, &token);
+      parsefloat3(&r, &g, &b, &token);
       material.diffuse[0] = r;
       material.diffuse[1] = g;
       material.diffuse[2] = b;
@@ -762,7 +762,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     if (token[0] == 'K' && token[1] == 's' && IS_SPACE((token[2]))) {
       token += 2;
       float r, g, b;
-      parseFloat3(&r, &g, &b, &token);
+      parsefloat3(&r, &g, &b, &token);
       material.specular[0] = r;
       material.specular[1] = g;
       material.specular[2] = b;
@@ -774,7 +774,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
         (token[0] == 'T' && token[1] == 'f' && IS_SPACE((token[2])))) {
       token += 2;
       float r, g, b;
-      parseFloat3(&r, &g, &b, &token);
+      parsefloat3(&r, &g, &b, &token);
       material.transmittance[0] = r;
       material.transmittance[1] = g;
       material.transmittance[2] = b;
@@ -784,7 +784,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     // ior(index of refraction)
     if (token[0] == 'N' && token[1] == 'i' && IS_SPACE((token[2]))) {
       token += 2;
-      material.ior = parseFloat(&token);
+      material.ior = parsefloat(&token);
       continue;
     }
 
@@ -792,7 +792,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     if (token[0] == 'K' && token[1] == 'e' && IS_SPACE(token[2])) {
       token += 2;
       float r, g, b;
-      parseFloat3(&r, &g, &b, &token);
+      parsefloat3(&r, &g, &b, &token);
       material.emission[0] = r;
       material.emission[1] = g;
       material.emission[2] = b;
@@ -802,7 +802,7 @@ void LoadMtl(std::map<std::string, int> *material_map,
     // shininess
     if (token[0] == 'N' && token[1] == 's' && IS_SPACE(token[2])) {
       token += 2;
-      material.shininess = parseFloat(&token);
+      material.shininess = parsefloat(&token);
       continue;
     }
 
@@ -816,62 +816,62 @@ void LoadMtl(std::map<std::string, int> *material_map,
     // dissolve
     if ((token[0] == 'd' && IS_SPACE(token[1]))) {
       token += 1;
-      material.dissolve = parseFloat(&token);
+      material.dissolve = parsefloat(&token);
       continue;
     }
     if (token[0] == 'T' && token[1] == 'r' && IS_SPACE(token[2])) {
       token += 2;
       // Invert value of Tr(assume Tr is in range [0, 1])
-      material.dissolve = 1.0f - parseFloat(&token);
+      material.dissolve = 1.0f - parsefloat(&token);
       continue;
     }
 
     // PBR: roughness
     if (token[0] == 'P' && token[1] == 'r' && IS_SPACE(token[2])) {
       token += 2;
-      material.roughness = parseFloat(&token);
+      material.roughness = parsefloat(&token);
       continue;
     }
 
     // PBR: metallic
     if (token[0] == 'P' && token[1] == 'm' && IS_SPACE(token[2])) {
       token += 2;
-      material.metallic = parseFloat(&token);
+      material.metallic = parsefloat(&token);
       continue;
     }
 
     // PBR: sheen
     if (token[0] == 'P' && token[1] == 's' && IS_SPACE(token[2])) {
       token += 2;
-      material.sheen = parseFloat(&token);
+      material.sheen = parsefloat(&token);
       continue;
     }
 
     // PBR: clearcoat thickness
     if (token[0] == 'P' && token[1] == 'c' && IS_SPACE(token[2])) {
       token += 2;
-      material.clearcoat_thickness = parseFloat(&token);
+      material.clearcoat_thickness = parsefloat(&token);
       continue;
     }
 
     // PBR: clearcoat roughness
     if ((0 == strncmp(token, "Pcr", 3)) && IS_SPACE(token[3])) {
       token += 4;
-      material.clearcoat_roughness = parseFloat(&token);
+      material.clearcoat_roughness = parsefloat(&token);
       continue;
     }
 
     // PBR: anisotropy
     if ((0 == strncmp(token, "aniso", 5)) && IS_SPACE(token[5])) {
       token += 6;
-      material.anisotropy = parseFloat(&token);
+      material.anisotropy = parsefloat(&token);
       continue;
     }
 
     // PBR: anisotropy rotation
     if ((0 == strncmp(token, "anisor", 6)) && IS_SPACE(token[6])) {
       token += 7;
-      material.anisotropy_rotation = parseFloat(&token);
+      material.anisotropy_rotation = parsefloat(&token);
       continue;
     }
 
@@ -1091,7 +1091,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
     if (token[0] == 'v' && IS_SPACE((token[1]))) {
       token += 2;
       float x, y, z;
-      parseFloat3(&x, &y, &z, &token);
+      parsefloat3(&x, &y, &z, &token);
       v.push_back(x);
       v.push_back(y);
       v.push_back(z);
@@ -1102,7 +1102,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
     if (token[0] == 'v' && token[1] == 'n' && IS_SPACE((token[2]))) {
       token += 3;
       float x, y, z;
-      parseFloat3(&x, &y, &z, &token);
+      parsefloat3(&x, &y, &z, &token);
       vn.push_back(x);
       vn.push_back(y);
       vn.push_back(z);
@@ -1113,7 +1113,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
     if (token[0] == 'v' && token[1] == 't' && IS_SPACE((token[2]))) {
       token += 3;
       float x, y;
-      parseFloat2(&x, &y, &token);
+      parsefloat2(&x, &y, &token);
       vt.push_back(x);
       vt.push_back(y);
       continue;
@@ -1281,7 +1281,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
 
       tag.floatValues.resize(static_cast<size_t>(ts.num_floats));
       for (size_t i = 0; i < static_cast<size_t>(ts.num_floats); ++i) {
-        tag.floatValues[i] = parseFloat(&token);
+        tag.floatValues[i] = parsefloat(&token);
         token += strcspn(token, "/ \t\r") + 1;
       }
 
@@ -1383,7 +1383,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
     if (token[0] == 'v' && token[1] == 'n' && IS_SPACE((token[2]))) {
       token += 3;
       float x, y, z;
-      parseFloat3(&x, &y, &z, &token);
+      parsefloat3(&x, &y, &z, &token);
       if (callback.normal_cb) {
         callback.normal_cb(user_data, x, y, z);
       }
@@ -1394,7 +1394,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
     if (token[0] == 'v' && token[1] == 't' && IS_SPACE((token[2]))) {
       token += 3;
       float x, y, z;  // y and z are optional. default = 0.0
-      parseFloat3(&x, &y, &z, &token);
+      parsefloat3(&x, &y, &z, &token);
       if (callback.texcoord_cb) {
         callback.texcoord_cb(user_data, x, y, z);
       }
@@ -1570,7 +1570,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
 
       tag.floatValues.resize(static_cast<size_t>(ts.num_floats));
       for (size_t i = 0; i < static_cast<size_t>(ts.num_floats); ++i) {
-        tag.floatValues[i] = parseFloat(&token);
+        tag.floatValues[i] = parsefloat(&token);
         token += strcspn(token, "/ \t\r") + 1;
       }
 

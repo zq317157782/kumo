@@ -23,9 +23,9 @@ RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
 	*ySize = height;
 	RGB* data = new RGB[width * height];
 	for (int i = 0; i < width * height; ++i) {
-		data[i].r = ((float) image[i * 4]) / 255;
-		data[i].g = ((float) image[i * 4 + 1]) / 255;
-		data[i].b = ((float) image[i * 4 + 2]) / 255;
+		data[i].r = ((Float) image[i * 4]) / 255;
+		data[i].g = ((Float) image[i * 4 + 1]) / 255;
+		data[i].b = ((Float) image[i * 4 + 2]) / 255;
 		//cout<<data[i].r<<" "<<data[i].g<<" "<<data[i].b<<" "<<endl;
 	}
 	return data;
@@ -44,9 +44,9 @@ RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
 //	RGB* data = new RGB[width * height];
 //	unsigned char* image = img.getData();
 //	for (int i = 0; i < width * height; ++i) {
-//		data[i].r = ((float) image[i * 3]) / 255;
-//		data[i].g = ((float) image[i * 3 + 1]) / 255;
-//		data[i].b = ((float) image[i * 3 + 2]) / 255;
+//		data[i].r = ((Float) image[i * 3]) / 255;
+//		data[i].g = ((Float) image[i * 3 + 1]) / 255;
+//		data[i].b = ((Float) image[i * 3 + 2]) / 255;
 //	}
 //	return data;
 //}

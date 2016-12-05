@@ -35,19 +35,19 @@ Distribution1D *ComputeLightSamplingCDF(const Scene *scene);
 
 RGB EstimateDirect(const Scene* scene,const Renderer*renderer,
 		MemoryArena& arena,const Light* light,const Point& p,const Normal& n,
-		const Vector& wo,float rayEpsilon,const BSDF *bsdf,Random& rand,const LightSample& lightSample,
+		const Vector& wo,Float rayEpsilon,const BSDF *bsdf,Random& rand,const LightSample& lightSample,
 		const BSDFSample& bsdfSample,BxDFType flags);
 
 //均匀采样所有光源
 RGB UniformSampleAllLights(const Scene *scene,
         const Renderer *renderer, MemoryArena &arena, const Point &p,
-        const Normal &n, const Vector &wo, float rayEpsilon,BSDF *bsdf, const Sample *sample, Random &rng,
+        const Normal &n, const Vector &wo, Float rayEpsilon,BSDF *bsdf, const Sample *sample, Random &rng,
         const LightSampleOffsets *lightSampleOffsets,
         const BSDFSampleOffsets *bsdfSampleOffsets);
 
 RGB UniformSampleOneLight(const Scene *scene,
         const Renderer *renderer, MemoryArena &arena, const Point &p,
-        const Normal &n, const Vector &wo, float rayEpsilon,
+        const Normal &n, const Vector &wo, Float rayEpsilon,
         BSDF *bsdf, const Sample *sample, Random &rng, int lightNumOffset=-1,
         const LightSampleOffsets *lightSampleOffset=nullptr,
         const BSDFSampleOffsets *bsdfSampleOffset=nullptr);

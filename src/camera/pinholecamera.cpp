@@ -7,13 +7,13 @@
 #include "transform.h"
 #include "sampler.h"
 #include "film.h"
-PinholeCamera::PinholeCamera(const Transform& c2w,Film * f,const float distance, const float zoomFactor)
+PinholeCamera::PinholeCamera(const Transform& c2w,Film * f,const Float distance, const Float zoomFactor)
         :Camera(c2w,f),mDistanceToView(distance),mZoomFactor(zoomFactor){
 	xOffset=this->film->xResolution * 0.5f;
 	yOffset=this->film->yResolution * 0.5f;
 }
 
-void PinholeCamera::setDistanceToView(const float d){
+void PinholeCamera::setDistanceToView(const Float d){
     mDistanceToView=d;
 }
 //
@@ -29,7 +29,7 @@ void PinholeCamera::setDistanceToView(const float d){
 //    return ray;
 //}
 
-float PinholeCamera::GenerateRay(const CameraSample &sample,
+Float PinholeCamera::GenerateRay(const CameraSample &sample,
                              Ray *ray) const {
 	    Point zero;
 	    Point eye=(cameraToWorld)(zero);

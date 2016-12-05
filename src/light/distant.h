@@ -31,7 +31,7 @@ public:
 		return true;
 	}
 
-	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls, Vector *wi, float *pdf,
+	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls, Vector *wi, Float *pdf,
 						VisibilityTester *vis) const override{
 		*wi=mDir;
 		*pdf=1.0f;
@@ -39,13 +39,13 @@ public:
 		return mRadiance;
 	}
 
-	virtual float Pdf(const Point &p, const Vector &wi) const override{
+	virtual Float Pdf(const Point &p, const Vector &wi) const override{
 		return 0;
 	}
 
 	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
-				                              float u1, float u2,Ray *ray,
-				                              Normal *Ns, float *pdf) const override;
+				                              Float u1, Float u2,Ray *ray,
+				                              Normal *Ns, Float *pdf) const override;
 };
 
 

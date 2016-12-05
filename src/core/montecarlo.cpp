@@ -8,15 +8,15 @@
 #include "montecarlo.h"
 #include "geometry.h"
 
-Vector CosSampleHemisphere(float u1, float u2) {
+Vector CosSampleHemisphere(Float u1, Float u2) {
 	Vector ret;
 	ConcentricSampleDisk(u1, u2, &ret.x, &ret.y); //这里其实可以换成任意的uniform disk sample
 	ret.z = sqrtf(max(0.0f, 1.0f - ret.x * ret.x - ret.y * ret.y));
 	return ret;
 }
 
-void RejectionSampleDisk(float* x, float*y, Random& rand) {
-	float sx, sy;
+void RejectionSampleDisk(Float* x, Float*y, Random& rand) {
+	Float sx, sy;
 	do {
 		sx = 1 - 2 * rand.RandomFloat();
 		sy = 1 - 2 * rand.RandomFloat();
@@ -25,35 +25,35 @@ void RejectionSampleDisk(float* x, float*y, Random& rand) {
 	*y = sy;
 }
 
-Vector UniformSampleHemisphere(float u1, float u2) {
-	float z = u1;
-	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * Pi * u2;
-	float x = cosf(phi) * r;
-	float y = sinf(phi) * r;
+Vector UniformSampleHemisphere(Float u1, Float u2) {
+	Float z = u1;
+	Float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	Float phi = 2 * Pi * u2;
+	Float x = cosf(phi) * r;
+	Float y = sinf(phi) * r;
 	return Vector(x, y, z);
 }
 
-Vector UniformSampleSphere(float u1, float u2) {
-	float z = 1.0f - 2.0f * u1; //这里是和UniformSampleHemisphere唯一的区别
-	float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
-	float phi = 2 * Pi * u2;
-	float x = cosf(phi) * r;
-	float y = sinf(phi) * r;
+Vector UniformSampleSphere(Float u1, Float u2) {
+	Float z = 1.0f - 2.0f * u1; //这里是和UniformSampleHemisphere唯一的区别
+	Float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	Float phi = 2 * Pi * u2;
+	Float x = cosf(phi) * r;
+	Float y = sinf(phi) * r;
 	return Vector(x, y, z);
 }
 
-void UniformSampleDisk(float u1, float u2, float *x, float *y) {
-	float r = sqrtf(u1);
-	float theta = 2 * Pi * u2;
+void UniformSampleDisk(Float u1, Float u2, Float *x, Float *y) {
+	Float r = sqrtf(u1);
+	Float theta = 2 * Pi * u2;
 	*x = r * cosf(theta);
 	*y = r * sinf(theta);
 }
 
-void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
-	float r, theta;
-	float sx = 2 * u1 - 1;
-	float sy = 2 * u2 - 1;
+void ConcentricSampleDisk(Float u1, Float u2, Float *dx, Float *dy) {
+	Float r, theta;
+	Float sx = 2 * u1 - 1;
+	Float sy = 2 * u2 - 1;
 	if (sx == 0.0 && sy == 0.0) {
 		*dx = 0.0;
 		*dy = 0.0;
@@ -84,31 +84,31 @@ void ConcentricSampleDisk(float u1, float u2, float *dx, float *dy) {
 	*dy = r * sinf(theta);
 }
 
-void StratifiedSample1D(float *samp, int nSamples, Random &rand, bool jitter) {
-	float invTot = 1.f / nSamples;
+void StratifiedSample1D(Float *samp, int nSamples, Random &rand, bool jitter) {
+	Float invTot = 1.f / nSamples;
 	for (int i = 0; i < nSamples; ++i) {
-		float delta = jitter ? rand.RandomFloat() : 0.5f;
+		Float delta = jitter ? rand.RandomFloat() : 0.5f;
 		*samp++ = (i + delta) * invTot;
 	}
 }
 
-void StratifiedSample2D(float *samp, int nx, int ny, Random &rand,
+void StratifiedSample2D(Float *samp, int nx, int ny, Random &rand,
 		bool jitter) {
-	float dx = 1.f / nx, dy = 1.f / ny;
+	Float dx = 1.f / nx, dy = 1.f / ny;
 	for (int y = 0; y < ny; ++y)
 		for (int x = 0; x < nx; ++x) {
-			float jx = jitter ? rand.RandomFloat() : 0.5f;
-			float jy = jitter ? rand.RandomFloat() : 0.5f;
+			Float jx = jitter ? rand.RandomFloat() : 0.5f;
+			Float jy = jitter ? rand.RandomFloat() : 0.5f;
 			*samp++ = (x + jx) * dx;
 			*samp++ = (y + jy) * dy;
 		}
 }
 
-void LatinHypercube(float *samples, unsigned int nSamples, unsigned int nDim,
+void LatinHypercube(Float *samples, unsigned int nSamples, unsigned int nDim,
 		Random &rng) {
 	// Generate LHS samples along diagonal
 	//沿着对角线生成LHS样本
-	float delta = 1.f / nSamples;
+	Float delta = 1.f / nSamples;
 	for (unsigned int i = 0; i < nSamples; ++i)
 		for (unsigned int j = 0; j < nDim; ++j)
 			samples[nDim * i + j] = (i + (rng.RandomFloat())) * delta;
@@ -136,11 +136,11 @@ int LDPixelSampleFloatsNeeded(const Sample* sample, int numPixelSamples) {
 
 //采样LD样本
 void LDPixelSample(int xPos, int yPos, int numPixelSamples, Sample* samples,
-		float * buf, Random rand) {
+		Float * buf, Random rand) {
 	//分配不同的指针指向相应的内存空间
-	float* imageSamples = buf;
+	Float* imageSamples = buf;
 	buf += 2 * numPixelSamples;
-	float* lenSamples = buf;
+	Float* lenSamples = buf;
 	buf += 2 * numPixelSamples;
 
 	//开始分配积分器样本
@@ -149,8 +149,8 @@ void LDPixelSample(int xPos, int yPos, int numPixelSamples, Sample* samples,
 	const unsigned int *n1D = &samples[0].n1D[0];
 	const unsigned int *n2D = &samples[0].n2D[0];
 	//指向积分器样本的指针
-	float **oneDSamples = ALLOCA(float*, count1D);
-	float **twoDSamples = ALLOCA(float*, count2D);
+	Float **oneDSamples = ALLOCA(Float*, count1D);
+	Float **twoDSamples = ALLOCA(Float*, count2D);
 	for (unsigned int i = 0; i < count1D; ++i) {
 		oneDSamples[i] = buf;
 		buf += n1D[i] * numPixelSamples;

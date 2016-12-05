@@ -13,12 +13,12 @@
 class Translucent: public Material {
 private:
 	Reference<Texture<RGB>> mKd, mKs; //漫反射系数和镜面反射系数
-	Reference<Texture<float>> mRoughness; //粗糙度
+	Reference<Texture<Float>> mRoughness; //粗糙度
 	Reference<Texture<RGB>> mReflect; //反射系数
 	Reference<Texture<RGB>> mTransmit; //折射系数
 public:
 	Translucent(Reference<Texture<RGB> > kd,
-			Reference<Texture<RGB> > ks, Reference<Texture<float>> rough,
+			Reference<Texture<RGB> > ks, Reference<Texture<Float>> rough,
 			Reference<Texture<RGB> > refl,
 			Reference<Texture<RGB> > trans){
 		mKd=kd;

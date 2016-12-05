@@ -51,7 +51,7 @@ private:
 		return Clamp(v, 0, mNumVoxels[axis] - 1);
 	}
 
-	float voxelToPos(int p, int axis) const {
+	Float voxelToPos(int p, int axis) const {
 		return mBounds.pMin[axis] + p * mWidth[axis];
 	}
 

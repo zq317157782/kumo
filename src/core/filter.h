@@ -14,12 +14,12 @@ public:
 	virtual ~Filter() {
 	}
 	;
-	const float xWidth, yWidth;
-	const float invXWidth, invYWidth;
+	const Float xWidth, yWidth;
+	const Float invXWidth, invYWidth;
 
-	Filter(float xw,float yw):xWidth(xw),yWidth(yw),invXWidth(1.0f/xw),invYWidth(1.0f/yw){}
+	Filter(Float xw,Float yw):xWidth(xw),yWidth(yw),invXWidth(1.0f/xw),invYWidth(1.0f/yw){}
 
-	virtual float Evaluate(float x,float y) const =0;//返回相应位置的过滤器权重
+	virtual Float Evaluate(Float x,Float y) const =0;//返回相应位置的过滤器权重
 };
 
 #endif /* CORE_FILTER_H_ */

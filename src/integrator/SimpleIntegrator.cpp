@@ -29,7 +29,7 @@
 //	//`	`	cout<<Dot(wo,isect.normal)<<endl;
 //	Point hitPoint = ray(isect.distance);
 //	Vector wi;
-//	float pdf;
+//	Float pdf;
 //	VisibilityTester vt;
 //	RGB L(0, 0, 0);
 //	L=isect.Le(wo);
@@ -58,7 +58,7 @@
 // Vector wo = -sr.ray.d;
 // Point hitPoint = sr.ray(sr.distance);
 // Vector wi;
-// float pdf;
+// Float pdf;
 // VisibilityTester vt;
 // RGB L(0, 0, 0);
 // LightSample ls;

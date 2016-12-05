@@ -10,8 +10,8 @@
 
 
  RGB DistantLight::Sample_L(const Scene *scene, const LightSample &ls,
-			                              float u1, float u2,Ray *ray,
-			                              Normal *Ns, float *pdf) const{
+			                              Float u1, Float u2,Ray *ray,
+			                              Normal *Ns, Float *pdf) const{
 	 assert(false);
 	 return 0;
  }

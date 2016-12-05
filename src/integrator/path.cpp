@@ -64,7 +64,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 			outgoingBSDFSample = BSDFSample(rnd);
 
 		Vector wi;
-		float pdf;
+		Float pdf;
 		BxDFType flags;
 		RGB f = bsdf->Sample_f(wo, &wi, outgoingBSDFSample, &pdf, BSDF_ALL,
 				&flags); //根据bsdf采样出射方向
@@ -75,7 +75,7 @@ RGB PathIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		ray = RayDifferential(p, wi, ray, isectp->rayEpsilon); //生成新的射线
 		//反射数大于3 就开始使用俄罗斯罗盘
 		if (bounces > 3) {
-			float continueProbability = min(0.5f, pathThroughput.luminance());
+			Float continueProbability = min(0.5f, pathThroughput.luminance());
 			if (rnd.RandomFloat() > continueProbability)
 				break;
 			pathThroughput =pathThroughput/continueProbability;

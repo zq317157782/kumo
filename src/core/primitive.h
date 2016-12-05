@@ -71,7 +71,7 @@ public:
 	}
 
 	bool Intersect(const Ray &r, Intersection *in) const {
-		float thit, rayEpsilon;
+		Float thit, rayEpsilon;
 		bool ret = mShape->Intersect(r, &thit, &rayEpsilon, &(in->dg));
 		if (ret==true) {
 			in->primitive = this;

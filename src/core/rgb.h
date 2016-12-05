@@ -10,33 +10,33 @@
  */
 class RGB {
 public:
-	float r, g, b;
-	RGB(float _r, float _g, float _b);
-	RGB(float _all = 0);
+	Float r, g, b;
+	RGB(Float _r, Float _g, Float _b);
+	RGB(Float _all = 0);
 
 	RGB operator+(const RGB& c) const;
-	RGB operator+(float f) const;
+	RGB operator+(Float f) const;
 	RGB operator-(const RGB& c) const;
-	RGB operator-(float d) const;
-	RGB operator*(float v) const;
+	RGB operator-(Float d) const;
+	RGB operator*(Float v) const;
 	RGB operator*(const RGB& c) const;
 	RGB& operator+=(const RGB& c);
 	RGB& operator-=(const RGB& c);
 	RGB& operator*=(const RGB& c);
 
-	RGB operator/(float div) const;
+	RGB operator/(Float div) const;
 	RGB operator/(const RGB& rgb) const;
 
-	friend RGB operator+(float a, const RGB& b);
-	friend RGB operator*(float a, const RGB& b);
+	friend RGB operator+(Float a, const RGB& b);
+	friend RGB operator*(Float a, const RGB& b);
 
 	bool operator==(const RGB& c) const;
 	bool operator!=(const RGB& c) const;
 
 	//RGB clamp();
 
-	float luminance() const {
-		const float YWeight[3] = { 0.212671f, 0.715160f, 0.072169f };
+	Float luminance() const {
+		const Float YWeight[3] = { 0.212671f, 0.715160f, 0.072169f };
 		return YWeight[0] * r + YWeight[1] * g + YWeight[2] * b;
 	}
 
@@ -45,7 +45,7 @@ public:
 	}
 };
 
-inline RGB Gamma(const RGB& rgb, float a, float gamma) {
+inline RGB Gamma(const RGB& rgb, Float a, Float gamma) {
 	RGB ret;
 	ret.r = a * powf(rgb.r, gamma);
 	ret.g = a * powf(rgb.g, gamma);
@@ -53,7 +53,7 @@ inline RGB Gamma(const RGB& rgb, float a, float gamma) {
 	return ret;
 }
 
-inline RGB Clamp(const RGB& rgb,float minV,float maxV){
+inline RGB Clamp(const RGB& rgb,Float minV,Float maxV){
 	 return RGB(max(minV,min(maxV,rgb.r)), max(minV, min(maxV,rgb.g)), max(minV, min(maxV,rgb.b)));
 }
 

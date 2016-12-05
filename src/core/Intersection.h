@@ -20,7 +20,7 @@ public:
     const Primitive *primitive;//相交图元
     unsigned int  primitiveID;
     Transform WorldToObject, ObjectToWorld;
-    float rayEpsilon;
+    Float rayEpsilon;
     double distance;
     DifferentialGeometry dg; //微分几何
     BSDF *GetBSDF(const RayDifferential &ray, MemoryArena &arena) const;

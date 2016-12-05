@@ -23,13 +23,13 @@
 //包括bsdf样本 和 俄罗斯罗盘样本
 struct PathSample {
 	BSDFSample bsdfSample; //BSDF样本
-	float rrSample; //俄罗斯罗盘样本
+	Float rrSample; //俄罗斯罗盘样本
 };
 
 //计算直接光照的时候需要的MIS样本
 struct LightingSample {
 	BSDFSample bsdfSample; //BSDF样本
-	float lightNum; //光源NUM样本
+	Float lightNum; //光源NUM样本
 	LightSample lightSample; //光源样本
 };
 
@@ -40,8 +40,8 @@ struct MLTSample {
 	vector<LightingSample> lightingSamples; //用于相机路径下 计算直接光照的MIS样本
 
 //双向路径用参数
-	float lightNumSample; //用于选择光源NUM
-	float lightRaySamples[5]; //用于生成从光源射出的射线的样本
+	Float lightNumSample; //用于选择光源NUM
+	Float lightRaySamples[5]; //用于生成从光源射出的射线的样本
 	vector<PathSample> lightPathSamples; //LightPaht下的Path样本
 
 	MLTSample(int maxLength) {
@@ -53,18 +53,18 @@ struct MLTSample {
 
 class MLTTask: public Task {
 public:
-	MLTTask( unsigned int taskNum, float dx, float dy,
-			int xx0, int xx1, int yy0, int yy1, float bb, const MLTSample &is,
+	MLTTask( unsigned int taskNum, Float dx, Float dy,
+			int xx0, int xx1, int yy0, int yy1, Float bb, const MLTSample &is,
 			const Scene *sc, const Camera *c, MetropolisRenderer *renderer,
 			mutex *filmMutex, Distribution1D *lightDistribution);
 	void Run();
 
 private:
 	unsigned int  taskNum;
-	float dx, dy;
+	Float dx, dy;
 	int currentPixelSample;
 	int x0, x1, y0, y1;
-	float b;
+	Float b;
 	const MLTSample &initialSample;
 	const Scene *scene;
 	const Camera *camera;
@@ -74,8 +74,8 @@ private:
 };
 
 //突变模式1 :LargeStep 大突变，为了避免采样局限在整个状态空间的一小部分，同样的，没有实现对时间的采样
-static void LargeStep(Random &rng, MLTSample* sample, int maxDepth, float x,
-		float y, bool bidirectional) {
+static void LargeStep(Random &rng, MLTSample* sample, int maxDepth, Float x,
+		Float y, bool bidirectional) {
 	//突变相机sample
 	//image panel
 	sample->cameraSample.imageX = x;
@@ -118,17 +118,17 @@ static void LargeStep(Random &rng, MLTSample* sample, int maxDepth, float x,
 }
 
 //按照指数分布 生成一个样本
-static inline void mutate(Random& rng, float *v, float min = 0.0f, float max =
+static inline void mutate(Random& rng, Float *v, Float min = 0.0f, Float max =
 		1.0f) {
 	if (min == max) {
 		*v = min;
 		return;
 	}
 	//PBRT默认的突变范围 至于为啥是这个之间估计是实验得出的比较好的范围
-	float a = 1.0f / 1024.0f, b = 1.0f / 64.0f;
-	static const float logRatio = -logf(b / a);
+	Float a = 1.0f / 1024.0f, b = 1.0f / 64.0f;
+	static const Float logRatio = -logf(b / a);
 	//为什么要乘以(max-min) 我还没有理解
-	float delta = (max - min) * b * expf(logRatio * rng.RandomFloat());
+	Float delta = (max - min) * b * expf(logRatio * rng.RandomFloat());
 
 	if (rng.RandomFloat() < 0.5f) {
 		*v += delta;
@@ -223,7 +223,7 @@ static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
 		v.bsdf = bsdf;
 		v.wPrev = -ray.d;	//初始化顶点的前射线
 
-		float pdf;
+		Float pdf;
 		BxDFType flags;
 		//采样BSDF
 		RGB f = bsdf->Sample_f(-ray.d, &v.wNext, samples[length].bsdfSample,
@@ -240,7 +240,7 @@ static unsigned int GeneratePath(const RayDifferential& r, const RGB& palpha,
 		const Normal &n = bsdf->dgShading.nn;	//法线
 		//计算新的throughout
 		RGB pathScale = f * AbsDot(v.wNext, n) / pdf;
-		float rrSurviveProb = min(1.0f, pathScale.luminance());
+		Float rrSurviveProb = min(1.0f, pathScale.luminance());
 		//满足罗盘条件 终结
 		if (samples[length].rrSample > rrSurviveProb) {
 			return length + 1;
@@ -281,7 +281,7 @@ RGB MetropolisRenderer::LPath(const Scene *scene, const PathVertex *path,
 		//满足DirectLighting 没有处理的情况
 		if (mDirectLighting == nullptr || !allSpecular) {
 			const LightingSample &ls = samples[i];
-			float lightPdf;
+			Float lightPdf;
 			int lightNum = lightDistribution->SampleDiscrete(ls.lightNum,
 					&lightPdf);
 			const Light* light = scene->getLight(lightNum);			//获得采样后的光源
@@ -347,7 +347,7 @@ RGB MetropolisRenderer::LBidir(const Scene* scene, const PathVertex* cameraPath,
 		//满足DirectLighting 没有处理的情况
 		if (mDirectLighting == nullptr || !allSpecular) {
 			const LightingSample &ls = samples[i];
-			float lightPdf;
+			Float lightPdf;
 			int lightNum = lightDistribution->SampleDiscrete(ls.lightNum,
 					&lightPdf);
 			const Light* light = scene->getLight(lightNum);			//获得采样后的光源
@@ -382,9 +382,9 @@ RGB MetropolisRenderer::LBidir(const Scene* scene, const PathVertex* cameraPath,
 					Ray r(pc, pl - pc, 1e-3f, 0.999f);
 					//cameraPath和lightPath之间没有阻挡
 					if (!scene->IntersectP(r)) {
-						float pathWt = 1.0f
+						Float pathWt = 1.0f
 								/ (i + j + 2 - nSpecularVertices[i + j + 2]);
-						float G = AbsDot(nc, w) * AbsDot(nl, w)
+						Float G = AbsDot(nc, w) * AbsDot(nl, w)
 								/ DistanceSqr(pl, pc);
 						L += (vc.alpha * fc * G * fl * vl.alpha) * pathWt;//BPT公式
 					}
@@ -408,7 +408,7 @@ RGB MetropolisRenderer::PathL(const MLTSample &sample, const Scene*scene,
 		PathVertex* lightPath, Random& rng) const {
 	RayDifferential cameraRay;
 	//生成射线
-	float cameraWt = camera->GenerateRayDifferential(sample.cameraSample,
+	Float cameraWt = camera->GenerateRayDifferential(sample.cameraSample,
 			&cameraRay);
 	cameraRay.ScaleDifferentials(1.0f / sqrtf(mNumPixelSamples));
 
@@ -423,7 +423,7 @@ RGB MetropolisRenderer::PathL(const MLTSample &sample, const Scene*scene,
 				sample.lightingSamples, rng, lightDistribution, escapedRay,
 				escapedAlpha);
 	} else {
-		float lightPdf, lightRayPdf;
+		Float lightPdf, lightRayPdf;
 		//采样光源
 		unsigned int lightNum = lightDistribution->SampleDiscrete(
 				sample.lightNumSample, &lightPdf);
@@ -455,12 +455,12 @@ RGB MetropolisRenderer::PathL(const MLTSample &sample, const Scene*scene,
 }
 
 MetropolisRenderer::MetropolisRenderer(int perPixelSamples, int nBootstrap,
-		int directPixelSamples, float lsp, bool doDirectSeparately,
+		int directPixelSamples, Float lsp, bool doDirectSeparately,
 		int maxConsecutiveRejects, int maxDepth, Camera *c,
 		bool doBidirectional) {
 	mCamera = c;
 	mNumPixelSamples = perPixelSamples;
-	float largeStepProbability = lsp;
+	Float largeStepProbability = lsp;
 	mLargeStepsPerPixel = max(1u,
 			RoundUpPow2(largeStepProbability * mNumPixelSamples));
 	if (mLargeStepsPerPixel >= mNumPixelSamples)
@@ -490,7 +490,7 @@ MetropolisRenderer::~MetropolisRenderer() {
 	delete mDirectLighting;*/
 }
 
-inline float I(const RGB &L) {
+inline Float I(const RGB &L) {
 	return L.luminance();
 }
 
@@ -532,38 +532,38 @@ void MetropolisRenderer::render(const Scene *scene) {
 		//开始计算init sample
 		Random rng(0);
 		MemoryArena arena;
-		vector<float> bootstrapI;
+		vector<Float> bootstrapI;
 		vector<PathVertex> cameraPath(mMaxDepth, PathVertex());
 		vector<PathVertex> lightPath(mMaxDepth, PathVertex());
-		float sumI = 0.0f;
+		Float sumI = 0.0f;
 		bootstrapI.reserve(mNumBootstrap);
 		MLTSample sample(mMaxDepth);
 		//随机采样整个场景
 		for (unsigned int i = 0; i < mNumBootstrap; ++i) {
-			float x = Lerp(rng.RandomFloat(), x0, x1);
-			float y = Lerp(rng.RandomFloat(), y0, y1);
+			Float x = Lerp(rng.RandomFloat(), x0, x1);
+			Float y = Lerp(rng.RandomFloat(), y0, y1);
 			LargeStep(rng, &sample, mMaxDepth, x, y, mBidirectional);
 			RGB L = PathL(sample, scene, arena, mCamera, lightDistribution,
 					&cameraPath[0], &lightPath[0], rng);
 			//cout << L.r << " " << L.g << " " << L.b << " " << endl;
 //计算样本的贡献
-			float I = ::I(L);
+			Float I = ::I(L);
 			sumI += I;
 			bootstrapI.push_back(I);
 			arena.FreeAll();
 		}
-		float b = sumI / mNumBootstrap;	//计算得B
+		Float b = sumI / mNumBootstrap;	//计算得B
 		printf("MLT computed b = %f", b);
 
 		//开始选择init sample
-		float contribOffset = rng.RandomFloat() * sumI;
+		Float contribOffset = rng.RandomFloat() * sumI;
 		rng.Seed(0);
 		sumI = 0.0f;
 		MLTSample initialSample(mMaxDepth);
 		//通过模拟前面计算积分的方式，获得initSample
 		for (unsigned int i = 0; i < mNumBootstrap; ++i) {
-			float x = Lerp(rng.RandomFloat(), x0, x1);
-			float y = Lerp(rng.RandomFloat(), y0, y1);
+			Float x = Lerp(rng.RandomFloat(), x0, x1);
+			Float y = Lerp(rng.RandomFloat(), y0, y1);
 			LargeStep(rng, &initialSample, mMaxDepth, x, y, mBidirectional);
 			sumI += bootstrapI[i];
 			if (sumI > contribOffset)
@@ -581,7 +581,7 @@ void MetropolisRenderer::render(const Scene *scene) {
 		unsigned int scramble[2] = { rng.RandomUInt(), rng.RandomUInt() };
 		unsigned int pfreq = (x1 - x0) * (y1 - y0);
 		for (unsigned int i = 0; i < nTasks; ++i) {
-			float d[2];
+			Float d[2];
 			Sample02(i, scramble, d);
 			tasks.push_back(
 					new MLTTask( i, d[0], d[1], x0, x1, y0, y1, b,
@@ -615,8 +615,8 @@ RGB MetropolisRenderer::Li(const Scene *scene, const RayDifferential &ray,
 	return Lo;
 }
 
-MLTTask::MLTTask(uint32_t tn, float ddx, float ddy, int xx0,
-		int xx1, int yy0, int yy1, float bb, const MLTSample &is,
+MLTTask::MLTTask(uint32_t tn, Float ddx, Float ddy, int xx0,
+		int xx1, int yy0, int yy1, Float bb, const MLTSample &is,
 		const Scene *sc, const Camera *c, MetropolisRenderer *ren, mutex *fm,
 		Distribution1D *ld) :
 		initialSample(is) {
@@ -649,7 +649,7 @@ void MLTTask::Run() {
 	vector<PathVertex> lightPath(renderer->mMaxDepth, PathVertex());
 	vector<MLTSample> samples(2, MLTSample(renderer->mMaxDepth));
 	RGB L[2];
-	float I[2];
+	Float I[2];
 	unsigned int current = 0;
 	unsigned int proposed = 1;
 	samples[current] = initialSample;
@@ -686,7 +686,7 @@ void MLTTask::Run() {
 		I[proposed] = ::I(L[proposed]);
 		arena.FreeAll();
 		//计算接受概率
-		float a = min(1.f, I[proposed] / I[current]);
+		Float a = min(1.f, I[proposed] / I[current]);
 		if (I[current] > 0.0f) {
 			if (!isinf(1.0f / I[current])) {
 				RGB contrib = (b / nPixelSamples) * L[current] / I[current];

@@ -13,8 +13,8 @@
 
 class BoxFilter:public Filter{
 public:
-	BoxFilter(float xw,float yw):Filter(xw,yw){}
-	virtual float Evaluate(float x,float y) const override{
+	BoxFilter(Float xw,Float yw):Filter(xw,yw){}
+	virtual Float Evaluate(Float x,Float y) const override{
 		return 1.0f;
 	}
 };

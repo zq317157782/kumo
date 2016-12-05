@@ -13,8 +13,8 @@ public:
 	Transform cameraToWorld;
 public:
 	Camera(const Transform& c2w, Film * f);
-	virtual float GenerateRay(const CameraSample &sample, Ray *ray) const = 0;
-	virtual float GenerateRayDifferential(const CameraSample &sample,
+	virtual Float GenerateRay(const CameraSample &sample, Ray *ray) const = 0;
+	virtual Float GenerateRayDifferential(const CameraSample &sample,
 			RayDifferential *rd) const;
 
 	virtual ~Camera() {
@@ -27,10 +27,10 @@ protected:
 	/*4个变换矩阵*/
 	Transform CameraToScreen, RasterToCamera;
 	Transform ScreenToRaster, RasterToScreen;
-	float lensRadius, focalDistance;//镜片半径,焦距
+	Float lensRadius, focalDistance;//镜片半径,焦距
 public:
 	ProjectiveCamera(const Transform& c2w, const Transform& proj,
-			const float screenWindow[4], float lensr, float focald, Film * f);
+			const Float screenWindow[4], Float lensr, Float focald, Film * f);
 };
 
 #endif //RAYTRACER_CAMERA_H

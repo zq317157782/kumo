@@ -8,7 +8,7 @@
 #include "sampler.h"
 #include "montecarlo.h"
 PerspectiveCamera::PerspectiveCamera(const Transform& c2w,
-		const float screenWindow[4], float lensr, float focald, float fov,
+		const Float screenWindow[4], Float lensr, Float focald, Float fov,
 		Film * f) :
 		ProjectiveCamera(c2w, Perspective(fov, 1e-2f, 1000.f), screenWindow,
 				lensr, focald, f) {
@@ -16,19 +16,19 @@ PerspectiveCamera::PerspectiveCamera(const Transform& c2w,
 	dyCamera = RasterToCamera(Point(0, 1, 0)) - RasterToCamera(Point(0, 0, 0));
 }
 
-float PerspectiveCamera::GenerateRay(const CameraSample &sample,
+Float PerspectiveCamera::GenerateRay(const CameraSample &sample,
 		Ray *ray) const {
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCam;
 	RasterToCamera(pRas, &pCam);
 	*ray = Ray(Point(0, 0, 0), Normalize(Vector(pCam)), 0.f, INFINITY);
 	if (lensRadius > 0.0) {
-		float lensU, lensV;
+		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV);
 		lensU *= lensRadius;
 		lensV *= lensRadius;
 
-		float ft = focalDistance / ray->d.z;
+		Float ft = focalDistance / ray->d.z;
 		Point pFocus = (*ray)(ft);
 
 		ray->o = Point(lensU, lensV, 0.0f);
@@ -38,7 +38,7 @@ float PerspectiveCamera::GenerateRay(const CameraSample &sample,
 	return 1.0f;
 }
 
-float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
+Float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
 		RayDifferential *ray) const {
 	Point pRas(sample.imageX, sample.imageY, 0);
 	Point pCamera;
@@ -46,12 +46,12 @@ float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
 	Vector dir = Normalize(Vector(pCamera.x, pCamera.y, pCamera.z));
 	*ray = RayDifferential(Point(0, 0, 0), dir, 0.f, INFINITY);
 	if (lensRadius > 0.0) {
-		float lensU, lensV;
+		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV);
 		lensU *= lensRadius;
 		lensV *= lensRadius;
 
-		float ft = focalDistance / ray->d.z;
+		Float ft = focalDistance / ray->d.z;
 		Point Pfocus = (*ray)(ft);
 
 		ray->o = Point(lensU, lensV, 0.0f);
@@ -59,13 +59,13 @@ float PerspectiveCamera::GenerateRayDifferential(const CameraSample &sample,
 	}
 
 	if (lensRadius > 0.0f) {
-		float lensU, lensV;
+		Float lensU, lensV;
 		ConcentricSampleDisk(sample.lensU, sample.lensV, &lensU, &lensV);
 		lensU *= lensRadius;
 		lensV *= lensRadius;
 
 		Vector dx = Normalize(Vector(pCamera + dxCamera));
-		float ft = focalDistance / dx.z;//参数焦点
+		Float ft = focalDistance / dx.z;//参数焦点
 		Point pFocus = Point(0, 0, 0) + (ft * dx);//焦点
 		ray->rxOrigin = Point(lensU, lensV, 0.0f);
 		ray->rxDirection = Normalize(pFocus - ray->rxOrigin);

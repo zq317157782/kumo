@@ -40,10 +40,10 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 	MemoryArena arena;
 	Random random;
 
-	vector<float> lightNum(mNumLightPaths * mNumLightSets); //选择光源的样本
-	vector<float> lightSampPos(2 * mNumLightPaths * mNumLightSets, 0.f); //光源位置样本,u,v两个
-	vector<float> lightSampComp(mNumLightPaths * mNumLightSets, 0.f); //光源Comp样本
-	vector<float> lightSampDir(2 * mNumLightPaths * mNumLightSets, 0.f);
+	vector<Float> lightNum(mNumLightPaths * mNumLightSets); //选择光源的样本
+	vector<Float> lightSampPos(2 * mNumLightPaths * mNumLightSets, 0.f); //光源位置样本,u,v两个
+	vector<Float> lightSampComp(mNumLightPaths * mNumLightSets, 0.f); //光源Comp样本
+	vector<Float> lightSampDir(2 * mNumLightPaths * mNumLightSets, 0.f);
 	LDShuffleScrambled1D(mNumLightPaths, mNumLightSets, &lightNum[0], random); //采样光源NO 一维
 	LDShuffleScrambled2D(mNumLightPaths, mNumLightSets, &lightSampPos[0],
 			random); //采样光源位置 二维
@@ -56,12 +56,12 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 	for (int s = 0; s < mNumLightSets; ++s) {
 		for (int i = 0; i < mNumLightPaths; ++i) {
 			int sampOffset = mNumLightPaths * s + i; //样本的offset
-			float lightPdf; //选取莫个光源的PDF
+			Float lightPdf; //选取莫个光源的PDF
 			int ln = lightDistribution->SampleDiscrete(lightNum[1], &lightPdf);
 			Light* light = scene->getLight(ln); //获得光源
 			//采样射线
 			RayDifferential ray;
-			float pdf;
+			Float pdf;
 			LightSample ls(lightSampPos[2 * sampOffset],
 					lightSampPos[2 * sampOffset + 1],
 					lightSampComp[sampOffset]);
@@ -88,7 +88,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 								isect.rayEpsilon));
 				//开始采样新的射线
 				Vector wi;
-				float pdf;
+				Float pdf;
 				BSDFSample bsdfSample(random);
 				RGB fr = bsdf->Sample_f(wo, &wi, bsdfSample, &pdf);
 				//如果BRDF没有贡献，光源路径就结束了
@@ -96,7 +96,7 @@ void IGIIntegrator::Preprocess(const Scene *scene, const Camera *camera,
 					break;
 				RGB contribScale = fr * AbsDot(wi, bsdf->dgShading.nn) / pdf;
 				//俄罗斯转盘继续概率
-				float rrProb = min(1.f, contribScale.luminance());
+				Float rrProb = min(1.f, contribScale.luminance());
 				if (random.RandomFloat() > rrProb)
 					break;
 
@@ -131,9 +131,9 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 	//遍历虚拟光源
 	for (unsigned int i = 0; i < mVirtualLights[lSet].size(); ++i) {
 		const VirtualLight &vl = mVirtualLights[lSet][i];
-		float d2 = DistanceSqr(p, vl.p);
+		Float d2 = DistanceSqr(p, vl.p);
 		Vector wi = Normalize(vl.p - p); //入射方向
-		float G = AbsDot(wi, nl) * AbsDot(wi, vl.n) / d2;
+		Float G = AbsDot(wi, nl) * AbsDot(wi, vl.n) / d2;
 		G = min(G, mGeoLimit);
 		RGB f = bsdf->f(wo, wi); //采样BRDF
 		if (G == 0.f || f.IsBlack())
@@ -144,7 +144,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		//Llight *= renderer->Transmittance(scene, connectRay, NULL, rng, arena);
 		//一定概率跳过贡献低的光源
 		if (Llight.luminance() < mRrThreshold) {
-			float continueProbability = 0.1f;
+			Float continueProbability = 0.1f;
 			if (rnd.RandomFloat() > continueProbability)
 				continue;
 			Llight = Llight / continueProbability;		//RR补正
@@ -159,7 +159,7 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 		int nSamples = (r.depth == 0) ? mNumGatherSamples : 1;	//根据射线的深度来判断使用多少的样本
 		for (int i = 0; i < nSamples; ++i) {
 			Vector wi;
-			float pdf;
+			Float pdf;
 			BSDFSample bsdfSample =
 					(r.depth == 0) ?
 							BSDFSample(sample, gatherSampleOffset, i) :
@@ -167,17 +167,17 @@ RGB IGIIntegrator::Li(const Scene *scene, const Renderer *renderer,
 			RGB f = bsdf->Sample_f(wo, &wi, bsdfSample, &pdf,
 					BxDFType(BSDF_ALL & ~BSDF_SPECULAR)); //采样BSDF
 			if (!f.IsBlack() && pdf > 0.f) {
-				float maxDist = sqrtf(AbsDot(wi, nl) /mGeoLimit);//射线最大距离
+				Float maxDist = sqrtf(AbsDot(wi, nl) /mGeoLimit);//射线最大距离
 				RayDifferential gatherRay(p, wi, r, isect.rayEpsilon,maxDist);
 				Intersection gatherIsect;
 				RGB Li = renderer->Li(scene, gatherRay, sample, rnd, arena,&gatherIsect);
 				if (Li.IsBlack())
 					continue;
 				//加入补偿
-				float Ggather = AbsDot(wi, nl) * AbsDot(-wi, gatherIsect.dg.nn)
+				Float Ggather = AbsDot(wi, nl) * AbsDot(-wi, gatherIsect.dg.nn)
 						/ DistanceSqr(p, gatherIsect.dg.p);
 				if (Ggather - mGeoLimit > 0.f && !isinf(Ggather)) {
-					float gs = (Ggather - mGeoLimit) / Ggather;
+					Float gs = (Ggather - mGeoLimit) / Ggather;
 					L += f * Li * (AbsDot(wi, nl) * gs / (nSamples * pdf));
 				}
 			}

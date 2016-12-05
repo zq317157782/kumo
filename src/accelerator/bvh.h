@@ -52,12 +52,12 @@ struct BVHBuildNode {
 };
 
 struct CompareToMid {
-	CompareToMid(int d, float m) {
+	CompareToMid(int d, Float m) {
 		dim = d;
 		mid = m;
 	}
 	int dim;
-	float mid;
+	Float mid;
 	bool operator()(const BVHPrimitiveInfo &a) const {
 		return a.centroid[dim] < mid;
 	}

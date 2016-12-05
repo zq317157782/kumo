@@ -20,7 +20,7 @@ public:
 	virtual int RoundSize(int size) const override;
 private:
     int xPos, yPos, nSamples;
-    float *imageSamples, *lensSamples;
+    Float *imageSamples, *lensSamples;
     int samplePos;
 };
 

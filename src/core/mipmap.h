@@ -24,33 +24,33 @@ template<typename T>
 class MIPMap {
 private:
 	bool mDoTrilinear; //三线性采样
-	float mMaxAnisotropy; //各项异性相关
+	Float mMaxAnisotropy; //各项异性相关
 	ImageWrap mWrapMode; //包装模式
 	unsigned int mWidth, mHeight, mNumLevels;
 	BlockedArray<T, 2> **mPyramid;
 	//用来记录每个新的texel相应的旧的texel的权重
 	struct ResampleWeight {
 		int firstTexel;
-		float weight[4];
+		Float weight[4];
 	};
 
 	//返回一个权重数组 默认使用BOX Filter
 	ResampleWeight *resampleWeights(unsigned int oldres, unsigned int newres) {
 		assert(newres >= oldres);
 		ResampleWeight *wt = new ResampleWeight[newres]; //生成相应的权重数组
-		float filterwidth = 2.0f; //BOX过滤器的Range
+		Float filterwidth = 2.0f; //BOX过滤器的Range
 		//计算新的texel的权重
 		for (unsigned int i = 0; i < newres; ++i) {
-			float center = (i + 0.5f) * oldres / newres;//计算新的texel在旧环境下的位置(example: i==0说明新texel在连续空间中的位置是0.5,所以要加0.5)
+			Float center = (i + 0.5f) * oldres / newres;//计算新的texel在旧环境下的位置(example: i==0说明新texel在连续空间中的位置是0.5,所以要加0.5)
 			//找到第一个旧texel,这里加0.5是因为一个只有filter的range超过这个texel的一半才能算采样到这个texel,所以加0.5来修正FloorToInt
 			wt[i].firstTexel = Floor2Int((center - filterwidth) + 0.5f);
 			//开始计算权重
 			for (int j = 0; j < 4; ++j) {
-				float pos = wt[i].firstTexel + j + 0.5f;//计算4个旧texel在连续空间中的位置
+				Float pos = wt[i].firstTexel + j + 0.5f;//计算4个旧texel在连续空间中的位置
 				wt[i].weight[j] = Lanczos((pos - center) / filterwidth, 2);	//计算权重
 			}
 			//下面是标准化权重，为了不让新生成的图像比原图暗或者亮
-			float invSumWts = 1.f
+			Float invSumWts = 1.f
 					/ (wt[i].weight[0] + wt[i].weight[1] + wt[i].weight[2]
 							+ wt[i].weight[3]);
 			for (unsigned int j = 0; j < 4; ++j)
@@ -60,9 +60,9 @@ private:
 	}
 
 	//三角过滤
-	T triangle(unsigned int level, float s, float t) const;
+	T triangle(unsigned int level, Float s, Float t) const;
 
-	float clamp(float v) {
+	Float clamp(Float v) {
 		return Clamp(v, 0.f, INFINITY);
 	}
 	//TODO 这里RGB没有Clamp函数
@@ -75,14 +75,14 @@ public:
 		mWidth = mHeight = mNumLevels = 0;
 	}
 	MIPMap(unsigned int sres, unsigned int tres, const T *img, bool doTri,
-			float maxAniso, ImageWrap wm);
+			Float maxAniso, ImageWrap wm);
 
 	//获取某一个Mip_map层级中的某个texel的值
 	const T &Texel(unsigned int level, int s, int t) const;
 
-	T Lookup(float s, float t, float width = 0.f) const;			//纹理查询函数
-	T Lookup(float s, float t, float ds0, float dt0, float ds1,
-			float dt1) const;
+	T Lookup(Float s, Float t, Float width = 0.f) const;			//纹理查询函数
+	T Lookup(Float s, Float t, Float ds0, Float dt0, Float ds1,
+			Float dt1) const;
 
 	unsigned int Width() const {
 		return mWidth;
@@ -98,7 +98,7 @@ public:
 
 template<typename T>
 MIPMap<T>::MIPMap(unsigned int sres, unsigned int tres, const T *img,
-		bool doTri, float maxAniso, ImageWrap wm) {
+		bool doTri, Float maxAniso, ImageWrap wm) {
 	mMaxAnisotropy = maxAniso;
 	mDoTrilinear = doTri;
 	mWrapMode = wm;
@@ -165,7 +165,7 @@ MIPMap<T>::MIPMap(unsigned int sres, unsigned int tres, const T *img,
 	mWidth = sres;
 	mHeight = tres;
 	//计算实际的mip-map层数
-	mNumLevels = 1 + Log2Int(float(max(sres, tres)));
+	mNumLevels = 1 + Log2Int(Float(max(sres, tres)));
 	mPyramid = new BlockedArray<T, 2> *[mNumLevels];	//创建一个存放所有MipMap金字塔的二位数组
 
 	mPyramid[0] = new BlockedArray<T, 2>(sres, tres, img);	//第一层
@@ -211,12 +211,12 @@ const T & MIPMap<T>::Texel(unsigned int level, int s, int t) const {
 }
 
 template<typename T>
-T MIPMap<T>::triangle(unsigned int level, float s, float t) const {
+T MIPMap<T>::triangle(unsigned int level, Float s, Float t) const {
 	level = Clamp(level, 0, mNumLevels - 1);	//保证level的范围
 	s = s * mPyramid[level]->uSize() - 0.5f;	//相应的在连续空间中的地址
 	t = t * mPyramid[level]->vSize() - 0.5f;
 	int s0 = Floor2Int(s), t0 = Floor2Int(t);	//前一个texel的索引
-	float ds = s - s0, dt = t - t0;	//计算和前一个texel之间的距离
+	Float ds = s - s0, dt = t - t0;	//计算和前一个texel之间的距离
 	//运用三角过滤
 	return (1.f - ds) * (1.f - dt) * Texel(level, s0, t0)
 			+ (1.f - ds) * dt * Texel(level, s0, t0 + 1)
@@ -227,15 +227,15 @@ T MIPMap<T>::triangle(unsigned int level, float s, float t) const {
 //纹理查询
 //width 0~1之间
 template<typename T>
-T MIPMap<T>::Lookup(float s, float t, float width) const {
-	float level = mNumLevels - 1 + Log2(max(width, 1e-8f));
+T MIPMap<T>::Lookup(Float s, Float t, Float width) const {
+	Float level = mNumLevels - 1 + Log2(max(width, 1e-8f));
 	if (level < 0)
 		return triangle(0, s, t);
 	else if (level >= mNumLevels - 1)
 		return Texel(mNumLevels - 1, 0, 0);
 	else {
 		uint32_t iLevel = Floor2Int(level);
-		float delta = level - iLevel;
+		Float delta = level - iLevel;
 		//两层mipmap之间按照权重混合
 		return (1.f - delta) * triangle(iLevel, s, t)
 				+ delta * triangle(iLevel + 1, s, t);
@@ -243,8 +243,8 @@ T MIPMap<T>::Lookup(float s, float t, float width) const {
 }
 
 template<typename T>
-T MIPMap<T>::Lookup(float s, float t, float ds0, float dt0, float ds1,
-		float dt1) const {
+T MIPMap<T>::Lookup(Float s, Float t, Float ds0, Float dt0, Float ds1,
+		Float dt1) const {
 	if (mDoTrilinear) {
 		T val = Lookup(s, t,
 				2.0f* max(max(fabsf(ds0), fabsf(dt0)),max(fabsf(ds1), fabsf(dt1))));

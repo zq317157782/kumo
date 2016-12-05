@@ -29,9 +29,9 @@ void Random::Seed(unsigned int seed) const {
 
 
 /* generates a random number on [0,1)-real-interval */
-float Random::RandomFloat() const
+Float Random::RandomFloat() const
 {
-    float v = (RandomUInt() & 0xffffff) / float(1 << 24);
+    Float v = (RandomUInt() & 0xffffff) / Float(1 << 24);
     return v;
 }
 

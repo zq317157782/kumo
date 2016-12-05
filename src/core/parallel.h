@@ -67,7 +67,7 @@ static void progress() {
 			cout << "kill progress thread" << endl;
 			break;
 		}
-		cout << "[" << ((float) (numMaxTasks - numUnfinishedTasks) / numMaxTasks) * 100
+		cout << "[" << ((Float) (numMaxTasks - numUnfinishedTasks) / numMaxTasks) * 100
 				<< "%] active cores:" << active_core <<"tasks:"<<numUnfinishedTasks<< endl;
 		this_thread::sleep_for(chrono::seconds(1));
 	}

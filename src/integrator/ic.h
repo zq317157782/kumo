@@ -21,25 +21,25 @@ private:
 	LightSampleOffsets *mLightSampleOffsets;
 	BSDFSampleOffsets *mBsdfSampleOffsets;
 	mutable Octree<IrradianceSample *> *mOctree;
-	float mMinWeight; //
+	Float mMinWeight; //
 	int mMaxSpecularDepth; //最大镜面反射深度
-	float mCosMaxSampleAngleDifference;
-	float mMaxIndirectDepth; //最大间接反射深度
+	Float mCosMaxSampleAngleDifference;
+	Float mMaxIndirectDepth; //最大间接反射深度
 	unsigned int mNumSample;
-	float minSamplePixelSpacing;
-	float maxSamplePixelSpacing;
+	Float minSamplePixelSpacing;
+	Float maxSamplePixelSpacing;
 
 	//irradiance 插值
 	bool interpolateE(const Scene *scene, const Point &p, const Normal &n,
 			RGB *E, Vector *wi) const;
 	RGB pathL(Ray &r, const Scene *scene, const Renderer *renderer, Random &rng,
 			MemoryArena &arena) const;
-	RGB indirectLo(const Point &p, const Normal &ng, float pixelSpacing,
-			const Vector &wo, float rayEpsilon, BSDF *bsdf, BxDFType flags,
+	RGB indirectLo(const Point &p, const Normal &ng, Float pixelSpacing,
+			const Vector &wo, Float rayEpsilon, BSDF *bsdf, BxDFType flags,
 			Random &rng, const Scene *scene, const Renderer *renderer,
 			MemoryArena &arena) const;
 public:
-	IrradianceCacheIntegrator(float mw, float minsp, float maxsp, float maxang,
+	IrradianceCacheIntegrator(Float mw, Float minsp, Float maxsp, Float maxang,
 			int msd, int maxind, unsigned int ns) {
 		mMinWeight = mw;
 		mMaxSpecularDepth = msd;

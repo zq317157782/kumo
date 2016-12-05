@@ -12,7 +12,7 @@ BSDF * Grass::GetBSDF(const DifferentialGeometry &dgGeom,
 				const DifferentialGeometry &dgShading, MemoryArena &arena) const{
 	 DifferentialGeometry dgs;
 	 dgs = dgShading;
-	 float ior = mIndex->Evaluate(dgs);//材质折射率
+	 Float ior = mIndex->Evaluate(dgs);//材质折射率
 	 BSDF *bsdf = BSDF_ALLOC(arena, BSDF)(dgs, dgGeom.nn, ior);
 	 RGB R = Clamp(mKr->Evaluate(dgs),0,1);
 	 RGB T = Clamp(mKt->Evaluate(dgs),0,1);

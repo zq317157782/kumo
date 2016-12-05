@@ -20,9 +20,9 @@ protected:
 public:
 	const int numSamples;
 	Light(const Transform& l2w, int nsample = 1);
-	virtual RGB Sample_L(const Point &p, float pEpsilon, const LightSample &ls,
-			Vector *wi, float *pdf, VisibilityTester *vis) const = 0; //返回辐射照度
-	virtual float Pdf(const Point &p, const Vector &wi) const = 0;//返回在p点向wi射出的光线的pdf
+	virtual RGB Sample_L(const Point &p, Float pEpsilon, const LightSample &ls,
+			Vector *wi, Float *pdf, VisibilityTester *vis) const = 0; //返回辐射照度
+	virtual Float Pdf(const Point &p, const Vector &wi) const = 0;//返回在p点向wi射出的光线的pdf
 	virtual bool IsDeltaLight() const = 0;
 	virtual RGB Le(const RayDifferential &r) const;
 	virtual RGB Power(const Scene* scene) const=0; //返回光源产生的辐射通量
@@ -30,17 +30,17 @@ public:
 	}
 
 	virtual RGB Sample_L(const Scene *scene, const LightSample &ls,
-	                              float u1, float u2,Ray *ray,
-	                              Normal *Ns, float *pdf) const = 0;
+	                              Float u1, Float u2,Ray *ray,
+	                              Normal *Ns, Float *pdf) const = 0;
 };
 
 //用来判断两个点之间是否有遮挡，或者射线是否与中间图元相交
 struct VisibilityTester {
-	void SetSegment(const Point &p1, float eps1, const Point &p2, float eps2) {
-		float dist = Distance(p1, p2);
+	void SetSegment(const Point &p1, Float eps1, const Point &p2, Float eps2) {
+		Float dist = Distance(p1, p2);
 		r = Ray(p1, (p2 - p1) / dist, eps1, dist * (1.f - eps2));
 	}
-	void SetRay(const Point &p, float eps, const Vector &w) {
+	void SetRay(const Point &p, Float eps, const Vector &w) {
 		r = Ray(p, w, eps, INFINITY);
 	}
 	bool Unoccluded(const Scene *scene) const;
@@ -49,8 +49,8 @@ struct VisibilityTester {
 
 //用来采样光源的样本
 struct LightSample {
-	float uPos[2];
-	float uComponent;
+	Float uPos[2];
+	Float uComponent;
 	LightSample() {
 	}
 	LightSample(const Sample *sample, const LightSampleOffsets &offsets,
@@ -60,7 +60,7 @@ struct LightSample {
 		uPos[1] = rand.RandomFloat();
 		uComponent = rand.RandomFloat();
 	}
-	LightSample(float u1, float u2, float ucomp) {
+	LightSample(Float u1, Float u2, Float ucomp) {
 		uPos[0] = u1;
 		uPos[1] = u2;
 		uComponent = ucomp;

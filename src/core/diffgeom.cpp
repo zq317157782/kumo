@@ -7,8 +7,8 @@
 #include "transform.h"
 
 DifferentialGeometry::DifferentialGeometry(const Point &P, const Vector &DPDU,
-		const Vector &DPDV, const Normal &DNDU, const Normal &DNDV, float uu,
-		float vv, const Shape *sh) :
+		const Vector &DPDV, const Normal &DNDU, const Normal &DNDV, Float uu,
+		Float vv, const Shape *sh) :
 		p(P), dpdu(DPDU), dpdv(DPDV), dndu(DNDU), dndv(DNDV) {
 	// Initialize _DifferentialGeometry_ from parameters
 	nn = Normal(Normalize(Cross(dpdu, dpdv)));
@@ -29,14 +29,14 @@ void DifferentialGeometry::ComputeDifferentials(
 		//计算主射线交点处的 切平面
 		//然后计算  辅助射线与切平面的交点，辅助交点
 		//辅助交点和原交点的差可以近似成 偏导
-		float d = -Dot(nn, Vector(p.x, p.y, p.z));
+		Float d = -Dot(nn, Vector(p.x, p.y, p.z));
 		Vector rxv(r.rxOrigin.x, r.rxOrigin.y, r.rxOrigin.z);
-		float tx = -(Dot(nn, rxv) + d) / Dot(nn, r.rxDirection);
+		Float tx = -(Dot(nn, rxv) + d) / Dot(nn, r.rxDirection);
 		if (isnan(tx))
 			goto fail;
 		Point px = r.rxOrigin + tx * r.rxDirection;
 		Vector ryv(r.ryOrigin.x, r.ryOrigin.y, r.ryOrigin.z);
-		float ty = -(Dot(nn, ryv) + d) / Dot(nn, r.ryDirection);
+		Float ty = -(Dot(nn, ryv) + d) / Dot(nn, r.ryDirection);
 		if (isnan(ty))
 			goto fail;
 		Point py = r.ryOrigin + ty * r.ryDirection;
@@ -45,7 +45,7 @@ void DifferentialGeometry::ComputeDifferentials(
 
 
 		//开始求解dudx,dudy,dvdx,dvdy  公式 P.508
-		float A[2][2], Bx[2], By[2];
+		Float A[2][2], Bx[2], By[2];
 		int axes[2];
 
 		//这里的代码是用来确定哪一行是退化的，退化意味着线性相关，参与运算的话 行列式为0，不可逆，无法求解
