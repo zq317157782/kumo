@@ -9,7 +9,7 @@
 #define CORE_PARALLEL_H_
 #include <kumo.h>
 //并行相关
-#define CORE_NUM 4
+#define CORE_NUM 1
 
 static int active_core = CORE_NUM;
 

@@ -91,6 +91,152 @@ struct BSDFSampleOffsets;
 struct Distribution1D;
 class RWMutex; //读写锁
 template<typename T> class MIPMap; //纹理
+
+
+//float类型相应的IEEE标准的BIT格式
+//最高位是符号位，然后8位是指数,接下来23位是值，
+//指数为0的时候没有默认最高位的1
+//指数为255的时候，值为0则为无穷大，值不为0则为NaN
+inline uint32_t FloatToBits(float f) {
+	Assert(!std::isnan(f));
+	uint32_t bits = 0;
+	std::memcpy(&bits, &f, sizeof(float));
+	return bits;
+}
+//从BIT形式转换会float类型
+inline float BitsToFloat(uint32_t bits) {
+	float f = 0;
+	std::memcpy(&f, &bits, sizeof(uint32_t));
+	return f;
+}
+
+//double版本的 FloatToBits
+inline uint64_t FloatToBits(double d) {
+	Assert(!std::isnan(d));
+	uint64_t bits = 0;
+	std::memcpy(&bits, &d, sizeof(double));
+	return d;
+}
+
+inline double BitsToFloat(uint64_t bits) {
+	double d = 0;
+	std::memcpy(&d, &bits, sizeof(uint64_t));
+	return d;
+}
+
+//获取下一个大于本float变量的float变量
+//1.先判断是否是无限值，是的话直接返回
+//2.如果是负0的话，先转换成正0，因为下面的比较需要0是一个正0
+//3.转换成BIT形式，并且比较BIT是否大于0，大于++，小于--
+//4.再度转换回float，并且返回
+inline float NextFloatUp(float f) {
+	Assert(!std::isnan(f));
+	if (isinf(f) && f > 0.0f)
+		return f;
+	if (f == -0.0f)
+		f = 0.0f;
+	uint32_t bits = FloatToBits(f);
+	if (f >= 0)
+		++bits;
+	else
+		--bits;
+	return BitsToFloat(bits);
+}
+
+//获取下一个小于本float变量的float变量
+inline float NextFloatDown(float f) {
+	Assert(!std::isnan(f));
+	if (isinf(f) && f < 0.0f)
+		return f;
+	if (f == 0.0f)
+		f = -0.0f;
+	uint32_t bits = FloatToBits(f);
+	if (f > 0)
+		--bits;
+	else
+		++bits;
+	return BitsToFloat(bits);
+}
+
+inline double NextFloatUp(double d, int delta = 1) {
+	Assert(!std::isnan(d));
+	if (isinf(d) && d > 0.0)
+		return d;
+	if (d == -0.0)
+		d = 0.0;
+	uint64_t bits = FloatToBits(d);
+	if (d >= 0)
+		bits += delta;
+	else
+		bits -= delta;
+	return BitsToFloat(bits);
+}
+
+inline double NextFloatDown(double d, int delta = 1) {
+	Assert(!std::isnan(d));
+	if (isinf(d) && d < 0.0)
+		return d;
+	if (d == 0.0)
+		d = -0.0;
+	uint64_t bits = FloatToBits(d);
+	if (d > 0)
+		bits -= delta;
+	else
+		bits += delta;
+	return BitsToFloat(bits);
+}
+
+//这个MachineEpsion是数值分析下的MachineEpsion；为2的-24次方；
+//C++标准库提供的Epsion是大于1的ULP，为2的-23次方
+//所以需要再除以2
+static constexpr Float MachineEpsion = 0.5f
+		* std::numeric_limits<Float>::epsilon();
+
+//这个gamma不是用来做Gamma校正的gamma，这个gamma是浮点数运算中，每一次运算后的最大ERR边界
+inline constexpr Float gamma(int n) {
+	return (n * MachineEpsion) / (1 - n * MachineEpsion);
+}
+
+//裁剪函数
+inline Float Clamp(Float val, Float low, Float high) {
+	if (val < low)
+		return low;
+	else if (val > high)
+		return high;
+	else
+		return val;
+}
+
+//线性插值
+inline Float Lerp(Float val, Float min, Float max) {
+	return min + (max - min) * val;
+}
+
+//角度转换弧度
+inline Float Radians(Float deg) {
+	return (Pi / 180) * deg;
+}
+
+//寻找区间 返回offset
+//使用二分法来寻找区间,区间为offset~offset+1
+//保证值有效的情况下，val[offset]满足预测函数，val[offset]不满足预测函数
+//如果值不在提供的范围中，就会返回最前面或者最后的两个区间中的一个
+template<typename PredicateFunc>
+int FindInterval(int size, const PredicateFunc &pred) {
+	int first = 0, len = size;
+	while (len > 0) {
+		int half = len >> 1, middle = first + half;
+		if (pred(middle)) {
+			first = middle + 1;
+			len -= half + 1;
+		} else
+			len = half;
+	}
+	return Clamp(first - 1, 0, size - 2);
+}
+
+
+
 //求解二次项方程
 inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     // 计算判别式
@@ -109,17 +255,9 @@ inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
 }
 
 
-//角度到弧度的转换
-inline float Radians(float deg) {
-    return ((float)Pi/180.f) * deg;
-}
 
-//裁剪函数
-inline float Clamp(float val, float low, float high) {
-    if (val < low) return low;
-    else if (val > high) return high;
-    else return val;
-}
+
+
 
 //向下取整
 inline int Floor2Int(float val) {
@@ -129,12 +267,6 @@ inline int Floor2Int(float val) {
 //向上取整
 inline int Ceil2Int(float val) {
     return (int)ceilf(val);
-}
-
-
-//插值
-inline float Lerp(float t, float v1, float v2) {
-    return (1.f - t) * v1 + t * v2;
 }
 
 inline unsigned int RoundUpPow2(uint32_t v) {

@@ -41,7 +41,6 @@ void TestSceneOne() {
 	lights.push_back(lig);
 
 	Scene scene(&grid, lights);
-	//scene.background = RGB(121.0 / 255, 121.0 / 255, 121.0 / 255);
 
 	Transform cameraTransform = Translate(Vector(0, 0, 0));
 	float w[4] = { -1.2, 1.2, -1.2, 1.2 };
