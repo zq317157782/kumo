@@ -90,15 +90,15 @@ public:
 
     Vector3f operator()(const Vector3f& v) const;
     void operator()(const Vector3f& v,Vector3f * rv) const;
-    Point operator()(const Point& p) const;
-    void operator()(const Point& p,Point* rp) const;
+    Point3f operator()(const Point3f& p) const;
+    void operator()(const Point3f& p,Point3f* rp) const;
     Ray operator()(const Ray& r) const;
     void operator()(const Ray& r,Ray * rr) const;
     RayDifferential operator()(const RayDifferential &r) const;
     void operator()(const RayDifferential &r, RayDifferential *rt) const;
-    Normal operator()(const Normal& n) const;
-    void operator()(const Normal& n,Normal* normal) const;
-    BBox operator()(const BBox &b) const;
+    Normal3f operator()(const Normal3f& n) const;
+    void operator()(const Normal3f& n,Normal3f* normal) const;
+    Bound3f operator()(const Bound3f &b) const;
     bool SwapsHandedness() const;//判断变换有没有改变坐标系系统(左手=>右手 OR 右手=>左手)
 
     //判断是否是单位矩阵

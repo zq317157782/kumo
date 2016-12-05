@@ -41,20 +41,20 @@ public:
 
 
     //根据area均匀采样
-    virtual Point Sample(Float u1, Float u2, Normal *Ns) const {
-            return Point();
+    virtual Point3f Sample(Float u1, Float u2, Normal *Ns) const {
+            return Point3f();
     }
     //根据面积的均匀密度函数
-    virtual Float Pdf(const Point &pShape) const {
+    virtual Float Pdf(const Point3f &pShape) const {
            return 1.f / Area();
        }
     //P代表被积分表面上的一点
-    virtual Point Sample(const Point &p, Float u1, Float u2,
-                             Normal *Ns) const {
+    virtual Point Sample(const Point3f &p, Float u1, Float u2,
+                             Normal3f *Ns) const {
             return Sample(u1, u2, Ns);
     }
 
-    virtual Float Pdf(const Point &p,const Vector3f& wi) const;
+    virtual Float Pdf(const Point3f &p,const Vector3f& wi) const;
 
     virtual BBox ObjectBound() const = 0;
 

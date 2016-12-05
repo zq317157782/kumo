@@ -106,7 +106,7 @@ void Transform::operator()(const Vector3f &v, Vector3f *rv) const {
 	rv->z = m.m[2][0] * x + m.m[2][1] * y + m.m[2][2] * z;
 }
 
-Point Transform::operator()(const Point &p) const {
+Point3f Transform::operator()(const Point3f &p) const {
 	Float x = p.x, y = p.y, z = p.z;
 	Float xp = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z + m.m[0][3];
 	Float yp = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z + m.m[1][3];
@@ -114,12 +114,12 @@ Point Transform::operator()(const Point &p) const {
 	Float wp = m.m[3][0] * x + m.m[3][1] * y + m.m[3][2] * z + m.m[3][3];
 	assert(wp != 0.0f);
 	if (wp == 1.)
-		return Point(xp, yp, zp);
+		return Point3f(xp, yp, zp);
 	else
-		return Point(xp, yp, zp) / wp;
+		return Point3f(xp, yp, zp) / wp;
 }
 
-void Transform::operator()(const Point &p, Point *rp) const {
+void Transform::operator()(const Point3f &p, Point3f *rp) const {
 	Float x = p.x, y = p.y, z = p.z;
 	rp->x = m.m[0][0] * x + m.m[0][1] * y + m.m[0][2] * z + m.m[0][3];
 	rp->y = m.m[1][0] * x + m.m[1][1] * y + m.m[1][2] * z + m.m[1][3];
@@ -141,19 +141,17 @@ void Transform::operator()(const Ray &r, Ray *rr) const {
 	(*this)(r.o, &rr->o);
 	(*this)(r.d, &rr->d);
 	if (&r != rr) {
-		rr->minT = r.minT;
-		rr->maxT = r.maxT;
-		rr->depth = r.depth;
+		rr->tMax = r.tMax;
 	}
 }
 
 void Transform::operator()(const RayDifferential &r, RayDifferential *rt) const {
     (*this)(Ray(r), (Ray*)rt);
-    rt->hasDifferentials = r.hasDifferentials;
-    (*this)(r.rxOrigin, &rt->rxOrigin);
-    (*this)(r.ryOrigin, &rt->ryOrigin);
-    (*this)(r.rxDirection, &rt->rxDirection);
-    (*this)(r.ryDirection, &rt->ryDirection);
+    rt->hasDifferential = r.hasDifferential;
+    (*this)(r.ox, &rt->ox);
+    (*this)(r.oy, &rt->oy);
+    (*this)(r.dx, &rt->dx);
+    (*this)(r.dy, &rt->dy);
 }
 
 
@@ -161,24 +159,24 @@ void Transform::operator()(const RayDifferential &r, RayDifferential *rt) const 
 RayDifferential Transform::operator()(const RayDifferential &r) const {
     RayDifferential ret;
     (*this)(Ray(r), (Ray*)&ret);
-    ret.hasDifferentials = r.hasDifferentials;
-    (*this)(r.rxOrigin, &ret.rxOrigin);
-    (*this)(r.ryOrigin, &ret.ryOrigin);
-    (*this)(r.rxDirection, &ret.rxDirection);
-    (*this)(r.ryDirection, &ret.ryDirection);
+    ret.hasDifferential = r.hasDifferential;
+    (*this)(r.ox, &ret.ox);
+    (*this)(r.oy, &ret.oy);
+    (*this)(r.dx, &ret.dx);
+    (*this)(r.dy, &ret.dy);
     return ret;
 }
 
 
 //对法线变换需要使用转置逆矩阵
-Normal Transform::operator()(const Normal& n) const {
+Normal3f Transform::operator()(const Normal3f& n) const {
 	Float x = n.x, y = n.y, z = n.z;
-	return Normal(invM.m[0][0] * x + invM.m[1][0] * y + invM.m[2][0] * z,
+	return Normal3f(invM.m[0][0] * x + invM.m[1][0] * y + invM.m[2][0] * z,
 			invM.m[0][1] * x + invM.m[1][1] * y + invM.m[2][1] * z,
 			invM.m[0][2] * x + invM.m[1][2] * y + invM.m[2][2] * z);
 }
 
-void Transform::operator()(const Normal &n, Normal *normal) const {
+void Transform::operator()(const Normal3f &n, Normal3f *normal) const {
 	Float x = n.x, y = n.y, z = n.z;
 	normal->x = invM.m[0][0] * x + invM.m[1][0] * y + invM.m[2][0] * z;
 	normal->y = invM.m[0][1] * x + invM.m[1][1] * y + invM.m[2][1] * z;
@@ -192,17 +190,17 @@ bool Transform::SwapsHandedness() const {
 	return det < 0.f;
 }
 
-BBox Transform::operator()(const BBox &b) const {
+Bound3f Transform::operator()(const Bound3f &b) const {
 	const Transform &M = *this;
 	//不停的做并联操作，来生成新的BBox
-	BBox ret(M(Point(b.pMin.x, b.pMin.y, b.pMin.z)));
-	ret = Union(ret, M(Point(b.pMax.x, b.pMin.y, b.pMin.z)));
-	ret = Union(ret, M(Point(b.pMin.x, b.pMax.y, b.pMin.z)));
-	ret = Union(ret, M(Point(b.pMin.x, b.pMin.y, b.pMax.z)));
-	ret = Union(ret, M(Point(b.pMin.x, b.pMax.y, b.pMax.z)));
-	ret = Union(ret, M(Point(b.pMax.x, b.pMax.y, b.pMin.z)));
-	ret = Union(ret, M(Point(b.pMax.x, b.pMin.y, b.pMax.z)));
-	ret = Union(ret, M(Point(b.pMax.x, b.pMax.y, b.pMax.z)));
+	Bound3f ret(M(Point3f(b.minPoint.x, b.minPoint.y, b.minPoint.z)));
+	ret = Union(ret, M(Point3f(b.maxPoint.x, b.minPoint.y, b.minPoint.z)));
+	ret = Union(ret, M(Point3f(b.minPoint.x, b.maxPoint.y, b.minPoint.z)));
+	ret = Union(ret, M(Point3f(b.minPoint.x, b.minPoint.y, b.maxPoint.z)));
+	ret = Union(ret, M(Point3f(b.minPoint.x, b.maxPoint.y, b.maxPoint.z)));
+	ret = Union(ret, M(Point3f(b.maxPoint.x, b.maxPoint.y, b.minPoint.z)));
+	ret = Union(ret, M(Point3f(b.maxPoint.x, b.minPoint.y, b.maxPoint.z)));
+	ret = Union(ret, M(Point3f(b.maxPoint.x, b.maxPoint.y, b.maxPoint.z)));
 	return ret;
 }
 
