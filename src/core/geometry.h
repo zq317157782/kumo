@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_GEOMETRY_H
 #define RAYTRACER_GEOMETRY_H
 
-#include "seidennki.h"
+#include <kumo.h>
 
 //空间向量类
 

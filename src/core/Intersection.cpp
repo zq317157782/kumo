@@ -3,9 +3,9 @@
 //
 
 #include <Intersection.h>
+#include <kumo.h>
 #include "primitive.h"
 #include "light.h"
-#include "seidennki.h"
 
 BSDF *Intersection::GetBSDF(const RayDifferential &ray, MemoryArena &arena) const{
 	dg.ComputeDifferentials(ray);

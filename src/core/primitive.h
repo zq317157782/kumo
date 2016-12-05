@@ -5,10 +5,10 @@
 #ifndef RAYTRACER_PRIMITIVE_H
 #define RAYTRACER_PRIMITIVE_H
 #include <Intersection.h>
+#include <kumo.h>
 #include <material.h>
 #include <shape.h>
 #include "memory.h"
-#include "seidennki.h"
 
 //图元
 class Primitive: public ReferenceCounted {

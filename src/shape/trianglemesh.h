@@ -9,7 +9,7 @@
 #define SHAPE_TRIANGLEMESH_H_
 
 #include <shape.h>
-#include "../core/seidennki.h"
+#include "kumo.h"
 //三角网格
 class TriangleMesh: public Shape {
 protected:

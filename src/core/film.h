@@ -7,7 +7,7 @@
 
 #ifndef CORE_FILM_H_
 #define CORE_FILM_H_
-#include "seidennki.h"
+#include <kumo.h>
 
 class Film {
 public:

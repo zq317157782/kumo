@@ -8,10 +8,10 @@
 #ifndef CORE_LIGHT_H_
 #define CORE_LIGHT_H_
 
+#include <kumo.h>
 #include "transform.h"
 #include "memory.h"
 #include "random.h"
-#include "seidennki.h"
 //光源类
 class Light{
 protected:

@@ -8,7 +8,7 @@
 #ifndef SRC_ACCELERATOR_NORMAL_H_
 #define SRC_ACCELERATOR_NORMAL_H_
 
-#include "../core/seidennki.h"
+#include <kumo.h>
 #include "geometry.h"
 #include "primitive.h"
 

@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_CAMERA_H
 #define RAYTRACER_CAMERA_H
 
-#include "seidennki.h"
+#include <kumo.h>
 #include "transform.h"
 class Camera {
 public:

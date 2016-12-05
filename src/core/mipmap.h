@@ -7,10 +7,10 @@
 
 #ifndef SRC_CORE_MIPMAP_H_
 #define SRC_CORE_MIPMAP_H_
+#include <kumo.h>
 #include <rgb.h>
 #include "texture.h"
 #include "memory.h"
-#include "seidennki.h"
 
 //纹理包装模式
 //The ImageWrap enumerant, passed to the MIPMap constructor, specifies the desired behav-

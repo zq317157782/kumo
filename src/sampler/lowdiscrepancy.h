@@ -8,7 +8,7 @@
 #ifndef SRC_SAMPLER_LOWDISCREPANCY_H_
 #define SRC_SAMPLER_LOWDISCREPANCY_H_
 #include "sampler.h"
-#include "../core/seidennki.h"
+#include "kumo.h"
 //低差异采样
 class LDSampler: public Sampler {
 public:

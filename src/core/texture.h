@@ -7,9 +7,9 @@
 
 #ifndef CORE_TEXTURE_H_
 #define CORE_TEXTURE_H_
+#include <kumo.h>
 #include "diffgeom.h"
 #include "memory.h"
-#include "seidennki.h"
 
 
 //计算坐标纹理映射的结构

@@ -7,7 +7,7 @@
 
 #ifndef LIGHT_DIFFUSE_H_
 #define LIGHT_DIFFUSE_H_
-#include "../core/seidennki.h"
+#include <kumo.h>
 #include "light.h"
 
 //漫反射区域光

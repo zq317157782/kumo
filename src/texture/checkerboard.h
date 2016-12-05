@@ -8,7 +8,7 @@
 #ifndef TEXTURE_CHECKERBOARD_H_
 #define TEXTURE_CHECKERBOARD_H_
 
-#include "../core/seidennki.h"
+#include <kumo.h>
 #include "texture.h"
 //黑白纹理
 template<typename T>

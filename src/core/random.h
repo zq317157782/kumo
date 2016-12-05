@@ -7,7 +7,7 @@
 
 #ifndef CORE_RANDOM_H_
 #define CORE_RANDOM_H_
-#include "seidennki.h"
+#include <kumo.h>
 class Random {
 public:
 	Random(unsigned int seed = 5489UL) {

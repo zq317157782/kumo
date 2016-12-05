@@ -4,7 +4,7 @@
 
 #ifndef RAYTRACER_RGB_H
 #define RAYTRACER_RGB_H
-#include "seidennki.h"
+#include <kumo.h>
 /**
  * RGB颜色
  */

@@ -7,9 +7,9 @@
 
 
 #include <Intersection.h>
+#include <kumo.h>
 #include "memory.h"
 #include "geometry.h"
-#include "seidennki.h"
 
 using namespace std;
 

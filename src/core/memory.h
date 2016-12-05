@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_MEMORY_H
 #define RAYTRACER_MEMORY_H
 
-#include "seidennki.h"
+#include <kumo.h>
 // Memory Declarations
 class ReferenceCounted {
 public:

@@ -11,7 +11,7 @@
 //PBRT中实现的OCTREE,空间八叉树
 //代码需要理解
 
-#include "seidennki.h"
+#include <kumo.h>
 // Octree Declarations
 template <typename NodeData> struct OctNode {
     OctNode() {

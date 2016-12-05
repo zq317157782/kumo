@@ -6,9 +6,9 @@
 #define RAYTRACER_INTERSECTION_H
 
 
+#include <kumo.h>
 #include "geometry.h"
 #include "diffgeom.h"
-#include "seidennki.h"
 #include "transform.h"
 using namespace std;
 

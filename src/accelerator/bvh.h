@@ -8,7 +8,7 @@
 #ifndef SRC_ACCELERATOR_BVH_H_
 #define SRC_ACCELERATOR_BVH_H_
 
-#include "../core/seidennki.h"
+#include <kumo.h>
 #include "primitive.h"
 
 struct BVHPrimitiveInfo {

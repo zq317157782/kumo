@@ -7,7 +7,7 @@
 
 #ifndef SRC_CORE_IMAGEIO_H_
 #define SRC_CORE_IMAGEIO_H_
-#include "seidennki.h"
+#include <kumo.h>
 RGB *ReadImage(const string &name, int *xSize, int *ySize);
 
 
