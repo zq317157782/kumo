@@ -14,20 +14,20 @@ struct DifferentialGeometry{
         shape = nullptr;
     }
     // DifferentialGeometry Public Methods
-    DifferentialGeometry(const Point3f &P, const Vector3f &DPDU,
-                         const Vector3f &DPDV, const Normal3f &DNDU,
-                         const Normal3f &DNDV, Float uu, Float vv,
+    DifferentialGeometry(const Point &P, const Vector3f &DPDU,
+                         const Vector3f &DPDV, const Normal &DNDU,
+                         const Normal &DNDV, Float uu, Float vv,
                          const Shape *sh);
 
     void ComputeDifferentials(const RayDifferential &r) const; //通过微分射线  计算  几何微分
 
     // DifferentialGeometry Public Data
-    Point3f p;
-    Normal3f nn;
+    Point p;
+    Normal nn;
     Float u, v;
     const Shape *shape;
     Vector3f dpdu, dpdv;
-    Normal3f dndu, dndv;
+    Normal dndu, dndv;
     mutable Vector3f dpdx, dpdy;
     mutable Float dudx, dvdx, dudy, dvdy;
 };
