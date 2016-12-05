@@ -18,9 +18,6 @@
     <ClCompile Include="src\camera\PinholeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\BRDF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,9 +132,6 @@
     <ClCompile Include="src\shape\trianglemesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\test\test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\thrid\lodepng\lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -198,9 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\PinholeCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\BRDF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Camera.h">
@@ -330,9 +321,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\shape\trianglemesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\texture\checkerboard.h">

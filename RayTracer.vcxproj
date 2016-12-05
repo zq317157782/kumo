@@ -138,7 +138,6 @@
     <ClCompile Include="src\camera\orthographic.cpp" />
     <ClCompile Include="src\camera\perspective.cpp" />
     <ClCompile Include="src\camera\PinholeCamera.cpp" />
-    <ClCompile Include="src\core\BRDF.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\diffgeom.cpp" />
     <ClCompile Include="src\core\geometry.cpp" />
@@ -186,7 +185,6 @@
     <ClCompile Include="src\sampler\stratified.cpp" />
     <ClCompile Include="src\shape\sphere.cpp" />
     <ClCompile Include="src\shape\trianglemesh.cpp" />
-    <ClCompile Include="src\test\test.cpp" />
     <ClCompile Include="src\texture\image.cpp" />
     <ClCompile Include="src\thrid\lodepng\lodepng.cpp" />
     <ClCompile Include="src\thrid\objloader\Model.cpp" />
@@ -200,7 +198,6 @@
     <ClInclude Include="src\camera\orthographic.h" />
     <ClInclude Include="src\camera\perspective.h" />
     <ClInclude Include="src\camera\PinholeCamera.h" />
-    <ClInclude Include="src\core\BRDF.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\diffgeom.h" />
     <ClInclude Include="src\core\film.h" />
@@ -251,7 +248,6 @@
     <ClInclude Include="src\sampler\stratified.h" />
     <ClInclude Include="src\shape\sphere.h" />
     <ClInclude Include="src\shape\trianglemesh.h" />
-    <ClInclude Include="src\test\test.h" />
     <ClInclude Include="src\texture\checkerboard.h" />
     <ClInclude Include="src\texture\constant.h" />
     <ClInclude Include="src\texture\image.h" />
