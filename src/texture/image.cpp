@@ -9,7 +9,7 @@
 #include "imageio.h"
 #include "mipmap.h"
 SimpleImageTexture::SimpleImageTexture(TextureMapping2D *m,
-		const string& filename,bool doTri,
+		const std::string& filename,bool doTri,
         Float maxAniso,ImageWrap wm, Float scale, Float gamma) {
 	mMapping=m;
 	std::vector<unsigned char> image;

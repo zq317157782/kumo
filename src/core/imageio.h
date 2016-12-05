@@ -8,7 +8,7 @@
 #ifndef SRC_CORE_IMAGEIO_H_
 #define SRC_CORE_IMAGEIO_H_
 #include <kumo.h>
-RGB *ReadImage(const string &name, int *xSize, int *ySize);
+RGB *ReadImage(const std::string &name, int *xSize, int *ySize);
 
 
 

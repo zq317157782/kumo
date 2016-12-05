@@ -24,10 +24,10 @@ void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
 	int x1 = Floor2Int(dimageX + mFilter->xWidth);
 	int y0 = Ceil2Int(dimageY - mFilter->yWidth);
 	int y1 = Floor2Int(dimageY + mFilter->yWidth);
-	x0 = max(x0, 0);
-	x1 = min(x1, xResolution - 1);
-	y0 = max(y0, 0);
-	y1 = min(y1, yResolution - 1);
+	x0 = std::max(x0, 0);
+	x1 = std::min(x1, xResolution - 1);
+	y0 = std::max(y0, 0);
+	y1 = std::min(y1, yResolution - 1);
 
 	//cout<<x0<<x1<<y0<<y1<<endl;
 
@@ -46,7 +46,7 @@ void PNGFilm::AddSample(const CameraSample& sample, const RGB& L) {
 
 void PNGFilm::WriteImage(Float splatScale) {
 
-	vector<unsigned char> image;
+	std::vector<unsigned char> image;
 	for (int j = 0; j < yResolution; ++j) {
 		for (int i = 0; i < xResolution; ++i) {
 			Pixel p = mPixels[i + j * xResolution];

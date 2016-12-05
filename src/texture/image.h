@@ -16,7 +16,7 @@ private:
 	TextureMapping2D *mMapping;
 public:
 	SimpleImageTexture(TextureMapping2D *m,
-			const string&,bool doTri,
+			const std::string&,bool doTri,
             Float maxAniso,ImageWrap wm, Float scale, Float gamma);
 	virtual RGB Evaluate(const DifferentialGeometry&) const override;
 };

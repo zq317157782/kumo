@@ -22,7 +22,7 @@ inline Float AbsCosTheta(const Vector &w) {
 //sin(t)2+cos(t)2==1
 inline Float SinTheta2(const Vector& w) {
 	Float cosw = CosTheta(w);
-	return max(0.0f, 1.0f - cosw * cosw);
+	return std::max(0.0f, 1.0f - cosw * cosw);
 }
 inline Float SinTheta(const Vector& w) {
 	return sqrtf(SinTheta2(w));
@@ -313,7 +313,7 @@ public:
 			Float sinphii = SinPhi(wi), cosphii = CosPhi(wi);
 			Float sinphio = SinPhi(wo), cosphio = CosPhi(wo);
 			Float dcos = cosphii * cosphio + sinphii * sinphio;
-			maxcos = max(0.f, dcos);
+			maxcos = std::max(0.f, dcos);
 		}
 		//计算sin 和 tan项
 		Float sinalpha, tanbeta;
@@ -388,7 +388,7 @@ public:
 	virtual void Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
 			Float *pdf) const override {
 		Float cosTheta = powf(u1, 1.f / (mE + 1));		//cos θh == ξ1开根n+1
-		Float sinTheta = sqrtf(max(0.0f, (1.0f - cosTheta * cosTheta)));
+		Float sinTheta = sqrtf(std::max(0.0f, (1.0f - cosTheta * cosTheta)));
 		Float phi = u2 * 2.f * Pi;
 		Vector wh = SphericalDirection(sinTheta, cosTheta, phi);		//获得半角向量
 		if (!SameHemisphere(wo, wh))

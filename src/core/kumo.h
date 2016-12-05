@@ -250,7 +250,7 @@ inline  bool Quadratic(float A,float B,float C,float* t0,float *t1){
     else       q = -.5f * (B + rootDiscrim);
     *t0 = q / A;
     *t1 = C / q;
-    if (*t0 > *t1) swap(*t0, *t1);
+    if (*t0 > *t1) std::swap(*t0, *t1);
     return true;
 }
 

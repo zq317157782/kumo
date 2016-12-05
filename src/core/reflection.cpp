@@ -57,13 +57,13 @@ RGB FresnelDielectric::Evaluate(Float cosi) const {
 	bool entering = cosi > 0.; //用来判断射线是入射的还是出射的
 	Float ei = mEtaI, et = mEtaT;
 	if (!entering)
-		swap(ei, et); //如果是出射的话，交换折射系数的顺序
+		std::swap(ei, et); //如果是出射的话，交换折射系数的顺序
 	//Snell's law
-	Float sint = ei / et * sqrtf(max(0.f, 1.f - cosi * cosi));
+	Float sint = ei / et * sqrtf(std::max(0.f, 1.f - cosi * cosi));
 	if (sint >= 1) {
 		return 1;	//完全反射，没有折射
 	} else {
-		Float cost = sqrtf(max(0.f, 1.f - sint * sint));
+		Float cost = sqrtf(std::max(0.f, 1.f - sint * sint));
 		return EvaluateFresnelDiel(fabsf(cosi), cost, ei, et);	//返回反射系数
 	}
 }
@@ -80,7 +80,7 @@ RGB SpecularTransmission::Sample_f(const Vector& wo, Vector* wi, Float u1,
 	bool entering = CosTheta(wo) > 0.;
 	Float ei = mEtaI, et = mEtaT;
 	if (!entering) //判断wo是从外面射入还是从内部射出
-		swap(ei, et);
+		std::swap(ei, et);
 	//根据Snell's law 计算折射方向
 	Float sini2 = SinTheta2(wo);
 	Float eta = ei / et;
@@ -88,7 +88,7 @@ RGB SpecularTransmission::Sample_f(const Vector& wo, Vector* wi, Float u1,
 
 	if (sint2 >= 1.)
 		return 0.; //所有的光线全部反射，所以没有折射
-	Float cost = sqrtf(max(0.f, 1.f - sint2));
+	Float cost = sqrtf(std::max(0.f, 1.f - sint2));
 	if (entering)
 		cost = -cost; //设置符号
 	Float sintOverSini = eta;
@@ -111,8 +111,8 @@ Float Microfacet::G(const Vector &wo, const Vector &wi,
 	Float NdotWo = AbsCosTheta(wo); //出射方向与法线
 	Float NdotWi = AbsCosTheta(wi); //入射方向与法线
 	Float WodotWh = AbsDot(wh, wo); //出射和半角向量之间的点乘
-	return min(1.0f,
-			min((2.f * NdotWh * NdotWo / WodotWh),
+	return std::min(1.0f,
+		std::min((2.f * NdotWh * NdotWo / WodotWh),
 					(2.f * NdotWh * NdotWi / WodotWh)));
 }
 
@@ -152,7 +152,7 @@ void Anisotropic::Sample_f(const Vector &wo, Vector *wi, Float u1, Float u2,
 		sampleFirstQuadrant(u1, u2, &phi, &costheta);
 		phi = 2.f * Pi - phi;
 	}
-	Float sintheta = sqrtf(max(0.f, 1.f - costheta * costheta));
+	Float sintheta = sqrtf(std::max(0.f, 1.f - costheta * costheta));
 	Vector wh = SphericalDirection(sintheta, costheta, phi);
 	if (!SameHemisphere(wo, wh))
 		wh = -wh;
@@ -280,7 +280,7 @@ RGB BSDF::Sample_f(const Vector &woWorld, Vector *wiWorld,
 		return 0;
 	}
 
-	int whichComp = min(Floor2Int(bsdfSample.uComponent * numComp),
+	int whichComp = std::min(Floor2Int(bsdfSample.uComponent * numComp),
 			numComp - 1);
 	int count = whichComp;
 	BxDF *bxdf = nullptr; //被选中的Bxdf

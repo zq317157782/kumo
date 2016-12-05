@@ -63,7 +63,7 @@ public:
 	 * */
 	Float SampleContinuous(Float u, Float* pdf, int *off) const {
 		Float *ptr = std::upper_bound(mCDF, mCDF + mCount + 1, u);
-		int offset = max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
+		int offset = std::max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
 		if (off)
 			*off = offset;
 		Float du = (u - mCDF[offset]) / (mCDF[offset + 1] - mCDF[offset]); //u在cdf[offset+1]-cdf[offset]之间的所在位置百分比
@@ -76,7 +76,7 @@ public:
 	//采样离散版本
 	int SampleDiscrete(Float u, Float* pdf) const{
 		Float *ptr = std::upper_bound(mCDF, mCDF + mCount + 1, u);
-		int offset = max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
+		int offset = std::max(0, int(ptr - mCDF - 1)); //offset是小于u的cdf所在的偏移
 		if (pdf) *pdf = mFunc[offset] / (mFuncInt * mCount);
 		return offset;
 	}
@@ -148,7 +148,7 @@ void Shuffle(T *samp, unsigned int count, unsigned int dims, Random &rand) {
     for (unsigned int  i = 0; i < count; ++i) {
     	unsigned int other = i + (rand.RandomUInt() % (count - i));//随机选择一个其他位置
         for (unsigned int j = 0; j < dims; ++j){
-            swap(samp[dims*i + j], samp[dims*other + j]);
+			std::swap(samp[dims*i + j], samp[dims*other + j]);
         }
     }
 }
@@ -180,14 +180,14 @@ inline Float VanDerCorput(uint32_t n, uint32_t scramble) {
     n = ((n & 0x55555555) << 1) | ((n & 0xaaaaaaaa) >> 1);
     //--------------交换 end------------------
     n ^= scramble;
-    return min(((n>>8) & 0xffffff) / Float(1 << 24), OneMinusEpsilon);
+    return std::min(((n>>8) & 0xffffff) / Float(1 << 24), OneMinusEpsilon);
 }
 
 //Sobol2低差异序列 base==2 只操作32位
 inline Float Sobol2(uint32_t n, uint32_t scramble) {
     for (unsigned int v = 1 << 31; n != 0; n >>= 1, v ^= v >> 1)
         if (n & 0x1) scramble ^= v;
-    return min(((scramble>>8) & 0xffffff) / Float(1 << 24), OneMinusEpsilon);
+    return std::min(((scramble>>8) & 0xffffff) / Float(1 << 24), OneMinusEpsilon);
 }
 
 inline void LDShuffleScrambled1D(int nSamples, int nPixel,

@@ -7,11 +7,11 @@
 
 #include "parallel.h"
 
-void EnqueueTasks(const vector<Task *> &tasks) {
+void EnqueueTasks(const std::vector<Task *> &tasks) {
 
 	if(CORE_NUM==1){
 		numUnfinishedTasks += tasks.size();
-		progress_thread = new thread(progress);
+		progress_thread = new std::thread(progress);
 		for(int i=0;i<tasks.size();++i){
 			tasks[i]->Run();
 			--numUnfinishedTasks;
@@ -32,7 +32,7 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 	tasksRunningConditionMutex.unlock();
 	if (!threads){
 		InitTasks();
-		if(!progress_thread)progress_thread = new thread(progress);
+		if(!progress_thread)progress_thread = new std::thread(progress);
 	}
 
 //	//	progress_thread->detach();
@@ -43,9 +43,9 @@ void EnqueueTasks(const vector<Task *> &tasks) {
 
 
 void WaitForAllTasks() {
-	unique_lock<mutex> mux(tasksRunningConditionMutex);
+	std::unique_lock<std::mutex> mux(tasksRunningConditionMutex);
 	while (numUnfinishedTasks > 0) {
-		cout << "waiting tasksRunningCondition" << endl;
+		std::cout << "waiting tasksRunningCondition" << std::endl;
 		tasksRunningCondition.wait(mux);
 	}
 	//	for (int i = 0; i < CORE_NUM; ++i) {
@@ -53,7 +53,7 @@ void WaitForAllTasks() {
 	//	}
 	delete[] threads;
 	threads=nullptr;
-	cout << "all tasks OK" << endl;
+	std::cout << "all tasks OK" << std::endl;
 }
 
 const std::thread::id RWMutex::NULL_THEAD;

@@ -54,7 +54,7 @@ inline RGB Gamma(const RGB& rgb, Float a, Float gamma) {
 }
 
 inline RGB Clamp(const RGB& rgb,Float minV,Float maxV){
-	 return RGB(max(minV,min(maxV,rgb.r)), max(minV, min(maxV,rgb.g)), max(minV, min(maxV,rgb.b)));
+	 return RGB(std::max(minV, std::min(maxV,rgb.r)), std::max(minV, std::min(maxV,rgb.g)), std::max(minV, std::min(maxV,rgb.b)));
 }
 
 #endif //RAYTRACER_RGB_H

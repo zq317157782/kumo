@@ -11,7 +11,7 @@
 Vector CosSampleHemisphere(Float u1, Float u2) {
 	Vector ret;
 	ConcentricSampleDisk(u1, u2, &ret.x, &ret.y); //这里其实可以换成任意的uniform disk sample
-	ret.z = sqrtf(max(0.0f, 1.0f - ret.x * ret.x - ret.y * ret.y));
+	ret.z = sqrtf(std::max(0.0f, 1.0f - ret.x * ret.x - ret.y * ret.y));
 	return ret;
 }
 
@@ -27,7 +27,7 @@ void RejectionSampleDisk(Float* x, Float*y, Random& rand) {
 
 Vector UniformSampleHemisphere(Float u1, Float u2) {
 	Float z = u1;
-	Float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	Float r = sqrtf(std::max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
 	Float phi = 2 * Pi * u2;
 	Float x = cosf(phi) * r;
 	Float y = sinf(phi) * r;
@@ -36,7 +36,7 @@ Vector UniformSampleHemisphere(Float u1, Float u2) {
 
 Vector UniformSampleSphere(Float u1, Float u2) {
 	Float z = 1.0f - 2.0f * u1; //这里是和UniformSampleHemisphere唯一的区别
-	Float r = sqrtf(max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
+	Float r = sqrtf(std::max(0.0f, 1.0f - z * z)); //这里使用max是为了做保护,防止1-z^2小于0
 	Float phi = 2 * Pi * u2;
 	Float x = cosf(phi) * r;
 	Float y = sinf(phi) * r;
@@ -118,7 +118,7 @@ void LatinHypercube(Float *samples, unsigned int nSamples, unsigned int nDim,
 	for (unsigned int i = 0; i < nDim; ++i) {
 		for (unsigned int j = 0; j < nSamples; ++j) {
 			unsigned int other = j + (rng.RandomUInt() % (nSamples - j));
-			swap(samples[nDim * j + i], samples[nDim * other + i]);
+			std::swap(samples[nDim * j + i], samples[nDim * other + i]);
 		}
 	}
 }

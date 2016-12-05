@@ -24,11 +24,11 @@ public:
 
 static unsigned int numUnfinishedTasks; //未完成的任务数
 static unsigned int numMaxTasks;
-static mutex taskQueueMutex; //任务队列互斥所
-static condition_variable tasksRunningCondition;
-static mutex tasksRunningConditionMutex;
-static thread** threads; //工作线程
-static thread* progress_thread; //进度线程
+static std::mutex taskQueueMutex; //任务队列互斥所
+static std::condition_variable tasksRunningCondition;
+static std::mutex tasksRunningConditionMutex;
+static std::thread** threads; //工作线程
+static std::thread* progress_thread; //进度线程
 static std::vector<Task *> taskQueue; //任务队列
 //执行任务入口
 static void taskEntry() {
@@ -37,11 +37,11 @@ static void taskEntry() {
 		//cout<<"get task"<<endl;
 		Task *myTask = nullptr;
 		{
-			unique_lock<mutex> lock(taskQueueMutex);
+			std::unique_lock<std::mutex> lock(taskQueueMutex);
 			//cout<<"----"<<endl;
 			if (taskQueue.size() == 0) {
 				active_core -= 1;
-				cout << "kill thread " << this_thread::get_id() << endl;
+				std::cout << "kill thread " << std::this_thread::get_id() << std::endl;
 				break;
 			}
 			myTask = taskQueue.back();
@@ -55,7 +55,7 @@ static void taskEntry() {
 		tasksRunningConditionMutex.unlock();
 		if (unfinished == 0) {
 			tasksRunningCondition.notify_all();
-			cout << "notify tasksRunningCondition" << endl;
+			std::cout << "notify tasksRunningCondition" << std::endl;
 		}
 	}
 }
@@ -64,28 +64,28 @@ static void progress() {
 	//int maxNum = numUnfinishedTasks;
 	while (true) {
 		if (numUnfinishedTasks == 0) {
-			cout << "kill progress thread" << endl;
+			std::cout << "kill progress thread" << std::endl;
 			break;
 		}
-		cout << "[" << ((Float) (numMaxTasks - numUnfinishedTasks) / numMaxTasks) * 100
-				<< "%] active cores:" << active_core <<"tasks:"<<numUnfinishedTasks<< endl;
-		this_thread::sleep_for(chrono::seconds(1));
+		std::cout << "[" << ((Float) (numMaxTasks - numUnfinishedTasks) / numMaxTasks) * 100
+				<< "%] active cores:" << active_core <<"tasks:"<<numUnfinishedTasks<< std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
 }
 
 static void InitTasks() {
 	//cout<<"init tasks"<<endl;
-	threads = new thread*[CORE_NUM];
+	threads = new std::thread*[CORE_NUM];
 	active_core=CORE_NUM;
 	for (int i = 0; i < CORE_NUM; ++i) {
-		thread*work_thread = new thread(taskEntry);
+		std::thread*work_thread = new std::thread(taskEntry);
 		threads[i] = work_thread;
 	}
 }
 
 //插入任务队伍
-void EnqueueTasks(const vector<Task *> &tasks);
+void EnqueueTasks(const std::vector<Task *> &tasks);
 
 void WaitForAllTasks();
 
@@ -96,11 +96,11 @@ class RWMutex {
 private:
 	static const std::thread::id NULL_THEAD;
 	const bool WRITE_FIRST;
-	thread::id m_write_thread_id;
+	std::thread::id m_write_thread_id;
 	/* 资源锁计数器,类型为int的原子成员变量,-1为写状态，0为自由状态,>0为共享读取状态 */
-	atomic_int m_lockCount;
+	std::atomic_int m_lockCount;
 	/* 等待写线程计数器,类型为unsigned int的原子成员变量*/
-	atomic_uint m_writeWaitCount;
+	std::atomic_uint m_writeWaitCount;
 public:
 	RWMutex(const RWMutex&) = delete;
 	// 禁止对象赋值操作符
@@ -113,7 +113,7 @@ public:
 	virtual ~RWMutex() = default;
 
 	int readLock() {
-		if (this_thread::get_id() != this->m_write_thread_id) {
+		if (std::this_thread::get_id() != this->m_write_thread_id) {
 			int count;
 			if (WRITE_FIRST) //写优先模式下,要检测等待写的线程数为0(m_writeWaitCount==0)
 				do {
@@ -133,7 +133,7 @@ public:
 
 	int readUnlock() {
 		// ==时为独占写状态,不需要加锁
-		if (this_thread::get_id() != this->m_write_thread_id)
+		if (std::this_thread::get_id() != this->m_write_thread_id)
 			--m_lockCount;
 		//cout<<"<"<<endl;
 		return m_lockCount;
@@ -141,7 +141,7 @@ public:
 
 	int writeLock() {
 		// ==时为独占写状态,避免重复加锁
-		if (this_thread::get_id() != this->m_write_thread_id) {
+		if (std::this_thread::get_id() != this->m_write_thread_id) {
 			++m_writeWaitCount; //写等待计数器加1
 			// 没有线程读取时(加锁计数器为0)，置为-1加写入锁，否则等待
 			for (int zero = FREE_STATUS;
@@ -149,7 +149,7 @@ public:
 					WRITE_LOCK_STATUS); zero = FREE_STATUS)
 				;
 			--m_writeWaitCount;		        //获取锁后,计数器减1
-			m_write_thread_id = this_thread::get_id();
+			m_write_thread_id = std::this_thread::get_id();
 		}
 		//cout<<"!"<<endl;
 		return m_lockCount;
@@ -157,9 +157,9 @@ public:
 
 	int writeUnlock() {
 
-		if (this_thread::get_id() != this->m_write_thread_id) {
-			cout << this_thread::get_id() << endl;
-			throw runtime_error("writeLock/Unlock mismatch");
+		if (std::this_thread::get_id() != this->m_write_thread_id) {
+			std::cout << std::this_thread::get_id() << std::endl;
+			throw std::runtime_error("writeLock/Unlock mismatch");
 		}
 		assert(WRITE_LOCK_STATUS==m_lockCount);
 		m_write_thread_id = NULL_THEAD;
@@ -169,7 +169,7 @@ public:
 	}
 
 	void upgrade2Writer() {
-		if (this_thread::get_id() != this->m_write_thread_id) {
+		if (std::this_thread::get_id() != this->m_write_thread_id) {
 			--m_lockCount;
 			++m_writeWaitCount; //写等待计数器加1
 			for (int zero = FREE_STATUS;
@@ -177,7 +177,7 @@ public:
 					WRITE_LOCK_STATUS); zero = FREE_STATUS)
 				;
 			--m_writeWaitCount;		        //获取锁后,计数器减1
-			m_write_thread_id = this_thread::get_id();
+			m_write_thread_id = std::this_thread::get_id();
 			//cout<<"升级读者"<<endl;
 		}
 
@@ -187,9 +187,9 @@ public:
 
 	void down2Reader() {
 
-		if (this_thread::get_id() != this->m_write_thread_id) {
-			cout << this_thread::get_id() << endl;
-			throw runtime_error("writeLock/Unlock mismatch");
+		if (std::this_thread::get_id() != this->m_write_thread_id) {
+			std::cout << std::this_thread::get_id() << std::endl;
+			throw std::runtime_error("writeLock/Unlock mismatch");
 		}
 		assert(WRITE_LOCK_STATUS==m_lockCount);
 		m_write_thread_id = NULL_THEAD;

@@ -86,7 +86,7 @@ public:
                 availableBlocks.pop_back();
             }
             else
-                currentBlock = AllocAligned<char>(max(sz, blockSize));
+                currentBlock = AllocAligned<char>(std::max(sz, blockSize));
             curBlockPos = 0;
         }
         void *ret = currentBlock + curBlockPos;
@@ -113,7 +113,7 @@ private:
     // MemoryArena Private Data
     unsigned int curBlockPos, blockSize;
     char *currentBlock;
-    vector<char *> usedBlocks, availableBlocks;
+	std::vector<char *> usedBlocks, availableBlocks;
 };
 
 //直接从PBRT复制，是一个有效避免Cacha Miss的数组

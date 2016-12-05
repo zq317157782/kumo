@@ -165,15 +165,15 @@ MIPMap<T>::MIPMap(unsigned int sres, unsigned int tres, const T *img,
 	mWidth = sres;
 	mHeight = tres;
 	//计算实际的mip-map层数
-	mNumLevels = 1 + Log2Int(Float(max(sres, tres)));
+	mNumLevels = 1 + Log2Int(Float(std::max(sres, tres)));
 	mPyramid = new BlockedArray<T, 2> *[mNumLevels];	//创建一个存放所有MipMap金字塔的二位数组
 
 	mPyramid[0] = new BlockedArray<T, 2>(sres, tres, img);	//第一层
 
 	for (unsigned int i = 1; i < mNumLevels; ++i) {
 		//从前一层获取当前层的分辨率  最小值为1X1
-		unsigned int sRes = max(1u, mPyramid[i - 1]->uSize() / 2);
-		unsigned int tRes = max(1u, mPyramid[i - 1]->vSize() / 2);
+		unsigned int sRes = std::max(1u, mPyramid[i - 1]->uSize() / 2);
+		unsigned int tRes = std::max(1u, mPyramid[i - 1]->vSize() / 2);
 		mPyramid[i] = new BlockedArray<T, 2>(sRes, tRes);
 		for (unsigned int t = 0; t < tRes; ++t)
 			for (unsigned int s = 0; s < sRes; ++s) {
@@ -228,7 +228,7 @@ T MIPMap<T>::triangle(unsigned int level, Float s, Float t) const {
 //width 0~1之间
 template<typename T>
 T MIPMap<T>::Lookup(Float s, Float t, Float width) const {
-	Float level = mNumLevels - 1 + Log2(max(width, 1e-8f));
+	Float level = mNumLevels - 1 + Log2(std::max(width, 1e-8f));
 	if (level < 0)
 		return triangle(0, s, t);
 	else if (level >= mNumLevels - 1)
@@ -247,7 +247,7 @@ T MIPMap<T>::Lookup(Float s, Float t, Float ds0, Float dt0, Float ds1,
 		Float dt1) const {
 	if (mDoTrilinear) {
 		T val = Lookup(s, t,
-				2.0f* max(max(fabsf(ds0), fabsf(dt0)),max(fabsf(ds1), fabsf(dt1))));
+				2.0f* std::max(std::max(fabsf(ds0), fabsf(dt0)), std::max(fabsf(ds1), fabsf(dt1))));
 		return val;
 	}
 	assert(false);

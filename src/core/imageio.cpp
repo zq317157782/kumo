@@ -9,7 +9,7 @@
 #include "../thrid/lodepng/lodepng.h"
 //#include "../thrid/simple-jpg/jpgReader.h"
 
-RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
+RGB *ReadPNGImage(const std::string &name, int *xSize, int *ySize) {
 	std::vector<unsigned char> image;
 	unsigned int width;
 	unsigned int height;
@@ -51,7 +51,7 @@ RGB *ReadPNGImage(const string &name, int *xSize, int *ySize) {
 //	return data;
 //}
 
-RGB *ReadImage(const string &name, int *xSize, int *ySize) {
+RGB *ReadImage(const std::string &name, int *xSize, int *ySize) {
 	if (name.size() >= 5) {
 		unsigned int suffixOffset = name.size() - 4;
 		if (!strcmp(name.c_str() + suffixOffset, ".png")
@@ -64,12 +64,12 @@ RGB *ReadImage(const string &name, int *xSize, int *ySize) {
 //
 //			return ReadJPGImage(name, xSize, ySize);
 //		}
-		cerr
+		std::cerr
 				<< ("Unable to load image stored in format \"%s\" for filename \"%s\". "
 						"Returning a constant grey image instead.",
 						strrchr(name.c_str(), '.') ?
 								(strrchr(name.c_str(), '.') + 1) : "(unknown)", name.c_str())
-				<< endl;
+				<< std::endl;
 		RGB *ret = new RGB[1];
 		ret[0] = 0.5f;
 		*xSize = *ySize = 1;

@@ -40,7 +40,7 @@ struct CameraSample {
 //普通采样点
 struct Sample:public CameraSample{
 public:
-	 vector<unsigned int> n1D, n2D;
+	std::vector<unsigned int> n1D, n2D;
 	 Float **oneD, **twoD; //这里是存放真正的采样点的地方
 
 	 Sample(Sampler* sampler,SurfaceIntegrator* si,const Scene* scene);
