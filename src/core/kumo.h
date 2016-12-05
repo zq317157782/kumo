@@ -21,7 +21,7 @@
 #include <thread>
 #include <condition_variable>
 #include <atomic>
-using namespace std;
+
 
 //定义一个Float宏 可能指向float可能指向double
 #ifdef FLOAT_IS_DOUBLE
